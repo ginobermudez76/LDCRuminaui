@@ -38,6 +38,9 @@ try {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../public/#Section_eventos">Eventos</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" aria-current="page" href="../admin/gestion_administrativa.php">Acceso administración</a>
+                </li>
             </ul>
         </div>
     </div>

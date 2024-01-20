@@ -22,7 +22,7 @@ try {
 ?>
 
 <div class="container mt-4">
-    <h2>Gestión de Eventos</h2>
+    <h2>Centro de control de eventos</h2>
     <a href="agregar_evento.php" class="btn btn-primary mb-4">Agregar Evento</a>
     
     <table class="table">
