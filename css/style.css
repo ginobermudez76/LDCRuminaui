@@ -8,23 +8,17 @@
     text-decoration: none;
     list-style: none;
 }
-.navbar {
-    position: relative;
-    background-color: #65a7bb81 !important;
-    padding: 15px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+
 body{
     font-family: 'Poppins', sans-serif;
     background-color: #1f1f1f;
-    background-image: url('../img/estadio.avif');
 }
 .container{
     max-width: 1200px;
     margin: 0 auto;
 }
  .header{
-    background-image: url();
+    background-image: url(../public/images/bg.jpg);
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -58,7 +52,7 @@ body{
  .menu .navbar ul li a {
     font-size: 18px;
     padding: 20px;
-    color: #FFFF;
+    color: #FFFFFF;
     display: block;
  }
 
@@ -86,7 +80,7 @@ body{
     font-size: 110px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Bebas Neue', cursive;
     color: #CF2D3A;
     margin-bottom: 15px;
  }
@@ -104,7 +98,7 @@ body{
     display: inline-block;
     padding: 11px 25px;
     background-color: #D82E37;
-    color: #FFFF;
+    color: #FFFFFF;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 20px;
@@ -115,11 +109,11 @@ body{
 .btn-1:hover{
    background-color: #b4272e;
 }
-.header-div{
+.header-dir{
    display: flex;
    justify-content: space-between;
    text-align: center;
-   margin-top: 20px;
+
 }
 .dir h3 {
    font-size: 18px;
@@ -130,10 +124,11 @@ body{
    text-transform: uppercase;
 }
 .welcome{
+
    display: flex;
 }
 .welcome-1{
-   background-image: url();
+   background-image: url(../public/images/a1.jpg);
    background-position: center center;
    background-repeat: no-repeat;
    background-size: cover;
@@ -227,7 +222,7 @@ td{
    color: #CF2D3A;
 }
 .prices-2{
-   background-image: url();
+   background-image: url(../public/images/a2.jpg);
    background-position: center center;
    background-repeat: no-repeat;
    background-size: cover;
@@ -267,4 +262,144 @@ td{
 }
 .personal-1 a{
    color: #CF2D3A;
+}
+.footer-bg{
+   background-image: url(../public/images/bg-2.png);
+   background-position: center center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   text-align: center;
+   padding: 100px 0;
+}
+form{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.campo-1{
+   margin-bottom: 15px;
+}
+.campo{
+   margin: 5px;
+   padding: 20px 15px;
+   width: 250px;
+   background-color: #0e0e0e;
+   border: 1px solid #CF2D3A;
+   outline: none;
+   border-radius: 10px;
+   color: #FFFFFF;
+   font-size: 14px;
+}
+textarea{
+   width: 520px !important;
+}
+.footer-txt{
+   text-align: center;
+   padding: 10px;
+   background-color: #070707;
+}
+@media(max-width:991px){
+   .menu{
+      padding: 20px;
+   }
+   .menu label{
+      display: initial;
+   }
+   .menu .navbar{
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #1f1f1f;
+      display: none;
+   }
+   .menu .navbar ul li {
+      width: 100%;
+   }
+   #menu:checked ~ .navbar{
+      display: initial;
+   }
+   .header{
+      min-height: 0vh;
+   }
+   .header-content{
+      padding: 80px 30px 50px 30px;
+   }
+   .header-txt{
+      margin-bottom: 15px;
+   }
+   .header-txt h1{
+      font-size: 90px;
+   }
+   .header p{
+      padding: 0;
+      margin: 15px 0;
+   }
+   .header-dir{
+      flex-direction: column;
+   }
+   .dir p{
+      font-size: 18px;
+   }
+   .welcome{
+      flex-direction: column;
+   }
+   .welcome-1{
+      display: none;
+   }
+   .welcome-2{
+      width: 100%;
+      padding: 30px;
+      text-align: center;
+   }
+   h2{
+      font-size: 70px;
+      line-height: 80px;
+   }
+   p{
+      margin: 15px 0;
+   }
+   .services{
+      padding: 30px;
+   }
+   .services-txt p{
+      padding: 0;
+   }
+   .services-group{
+      flex-direction: column;
+      margin: 0;
+   }
+   .services-1{
+      padding: 0 0 20px 0;
+   }
+   .prices{
+      flex-direction: column;
+   }
+   .prices-1{
+      width: 100%;
+      padding: 30px;
+      text-align: center;
+   }
+   table{
+      margin: 25px 0 0 0;
+   }
+   .prices-2{
+      display: none;
+   }
+   .personal{
+      padding: 30px;
+   }
+   .personal-group{
+      flex-direction: column;
+      margin-bottom: 0;
+   }
+   .personal-1{
+      margin-bottom: 25px;
+   }
+   .footer-bg{
+      padding: 30px;
+   }
+   textarea{
+      width: 250px !important;
+   }
 }

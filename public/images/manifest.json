@@ -1,0 +1,1175 @@
+{
+    "manifest_version": "1.0.21",
+    "title": "SwiftBall - Template kit for Baseball Club",
+    "page_builder": "elementor",
+    "kit_version": "1.0.0",
+    "templates": [
+        {
+            "name": "Global Kit Styles",
+            "screenshot": "screenshots\/global-kit-styles.jpg",
+            "source": "templates\/global.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "global-styles",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "additional_template_information": [
+                    "These are the global theme styles configured through the Elementor Theme Styles area."
+                ]
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Homepage",
+            "screenshot": "screenshots\/homepage.jpg",
+            "source": "templates\/homepage.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/homepage\/",
+            "type": "section",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-home",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Schedule",
+            "screenshot": "screenshots\/schedule.jpg",
+            "source": "templates\/schedule.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/schedule\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Academy",
+            "screenshot": "screenshots\/academy.jpg",
+            "source": "templates\/academy.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/academy\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "About us",
+            "screenshot": "screenshots\/about-us.jpg",
+            "source": "templates\/about-us.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/about-us\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Membership",
+            "screenshot": "screenshots\/membership.jpg",
+            "source": "templates\/membership.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/membership\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Gallery",
+            "screenshot": "screenshots\/gallery.jpg",
+            "source": "templates\/gallery.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/gallery\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Our Coach",
+            "screenshot": "screenshots\/our-coach.jpg",
+            "source": "templates\/our-coach.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/our-coach\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "FAQ",
+            "screenshot": "screenshots\/faq.jpg",
+            "source": "templates\/faq.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/faq\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Contact us",
+            "screenshot": "screenshots\/contact-us.jpg",
+            "source": "templates\/contact-us.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/template-kit\/contact-us\/",
+            "type": "page",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-page",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1"
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "SwiftBall - Error 404",
+            "screenshot": "screenshots\/swiftball-error-404.jpg",
+            "source": "templates\/swiftball-error-404.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/?elementor_library=swiftball-error-404",
+            "type": "error-404",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-404",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "elementor_library_type": "error-404",
+                "elementor_pro_conditions": [
+                    "include\/singular\/not_found404"
+                ],
+                "additional_template_information": [
+                    "This is a \"Error 404\" template for Elementor Pro.",
+                    "This template will display on: 404 Page."
+                ]
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "SwiftBall - Single post",
+            "screenshot": "screenshots\/swiftball-single-post.jpg",
+            "source": "templates\/swiftball-single-post.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/?elementor_library=swiftball-single-post",
+            "type": "single-post",
+            "category": "page",
+            "metadata": {
+                "template_type": "single-post",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "elementor_library_type": "single-post",
+                "elementor_pro_conditions": [
+                    "include\/singular\/post"
+                ],
+                "additional_template_information": [
+                    "This is a \"Single Post\" template for Elementor Pro.",
+                    "This template will display on: Posts."
+                ]
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "Swiftball - Archive blog",
+            "screenshot": "screenshots\/swiftball-archive-blog.jpg",
+            "source": "templates\/swiftball-archive-blog.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/?elementor_library=swiftball-archive-blog",
+            "type": "archive",
+            "category": "page",
+            "metadata": {
+                "template_type": "archive-blog",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "elementor_library_type": "archive",
+                "elementor_pro_conditions": [
+                    "include\/archive"
+                ],
+                "additional_template_information": [
+                    "This is a \"Archive\" template for Elementor Pro.",
+                    "This template will display on: All Archives."
+                ]
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "SwiftBall - Footer",
+            "screenshot": "screenshots\/swiftball-footer.jpg",
+            "source": "templates\/swiftball-footer.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/?elementor_library=swiftball-footer",
+            "type": "footer",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-footer",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "elementor_library_type": "footer",
+                "elementor_pro_conditions": [
+                    "include\/general"
+                ],
+                "additional_template_information": [
+                    "This is a \"Footer\" template for Elementor Pro.",
+                    "This template will display on: Entire Site."
+                ]
+            },
+            "elementor_pro_required": true
+        },
+        {
+            "name": "SwiftBall - Header",
+            "screenshot": "screenshots\/swiftball-header.jpg",
+            "source": "templates\/swiftball-header.json",
+            "preview_url": "https:\/\/webkit.moxcreative.com\/swiftball\/?elementor_library=swiftball-header",
+            "type": "header",
+            "category": "section",
+            "metadata": {
+                "template_type": "section-header",
+                "include_in_zip": "1",
+                "elementor_pro_required": "1",
+                "elementor_library_type": "header",
+                "elementor_pro_conditions": [
+                    "include\/general"
+                ],
+                "additional_template_information": [
+                    "This is a \"Header\" template for Elementor Pro.",
+                    "This template will display on: Entire Site."
+                ]
+            },
+            "elementor_pro_required": true
+        }
+    ],
+    "required_plugins": [
+        {
+            "name": "ElementsKit Lite",
+            "version": "2.8.8",
+            "file": "elementskit-lite\/elementskit-lite.php",
+            "author": "Wpmet"
+        },
+        {
+            "name": "Skyboot Custom Icons for Elementor - Elementor Icons library",
+            "version": "1.0.6",
+            "file": "skyboot-custom-icons-for-elementor\/skyboot-custom-icons-for-elementor.php",
+            "author": "Skybootstrap"
+        },
+        {
+            "name": "Elementor Pro",
+            "version": "3.12.0",
+            "file": "elementor-pro\/elementor-pro.php",
+            "author": "Elementor.com"
+        }
+    ],
+    "images": [
+        {
+            "filename": "sports-baseball-and-fitness-with-men-on-field-for-training-competition-matcha-and-exercise-home.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/sports-baseball-and-fitness-with-men-on-field-for-training-competition-matcha-and-exercise-home-800x448.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 153139,
+            "dimensions": [
+                1280,
+                717
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-D92U8ML"
+        },
+        {
+            "filename": "img_3.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/img_3.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 79537,
+            "dimensions": [
+                500,
+                663
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/baseball-player-training-and-bat-for-fitness-worko-FEWTT8E"
+        },
+        {
+            "filename": "team-huddle-baseball-and-baseball-player-fitness-and-men-diversity-and-support-sports-game-and.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/team-huddle-baseball-and-baseball-player-fitness-and-men-diversity-and-support-sports-game-and-800x1145.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 208212,
+            "dimensions": [
+                1280,
+                1832
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-HS8V5ZU"
+        },
+        {
+            "filename": "baseball-and-gloves-on-an-american-flag.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-and-gloves-on-an-american-flag-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                },
+                {
+                    "source": "templates\/swiftball-single-post.json",
+                    "name": "SwiftBall - Single post"
+                }
+            ],
+            "filesize": 114108,
+            "dimensions": [
+                1280,
+                853
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/image-PB3H77D"
+        },
+        {
+            "filename": "minor-league-baseball-team-playing-baseball-game-with-umpire-batter-hits-the-ball-with-baseball-bat.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/minor-league-baseball-team-playing-baseball-game-with-umpire-batter-hits-the-ball-with-baseball-bat-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                },
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                },
+                {
+                    "source": "templates\/swiftball-archive-blog.json",
+                    "name": "Swiftball - Archive blog"
+                }
+            ],
+            "filesize": 214827,
+            "dimensions": [
+                1280,
+                853
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-WGXWEJH"
+        },
+        {
+            "filename": "coach-of-girl-team-in-softball-planning-with-players-before-match-or-game-trainer-of-woman-baseba.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/coach-of-girl-team-in-softball-planning-with-players-before-match-or-game-trainer-of-woman-baseba-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 149398,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-PXW2U74"
+        },
+        {
+            "filename": "logo-1.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-1.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 2063,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "logo-2.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-2.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 1811,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "logo-3.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-3.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 2079,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "logo-4.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-4.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 2193,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "logo-5.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-5.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 2300,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "logo-11.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo-11.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                }
+            ],
+            "filesize": 1900,
+            "dimensions": [
+                178,
+                100
+            ],
+            "image_source": "cc0",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/logoipsum.com\/"
+        },
+        {
+            "filename": "img_2.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/img_2.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                }
+            ],
+            "filesize": 48912,
+            "dimensions": [
+                482,
+                566
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/baseball-bat-athlete-and-mountain-of-a-professiona-JET4D49"
+        },
+        {
+            "filename": "thousand-oaks-little-league-phillies.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/thousand-oaks-little-league-phillies-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                }
+            ],
+            "filesize": 96817,
+            "dimensions": [
+                1280,
+                853
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-QK99P5L"
+        },
+        {
+            "filename": "shot-of-a-group-of-young-baseball-players-chatting-while-standing-in-the-dugout.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/shot-of-a-group-of-young-baseball-players-chatting-while-standing-in-the-dugout-800x493.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                },
+                {
+                    "source": "templates\/membership.json",
+                    "name": "Membership"
+                },
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                }
+            ],
+            "filesize": 118960,
+            "dimensions": [
+                1280,
+                788
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-7G4UBTK"
+        },
+        {
+            "filename": "portrait-of-a-baseball-team.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/portrait-of-a-baseball-team-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                },
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 134761,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-B7B2C8Z"
+        },
+        {
+            "filename": "baseball-sport-and-phone-with-a-team-of-men-on-a-bench-after-training-practice-or-a-game-teamwor.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-sport-and-phone-with-a-team-of-men-on-a-bench-after-training-practice-or-a-game-teamwor-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/academy.json",
+                    "name": "Academy"
+                },
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                },
+                {
+                    "source": "templates\/contact-us.json",
+                    "name": "Contact us"
+                }
+            ],
+            "filesize": 216069,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-6PTPYDZ"
+        },
+        {
+            "filename": "logo_lunar.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo_lunar.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 79316,
+            "dimensions": [
+                328,
+                350
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "HornetGG.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/HornetGG.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 43352,
+            "dimensions": [
+                545,
+                534
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "Grizzly.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/Grizzly.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 35699,
+            "dimensions": [
+                454,
+                434
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "Dragon.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/Dragon.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 48486,
+            "dimensions": [
+                550,
+                425
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "Knight.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/Knight.png",
+            "templates": [
+                {
+                    "source": "templates\/homepage.json",
+                    "name": "Homepage"
+                },
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 53768,
+            "dimensions": [
+                626,
+                504
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "full-length-shot-of-a-young-baseball-player-reaching-base-during-a-match-on-the-field.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/full-length-shot-of-a-young-baseball-player-reaching-base-during-a-match-on-the-field-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/schedule.json",
+                    "name": "Schedule"
+                }
+            ],
+            "filesize": 160311,
+            "dimensions": [
+                1280,
+                853
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-NMQ56HM"
+        },
+        {
+            "filename": "signature_img.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/signature_img.png",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 5717,
+            "dimensions": [
+                417,
+                75
+            ],
+            "image_source": "self_created",
+            "person_or_place": "no",
+            "image_urls": ""
+        },
+        {
+            "filename": "img_1.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/img_1.png",
+            "templates": [
+                {
+                    "source": "templates\/about-us.json",
+                    "name": "About us"
+                },
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 483228,
+            "dimensions": [
+                476,
+                648
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/baseball-batter-L57QKWF"
+        },
+        {
+            "filename": "baseball-team-and-coach-with-happy-smile-together-with-support-collaboration-and-success-through.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-team-and-coach-with-happy-smile-together-with-support-collaboration-and-success-through-800x628.jpg",
+            "templates": [
+                {
+                    "source": "templates\/membership.json",
+                    "name": "Membership"
+                }
+            ],
+            "filesize": 154327,
+            "dimensions": [
+                1280,
+                1005
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-J5K4NAG"
+        },
+        {
+            "filename": "baseball-team-and-women-with-coach-talking-conversation-or-speaking-about-game-strategy-motivati.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-team-and-women-with-coach-talking-conversation-or-speaking-about-game-strategy-motivati-800x374.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 103118,
+            "dimensions": [
+                1280,
+                598
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-2SASYKF"
+        },
+        {
+            "filename": "baseball-player-portrait-and-field-stadium-dugout-with-softball-team-ready-for-ball-game-training.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-player-portrait-and-field-stadium-dugout-with-softball-team-ready-for-ball-game-training-800x548.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 151419,
+            "dimensions": [
+                1280,
+                877
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-VARK2NZ"
+        },
+        {
+            "filename": "baseball-team-and-coach-in-conversation-talking-and-speaking-about-game-strategy-for-a-game-team.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-team-and-coach-in-conversation-talking-and-speaking-about-game-strategy-for-a-game-team-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 133096,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-DJFNFBL"
+        },
+        {
+            "filename": "team-of-women-baseball-players-given-strategy-and-motivation-by-coach-to-win-game-winning-in-spor.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/team-of-women-baseball-players-given-strategy-and-motivation-by-coach-to-win-game-winning-in-spor-800x495.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 126224,
+            "dimensions": [
+                1280,
+                792
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-K4RFR4B"
+        },
+        {
+            "filename": "sport-baseball-and-team-huddle-portrait-for-game-mental-preparation-together-with-cheerful-smile-.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/sport-baseball-and-team-huddle-portrait-for-game-mental-preparation-together-with-cheerful-smile--800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 196759,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-BQ7GCGA"
+        },
+        {
+            "filename": "baseball-pitcher.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-pitcher-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 83857,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-84NJRZ6"
+        },
+        {
+            "filename": "baseball-mlb-baseball-players-in-a-huddle-.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-mlb-baseball-players-in-a-huddle--800x503.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 143233,
+            "dimensions": [
+                1280,
+                805
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-7365458"
+        },
+        {
+            "filename": "baseball-team-and-coach-in-portrait-on-pitch-athlete-and-sports-with-teamwork-solidarity-and-men.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-team-and-coach-in-portrait-on-pitch-athlete-and-sports-with-teamwork-solidarity-and-men-800x616.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                },
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 207477,
+            "dimensions": [
+                1280,
+                985
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-QAB7DE5"
+        },
+        {
+            "filename": "happy-team-and-baseball-player-group-laughing-together-from-game-success-outdoor-teamwork-collab.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/happy-team-and-baseball-player-group-laughing-together-from-game-success-outdoor-teamwork-collab-800x577.jpg",
+            "templates": [
+                {
+                    "source": "templates\/gallery.json",
+                    "name": "Gallery"
+                }
+            ],
+            "filesize": 133613,
+            "dimensions": [
+                1280,
+                923
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-KQG74MV"
+        },
+        {
+            "filename": "women-baseball-and-team-with-coach-smile-happy-and-support-during-conversation-on-game-strategy-o.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/women-baseball-and-team-with-coach-smile-happy-and-support-during-conversation-on-game-strategy-o-800x534.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 130536,
+            "dimensions": [
+                1280,
+                854
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-8632RZ3"
+        },
+        {
+            "filename": "sport-fitness-and-baseball-player-with-bat-looking-cool-focus-and-ready-for-competitive-training--e1687561578958.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/sport-fitness-and-baseball-player-with-bat-looking-cool-focus-and-ready-for-competitive-training--e1687561570186-800x1070.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 56010,
+            "dimensions": [
+                500,
+                669
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-HT4B2FP"
+        },
+        {
+            "filename": "black-man-baseball-player-and-motivation-for-fitness-training-and-exercise-with-ball-baseball-gl-e1687561726692.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/black-man-baseball-player-and-motivation-for-fitness-training-and-exercise-with-ball-baseball-gl-e1687561715917-800x1067.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 61823,
+            "dimensions": [
+                500,
+                667
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-4Y6TAX2"
+        },
+        {
+            "filename": "baseball-sports-and-uniform-with-a-man-athlete-on-a-dark-background-wearing-a-mitt-while-holding-a-e1687561788284.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/baseball-sports-and-uniform-with-a-man-athlete-on-a-dark-background-wearing-a-mitt-while-holding-a-e1687561779751-800x1068.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 66208,
+            "dimensions": [
+                500,
+                667
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-49WGDH4"
+        },
+        {
+            "filename": "sports-baseball-and-portrait-of-man-on-field-ready-for-game-practice-and-competition-with-confide-e1687561849578.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/sports-baseball-and-portrait-of-man-on-field-ready-for-game-practice-and-competition-with-confide-e1687561837680-800x1068.jpg",
+            "templates": [
+                {
+                    "source": "templates\/our-coach.json",
+                    "name": "Our Coach"
+                }
+            ],
+            "filesize": 45755,
+            "dimensions": [
+                500,
+                667
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-WZZJV6M"
+        },
+        {
+            "filename": "selective-focus-of-baseball-in-leather-mitt-on-base-of-a-baseball-park-infield-on-a-sunny-afternoon.jpg",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/selective-focus-of-baseball-in-leather-mitt-on-base-of-a-baseball-park-infield-on-a-sunny-afternoon-800x533.jpg",
+            "templates": [
+                {
+                    "source": "templates\/faq.json",
+                    "name": "FAQ"
+                },
+                {
+                    "source": "templates\/swiftball-error-404.json",
+                    "name": "SwiftBall - Error 404"
+                },
+                {
+                    "source": "templates\/swiftball-footer.json",
+                    "name": "SwiftBall - Footer"
+                }
+            ],
+            "filesize": 121665,
+            "dimensions": [
+                1280,
+                853
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "yes",
+            "image_urls": "https:\/\/elements.envato.com\/image-DBFVBP5"
+        },
+        {
+            "filename": "logo_swiftball.png",
+            "thumbnail_url": "https:\/\/webkit.moxcreative.com\/swiftball\/wp-content\/uploads\/sites\/26\/2023\/06\/logo_swiftball.png",
+            "templates": [
+                {
+                    "source": "templates\/swiftball-footer.json",
+                    "name": "SwiftBall - Footer"
+                },
+                {
+                    "source": "templates\/swiftball-header.json",
+                    "name": "SwiftBall - Header"
+                }
+            ],
+            "filesize": 29778,
+            "dimensions": [
+                455,
+                350
+            ],
+            "image_source": "envato_elements",
+            "person_or_place": "no",
+            "image_urls": "https:\/\/elements.envato.com\/baseball-academy-sports-logo-ZNNCJL"
+        }
+    ]
+}

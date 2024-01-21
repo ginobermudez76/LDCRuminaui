@@ -72,17 +72,5 @@ h2,
 p {
     color: white;
 }
-form{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-.mb{
-    margin: 5px;
-    padding: 20px 15px;
-    width: 250px;
-    outline: none;
-    border-radius: 10px;
-    font-size: 14px;
-}
+
 
