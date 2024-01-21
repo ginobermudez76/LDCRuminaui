@@ -1,16 +1,88 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+.navbar {
+    position: relative;
+    background-color: #65a7bb81 !important;
+    padding: 15px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-section {
-    background-color: black;
-    color: white;
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-toggler-icon {
+    background-color: #ffffff;
+}
+
+.navbar-nav .nav-link {
+    color: rgb(0, 0, 0);
+    margin-right: 15px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgb(171, 181, 26);
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-image: url('../img/estadio.avif'); 
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+}
+
+container {
+    width: 100%;
+    margin: 20px auto;
     padding: 20px;
+    background-color: rgba(108, 188, 200, 0.362); 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 5px solid rgba(107, 233, 220, 0.291);
+    margin-bottom: 50px;
+}
+footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #65a7bb81;
+    padding: auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.map-container {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 56.25%; /* Proporción 16:9 para la relación de aspecto del mapa */
+    height: 0;
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 h2,
 p {
     color: white;
 }
+form{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.mb{
+    margin: 5px;
+    padding: 20px 15px;
+    width: 250px;
+    outline: none;
+    border-radius: 10px;
+    font-size: 14px;
+}
+

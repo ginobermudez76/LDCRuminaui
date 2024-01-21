@@ -11,15 +11,10 @@
               </div>
               <div class="col-md-6">
                 <h4>Ubicación</h4>
-                <!-- no hay API  -->
-                <iframe
-                  width="100%"
-                  height="200"
-                  frameborder="0"
-                  style="border:0"
-                  src="https://www.google.com/maps/embed/v1/place?q=place_id:TU_PLACE_ID&key=TU_API_KEY"
-                  allowfullscreen
-                ></iframe>
+                <div class="map-container">
+                   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d498.7190510276677!2d-78.44643170647767!3d-0.32933987342479176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d5bd1dfcbe7a45%3A0xff3a75ac0af44d8a!2sEspejo%20133%2C%20Sangolqu%C3%AD%20171103!5e0!3m2!1ses-419!2sec!4v1705713651967!5m2!1ses-419!2sec" >
+              </iframe>
+                </div>
               </div>
             </div>
 </div>

@@ -16,35 +16,25 @@ try {
 
 ?>
 
-</header>
-<section>
+
         <div class="container mt-4">
             <h2>¿Quiénes somos?</h2>
-            <p>Somos BERPART, una empresa especializada en la venta de repuestos de auto a nivel mecánico y eléctrico. Nos enorgullece ofrecer a nuestros clientes una amplia gama de productos de alta calidad para satisfacer sus necesidades automotrices. Con años de experiencia en la industria, nos destacamos por nuestro compromiso con la excelencia y la satisfacción del cliente.</p>
-            <p>Nuestra misión es proporcionar soluciones confiables y duraderas para mantener los vehículos en óptimo estado. En BERPART, no solo vendemos repuestos, sino que también compartimos la pasión por los automóviles y nos esforzamos por brindar un servicio excepcional a cada cliente.</p>
+            <p>La ‘Liga Cantonal Rumiñahui’ una institución de drecho privado con finalidad social, es máxima entidad del deporte en el Cantón Rumiñahui, Con Sede en la ciudad de Sangolquí, afiliada a la Concentración Deportiva de Pichincha</p>
           </div>
-    </section>
-    <section>
-        <div class="container mt-4">
-            <h2>¿Qué ofrecemos?</h2>
-            <p>En BERPART, ofrecemos más que repuestos de auto; brindamos servicios integrales para mantener tu vehículo en las mejores condiciones. Nuestro equipo de profesionales altamente capacitados se especializa en servicios de mantenimiento, reparación y asesoría técnica.</p>
-            <p>Desde el diagnóstico preciso hasta la instalación de repuestos, nos aseguramos de que tu automóvil reciba la atención que merece. Ya sea una reparación específica, un mantenimiento programado o simplemente necesitas asesoramiento, en BERPART estamos comprometidos a ser tu aliado confiable en el mundo automotriz.</p>
-        </div>
-    </section>
-    <section>
+
         <div class="container mt-4">
             <h2>Nuestra misión</h2>
-            <p>En BERPART, ofrecemos más que repuestos de auto; brindamos servicios integrales para mantener tu vehículo en las mejores condiciones. Nuestro equipo de profesionales altamente capacitados se especializa en servicios de mantenimiento, reparación y asesoría técnica.</p>
-            <p>Desde el diagnóstico preciso hasta la instalación de repuestos, nos aseguramos de que tu automóvil reciba la atención que merece. Ya sea una reparación específica, un mantenimiento programado o simplemente necesitas asesoramiento, en BERPART estamos comprometidos a ser tu aliado confiable en el mundo automotriz.</p>
+            <p>Nuestra misión es fomentar el desarrollo integral de la comunidad a través del deporte, promoviendo valores, inclusión y bienestar. Trabajamos arduamente para ofrecer oportunidades deportivas que inspiren el espíritu competitivo y fortalezcan los lazos comunitarios.</p>
+           
         </div>
-    </section>
-    <section>
+
         <div class="container mt-4">
             <h2>Nuestra visión</h2>
-            <p>En BERPART, ofrecemos más que repuestos de auto; brindamos servicios integrales para mantener tu vehículo en las mejores condiciones. Nuestro equipo de profesionales altamente capacitados se especializa en servicios de mantenimiento, reparación y asesoría técnica.</p>
-            <p>Desde el diagnóstico preciso hasta la instalación de repuestos, nos aseguramos de que tu automóvil reciba la atención que merece. Ya sea una reparación específica, un mantenimiento programado o simplemente necesitas asesoramiento, en BERPART estamos comprometidos a ser tu aliado confiable en el mundo automotriz.</p>
+            <p>Aspiramos a ser un referente regional en el ámbito deportivo, reconocidos por nuestra excelencia, compromiso social y contribución al desarrollo sostenible. Buscamos ser líderes en la promoción de un estilo de vida activo y saludable, impulsando el crecimiento personal y colectivo.</p>
+
         </div>
-    </section>
+
+
 <section name="Section_deportes" id ="Section_deportes">
 
 </section>

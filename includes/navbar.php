@@ -39,7 +39,13 @@ try {
                     <a class="nav-link active" aria-current="page" href="../public/#Section_eventos">Eventos</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link active" aria-current="page" href="../admin/gestion_administrativa.php">Acceso administración</a>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Acceso
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link active" aria-current="page" href="../public/index.php">Administrativo</a>
+                    <a class="nav-link active" aria-current="page" href="../public/index.php">Personal</a>
+                    </div>
                 </li>
             </ul>
         </div>
