@@ -1,16 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital@1&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+}
+
 .navbar {
     position: relative;
-    background-color: #ffffff !important;
+    background-color: #51bad180 !important;
     padding: 15px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
-    font-weight: bold;
+h1 {
+    text-align: center;
+}
+
+p {
+    font-size: 30px;
+    color: #ffffff;
+    margin: 25px 0;
 }
 
 .navbar-toggler-icon {
-    background-color: #ffffff;
+    font-size: 0.8rem;
+    align-items: center center;
 }
 
 .navbar-nav .nav-link {
@@ -22,41 +45,35 @@
     color: rgb(171, 181, 26);
 }
 
-body{
-    font-family: 'Roboto', sans-serif;
-    background-image: url('../img/estadio.avif'); 
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-
+h2 {
+    font-size: 90px;
+    line-height: 100px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', cursive;
+    margin-bottom: 20px;
 }
 
-container {
-    width: 100%;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: rgba(108, 188, 200, 0.362); 
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 5px solid rgba(107, 233, 220, 0.291);
-    margin-bottom: 50px;
-}
 footer {
     bottom: 0;
     width: 100%;
-    background-color: #65a7bb81;
+    background-color: #51bad180;
     padding: auto;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    color: white;
+}
+
+footer p {
+    font-size: 15px;
+    color: #000000;
+}
+footer h3{
+    margin-top: 50px;
 }
 
 .map-container {
     position: relative;
     overflow: hidden;
-    padding-bottom: 56.25%; /* Proporción 16:9 para la relación de aspecto del mapa */
+    padding-bottom: 56.25%;
     height: 0;
 }
 
@@ -68,18 +85,134 @@ footer {
     height: 100%;
 }
 
-h2,
-p {
-    color: white;
+.header-txt h1, h3 {
+    font-size: 110px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', cursive;
+    color: #ffffff;
+    margin-bottom: 15px;
 }
-.header-content{
+.header-txt{
+    text-align: center;
+    margin-bottom: 45pxs;
+ }
+ .header-txt span {
+    font-size: 40px;
+    color: #FFFFFF;
+ }
+h3 {
+    font-size: 30px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', cursive;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.header-txt p {
+    color: #ffffff;
+    padding: 0 250px;
+    margin: 25px 0;
+}
+
+.presentacion {
     background-image: url(../img/ruminahui.webp);
-    background-position: center top;
+    background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 70vh;
     display: flex;
     align-items: center;
- }
+    align-items: center;
+}
 
+.mision {
+    display: flex;
+}
 
+.mision-1 {
+    background-image: url(../img/m1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 50%;
+}
+
+.mision-2 {
+    background-image: url(../img/0279.jpg);
+    width: 50%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 15px 25px 100px;
+    background-color: #ffffff;
+}
+
+.vision {
+    display: flex;
+}
+
+.vision-1 {
+    background-image: url(../img/v1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 50%;
+    padding: 15px 25px 100px;
+}
+
+.vision-2 {
+    background-image: url(../img/v2.jpeg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    width: 50%;
+    padding: 15px 25px 100px;
+}
+
+.evento-container {
+    background-size: cover;
+    background-position: center center;
+    height: 300px;
+    background-repeat: no-repeat;
+    margin-top: 50px;
+
+}
+
+.eventos {
+    background-image: url(../img/OIG.jpeg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.detalles-evento p{
+    font-size: 25px;
+    text-transform: uppercase;
+    line-height: 0.4;
+    display: none;
+    flex-direction: column;
+    transition: opacity 0.5s ease-in-out;
+}
+.detalles-evento:hover p {
+    display: block;
+    opacity: 1;
+}
+.detalles-evento h2{
+    margin-top: 10px;
+    font-size: 35px;
+    line-height: 0.5;
+}
+
+.carousel-container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 300px;
+}
+td{
+    overflow-wrap: break-word !important;
+}

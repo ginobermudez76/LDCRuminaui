@@ -66,7 +66,9 @@ try {
                 </tr>
             <?php endforeach; ?>
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+        </tbody>
+    </table>
+                        </div>
 <!-- Luego Bootstrap JS -->
 
 <!-- Y finalmente, tu script personalizado -->

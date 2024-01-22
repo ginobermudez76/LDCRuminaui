@@ -3,10 +3,10 @@ include '../includes/config.php'; //incluyendo la conexión de la base de datos
 include '../includes/header.php'; //incluyendo la cabecera común
 
 //verificar sesión del administrador
-//if(!isset($_SESSION['usuario_admin'])){
-   // header("Location: /appweb/admin/login.php");//redirige al login si no hay sesión de administrador
-    //exit();
-//}
+if(!isset($_SESSION['usuario_admin'])){
+    header("Location: /Ayudantias-1/admin/login.php");//redirige al login si no hay sesión de administrador
+    exit();
+}
 
 //logica para obtener la lista de deportes de la base de datos
 try {
@@ -58,6 +58,9 @@ try {
                 </tr>
             <?php endforeach; ?>
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        </tbody>
+    </table>
+</div>
 
 <!-- Luego Bootstrap JS -->
 

@@ -1,6 +1,26 @@
 <?php
 include '../includes/config.php'; // Incluyendo la conexión a la base de datos
 
+
+if (isset($_POST['id'])) {
+    $idEvento1 = $_POST['id'];
+
+    // Obtener la ruta de la imagen almacenada en la base de datos
+    $stmt = $conn->prepare("SELECT imagen FROM eventos WHERE id = :id");
+    $stmt->bindParam(':id', $idEvento1);
+    $stmt->execute();
+    $evento1 = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($evento1 && !empty($evento1['imagen'])) {
+        // Ruta completa de la imagen
+        $rutaImagen = "../uploads/eventos/" . basename($evento1['imagen']);
+
+        // Eliminar la imagen del sistema de archivos
+        if (file_exists($rutaImagen)) {
+            unlink($rutaImagen);
+        }
+    } 
+}
 // Verificar si se recibió un ID válido y realizar la eliminación en la base de datos
 if (isset($_POST['id'])) {
     $idEvento = $_POST['id'];
@@ -47,4 +67,6 @@ if (isset($_POST['id'])) {
 } else {
     echo "ID de evento no proporcionado";
 }
+
+
 ?>

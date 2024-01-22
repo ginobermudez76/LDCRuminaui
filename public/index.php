@@ -109,30 +109,18 @@ try {
                     <p>Fecha de Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
                     <p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>
                     <p>Estado: <?php echo htmlspecialchars($evento['estado']); ?></p>
-                    <p class="descripcion">Descripción: <?php echo htmlspecialchars($evento['descripcion']); ?></p>
-                    <p>Deporte: <?php echo htmlspecialchars($evento['nombre_deporte']); ?></p>
-                    <button id="btnMostrarDescripcion" class="btn btn-primary">Mostrar Descripción</button>
+
+                    <div class="descripcion-container">
+                        <p>Descripción: <?php echo htmlspecialchars($evento['descripcion']); ?></p>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </section>
-<script>
-    $(document).ready(function () {
-        // Agregar un evento de clic al botón
-        $("#btnMostrarDescripcion").click(function () {
-            // Obtener el contenedor del evento
-            const eventoContainer = $(".evento-container");
 
-            // Realizar la animación de barrido
-            eventoContainer.slideToggle();
 
-            // Cambiar el texto del botón según la visibilidad actual
-            const newText = eventoContainer.is(":visible") ? "Ocultar Descripción" : "Mostrar Descripción";
-            $(this).text(newText);
-        });
-    });
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>
 
 <?php include '../includes/footer.php'; ?>
