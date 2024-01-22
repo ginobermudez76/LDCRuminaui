@@ -1,6 +1,6 @@
 .navbar {
     position: relative;
-    background-color: #65a7bb81 !important;
+    background-color: #ffffff !important;
     padding: 15px 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -72,5 +72,14 @@ h2,
 p {
     color: white;
 }
+.header-content{
+    background-image: url(../img/ruminahui.webp);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+ }
 
 
