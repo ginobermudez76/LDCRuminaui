@@ -43,8 +43,8 @@ try {
                         Acceso
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="nav-link active" aria-current="page" href="../public/index.php">Administrativo</a>
-                    <a class="nav-link active" aria-current="page" href="../public/index.php">Personal</a>
+                    <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
+                    <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
                     </div>
                 </li>
             </ul>

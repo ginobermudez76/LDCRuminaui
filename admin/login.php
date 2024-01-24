@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 <!-- Tarjeta de Inicio de Sesión -->
                 <div class="card">
                     <div class="card-header text-center">
-                        <h3>Iniciar Sesión</h3>
+                        <h3 class="gestionar">Iniciar Sesión</h3>
                     </div>
                     <div class="card-body">
                         <!-- Formulario -->
