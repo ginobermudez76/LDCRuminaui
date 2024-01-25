@@ -37,7 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 }
 ?>
 
-<body class="bg-light">
+
+    <h5> Los usuarios y contraseñas son proporcionados unicamente al personal de la LDCR, si no si forma parte del mismo y no posee sus credenciales de acceso al sistema por favor acerquese a nuestras instalaciones a solicitar uno.</h5>
     <div class="container">
         <!-- Centrado Vertical y Horizontal -->
         <div class="row justify-content-center align-items-center min-vh-100">
@@ -74,6 +75,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
  
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 <?php include '../includes/footer.php'; ?>
-</html>
+

@@ -14,6 +14,18 @@ try {
     echo "Error al obtener la información de eventos: " . $e->getMessage();
 }
 
+try {
+    // Obtener datos de la tabla "deporte"
+    $stmtDeportes = $conn->prepare("SELECT nombre, descripcion, imagen FROM deportes");
+    $stmtDeportes->execute();
+    $deportes = $stmtDeportes->fetchAll(PDO::FETCH_ASSOC);
+
+    // Cerrar el cursor después de obtener los resultados
+    $stmtDeportes->closeCursor();
+} catch (PDOException $e) {
+    echo "Error al obtener la información de deportes: " . $e->getMessage();
+}
+
 ?>
 
 <section class="presentacion">
@@ -45,8 +57,40 @@ try {
     </div>
 </section>
 <section name="Section_deportes" id="Section_deportes">
+    <div class="deportes container">
+        <div class="deportes-descripcion">
+            <h2>Nuestras escuelas deportivas</h2>
+            <hr>
+            <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
+        </div>
+        <div class="deportes-group">
 
+            <?php
+            // Iterar sobre los deportes y mostrar la información
+            foreach ($deportes as $deporte) {
+                echo'<div class="deportes-1">';
+                echo '<div class="nombre-del-deporte">';
+                
+                // Verificar si las claves existen antes de intentar acceder a ellas
+                $imagen = isset($deporte["imagen"]) ? $deporte["imagen"] : '';
+                $nombre = isset($deporte["nombre"]) ? $deporte["nombre"] : '';
+                $descripcion = isset($deporte["descripcion"]) ? $deporte["descripcion"] : '';
+
+                echo '<img src="' . htmlspecialchars($imagen) . '" alt="' . htmlspecialchars($nombre) . '">';
+                echo '<h3>' . htmlspecialchars($nombre) . '</h3>';
+                echo '<p>' . htmlspecialchars($descripcion) . '</p>';
+                echo '</div>';
+                echo'</div>';
+
+
+            }
+            ?>
+
+
+        </div>
+    </div>
 </section>
+
 <section class="eventos" name="Section_eventos" id="Section_eventos">
     <h2>Eventos</h2>
 
