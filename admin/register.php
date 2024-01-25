@@ -43,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Generar contraseña
     $contrasena = generarContrasena($primer_apellido, substr($cedula, -4), date("Y"));
-
+    $sql_insert = "INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->execute([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido, $cedula, $celular, $correo, $usuario, $contrasena]);
 
     // Mostrar el usuario y contraseña generados en sus campos correspondientes
     $usuario = htmlspecialchars($usuario);
