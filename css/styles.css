@@ -232,8 +232,12 @@ td{
     border: 1px solid #CF2D3A;
     width: 80px;
  }
+ .deportes-descripcion h2{
+    color: #000000;
+ }
  .deportes-descripcion p{
     padding: 50px 150px;
+    color: #000000;
  }
  .deportes-group{
     display: flex;
