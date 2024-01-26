@@ -1,12 +1,12 @@
-<?php 
-include '../includes/config.php'; //incluyendo la conexión de la base de datos
-include '../includes/header.php'; //incluyendo la cabecera común
-
-//verificar sesión del administrador
-if(!isset($_SESSION['usuario_admin'])){
-    header("Location: /Ayudantias-1/admin/login.php");//redirige al login si no hay sesión de administrador
+<?php
+session_start();
+if (!isset($_SESSION['usuario_admin'])) {
+    header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
+
+include '../includes/config.php'; //incluyendo la conexión de la base de datos
+include '../includes/header.php'; //incluyendo la cabecera común
 
 //logica para obtener la lista de deportes de la base de datos
 try {

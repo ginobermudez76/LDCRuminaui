@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_admin'])) {
+    header("Location: /Ayudantias-1/admin/login.php");
+    exit();
+}
+
 include '../includes/config.php';
 include '../includes/header.php';
 
@@ -77,32 +83,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container mt-4">
     <h2>Agregar imagenes</h2>
-    <?php if (!empty($error)): ?>
+    <?php if (!empty($error)) : ?>
         <div class="alert alert-danger">
             <?php echo $error; ?>
         </div>
     <?php endif; ?>
-<form action="galeria_de_imagenes.php" method="post" enctype="multipart/form-data">
-<div class="mb-3">
-    <label for="input1" class="form-label">Tipo</label>
-    <input type="text" class="form-control" id="tipo_galeria" name="tipo_galeria" value="<?php echo htmlspecialchars($tipoGaleria); ?>" readonly>
-</div>
+    <form action="galeria_de_imagenes.php" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="input1" class="form-label">Tipo</label>
+            <input type="text" class="form-control" id="tipo_galeria" name="tipo_galeria" value="<?php echo htmlspecialchars($tipoGaleria); ?>" readonly>
+        </div>
 
-<div class="mb-3">
-    <label for="input2" class="form-label">Nombre</label>
-    <input type="text" class="form-control" id="nombre_tipo" name="nombre_tipo" value="<?php echo htmlspecialchars($nombreTipo); ?>" readonly>
-</div>
+        <div class="mb-3">
+            <label for="input2" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre_tipo" name="nombre_tipo" value="<?php echo htmlspecialchars($nombreTipo); ?>" readonly>
+        </div>
 
-<div class="mb-3">
-    <label for="input3" class="form-label">ID</label>
-    <input type="text" class="form-control" id="id_tp" name="id_tp" value="<?php echo htmlspecialchars($idTipo); ?>" readonly>
-</div>
-    <div class="mb-3">
-        <label for="imagenes" class="form-label">Galería de imágenes</label>
-        <input type="file" class="form-control" id="imagenes" name="imagenes[]" multiple required>
-    </div>
+        <div class="mb-3">
+            <label for="input3" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id_tp" name="id_tp" value="<?php echo htmlspecialchars($idTipo); ?>" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="imagenes" class="form-label">Galería de imágenes</label>
+            <input type="file" class="form-control" id="imagenes" name="imagenes[]" multiple required>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Guardar galería</button>
-</form>
+        <button type="submit" class="btn btn-primary">Guardar galería</button>
+    </form>
 </div>
 <?php include '../includes/footer.php'; ?>

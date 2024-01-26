@@ -43,10 +43,33 @@ try {
                         Acceso
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
-                    <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
+                        <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
+                        <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
                     </div>
                 </li>
+                <?php if (isset($_SESSION['usuario_admin'])) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Ayudantias-1/admin/gestionar_deportes.php">Administrar deportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Ayudantias-1/admin/gestionar_eventos.php">Administrar eventos</a>
+                    </li>
+                    <!-- Puedes agregar más elementos de navegación aquí -->
+                <?php } ?>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <!-- El enlace a continuación es para la función de inicio/cierre de sesión que puede cambiar dependiendo del estado de la sesión -->
+                <li class="nav-item">
+
+                    <?php if (isset($_SESSION['usuario_admin'])) : ?>
+
+                        <a class="nav-link" href="../admin/logout.php">Cerrar Sesión</a>
+
+
+                    <?php endif; ?>
+                </li>
+            </ul>
+            
             </ul>
         </div>
     </div>

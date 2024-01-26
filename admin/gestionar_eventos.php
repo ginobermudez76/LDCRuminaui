@@ -1,12 +1,12 @@
-<?php 
+<?php
+session_start();
+if (!isset($_SESSION['usuario_admin'])) {
+    header("Location: /Ayudantias-1/admin/login.php");
+    exit();
+}
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
 include '../includes/header.php'; //incluyendo la cabecera común
 
-//verificar sesión del administrador
-//if(!isset($_SESSION['usuario_admin'])){
-   // header("Location: /appweb/admin/login.php");//redirige al login si no hay sesión de administrador
-    //exit();
-//}
 
 //logica para obtener la lista de eventos de la base de datos
 try {
@@ -16,7 +16,7 @@ try {
     $stmt->execute();
 
     $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 ?>
@@ -24,7 +24,7 @@ try {
 <div class="container mt-4">
     <h2 class="gestionar">Centro de control de eventos</h2>
     <a href="agregar_evento.php" class="btn btn-primary mb-4">Agregar Evento</a>
-    
+
     <table class="table">
         <thead>
             <tr>
@@ -40,13 +40,13 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php foreach($eventos as $evento): ?>
+            <?php foreach ($eventos as $evento) : ?>
                 <tr>
                     <td><?php echo htmlspecialchars($evento['id']); ?></td>
                     <td>
-                        <?php if (isset($evento['imagen']) && $evento['imagen']): ?>
+                        <?php if (isset($evento['imagen']) && $evento['imagen']) : ?>
                             <img src="<?php echo htmlspecialchars($evento['imagen']); ?>" alt="<?php echo htmlspecialchars($evento['nombre']); ?>" style="width: 100px; height: auto;">
-                        <?php else: ?>
+                        <?php else : ?>
                             <p>Sin Imagen</p>
                         <?php endif; ?>
                     </td>
@@ -56,8 +56,8 @@ try {
                     <td><?php echo htmlspecialchars($evento['fecha_inicio']); ?></td>
                     <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>
                     <td>
-                    <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-secondary btn-sm">Agregar</a>
-                    <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-danger btn-sm">Borrar</a>
+                        <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-secondary btn-sm">Agregar</a>
+                        <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-danger btn-sm">Borrar</a>
                     </td>
                     <td>
                         <a href="editar_evento.php?id=<?php echo $evento['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
@@ -68,7 +68,7 @@ try {
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         </tbody>
     </table>
-                        </div>
+</div>
 <!-- Luego Bootstrap JS -->
 
 <!-- Y finalmente, tu script personalizado -->
@@ -89,23 +89,25 @@ try {
         $.ajax({
             type: "POST",
             url: "eliminar_evento.php",
-            data: { id: idEvento },
-            success: function (response) {
+            data: {
+                id: idEvento
+            },
+            success: function(response) {
                 // Manejar la respuesta, si es necesario
                 console.log(response);
 
                 // Puedes recargar la página o actualizar la lista de productos de alguna manera
                 location.reload();
             },
-            error: function (error) {
+            error: function(error) {
                 // Manejar errores si es necesario
                 console.error(error);
             }
         });
     }
 </script>
-        </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 
 <?php include '../includes/footer.php'; ?>

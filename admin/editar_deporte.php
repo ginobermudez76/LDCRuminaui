@@ -1,11 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_admin'])) {
+    header("Location: /Ayudantias-1/admin/login.php");
+    exit();
+}
+
 include '../includes/config.php';
 include '../includes/header.php';
-
-//if (!isset($_SESSION['usuario_admin'])) {
-//    header("Location: /ayudantias/admin/login.php");
-//    exit();
-//}
 
 $error = "";
 

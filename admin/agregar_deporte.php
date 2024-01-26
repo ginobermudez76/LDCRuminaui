@@ -1,7 +1,12 @@
 <?php 
-
+session_start();
+if (!isset($_SESSION['usuario_admin'])) {
+    header("Location: /Ayudantias-1/admin/login.php");
+    exit();
+}
 include '../includes/config.php'; //incluyebdo la conexion de la base de datos
 include '../includes/header.php'; //incluyendlo la cabecera comun
+
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include '../includes/config.php';
 include '../includes/header.php'; //incluyendo la cabecera común
 $error_login = '';
@@ -21,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_admin'] = $usuario['nombre_usuario'];
 
-                header("Location: /appweb/admin/index.php");
+                header("Location: /Ayudantias-1/public/index.php");
                 exit();
             }else {
                 //contraseña incorrecta
