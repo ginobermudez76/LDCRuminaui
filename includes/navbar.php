@@ -38,22 +38,27 @@ try {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../public/#Section_eventos">Eventos</a>
                 </li>
-                <li class="nav-item dropdown">
+                <?php if (!isset($_SESSION['usuario_admin'])) { ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Acceso
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
+                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
+                        </div>
+                    </li>
+                <?php } ?>
+                <?php if (isset($_SESSION['usuario_admin'])) { ?>
+                    <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Acceso
+                        Administrar
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
-                        <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
+                        <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
+                        <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
                     </div>
                 </li>
-                <?php if (isset($_SESSION['usuario_admin'])) { ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Ayudantias-1/admin/gestionar_deportes.php">Administrar deportes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Ayudantias-1/admin/gestionar_eventos.php">Administrar eventos</a>
-                    </li>
                     <!-- Puedes agregar más elementos de navegación aquí -->
                 <?php } ?>
             </ul>

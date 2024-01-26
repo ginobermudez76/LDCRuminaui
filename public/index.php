@@ -150,10 +150,10 @@ try {
                 <!-- Detalles del Evento en la columna derecha -->
                 <div class="col-md-6 detalles-evento">
                     <h2><?php echo htmlspecialchars($evento['nombre_evento']); ?></h2>
-                    <p>Fecha de Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
-                    <p>Fecha de Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
+                    <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
+                    <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
                     <p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>
-                    <p>Estado: <?php echo htmlspecialchars($evento['estado']); ?></p>
+                    <p><?php echo htmlspecialchars($evento['estado']); ?></p>
 
                     <div class="descripcion-container">
                         <p>Descripción: <?php echo htmlspecialchars($evento['descripcion']); ?></p>
