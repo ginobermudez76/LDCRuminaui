@@ -5,6 +5,13 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 
+try {
+    $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
+    $stmt->execute();
+    $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 include '../includes/config.php'; // Incluyendo la conexión de la base de datos
 include '../includes/header.php'; // Incluyendo la cabecera común
 
@@ -111,9 +118,6 @@ return $apellido . $ultimosCuatroDigitosCedula . "@" . $ano;
                         <strong>Contraseña:</strong> <?php echo $contrasena; ?>
                     </div>
                 <?php endif; ?>
-
-                <!-- Otros campos del formulario -->
-
                 <input  value="Registrar" name="registrar">
             </form>
         </div>

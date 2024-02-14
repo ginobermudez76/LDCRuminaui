@@ -9,7 +9,7 @@ include '../includes/header.php'; //incluyendo la cabecera común
 
 
 
-// Obtener la lista de deportes
+// Obtener la lista de tipo de 
 try {
     $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
     $stmt->execute();

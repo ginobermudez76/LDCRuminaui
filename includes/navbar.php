@@ -38,17 +38,7 @@ try {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../public/#Section_eventos">Eventos</a>
                 </li>
-                <?php if (!isset($_SESSION['usuario_admin'])) { ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Acceso
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
-                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
-                        </div>
-                    </li>
-                <?php } ?>
+
                 <?php if (isset($_SESSION['usuario_admin'])) { ?>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,6 +63,17 @@ try {
 
                     <?php endif; ?>
                 </li>
+                <?php if (!isset($_SESSION['usuario_admin'])) { ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            SGAD
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
+                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
             
             </ul>

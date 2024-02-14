@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 include '../includes/config.php';
 include '../includes/header.php'; //incluyendo la cabecera común
 $error_login = '';
@@ -40,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 ?>
 
 
-    <h5> Los usuarios y contraseñas son proporcionados unicamente al personal de la LDCR, si no si forma parte del mismo y no posee sus credenciales de acceso al sistema por favor acerquese a nuestras instalaciones a solicitar uno.</h5>
+    <h5> Los usuarios y contraseñas son proporcionados unicamente al personal de la LDCR, si forma parte del mismo y no posee sus credenciales de acceso al sistema, por favor, acerquese a nuestras instalaciones a solicitarlas.</h5>
     <div class="container">
         <!-- Centrado Vertical y Horizontal -->
         <div class="row justify-content-center align-items-center min-vh-100">
