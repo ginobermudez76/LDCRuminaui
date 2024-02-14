@@ -35,9 +35,6 @@ try {
                         <?php endforeach; ?>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../public/#Section_eventos">Eventos</a>
-                </li>
 
                 <?php if (isset($_SESSION['usuario_admin'])) { ?>
                     <li class="nav-item dropdown">
