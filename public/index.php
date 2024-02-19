@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include '../includes/config.php'; // Incluyendo la conexión a la base de datos
 include '../includes/header.php'; // Incluyendo la cabecera común
 

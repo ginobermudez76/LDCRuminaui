@@ -1,7 +1,9 @@
 <?php
-session_start();
+
 include '../includes/config.php';
+
 include '../includes/header.php'; //incluyendo la cabecera común
+
 $error_login = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 !empty($_POST["nombre_usuario"]) &&

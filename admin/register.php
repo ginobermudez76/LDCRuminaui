@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();

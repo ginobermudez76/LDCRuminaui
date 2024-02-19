@@ -1,11 +1,11 @@
 <?php
-session_start();
+
+include '../includes/config.php'; //incluyendo la conexión a la base de datos
+
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
-
-include '../includes/config.php'; //incluyendo la conexión a la base de datos
 
 // Verificar si se recibió un ID válido y realizar la eliminación en la base de datos
 if (isset($_POST['id'])) {

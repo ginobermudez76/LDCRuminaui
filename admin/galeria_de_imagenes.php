@@ -1,12 +1,12 @@
 <?php
-session_start();
+
+include '../includes/config.php';
+include '../includes/header.php';
+
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
-
-include '../includes/config.php';
-include '../includes/header.php';
 
 // Tomar los valores enviados por los botones de gestionar_eventos.php o gestionar_deportes.php
 if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['tipo'])) {

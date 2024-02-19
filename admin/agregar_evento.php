@@ -1,13 +1,12 @@
 <?php
-session_start();
+
+include '../includes/config.php'; //incluyendo la conexión de la base de datos
+include '../includes/header.php'; //incluyendo la cabecera común
+
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
-include '../includes/config.php'; //incluyendo la conexión de la base de datos
-include '../includes/header.php'; //incluyendo la cabecera común
-
-
 
 // Obtener la lista de tipo de 
 try {

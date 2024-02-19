@@ -38,10 +38,7 @@ try {
                 </li>
 
                 <?php if (isset($_SESSION['usuario_admin'])) { ?>
-                    <?php
-                    // Verificar si el usuario tiene el rol de Publicista
-                    if (isset($_SESSION['usuario_roles']) && in_array(7, $_SESSION['usuario_roles'])) {
-                    ?>
+
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +50,7 @@ try {
                             </div>
                         </li>
 
-                    <?php } ?>
+
 
                 <?php } ?>
             </ul>
