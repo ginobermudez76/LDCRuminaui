@@ -10,7 +10,7 @@ include '../includes/header.php'; //incluyendo la cabecera común
 
 //logica para obtener la lista de deportes de la base de datos
 try {
-    $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
+    $stmt = $conn->prepare("SELECT s_id, s_fecha, s_doc, tipo, descripcion, s_valor, solicitante, encargado, solicitantext, estado FROM solicitud");
     $stmt->execute();
 
     $deporte = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,11 +28,12 @@ try {
             <tr>
                 <th>Id</th>
                 <th>Fecha</th>
-                <th>Nombre</th>
+                <th>Documento</th>
                 <th>tipo</th>
                 <th>Descripción</th>
                 <th>Valor solicitado</th>
-                <th>Archivo</th>
+                <th>solicitante</th>
+                <th>Encargado</th>
                 <th>Estado</th>
             </tr>
         </thead>

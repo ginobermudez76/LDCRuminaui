@@ -9,6 +9,7 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
 ?>
 
 <nav class="navbar navbar-expand-lg bg-light navbar-light">
@@ -37,16 +38,23 @@ try {
                 </li>
 
                 <?php if (isset($_SESSION['usuario_admin'])) { ?>
-                    <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Administrar
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
-                        <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
-                    </div>
-                </li>
-                    <!-- Puedes agregar más elementos de navegación aquí -->
+                    <?php
+                    // Verificar si el usuario tiene el rol de Publicista
+                    if (isset($_SESSION['usuario_roles']) && in_array(7, $_SESSION['usuario_roles'])) {
+                    ?>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administrar
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
+                                <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
+                            </div>
+                        </li>
+
+                    <?php } ?>
+
                 <?php } ?>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -72,7 +80,7 @@ try {
                     </li>
                 <?php } ?>
             </ul>
-            
+
             </ul>
         </div>
     </div>
