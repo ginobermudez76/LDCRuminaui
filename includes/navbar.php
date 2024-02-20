@@ -36,23 +36,47 @@ try {
                         <?php endforeach; ?>
                     </div>
                 </li>
-
-                <?php if (isset($_SESSION['usuario_admin'])) { ?>
-
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
-                                <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
-                            </div>
-                        </li>
+                <?php
 
 
+// Verificar si el usuario está autenticado
+if (isset($_SESSION['usuario_admin'])) {
+// El usuario está autenticado, acceder al ID del usuario
+$usuario_id = $_SESSION['usuario_id'];
 
-                <?php } ?>
+// Verificar si el usuario tiene el rol de Administrador
+
+    try {
+        // Consultar el rol del usuario en la base de datos
+        $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar si el usuario tiene el rol de Publicista
+        if ($usuario['rol'] == 7) {
+            // Mostrar el elemento del menú Administrar
+?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administrar
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
+                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
+                </div>
+            </li>
+<?php
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+
+}
+
+
+?>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <!-- El enlace a continuación es para la función de inicio/cierre de sesión que puede cambiar dependiendo del estado de la sesión -->

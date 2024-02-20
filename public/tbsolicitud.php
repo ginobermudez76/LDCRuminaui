@@ -7,6 +7,7 @@ if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
+$usuario_id = $_SESSION['usuario_id'];
 
 //logica para obtener la lista de deportes de la base de datos
 try {
@@ -21,7 +22,7 @@ try {
 
 <div class="container mt-4">
     <h2 class="gestionar">Solicitudes</h2>
-    <a href="agregar_deporte.php" class="btn btn-primary mb-4">Adicionar nueva</a>
+    <a href="agregar_deporte.php" class="btn btn-primary mb-4">Agregar +</a>
     
     <table class="table">
         <thead>

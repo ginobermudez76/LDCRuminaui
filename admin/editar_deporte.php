@@ -7,6 +7,19 @@ if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
+$usuario_id = $_SESSION['usuario_id'];
+
+try {
+    // Consultar el rol del usuario en la base de datos
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si el usuario tiene el rol de Publicista
+    if ($usuario['rol'] == 7) {
+        // Mostrar el elemento del menú Administrar
 
 $error = "";
 
@@ -125,5 +138,12 @@ if (isset($_GET['id'])) {
 
 
 <?php
+}else{
+    header("Location: /Ayudantias-1/public/index.php");
+    exit();
+}
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 include '../includes/footer.php';
 ?>

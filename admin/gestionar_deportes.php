@@ -1,13 +1,12 @@
 <?php
-
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
+
 include '../includes/header.php'; //incluyendo la cabecera común
 
-if (!isset($_SESSION['usuario_admin'])) {
+if (!isset($_SESSION['usuario_admin'])){
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
-
 //logica para obtener la lista de deportes de la base de datos
 try {
     $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
@@ -17,6 +16,19 @@ try {
 } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+$usuario_id = $_SESSION['usuario_id'];
+
+try {
+    // Consultar el rol del usuario en la base de datos
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si el usuario tiene el rol de Publicista
+    if ($usuario['rol'] == 7) {
+        // Mostrar el elemento del menú Administrar
 ?>
 
 <div class="container mt-4">
@@ -101,4 +113,12 @@ try {
     </table>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php
+}else{
+    header("Location: /Ayudantias-1/public/index.php");
+    exit();
+}
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+include '../includes/footer.php'; ?>
