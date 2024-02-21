@@ -61,15 +61,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     try {
-        $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion) VALUES (NOW(), ?, ?, ?, ?, ?)");
+        $conn->beginTransaction(); // Inicia una transacción
+    
+        $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion, estado) VALUES (NOW(), ?, ?, ?, ?, ?, '1')");
         $stmt->execute([$archivo, $valor, $tipo, $usuario_id, $descripcion]);
+        
+        // Obtén el ID de la solicitud insertada
+        $solicitudId = $conn->lastInsertId();
+    
+        // Llama al procedimiento almacenado
+        $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
+        $stmt->execute([$tipo, $solicitudId]);
+        
+        $conn->commit(); // Commit la transacción si todo es correcto
     
         // Redirigir después de agregar
         header("Location: tbsolicitud.php");
         exit();
     } catch (PDOException $e) {
+        $conn->rollBack(); // Hace rollback en caso de error
         echo "Error: " . $e->getMessage();
     }
+    
 }
 ?>
 
