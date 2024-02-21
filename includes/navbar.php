@@ -41,6 +41,11 @@ try {
 
 // Verificar si el usuario está autenticado
 if (isset($_SESSION['usuario_admin'])) {
+    ?>
+    <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="../admin/tbsolicitud.php">Solicitudes</a>
+</li>
+<?php
 // El usuario está autenticado, acceder al ID del usuario
 $usuario_id = $_SESSION['usuario_id'];
 

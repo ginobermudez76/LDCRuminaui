@@ -1,5 +1,8 @@
 <?php
 
+include '../includes/config.php'; // Incluyendo la conexión de la base de datos
+include '../includes/header.php'; // Incluyendo la cabecera común
+
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
@@ -12,9 +15,6 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/config.php'; // Incluyendo la conexión de la base de datos
-include '../includes/header.php'; // Incluyendo la cabecera común
-
 // Definir variables e inicializar con valores vacíos
 $primer_nombre = $segundo_nombre = $primer_apellido = $segundo_apellido = $cedula = $celular = $correo = $usuario = $contrasena = "";
 $cedula_err = "";
@@ -49,33 +49,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Cerrar declaración
         $stmt = null;
     }
-   // Si la cédula no está repetida, procede a generar usuario y contraseña
-   if (empty($cedula_err)) {
-    // Generar nombre de usuario aleatorio
-    $usuario = generarNombreUsuario($primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido);
+    // Si la cédula no está repetida, procede a generar usuario y contraseña
+    if (empty($cedula_err)) {
+        // Generar nombre de usuario aleatorio
+        $usuario = generarNombreUsuario($primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido);
 
-    // Generar contraseña
-    $contrasena = generarContrasena($primer_apellido, substr($cedula, -4), date("Y"));
-    $sql_insert = "INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt_insert = $conn->prepare($sql_insert);
-    $stmt_insert->execute([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido, $cedula, $celular, $correo, $usuario, $contrasena]);
+        // Generar contraseña
+        $contrasena = generarContrasena($primer_apellido, substr($cedula, -4), date("Y"));
+        $sql_insert = "INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt_insert = $conn->prepare($sql_insert);
+        $stmt_insert->execute([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido, $cedula, $celular, $correo, $usuario, $contrasena]);
 
-    // Mostrar el usuario y contraseña generados en sus campos correspondientes
-    $usuario = htmlspecialchars($usuario);
-    $contrasena = htmlspecialchars($contrasena);
-}
+        // Mostrar el usuario y contraseña generados en sus campos correspondientes
+        $usuario = htmlspecialchars($usuario);
+        $contrasena = htmlspecialchars($contrasena);
+    }
 }
 
 // Función para generar nombre de usuario aleatorio
-function generarNombreUsuario($nombre1, $nombre2, $apellido1, $apellido2) {
-$nombres = [$nombre1, $nombre2, $apellido1, $apellido2];
-shuffle($nombres);
-return strtolower(implode("_", $nombres));
+function generarNombreUsuario($nombre1, $nombre2, $apellido1, $apellido2)
+{
+    $nombres = [$nombre1, $nombre2, $apellido1, $apellido2];
+    shuffle($nombres);
+    return strtolower(implode("_", $nombres));
 }
 
 // Función para generar contraseña
-function generarContrasena($apellido, $ultimosCuatroDigitosCedula, $ano) {
-return $apellido . $ultimosCuatroDigitosCedula . "@" . $ano;
+function generarContrasena($apellido, $ultimosCuatroDigitosCedula, $ano)
+{
+    return $apellido . $ultimosCuatroDigitosCedula . "@" . $ano;
 }
 ?>
 
@@ -107,18 +109,23 @@ return $apellido . $ultimosCuatroDigitosCedula . "@" . $ano;
 
                 <label for="correo">Correo Electrónico:</label>
                 <input type="email" id="correo" name="correo" required>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Fecha de nacimientro</label>
+                    <input type="date" class="form-control" id="fecha_f" name="fecha_f" requerid>
+                </div>
 
                 <!-- Botón para generar usuario y contraseña -->
                 <input type="submit" value="Generar usuario y contraseña" name="generar">
 
                 <!-- Mostrar usuario y contraseña generados -->
-                <?php if (!empty($usuario) && !empty($contrasena)): ?>
+                <?php if (!empty($usuario) && !empty($contrasena)) : ?>
                     <div class="mt-3">
                         <strong>Usuario:</strong> <?php echo $usuario; ?><br>
                         <strong>Contraseña:</strong> <?php echo $contrasena; ?>
                     </div>
                 <?php endif; ?>
-                <input  value="Registrar" name="registrar">
+
+                <input value="Registrar" name="registrar">
             </form>
         </div>
     </div>

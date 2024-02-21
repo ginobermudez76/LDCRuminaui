@@ -20,7 +20,7 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú Administrar
-// Obtener la lista de tipo de 
+// Obtener la lista de tipo de deportes
 try {
     $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
     $stmt->execute();
