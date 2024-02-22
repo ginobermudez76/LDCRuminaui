@@ -18,29 +18,27 @@ USE `liga`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `deportes`
+-- Table structure for table `solicitud_tipo`
 --
 
-DROP TABLE IF EXISTS `deportes`;
+DROP TABLE IF EXISTS `solicitud_tipo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deportes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(300) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `solicitud_tipo` (
+  `id_tipo` int NOT NULL AUTO_INCREMENT,
+  `name_tipo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `deportes`
+-- Dumping data for table `solicitud_tipo`
 --
 
-LOCK TABLES `deportes` WRITE;
-/*!40000 ALTER TABLE `deportes` DISABLE KEYS */;
-INSERT INTO `deportes` VALUES (1,'Futbol','Futbol soccer','../uploads/deportes/origen-del-futbol.jpg');
-/*!40000 ALTER TABLE `deportes` ENABLE KEYS */;
+LOCK TABLES `solicitud_tipo` WRITE;
+/*!40000 ALTER TABLE `solicitud_tipo` DISABLE KEYS */;
+INSERT INTO `solicitud_tipo` VALUES (1,'Deportiva'),(2,'Administrativa'),(3,'Servicio'),(4,'Beca');
+/*!40000 ALTER TABLE `solicitud_tipo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

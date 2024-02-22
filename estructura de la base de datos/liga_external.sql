@@ -18,29 +18,33 @@ USE `liga`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `deportes`
+-- Table structure for table `external`
 --
 
-DROP TABLE IF EXISTS `deportes`;
+DROP TABLE IF EXISTS `external`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deportes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(300) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `external` (
+  `id_ext` int NOT NULL AUTO_INCREMENT,
+  `ext_nombre` varchar(45) DEFAULT NULL,
+  `ext_snombre` varchar(45) DEFAULT NULL,
+  `ext_apellido` varchar(45) DEFAULT NULL,
+  `ext_sapellido` varchar(45) DEFAULT NULL,
+  `ext_email` varchar(45) DEFAULT NULL,
+  `ext_celular` varchar(45) DEFAULT NULL,
+  `cedula` varchar(45) DEFAULT NULL,
+  `fecha_nac` date DEFAULT NULL,
+  PRIMARY KEY (`id_ext`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `deportes`
+-- Dumping data for table `external`
 --
 
-LOCK TABLES `deportes` WRITE;
-/*!40000 ALTER TABLE `deportes` DISABLE KEYS */;
-INSERT INTO `deportes` VALUES (1,'Futbol','Futbol soccer','../uploads/deportes/origen-del-futbol.jpg');
-/*!40000 ALTER TABLE `deportes` ENABLE KEYS */;
+LOCK TABLES `external` WRITE;
+/*!40000 ALTER TABLE `external` DISABLE KEYS */;
+/*!40000 ALTER TABLE `external` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-22 13:14:21
+-- Dump completed on 2024-02-22 13:14:20

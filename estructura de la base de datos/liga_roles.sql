@@ -18,29 +18,27 @@ USE `liga`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `deportes`
+-- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `deportes`;
+DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deportes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(300) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `roles` (
+  `id_rol` int NOT NULL AUTO_INCREMENT,
+  `rol_name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `deportes`
+-- Dumping data for table `roles`
 --
 
-LOCK TABLES `deportes` WRITE;
-/*!40000 ALTER TABLE `deportes` DISABLE KEYS */;
-INSERT INTO `deportes` VALUES (1,'Futbol','Futbol soccer','../uploads/deportes/origen-del-futbol.jpg');
-/*!40000 ALTER TABLE `deportes` ENABLE KEYS */;
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'Presidente'),(2,'Metodologo'),(3,'Financiero'),(4,'Coordinador general'),(5,'Deportista'),(6,'Entrenador'),(7,'Publicista');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

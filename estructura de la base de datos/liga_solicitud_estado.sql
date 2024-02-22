@@ -18,29 +18,27 @@ USE `liga`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `deportes`
+-- Table structure for table `solicitud_estado`
 --
 
-DROP TABLE IF EXISTS `deportes`;
+DROP TABLE IF EXISTS `solicitud_estado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `deportes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
-  `descripcion` varchar(300) DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `solicitud_estado` (
+  `id_estado` int NOT NULL AUTO_INCREMENT,
+  `estado_nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_estado`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `deportes`
+-- Dumping data for table `solicitud_estado`
 --
 
-LOCK TABLES `deportes` WRITE;
-/*!40000 ALTER TABLE `deportes` DISABLE KEYS */;
-INSERT INTO `deportes` VALUES (1,'Futbol','Futbol soccer','../uploads/deportes/origen-del-futbol.jpg');
-/*!40000 ALTER TABLE `deportes` ENABLE KEYS */;
+LOCK TABLES `solicitud_estado` WRITE;
+/*!40000 ALTER TABLE `solicitud_estado` DISABLE KEYS */;
+INSERT INTO `solicitud_estado` VALUES (1,'En tramite'),(2,'Preaprobada'),(3,'Rechazada'),(4,'Aprobada'),(5,'Cerrada');
+/*!40000 ALTER TABLE `solicitud_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

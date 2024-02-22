@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `liga` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `liga`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: localhost    Database: liga
@@ -33,10 +35,24 @@ CREATE TABLE `usuarios` (
   `correo` varchar(255) DEFAULT NULL,
   `nombre_usuario` varchar(45) DEFAULT NULL,
   `contrasena` varchar(255) DEFAULT NULL,
+  `rol` int DEFAULT NULL,
+  `fecha_nac` date DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_rol` (`rol`),
+  CONSTRAINT `fk_rol` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (3,'Gino','Maximiliano','Bermúdez','Santos','2450118084','0978678671','bginomaximiliano@gmail.com','gino.bermudez8084@2024.LDCR','$2y$10$Dn5.BlbKK.6Vy1qA/c/PWOaYLiYNR/WxADtmhegug2UFRofpAMAp6',7,NULL),(4,'Emily','Selene','Bermúdez','Santos','2450120114','0987654321','bemilyselene@hotmail.com','emily.bermudez0114@2024.LDCR','$2y$10$6EfFkFLYyGQfMhgBbxwbYO68qAfQNV64VdahPgAA.bJkY/VJ4IGgO',5,NULL),(5,'Juan','Carlos','Pérez','Gómez','1234567890','0987654321','juan@example.com','juancarlos1','$2y$10$goxguEAn8.a./Mmv1kNvbuydNpXtC3QdlF/UHJtV6kUizAAZmNPlG',1,'1990-05-15'),(6,'Juan','Carlos','Pérez','Gómez','1234567890','0987654321','juan@example.com','juancarlos2','$2y$10$goxguEAn8.a./Mmv1kNvbuydNpXtC3QdlF/UHJtV6kUizAAZmNPlG',2,'1990-05-15'),(7,'Juan','Carlos','Pérez','Gómez','1234567890','0987654321','juan@example.com','juancarlos3','$2y$10$goxguEAn8.a./Mmv1kNvbuydNpXtC3QdlF/UHJtV6kUizAAZmNPlG',3,'1990-05-15'),(8,'Juan','Carlos','Pérez','Gómez','1234567890','0987654321','juan@example.com','juancarlos4','$2y$10$goxguEAn8.a./Mmv1kNvbuydNpXtC3QdlF/UHJtV6kUizAAZmNPlG',4,'1990-05-15'),(9,'Juan','Carlos','Pérez','Gómez','1234567890','0987654321','juan@example.com','juancarlos5','$2y$10$goxguEAn8.a./Mmv1kNvbuydNpXtC3QdlF/UHJtV6kUizAAZmNPlG',6,'1990-05-15');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -47,4 +63,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-29 18:12:16
+-- Dump completed on 2024-02-22 13:14:22
