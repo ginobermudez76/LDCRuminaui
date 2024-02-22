@@ -7,83 +7,17 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
-//obtener lista de tipo de solicitud
-try {
-    $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
-    $stmt->execute();
-    $tipo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 
-//logica para obtener la lista de solicitudes de la base de datos
+// Llamar al procedimiento almacenado para obtener las solicitudes
 try {
-    $stmt = $conn->prepare("SELECT s_id, s_fecha, s_doc, tipo, descripcion, s_valor, solicitante, encargado, solicitantext, estado FROM solicitud WHERE solicitante = :usuario_id");
+    $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
     $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
     $stmt->execute();
-
     $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $descripcion = $_POST['descripcion'];
-    $valor = $_POST['valor'];
-    $tipo = $_POST['tipo_id'];
-
-
-    if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
-
-        $directorioDestino = "../uploads/documentos/";
-
-        $archivo = $directorioDestino . basename($_FILES['documento']['name']);
-
-        $tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-    
-        // Lista de extensiones permitidas
-        $extensionesPermitidas = array('pdf', 'doc', 'docx', 'txt');
-    
-        // Verificar si la extensión del archivo está en la lista de extensiones permitidas
-        if (in_array($tipoArchivo, $extensionesPermitidas)) {
-            if (move_uploaded_file($_FILES["documento"]["tmp_name"], $archivo)) {
-                // El archivo se cargó correctamente
-            } else {
-                $error = "Hubo un error al cargar el documento";
-            }
-        } else {
-            $error = "El archivo no es un documento válido";
-        }
-    } else {
-        // Manejo en el caso de que no se haya seleccionado ningún archivo
-        $archivo = "";
-    }
-    
-
-    try {
-        $conn->beginTransaction(); // Inicia una transacción
-    
-        $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion, estado) VALUES (NOW(), ?, ?, ?, ?, ?, '1')");
-        $stmt->execute([$archivo, $valor, $tipo, $usuario_id, $descripcion]);
-        
-        // Obtén el ID de la solicitud insertada
-        $solicitudId = $conn->lastInsertId();
-    
-        // Llama al procedimiento almacenado
-        $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
-        $stmt->execute([$tipo, $solicitudId]);
-        
-        $conn->commit(); // Commit la transacción si todo es correcto
-    
-        // Redirigir después de agregar
-        header("Location: tbsolicitud.php");
-        exit();
-    } catch (PDOException $e) {
-        $conn->rollBack(); // Hace rollback en caso de error
-        echo "Error: " . $e->getMessage();
-    }
-    
-}
 ?>
 
 <div class="container mt-4">
@@ -99,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Tipo</th>
                 <th>Descripción</th>
                 <th>Valor solicitado</th>
-                <th>Solicitante</th>
+                <th>Departamento</th>
                 <th>Encargado</th>
                 <th>Estado</th>
             </tr>
@@ -110,17 +44,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td><?php echo htmlspecialchars($solicitud['s_id']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['s_fecha']); ?></td>
                     <td>
-    <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-        <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-    <?php else : ?>
-        <p1>No hay documento</p1>
-    <?php endif; ?>
-</td>
+                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
+                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
+                        <?php else : ?>
+                            <p1>No hay documento</p1>
+                        <?php endif; ?>
+                    </td>
 
                     <td><?php echo htmlspecialchars($solicitud['tipo']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['descripcion']); ?></td>
                     <td>$ <?php echo htmlspecialchars($solicitud['s_valor']); ?></td>
-                    <td><?php echo htmlspecialchars($solicitud['solicitante']); ?></td>
+                    <td><?php echo htmlspecialchars($solicitud['departamento_encargado']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['encargado']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
                 </tr>

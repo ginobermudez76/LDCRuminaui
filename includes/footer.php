@@ -20,7 +20,7 @@
 </div>
     <div class= "container">
         <p class = "text-center mb-0">
-            Liga deportiva cantonal Rumiñahui Power by Gino Bermúdez Santos
+            Liga deportiva cantonal Rumiñahui
         </p>
     </div>
 </footer>

@@ -74,6 +74,13 @@ $usuario_id = $_SESSION['usuario_id'];
             </li>
 <?php
         }
+        if($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1){
+            ?>
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
+        </li>
+        <?php
+        }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
