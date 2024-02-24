@@ -112,7 +112,7 @@ if (isset($_GET['id'])) {
             <?php echo $error; ?>
         </div>
     <?php endif; ?>
-    <form action="editar_evento.php?id=<?php echo $idEvento; ?>" method="post" enctype="multipart/form-data">
+    <form action="editar_evento.php?id=<?php echo $idEvento; ?>" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre del Evento</label>
             <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo htmlspecialchars($evento['nombre']); ?>">
@@ -126,6 +126,7 @@ if (isset($_GET['id'])) {
         <div class="mb-3">
             <label for="deporte_id" class="form-label">Deporte</label>
             <select class="form-control" id="deporte_id" name="deporte_id" required>
+            <option value="">Seleccione un deporte</option>
                 <?php foreach ($deportes as $deporte) : ?>
                     <?php
                     // Compara el ID del deporte actual con el ID del deporte en el bucle
@@ -169,7 +170,95 @@ if (isset($_GET['id'])) {
         imagenField.disabled = sinImagenCheckbox.checked;
     }
 </script>
+<script>
+    function validarCamposEvento() {
+        // Validación de selección de tipo
+        var deporteSeleccionado = document.getElementById("deporte_id").value;
+        if (deporteSeleccionado === "") {
+            alert("Por favor, seleccione un deporte");
+            return false;
+        }
+        var nombreEvento = document.getElementById("nombre").value;
+        if (nombreEvento === "") {
+            alert("El evento debe tener un nombre");
+            return false;
+        }
 
+        // Validación de la fecha de inicio
+        var fechaInicio = document.getElementById("fecha_ini").value;
+        var fechaInicioArray = fechaInicio.split("-");
+        if (fechaInicioArray.length !== 3) {
+            alert("Por favor, introduzca una fecha de inicio válida.");
+            return false;
+        }
+        var yearInicio = fechaInicioArray[0];
+        var monthInicio = fechaInicioArray[1];
+        var dayInicio = fechaInicioArray[2];
+
+        // Verificar si el año tiene 4 dígitos
+        if (yearInicio.length !== 4 || isNaN(yearInicio)) {
+            alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de inicio.");
+            return false;
+        }
+
+        // Crear objeto de fecha de inicio y verificar si es válida
+        var fechaInicioObjeto = new Date(yearInicio, monthInicio - 1, dayInicio);
+        if (isNaN(fechaInicioObjeto.getTime())) {
+            alert("Por favor, introduzca una fecha de inicio válida.");
+            return false;
+        }
+
+        // Validación de la fecha de finalización
+        var fechaFin = document.getElementById("fecha_f").value;
+        var fechaFinArray = fechaFin.split("-");
+        if (fechaFinArray.length !== 3) {
+            alert("Por favor, introduzca una fecha de finalización válida.");
+            return false;
+        }
+        var yearFin = fechaFinArray[0];
+        var monthFin = fechaFinArray[1];
+        var dayFin = fechaFinArray[2];
+
+        // Verificar si el año tiene 4 dígitos
+        if (yearFin.length !== 4 || isNaN(yearFin)) {
+            alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de finalización.");
+            return false;
+        }
+
+        // Crear objeto de fecha de finalización y verificar si es válida
+        var fechaFinObjeto = new Date(yearFin, monthFin - 1, dayFin);
+        if (isNaN(fechaFinObjeto.getTime())) {
+            alert("Por favor, introduzca una fecha de finalización válida.");
+            return false;
+        }
+
+        // Validación de la fecha de inicio
+        var fechaInicio = document.getElementById("fecha_ini").value;
+        var fechaInicioObjeto = new Date(fechaInicio);
+        if (isNaN(fechaInicioObjeto.getTime())) {
+            alert("Por favor, introduzca una fecha de inicio válida.");
+            return false;
+        }
+
+        // Validación de la fecha de finalización
+        var fechaFin = document.getElementById("fecha_f").value;
+        var fechaFinObjeto = new Date(fechaFin);
+        if (isNaN(fechaFinObjeto.getTime())) {
+            alert("Por favor, introduzca una fecha de finalización válida.");
+            return false;
+        }
+
+        // Verificar que la fecha de finalización no sea menor que la fecha de inicio
+        if (fechaFinObjeto < fechaInicioObjeto) {
+            alert("La fecha de finalización no puede ser menor que la fecha de inicio.");
+            return false;
+        }
+        
+
+        // Todas las validaciones pasaron, devolvemos true
+        return true;
+    }
+</script>
 <?php
 }else{
     header("Location: /Ayudantias-1/public/index.php");

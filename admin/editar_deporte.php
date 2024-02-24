@@ -1,25 +1,11 @@
 <?php
-
 include '../includes/config.php';
 include '../includes/header.php';
 
-if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
-    exit();
-}
-$usuario_id = $_SESSION['usuario_id'];
-
-try {
-    // Consultar el rol del usuario en la base de datos
-    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
-    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // Verificar si el usuario tiene el rol de Publicista
-    if ($usuario['rol'] == 7) {
-        // Mostrar el elemento del menú Administrar
+//if (!isset($_SESSION['usuario_admin'])) {
+//    header("Location: /ayudantias/admin/login.php");
+//    exit();
+//}
 
 $error = "";
 
@@ -56,18 +42,18 @@ if (isset($_GET['id'])) {
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
             // Procesar la imagen solo si se proporciona una nueva y el checkbox no está marcado
             $directorioDestino = "../uploads/deportes/";
-        
+
             $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-        
+
             $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
-        
+
             $check = getimagesize($_FILES["imagen"]["tmp_name"]);
-        
+
             if ($check !== false) {
                 if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
                     // La imagen se cargó correctamente
                     // Actualizar la ruta de la nueva imagen en la base de datos
-                    $rutaImagenNueva = "../uploads/productos/" . basename($_FILES['imagen']['name']);
+                    $rutaImagenNueva = "../uploads/deportes/" . basename($_FILES['imagen']['name']);
                 } else {
                     $error = "Hubo un error al cargar la nueva imagen";
                 }
@@ -75,21 +61,21 @@ if (isset($_GET['id'])) {
                 $error = "El archivo no es una imagen válida";
             }
         }
-        
+
         // Si el campo de imagen está deshabilitado, establecer la ruta de la nueva imagen como la imagen anterior
         if (isset($_POST['sinImagen'])) {
             $rutaImagenNueva = $deporte['imagen'];
         }
-        
+
         // Eliminar la imagen anterior solo si existe y se proporciona una nueva imagen
         if (!empty($deporte['imagen']) && file_exists($rutaImagenAntigua) && !isset($_POST['sinImagen'])) {
             unlink($rutaImagenAntigua);
         }
-        
+
         // Actualizar la base de datos con la nueva imagen o la imagen anterior
         $stmt = $conn->prepare("UPDATE deportes SET nombre=?, descripcion=?, imagen=? WHERE id=?");
         $stmt->execute([$nombre, $descripcion, $rutaImagenNueva, $idDeporte]);
-        
+
         echo "Deporte editado con éxito";
         header("refresh:2;url=gestionar_deportes.php");
         exit();
@@ -135,15 +121,19 @@ if (isset($_GET['id'])) {
     }
 </script>
 
+<script>
+    function validarCamposEvento() {
+        var nombreDeporte = document.getElementById("nombre").value;
+        if (nombreDeporte === "") {
+            alert("El deporte debe tener un nombre");
+            return false;
+        }
 
+ 
+        return true;
+    }
+</script>
 
 <?php
-}else{
-    header("Location: /Ayudantias-1/public/index.php");
-    exit();
-}
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 include '../includes/footer.php';
 ?>

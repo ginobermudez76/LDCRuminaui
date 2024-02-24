@@ -76,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     <?php echo $error; ?>
     </div>
     <?php endif;?>
-         <form action ="agregar_deporte.php" method="post" enctype="multipart/form-data">
+         <form action ="agregar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Deporte</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" requerid>
@@ -92,6 +92,19 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             <button type="submit" class= "btn btn-primary">Agregar nuevo deporte</button>
         </form> 
 </div>
+<script>
+    function validarCamposEvento() {
+        var nombreDeporte = document.getElementById("nombre").value;
+        if (nombreDeporte === "") {
+            alert("El deporte debe tener un nombre");
+            return false;
+        }
+
+ 
+        return true;
+    }
+</script>
+
 <?php 
 }else{
     header("Location: /Ayudantias-1/public/index.php");
