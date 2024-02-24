@@ -7,6 +7,7 @@ if (!isset($_SESSION['usuario_admin'])) {
 
 include '../includes/config.php'; // Incluyendo la conexión a la base de datos
 
+// Verificar si se recibió un ID válido y realizar la eliminación en la base de datos
 if (isset($_POST['id'])) {
     $idEvento1 = $_POST['id'];
 
@@ -72,6 +73,5 @@ if (isset($_POST['id'])) {
 } else {
     echo "ID de evento no proporcionado";
 }
-
 
 ?>

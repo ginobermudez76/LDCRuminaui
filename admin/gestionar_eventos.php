@@ -81,9 +81,7 @@ try {
         </tbody>
     </table>
 </div>
-<!-- Luego Bootstrap JS -->
 
-<!-- Y finalmente, tu script personalizado -->
 <script>
     function confirmarEliminacion(idEvento) {
         var confirmacion = confirm("¿Está seguro que desea eliminar este evento?");

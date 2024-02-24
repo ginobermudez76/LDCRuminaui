@@ -12,7 +12,7 @@ try {
     $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
     $stmt->execute();
 
-    $deporte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
@@ -47,7 +47,7 @@ try {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($deporte as $deporte) : ?>
+                    <?php foreach ($deportes as $deporte) : ?>
                         <tr>
                             <td><?php echo htmlspecialchars($deporte['id']); ?></td>
                             <td>
@@ -74,7 +74,7 @@ try {
             </table>
         </div>
 
-        <!-- Luego Bootstrap JS -->
+
 
         <!-- Y finalmente, tu script personalizado -->
         <script>
