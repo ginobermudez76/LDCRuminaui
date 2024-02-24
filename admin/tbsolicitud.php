@@ -10,10 +10,11 @@ $usuario_id = $_SESSION['usuario_id'];
 try {
     $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
     $stmt->execute();
-    $tipo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
 // Llamar al procedimiento almacenado para obtener las solicitudes
 try {
     $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
@@ -28,13 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor = $_POST['valor'];
     $tipo = $_POST['tipo_id'];
     if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
-        $directorioDestino = "../uploads/documentos/";
+        $directorioDestino = "../uploads/documentos/solicitudes/";
         $archivo = $directorioDestino . basename($_FILES['documento']['name']);
         $tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-    
+
         // Lista de extensiones permitidas
         $extensionesPermitidas = array('pdf', 'doc', 'docx', 'txt');
-    
+
         // Verificar si la extensión del archivo está en la lista de extensiones permitidas
         if (in_array($tipoArchivo, $extensionesPermitidas)) {
             if (move_uploaded_file($_FILES["documento"]["tmp_name"], $archivo)) {
@@ -50,15 +51,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $archivo = "";
     }
 
-
-    try {
-        $conn->beginTransaction(); // Inicia una transacción
-
-        $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion, estado) VALUES (NOW(), ?, ?, ?, ?, ?, '1')");
+        $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion) VALUES (NOW(), ?, ?, ?, ?, ?)");
         $stmt->execute([$archivo, $valor, $tipo, $usuario_id, $descripcion]);
 
         // Obtén el ID de la solicitud insertada
         $solicitudId = $conn->lastInsertId();
+
+    try {
+        $conn->beginTransaction(); // Inicia una transacción
+
+
 
         // Llama al procedimiento almacenado
         $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
@@ -73,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->rollBack(); // Hace rollback en caso de error
         echo "Error: " . $e->getMessage();
     }
-
 }
 ?>
 
@@ -89,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Tipo</th>
                 <th>Descripción</th>
                 <th>Valor solicitado</th>
+                <th>Departamento</th>
                 <th>Encargado</th>
                 <th>Estado</th>
             </tr>
@@ -99,15 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <td><?php echo htmlspecialchars($solicitud['s_id']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['s_fecha']); ?></td>
                     <td>
-    <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-        <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-    <?php else : ?>
-        <p1>No hay documento</p1>
-    <?php endif; ?>
-</td>
+                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
+                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
+                        <?php else : ?>
+                            <p1>No hay documento</p1>
+                        <?php endif; ?>
+                    </td>
                     <td><?php echo htmlspecialchars($solicitud['tipo']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['descripcion']); ?></td>
                     <td>$ <?php echo htmlspecialchars($solicitud['s_valor']); ?></td>
+                    <td><?php echo htmlspecialchars($solicitud['departamento_encargado']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['encargado']); ?></td>
                     <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
                 </tr>
@@ -116,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </table>
 </div>
 <!-- Modal para agregar solicitud -->
-<div class="modal fade" id="agregarSolicitudModal" tabindex="-1" aria-labelledby="agregarSolicitudModalLabel" aria-hidden="true">
+<div class="modal fade" id="agregarSolicitudModal" tabindex="-1" aria-labelledby="agregarSolicitudModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -132,7 +135,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
                         <select class="form-select" id="tipo_id" name="tipo_id">
-                            <?php foreach ($tipo as $tipo) : ?>
+                            <option value="">Tipo de solicitud</option>
+                            <?php foreach ($tipos as $tipo) : ?>
                                 <option value="<?php echo $tipo['id_tipo']; ?>"><?php echo htmlspecialchars($tipo['name_tipo']); ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -151,4 +155,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<script>
+    function validarTipo(){
+        var seleccionTipo = document.getElementById("tipo_id").value;
+        if (seleccionTipo === "") {
+            alert("Por favor, seleccione un tipo de solicitud");
+            return false;
+        }
+        return true;
+    }
+</script>
 <?php include '../includes/footer.php'; ?>
