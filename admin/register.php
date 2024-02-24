@@ -44,9 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fechanac = $_POST['fecha_n'];
 
 
+
         try {
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena, rol, fecha_nac ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $pass, $rol, $fechanac]);
+            $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $hash, $rol, $fechanac]);
 
             // Redirigir después de agregar
             header("Location: " . $_SERVER['PHP_SELF']);
@@ -99,8 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <select class="form-control" id="rolid" name="rolid" required>
                         <option value="">Seleccione un rol</option> <!-- Opción predeterminada -->
-                        <?php foreach ($roles as $role) : ?>
-                            <option value="<?php echo $role['id_rol']; ?>"><?php echo htmlspecialchars($role['rol_name']); ?></option>
+                        <?php foreach ($roles as $roles) : ?>
+                            <option value="<?php echo $roles['id_rol']; ?>"><?php echo htmlspecialchars($roles['rol_name']); ?></option>
                         <?php endforeach; ?>
                     </select>
 

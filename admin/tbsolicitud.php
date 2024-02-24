@@ -79,7 +79,8 @@ try {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="tbsolicitud.php" method="POST" enctype="multipart/form-data">
+
+                <form action="tbsolicitud.php" method="POST" enctype="multipart/form-data" onsubmit="return validarTipo()">
                     <div class="mb-3">
                         <label for="documento" class="form-label">Documento</label>
                         <input type="file" class="form-control" id="documento" name="documento">
@@ -87,7 +88,8 @@ try {
                     <div class="mb-3">
                         <label for="tipo" class="form-label">Tipo</label>
                         <select class="form-select" id="tipo_id" name="tipo_id">
-                            <?php foreach ($tipo as $tipo) : ?>
+                            <option value="">Seleccione un tipo de solicitud</option>
+                            <?php foreach ($tipo as $tipo) : ?>           
                                 <option value="<?php echo $tipo['id_tipo']; ?>"><?php echo htmlspecialchars($tipo['name_tipo']); ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -107,4 +109,15 @@ try {
     </div>
 </div>
 
+<script>
+    function validarTipo(){
+            // Validación de selección de tipo
+    var tipoSeleccionado = document.getElementById("tipo_id").value;
+    if (tipoSeleccionado === "") {
+        alert("Por favor, seleccione un tipo de solicitud.");
+        return false;
+    }    
+    }
+
+</script>
 <?php include '../includes/footer.php'; ?>

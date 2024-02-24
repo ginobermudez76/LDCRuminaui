@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php echo $error; ?>
         </div>
     <?php endif; ?>
-    <form action="agregar_evento.php" method="post" enctype="multipart/form-data">
+    <form action="agregar_evento.php" method="post" enctype="multipart/form-data" onsubmit="return validarDeporte()">
     <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" requerid>
@@ -91,7 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         <div class="mb-3">
             <label for="deporte_id" class="form-label">Deporte</label>
+
             <select class="form-control" id="deporte_id" name="deporte_id" required>
+                <option value="">Seleccione un deporte</option>
                 <?php foreach ($deportes as $deporte): ?>
                     <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
                 <?php endforeach; ?>
@@ -113,6 +115,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn btn-primary">Publicar evento</button>
     </form>
 </div>
+<script>
+    function validarDeporte(){
+            // Validación de selección de tipo
+    var deporteSeleccionado = document.getElementById("deporte_id").value;
+    if (deporteSeleccionado === "") {
+        alert("Por favor, seleccione un deporte");
+        return false;
+    }    
+    }
+
+</script>
 <?php 
 }else{
     header("Location: /Ayudantias-1/public/index.php");
