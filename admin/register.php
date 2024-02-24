@@ -16,7 +16,7 @@ try {
 
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verificar si el usuario tiene el rol de Publicista
+    // Verificar si el usuario tiene el rol de Administrador
     if ($usuario['rol'] == 8) {
         // Mostrar el elemento del menú Administrar
 
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="mb-3">
                     <input type="text" class="form-control" id="username" name="username"placeholder="Usuario" required>
-                    <p1 id="mensajeUsername"></p1>
+
                 </div>
 
                 <div class="mb-3">
@@ -219,10 +219,31 @@ document.getElementById('cedula').addEventListener('input', function() {
         this.value = cedula.slice(0, 10);
     }
 });
+document.getElementById("formregistraruser").addEventListener("submit", function(event) {
+    event.preventDefault(); // Evitar el envío del formulario por defecto
+
+    // Obtener el nombre de usuario del formulario
+    var username = document.getElementById("username").value;
+
+    // Realizar una petición AJAX para verificar si el nombre de usuario ya existe
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "verificar_usuario.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = xhr.responseText;
+            if (response === "existe") {
+                alert("El nombre de usuario ya está en uso. Por favor, elige otro.");
+            } else {
+                // Si el nombre de usuario no existe, enviar el formulario
+                document.getElementById("formregistraruser").submit();
+            }
+        }
+    };
+    xhr.send("username=" + username);
+});
+
 </script>
-
-
-
 
 
 <?php 
