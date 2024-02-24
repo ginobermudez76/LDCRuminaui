@@ -39,56 +39,64 @@ try {
                 <?php
 
 
-// Verificar si el usuario está autenticado
-if (isset($_SESSION['usuario_admin'])) {
-    ?>
-    <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="../admin/tbsolicitud.php">Solicitudes</a>
-</li>
-<?php
-// El usuario está autenticado, acceder al ID del usuario
-$usuario_id = $_SESSION['usuario_id'];
+                // Verificar si el usuario está autenticado
+                if (isset($_SESSION['usuario_admin'])) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../admin/tbsolicitud.php">Solicitudes</a>
+                    </li>
 
-// Verificar si el usuario tiene el rol de Administrador
+                    <?php
+                    // El usuario está autenticado, acceder al ID del usuario
+                    $usuario_id = $_SESSION['usuario_id'];
 
-    try {
-        // Consultar el rol del usuario en la base de datos
-        $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-        $stmt->execute();
+                    // Verificar si el usuario tiene el rol de publicista
 
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+                    try {
+                        // Consultar el rol del usuario en la base de datos
+                        $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+                        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+                        $stmt->execute();
 
-        // Verificar si el usuario tiene el rol de Publicista
-        if ($usuario['rol'] == 7) {
-            // Mostrar el elemento del menú Administrar
-?>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Administrar
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
-                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
-                </div>
-            </li>
-<?php
-        }
-        if($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1){
-            ?>
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
-        </li>
-        <?php
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
+                        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+                        // Verificar si el usuario tiene el rol de Publicista
+                        if ($usuario['rol'] == 8) {
+                            // Mostrar el elemento del menú de publicista
+                    ?>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
+                            </li>
+                        <?php
+                        }
+                        // Verificar si el usuario tiene el rol de Publicista
+                        if ($usuario['rol'] == 7) {
+                            // Mostrar el elemento del menú de publicista
+                        ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Administrar
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
+                                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
+                                </div>
+                            </li>
+                        <?php
+                        }
+                        if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
+                        ?>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
+                            </li>
+                <?php
+                        }
+                    } catch (PDOException $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
 
-}
 
-
-?>
+                ?>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <!-- El enlace a continuación es para la función de inicio/cierre de sesión que puede cambiar dependiendo del estado de la sesión -->

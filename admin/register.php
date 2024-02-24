@@ -1,5 +1,4 @@
 <?php
-
 include '../includes/config.php'; // Incluyendo la conexión de la base de datos
 include '../includes/header.php'; // Incluyendo la cabecera común
 
@@ -7,128 +6,231 @@ if (!isset($_SESSION['usuario_admin'])) {
     header("Location: /Ayudantias-1/admin/login.php");
     exit();
 }
+$usuario_id = $_SESSION['usuario_id'];
 
 try {
-    $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
+    // Consultar el rol del usuario en la base de datos
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
     $stmt->execute();
-    $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si el usuario tiene el rol de Publicista
+    if ($usuario['rol'] == 8) {
+        // Mostrar el elemento del menú Administrar
+
+
+try {
+    $stmt = $conn->prepare("SELECT id_rol, rol_name FROM roles");
+    $stmt->execute();
+    $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-// Definir variables e inicializar con valores vacíos
-$primer_nombre = $segundo_nombre = $primer_apellido = $segundo_apellido = $cedula = $celular = $correo = $usuario = $contrasena = "";
-$cedula_err = "";
 
-// Procesar datos del formulario cuando se envía el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validar cédula
-    if (empty(trim($_POST["cedula"]))) {
-        $cedula_err = "Por favor ingrese la cédula.";
-    } else {
-        // Preparar una declaración de selección
-        $sql = "SELECT id FROM usuarios WHERE cedula = :cedula";
-        if ($stmt = $conn->prepare($sql)) {
-            // Establecer parámetros
-            $stmt->bindParam(':cedula', $_POST["cedula"], PDO::PARAM_STR);
+    // Obtener los datos del formulario
+    $nombre = $_POST['nombre'];
+    $snombre = $_POST['snombre'];
+    $apellido = $_POST['apellido'];
+    $sapellido = $_POST['sapellido'];
+    $cedula = $_POST['cedula'];
+    $celular = $_POST['celular'];
+    $correo = $_POST['mail'];
+    $user = $_POST['username'];
+    $pass = $_POST['contrasena'];
+    $rol = $_POST['rolid'];
+    $fechanac = $_POST['fecha_n'];
 
-            // Intentar ejecutar la declaración preparada
-            if ($stmt->execute()) {
-                /* almacenar resultado */
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                if ($result) {
-                    $cedula_err = "Esta cédula ya está registrada.";
-                } else {
-                    $cedula = trim($_POST["cedula"]);
-                }
-            } else {
-                echo "Al parecer algo salió mal.";
-            }
+        try {
+            $stmt = $conn->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena, rol, fecha_nac ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $pass, $rol, $fechanac]);
+
+            // Redirigir después de agregar
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
         }
-
-        // Cerrar declaración
-        $stmt = null;
     }
-    // Si la cédula no está repetida, procede a generar usuario y contraseña
-    if (empty($cedula_err)) {
-        // Generar nombre de usuario aleatorio
-        $usuario = generarNombreUsuario($primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido);
-
-        // Generar contraseña
-        $contrasena = generarContrasena($primer_apellido, substr($cedula, -4), date("Y"));
-        $sql_insert = "INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt_insert = $conn->prepare($sql_insert);
-        $stmt_insert->execute([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido, $cedula, $celular, $correo, $usuario, $contrasena]);
-
-        // Mostrar el usuario y contraseña generados en sus campos correspondientes
-        $usuario = htmlspecialchars($usuario);
-        $contrasena = htmlspecialchars($contrasena);
-    }
-}
-
-// Función para generar nombre de usuario aleatorio
-function generarNombreUsuario($nombre1, $nombre2, $apellido1, $apellido2)
-{
-    $nombres = [$nombre1, $nombre2, $apellido1, $apellido2];
-    shuffle($nombres);
-    return strtolower(implode("_", $nombres));
-}
-
-// Función para generar contraseña
-function generarContrasena($apellido, $ultimosCuatroDigitosCedula, $ano)
-{
-    return $apellido . $ultimosCuatroDigitosCedula . "@" . $ano;
-}
 ?>
 
 <div class="container">
     <div class="row justify-content-center align-items-center min-vh-100">
         <div class="col-md-4">
-            <h2>Registro de Usuario</h2>
+            <h2 class="gestionar">Registro de Usuario</h2>
 
-            <form action="register.php" method="post" enctype="multipart/form-data">
+            <?php if (isset($mensaje)) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $mensaje; ?>
+                </div>
+            <?php endif; ?>
+
+            <form name= "formregistraruser" id="formregistraruser" action="register.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
                 <!-- Campos del formulario -->
-                <label for="primer_nombre">Primer Nombre:</label>
-                <input type="text" id="primer_nombre" name="primer_nombre" required>
-
-                <label for="segundo_nombre">Segundo Nombre:</label>
-                <input type="text" id="segundo_nombre" name="segundo_nombre">
-
-                <label for="primer_apellido">Primer Apellido:</label>
-                <input type="text" id="primer_apellido" name="primer_apellido" required>
-
-                <label for="segundo_apellido">Segundo Apellido:</label>
-                <input type="text" id="segundo_apellido" name="segundo_apellido">
-
-                <label for="cedula">Cédula:</label>
-                <input type="text" id="cedula" name="cedula" required>
-                <span class="text-danger"><?php echo $cedula_err; ?></span>
-
-                <label for="celular">Número de Celular:</label>
-                <input type="tel" id="celular" name="celular" required>
-
-                <label for="correo">Correo Electrónico:</label>
-                <input type="email" id="correo" name="correo" required>
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">Fecha de nacimientro</label>
-                    <input type="date" class="form-control" id="fecha_f" name="fecha_f" requerid>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
                 </div>
 
-                <!-- Botón para generar usuario y contraseña -->
-                <input type="submit" value="Generar usuario y contraseña" name="generar">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="snombre" name="snombre" placeholder="Segundo nombre">
+                </div>
 
-                <!-- Mostrar usuario y contraseña generados -->
-                <?php if (!empty($usuario) && !empty($contrasena)) : ?>
-                    <div class="mt-3">
-                        <strong>Usuario:</strong> <?php echo $usuario; ?><br>
-                        <strong>Contraseña:</strong> <?php echo $contrasena; ?>
-                    </div>
-                <?php endif; ?>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="sapellido" name="sapellido" placeholder="Segundo apellido">
+                </div>
 
-                <input value="Registrar" name="registrar">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Cédula"  maxlength="10" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="celular" name="celular" placeholder="Celular" maxlength="10">
+                </div>
+
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="mail" name="mail" placeholder="Correo electrónico">
+                </div>
+                <div class="mb-3">
+                    <select class="form-control" id="rolid" name="rolid" required>
+                        <option value="">Seleccione un rol</option> <!-- Opción predeterminada -->
+                        <?php foreach ($roles as $role) : ?>
+                            <option value="<?php echo $role['id_rol']; ?>"><?php echo htmlspecialchars($role['rol_name']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <input type="date" class="form-control" id="fecha_n" name="fecha_n" required>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="username" name="username"placeholder="Usuario" required>
+                    <p1 id="mensajeUsername"></p1>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit" class="btn btn-danger" name="registrar" id="registrar">Registrar</button>
+
             </form>
         </div>
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<script>
+function actualizarCampos() {
+    var nombre = document.getElementById("nombre").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+    var apellido = document.getElementById("apellido").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+    var cedula = document.getElementById("cedula").value.slice(-4);
+    var contrasena = apellido.charAt(0).toUpperCase() + apellido.slice(1) + cedula + "@" + new Date().getFullYear();
+    var username = nombre + "." + apellido + cedula + "@ldcruminahui.com";
+    
+    document.getElementById("username").value = username;
+    document.getElementById("contrasena").value = contrasena;
+}
+
+document.getElementById("nombre").addEventListener("input", actualizarCampos);
+document.getElementById("apellido").addEventListener("input", actualizarCampos);
+document.getElementById("cedula").addEventListener("input", actualizarCampos);
+
+function validarFormulario() {
+    // Validación del campo de celular
+    var celular = document.getElementById("celular").value;
+    if (!/^\d{10}$/.test(celular)) {
+        alert("Por favor, introduzca un número de celular válido de 10 dígitos.");
+        return false;
+    }
+
+    // Validación del campo de cédula
+    var cedula = document.getElementById("cedula").value;
+    if (cedula.length !== 10 || isNaN(cedula)) {
+        alert("Por favor, introduzca un número de cédula válido de 10 dígitos.");
+        return false;
+    }
+
+    // Validación del campo de correo electrónico
+    var correo = document.getElementById("mail").value;
+    var expresionCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!expresionCorreo.test(correo)) {
+        alert("Por favor, introduzca una dirección de correo electrónico válida.");
+        return false;
+    }
+
+    // Validación de selección de rol
+    var rolSeleccionado = document.getElementById("rolid").value;
+    if (rolSeleccionado === "") {
+        alert("Por favor, seleccione un rol.");
+        return false;
+    }
+
+    // Validación de la fecha de nacimiento
+    var fecha = document.getElementById("fecha_n").value;
+    var fechaArray = fecha.split("-");
+    if (fechaArray.length !== 3) {
+        alert("Por favor, introduzca una fecha de nacimiento válida.");
+        return false;
+    }
+    var year = fechaArray[0];
+    var month = fechaArray[1];
+    var day = fechaArray[2];
+
+    // Verificar si el año tiene 4 dígitos
+    if (year.length !== 4 || isNaN(year)) {
+        alert("Por favor, introduzca un año entre 0001 y 9999.");
+        return false;
+    }
+
+    // Crear un objeto de fecha y verificar si es válida
+    var dateObject = new Date(year, month - 1, day); // Month is 0-based
+    if (isNaN(dateObject.getTime())) {
+        alert("Por favor, introduzca una fecha de nacimiento válida.");
+        return false;
+    }
+
+    // Todas las validaciones pasaron, devolvemos true
+    return true;
+}
+
+// Función para limitar la cantidad de dígitos en el campo de celular
+document.getElementById('celular').addEventListener('input', function() {
+    // Obtener el valor actual del campo de celular
+    var celular = this.value;
+    // Limitar el valor a 10 caracteres
+    if (celular.length > 10) {
+        this.value = celular.slice(0, 10);
+    }
+});
+
+// Función para limitar la cantidad de dígitos en el campo de cedula
+document.getElementById('cedula').addEventListener('input', function() {
+    // Obtener el valor actual del campo de cedula
+    var cedula = this.value;
+    // Limitar el valor a 10 caracteres
+    if (cedula.length > 10) {
+        this.value = cedula.slice(0, 10);
+    }
+});
+</script>
+
+
+
+
+
+<?php 
+}else{
+    header("Location: /Ayudantias-1/public/index.php");
+    exit();
+}
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+include '../includes/footer.php'; ?>
