@@ -6,6 +6,15 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
+
+try {
+    $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 //obtener lista de tipo de solicitud
 try {
     $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
@@ -16,14 +25,7 @@ try {
 }
 
 // Llamar al procedimiento almacenado para obtener las solicitudes
-try {
-    $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
-    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST['descripcion'];
     $valor = $_POST['valor'];
@@ -51,16 +53,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $archivo = "";
     }
 
+
+
+    try {
+        $conn->beginTransaction(); // Inicia una transacción
+
         $stmt = $conn->prepare("INSERT INTO solicitud (s_fecha, s_doc, s_valor, tipo, solicitante, descripcion) VALUES (NOW(), ?, ?, ?, ?, ?)");
         $stmt->execute([$archivo, $valor, $tipo, $usuario_id, $descripcion]);
 
         // Obtén el ID de la solicitud insertada
         $solicitudId = $conn->lastInsertId();
-
-    try {
-        $conn->beginTransaction(); // Inicia una transacción
-
-
 
         // Llama al procedimiento almacenado
         $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
