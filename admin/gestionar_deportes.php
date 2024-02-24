@@ -60,8 +60,8 @@ try {
                             <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
                             <td><?php echo htmlspecialchars($deporte['descripcion']); ?></td>
                             <td>
-                                <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo $deporte['nombre']; ?> &tipo=<?php echo 'Deporte'; ?>" class="btn btn-secondary btn-sm">Agregar</a>
-                                <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo $deporte['nombre']; ?> &tipo=<?php echo 'Deporte'; ?>" class="btn btn-danger btn-sm">Borrar</a>
+                            <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
+                        <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
                             </td>
                             <td>
                                 <a href="editar_deporte.php?id=<?php echo $deporte['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
