@@ -7,7 +7,14 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
-
+//obtener lista de tipo de solicitud
+try {
+    $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
+    $stmt->execute();
+    $tipo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 // Llamar al procedimiento almacenado para obtener las solicitudes
 try {
     $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
