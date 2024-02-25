@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
         $nombre_usuario = $usuario['nombre_usuario'];
+
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -170,11 +171,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php
                         }
                         ?>
+                         <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['s_id']; ?>)">Eliminar</button>
 
-                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['s_id']; ?>)">Eliminar</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         </tbody>
     </table>
 </div>
@@ -240,37 +242,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function confirmarEliminacion(idSolicitud) {
-        var confirmacion = confirm("¿Está seguro que desea eliminar esta solicitud?");
+var confirmacion = confirm("¿Está seguro que desea eliminar esta solicitud?");
 
-        if (confirmacion) {
-            // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_solicitud.php
-            eliminarSolicitud(idSolicitud);
-        } else {
-            // Usuario hizo clic en "Cancelar", no hacer nada
-        }
-    }
+if (confirmacion) {
+// Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_solicitud.php
+eliminarSolicitud(idSolicitud);
+ } else {
+// Usuario hizo clic en "Cancelar", no hacer nada
+ }
+}
 
-    function eliminarSolicitud(idSolicitud) {
-        // Utiliza jQuery para enviar una solicitud AJAX a eliminar_evento.php
-        $.ajax({
-            type: "POST",
-            url: "eliminar_solicitud.php",
-            data: {
-                id: idSolicitud
-            },
-            success: function(response) {
-                // Manejar la respuesta, si es necesario
-                console.log(response);
+function eliminarSolicitud(idSolicitud) {
+console.log("ID de solicitud a eliminar:", idSolicitud);
 
-                //Recargar la página o
-                location.reload();
-            },
-            error: function(error) {
-                // Manejar errores si es necesario
-                console.error(error);
-            }
-        });
-    }
+// Utiliza jQuery para enviar una solicitud AJAX a eliminar_solicitud.php
+$.ajax({
+type: "POST",
+url: "eliminar_solicitud.php",
+ data: {
+id: idSolicitud
+ },
+ success: function(response) {
+ // Manejar la respuesta, si es necesario
+ console.log(response);
+
+ //Recargar la página
+location.reload();
+},
+error: function(error) {
+ // Manejar errores si es necesario
+console.error(error);
+}
+});
+}
+
+
 </script>
 
 <?php include '../includes/footer.php'; ?>
