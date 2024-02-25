@@ -53,7 +53,7 @@ if (isset($_POST['id'])) {
         $stmtDeleteSolicitud = $conn->prepare("DELETE FROM solicitud WHERE s_id = :id");
         $stmtDeleteSolicitud->bindParam(':id', $idSolicitud);
         $stmtDeleteSolicitud->execute();
-        echo "Solicitud eliminada con exito";
+        echo "Solicitud eliminada con exito.";
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

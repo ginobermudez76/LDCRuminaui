@@ -264,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             success: function(response) {
                 // Manejar la respuesta, si es necesario
                 console.log(response);
-                alert("La solicitud se eliminó correctamente. Ruta del documento eliminado: " + response);
+                alert(response);
                 //Recargar la página
                 location.reload();
             },
