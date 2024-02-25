@@ -28,12 +28,11 @@ try {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST['descripcion'];
     $valor = isset($_POST['valor']) ? $_POST['valor'] : null;
-
+    
     // Verificar si el valor es numérico
     if (!is_numeric($valor)) {
         $valor = null;
     }
-
     $tipo = $_POST['tipo_id'];
 
     // Obtener el nombre de usuario
@@ -50,15 +49,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Directorio de destino para el documento
     $directorioDestino = "../uploads/documentos/solicitudes/";
 
+    // Crear el directorio del usuario si no existe
+    $directorioUsuario = $directorioDestino . $nombre_usuario . '/';
+    if (!file_exists($directorioUsuario)) {
+        if (!mkdir($directorioUsuario, 0777, true)) {
+            echo "Error al crear el directorio del usuario";
+        } else {
+            echo "Directorio del usuario creado correctamente: " . $directorioUsuario;
+        }
+    }
+
     if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
         $nombreArchivo = basename($_FILES['documento']['name']);
-        $archivo = $directorioDestino . $nombre_usuario . '/' . $nombreArchivo;
+        $archivo = $directorioUsuario . $nombreArchivo;
 
         // Verificar si el archivo ya existe y renombrarlo si es necesario
         $contador = 1;
         while (file_exists($archivo)) {
             $nombreArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_FILENAME) . '_' . $contador . '.' . pathinfo($_FILES['documento']['name'], PATHINFO_EXTENSION);
-            $archivo = $directorioDestino . $nombre_usuario . '/' . $nombreArchivo;
+            $archivo = $directorioUsuario . $nombreArchivo;
             $contador++;
         }
 
@@ -72,6 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Mover el archivo al directorio de destino
             if (!move_uploaded_file($_FILES["documento"]["tmp_name"], $archivo)) {
                 $error = "Hubo un error al cargar el documento";
+            } else {
+                echo "Archivo subido correctamente: " . $archivo;
             }
         }
     } else {
@@ -104,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 
 
