@@ -19,65 +19,107 @@ try {
     if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
         // Mostrar el elemento del menú Administrar
 
-// Llamar al procedimiento almacenado para obtener las solicitudes
-try {
-    $stmt = $conn->prepare("CALL solicitudes_asignadas(:usuario_id)");
-    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Llamar al procedimiento almacenado para obtener las solicitudes
+        try {
+            $stmt = $conn->prepare("CALL solicitudes_asignadas(:usuario_id)");
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+
+
+        ?>
+        <style>
+            .fa-solid {
+                padding-right: 5px;
+            }
+        </style>
+        <div class="container mt-4">
+            <h2 class="gestionar">Solicitudes asignadas</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Fecha</th>
+                        <th>Documento</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Solicitante</th>
+                        <th>Valor solicitado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($solicitudes as $solicitud): ?>
+                        <tr>
+                            <td>
+                                <?php echo htmlspecialchars($solicitud['s_id']); ?>
+                            </td>
+                            <td>
+                                <?php echo htmlspecialchars($solicitud['s_fecha']); ?>
+                            </td>
+                            <td>
+                                <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']): ?>
+                                    <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
+                                <?php else: ?>
+                                    <p1>No hay documento</p1>
+                                <?php endif; ?>
+                            </td>
+
+                            <td>
+                                <?php echo htmlspecialchars($solicitud['tipo']); ?>
+                            </td>
+                            <td>
+                                <?php echo htmlspecialchars($solicitud['descripcion']); ?>
+                            </td>
+                            <td>
+                                <?php echo htmlspecialchars($solicitud['solicitante']); ?>
+                            </td>
+                            <td>$
+                                <?php echo htmlspecialchars($solicitud['s_valor']); ?>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary mb-4 acciones" data-bs-toggle="modal"
+                                    data-bs-target="#AccionesModal"
+                                    data-solicitud-info="<?php echo htmlspecialchars(json_encode($solicitud)); ?>">Acciones</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="AccionesModal" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AccionesModalLabel">Acciones</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" id="Aprobar" class="btn btn-success"><i
+                                class="fa-solid fa-check"></i>Aprobar</button>
+                        <button type="button" id="Denegar" class="btn btn-danger"><i
+                                class="fa-solid fa-xmark"></i>Denegar</button>
+                        <button type="button" id="Reasignar" class="btn btn-info text-light"><i
+                                class="fa-solid fa-rotate-right"></i>Reasignar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+ <?php
+    } else {
+        header("Location: /Ayudantias-1/public/index.php");
+        exit();
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 
 
-?>
 
-<div class="container mt-4">
-    <h2 class="gestionar">Solicitudes asignadas</h2>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Documento</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-                <th>Solicitante</th>
-                <th>Valor solicitado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($solicitudes as $solicitud) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($solicitud['s_id']); ?></td>
-                    <td><?php echo htmlspecialchars($solicitud['s_fecha']); ?></td>
-                    <td>
-                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-                        <?php else : ?>
-                            <p1>No hay documento</p1>
-                        <?php endif; ?>
-                    </td>
-
-                    <td><?php echo htmlspecialchars($solicitud['tipo']); ?></td>
-                    <td><?php echo htmlspecialchars($solicitud['descripcion']); ?></td>
-                    <td><?php echo htmlspecialchars($solicitud['solicitante']); ?></td>
-                    <td>$ <?php echo htmlspecialchars($solicitud['s_valor']); ?></td>
-                    <td></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<?php
-}else{
-    header("Location: /Ayudantias-1/public/index.php");
-    exit();
-}
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 include '../includes/footer.php'; ?>
