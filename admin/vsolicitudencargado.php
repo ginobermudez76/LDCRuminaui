@@ -84,7 +84,7 @@ try {
                             <td>
                                 <button type="button" class="btn btn-primary mb-4 acciones" data-bs-toggle="modal"
                                     data-bs-target="#AccionesModal"
-                                    data-solicitud-info="<?php echo htmlspecialchars(json_encode($solicitud)); ?>">Acciones</button>
+                                    >Acciones</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
