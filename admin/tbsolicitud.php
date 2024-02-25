@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         if ($solicitud['estado'] == 'En tramite') {
                         ?>
-                            <button type="button" class="btn btn-secondary btn-sm">Editar</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="abrirModalEdicion(<?php echo $solicitud['s_id']; ?>)">Editar</button>
                         <?php
                         }
                         ?>
@@ -216,8 +216,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+<!-- Modal para editar solicitud -->
+<div class="modal fade" id="editarSolicitudModal" tabindex="-1" aria-labelledby="editarSolicitudModalLabel" aria-hidden="true" onsubmit="return validarTipoEdit()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarSolicitudModalLabel">Editar Solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarSolicitud" action="editar_solicitud.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="documentoEdit" class="form-label">Documento</label><br>
+                        <input type="checkbox" class="form-check-input" id="checkDArchivo" name="checkDArchivo" onchange="deshabilitarInputArchivo()">
+
+                        <label class="form-check-label" for="checkEjemplo">Eliminiar</label>
+                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
+                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Documento Anterior</a>
+                        <?php else : ?>
+                            <a>No hay documento</a>
+                        <?php endif; ?>
+                        <input type="file" class="form-control" id="documentoEdit" name="documento" value="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" onchange="deshabilitarCheckbox()">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoEdit" class="form-label">Tipo</label>
+                        <select class="form-select" id="tipoEdit" name="tipo_id">
+                            <option value="">Tipo de solicitud</option>
+                            <?php foreach ($tipos as $tipo) : ?>
+                                <?php
+                                $selected = ($tipo['id_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
+                                <option value="<?php echo $tipo['id_tipo']; ?>" <?php echo $selected; ?>>
+                                    <?php echo htmlspecialchars($tipo['name_tipo']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionEdit" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcionEdit" name="descripcion" rows="3"><?php echo htmlspecialchars($solicitud['descripcion']); ?></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="valorEdit" class="form-label">Valor solicitado</label>
+                        <input type="number" class="form-control" id="valorEdit" name="valor" step="0.01" value="<?php echo htmlspecialchars($solicitud['s_valor']); ?>">
+                    </div>
+                    <input type="hidden" id="idSolicitudEdit" name="idSolicitud">
+                    <button type="submit" class="btn btn-primary">Enviar cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
+    function deshabilitarInputArchivo() {
+        var checkbox = document.getElementById("checkDArchivo");
+        var inputArchivo = document.getElementById("documentoEdit");
+
+        if (checkbox.checked) {
+            inputArchivo.disabled = true;
+        } else {
+            inputArchivo.disabled = false;
+        }
+    }
+
+    function deshabilitarCheckbox() {
+        var checkbox = document.getElementById("checkDArchivo");
+        var inputArchivo = document.getElementById("documentoEdit");
+
+        if (inputArchivo.files.length > 0) {
+            checkbox.disabled = true;
+        } else {
+            checkbox.disabled = false;
+        }
+    }
+
     function validarTipo() {
         var seleccionTipo = document.getElementById("tipo_id").value;
         if (seleccionTipo === "") {
@@ -275,5 +347,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     }
 </script>
+<script>
+    function abrirModalEdicion(idSolicitud) {
+        // Aquí puedes obtener la información de la solicitud mediante AJAX si es necesario
+        // Por ahora, asumiremos que tienes la información necesaria en la página
+
+        // Por ejemplo, aquí se asignan valores ficticios al formulario de edición
+        document.getElementById("idSolicitudEdit").value = idSolicitud;
+        document.getElementById("tipoEdit").value;
+        document.getElementById("descripcionEdit").value;
+
+        // Abre el modal de edición
+        var myModal = new bootstrap.Modal(document.getElementById('editarSolicitudModal'));
+        myModal.show();
+    }
+
+    function validarTipoEdit() {
+        var seleccionTipoEdit = document.getElementById("tipoEdit").value;
+        if (seleccionTipoEdit === "") {
+            alert("Por favor, seleccione un tipo de solicitud");
+            return false;
+        }
+
+        // Validar el tipo de archivo seleccionado
+        var archivoInputEdit = document.getElementById("documentoEdit");
+
+
+        var archivoEdit = archivoInputEdit.files[0];
+        var extensionesPermitidasEdit = ['pdf', 'doc', 'docx', 'txt'];
+        var extensionEdit = archivoEdit.name.split('.').pop().toLowerCase();
+
+        if (!extensionesPermitidasEdit.includes(extensionEdit)) {
+            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF, DOC, DOCX o TXT");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 
 <?php include '../includes/footer.php'; ?>

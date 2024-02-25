@@ -21,249 +21,249 @@ try {
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú Administrar
 
-// Verificar si se recibió un ID válido
-if (isset($_GET['id'])) {
-    $idEvento = $_GET['id'];
+        // Verificar si se recibió un ID válido
+        if (isset($_GET['id'])) {
+            $idEvento = $_GET['id'];
 
-    // Obtener la información actual del evento
-    $stmt = $conn->prepare("SELECT * FROM eventos WHERE id = :id");
-    $stmt->bindParam(':id', $idEvento);
-    $stmt->execute();
-    $evento = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Obtener la información actual del evento
+            $stmt = $conn->prepare("SELECT * FROM eventos WHERE id = :id");
+            $stmt->bindParam(':id', $idEvento);
+            $stmt->execute();
+            $evento = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$evento) {
-        echo "ID de evento no válido";
-        exit();
-    }
-
-    // Procesar el formulario si se envió
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $fecha_ini = $_POST['fecha_ini'];
-        $fecha_f = $_POST['fecha_f'];
-        
-        // Obtener la ruta de la imagen actual almacenada en la base de datos
-        $rutaImagenAntigua = "../uploads/eventos/" . basename($evento['imagen']);
-
-        if (!empty($evento['imagen']) && file_exists($rutaImagenAntigua)) {
-            // Eliminar la imagen antigua del sistema de archivos solo si se envió un nuevo archivo
-            if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                unlink($rutaImagenAntigua);
+            if (!$evento) {
+                echo "ID de evento no válido";
+                exit();
             }
-        }
-        
-        $rutaImagenNueva = ""; // Establecer la ruta de la nueva imagen como cadena vacía por defecto
 
-        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-            // Procesar la imagen solo si se proporciona una nueva y el checkbox no está marcado
-            $directorioDestino = "../uploads/eventos/";
-            $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-            $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
+            // Procesar el formulario si se envió
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $nombre = $_POST['nombre'];
+                $descripcion = $_POST['descripcion'];
+                $fecha_ini = $_POST['fecha_ini'];
+                $fecha_f = $_POST['fecha_f'];
 
-            $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+                // Obtener la ruta de la imagen actual almacenada en la base de datos
+                $rutaImagenAntigua = "../uploads/eventos/" . basename($evento['imagen']);
 
-            if ($check !== false) {
-                if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                    // La imagen se cargó correctamente
-                    // Actualizar la ruta de la nueva imagen en la base de datos
-                    $rutaImagenNueva = "../uploads/eventos/" . basename($_FILES['imagen']['name']);
-                } else {
-                    $error = "Hubo un error al cargar la nueva imagen";
+                if (!empty($evento['imagen']) && file_exists($rutaImagenAntigua)) {
+                    // Eliminar la imagen antigua del sistema de archivos solo si se envió un nuevo archivo
+                    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+                        unlink($rutaImagenAntigua);
+                    }
                 }
-            } else {
-                $error = "El archivo no es una imagen válida";
+
+                $rutaImagenNueva = ""; // Establecer la ruta de la nueva imagen como cadena vacía por defecto
+
+                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+                    // Procesar la imagen solo si se proporciona una nueva y el checkbox no está marcado
+                    $directorioDestino = "../uploads/eventos/";
+                    $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
+                    $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
+
+                    $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+
+                    if ($check !== false) {
+                        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
+                            // La imagen se cargó correctamente
+                            // Actualizar la ruta de la nueva imagen en la base de datos
+                            $rutaImagenNueva = "../uploads/eventos/" . basename($_FILES['imagen']['name']);
+                        } else {
+                            $error = "Hubo un error al cargar la nueva imagen";
+                        }
+                    } else {
+                        $error = "El archivo no es una imagen válida";
+                    }
+                }
+
+                // Si el campo de imagen está deshabilitado, establecer la ruta de la nueva imagen como la imagen anterior
+                if (isset($_POST['sinImagen'])) {
+                    $rutaImagenNueva = $evento['imagen'];
+                }
+
+                // Eliminar la imagen anterior solo si existe y se proporciona una nueva imagen
+                if (!empty($evento['imagen']) && file_exists($rutaImagenAntigua) && !isset($_POST['sinImagen'])) {
+                    unlink($rutaImagenAntigua);
+                }
+
+                // Actualizar la base de datos con la nueva imagen o la imagen anterior
+                $stmt = $conn->prepare("UPDATE eventos SET nombre=?, descripcion=?, fecha_inicio=?, fecha_fin=?, imagen=? WHERE id=?");
+                $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $rutaImagenNueva, $idEvento]);
+
+                echo "Evento editado con éxito";
+                header("refresh:2;url=gestionar_eventos.php");
+                exit();
             }
+
+            // Obtener la lista de deportes para el formulario
+            $stmtDeportes = $conn->prepare("SELECT * FROM deportes");
+            $stmtDeportes->execute();
+            $deportes = $stmtDeportes->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            echo "ID de evento no proporcionado";
+            exit();
         }
-
-        // Si el campo de imagen está deshabilitado, establecer la ruta de la nueva imagen como la imagen anterior
-        if (isset($_POST['sinImagen'])) {
-            $rutaImagenNueva = $evento['imagen'];
-        }
-
-        // Eliminar la imagen anterior solo si existe y se proporciona una nueva imagen
-        if (!empty($evento['imagen']) && file_exists($rutaImagenAntigua) && !isset($_POST['sinImagen'])) {
-            unlink($rutaImagenAntigua);
-        }
-
-        // Actualizar la base de datos con la nueva imagen o la imagen anterior
-        $stmt = $conn->prepare("UPDATE eventos SET nombre=?, descripcion=?, fecha_inicio=?, fecha_fin=?, imagen=? WHERE id=?");
-        $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $rutaImagenNueva, $idEvento]);
-
-        echo "Evento editado con éxito";
-        header("refresh:2;url=gestionar_eventos.php");
-        exit();
-    }
-
-    // Obtener la lista de deportes para el formulario
-    $stmtDeportes = $conn->prepare("SELECT * FROM deportes");
-    $stmtDeportes->execute();
-    $deportes = $stmtDeportes->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    echo "ID de evento no proporcionado";
-    exit();
-}
 ?>
 
-<div class="container mt-4">
-    <h2>Editar Evento</h2>
-    <?php if (!empty($error)) : ?>
-        <div class="alert alert-danger">
-            <?php echo $error; ?>
+        <div class="container mt-4">
+            <h2>Editar Evento</h2>
+            <?php if (!empty($error)) : ?>
+                <div class="alert alert-danger">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+            <form action="editar_evento.php?id=<?php echo $idEvento; ?>" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Evento</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo htmlspecialchars($evento['nombre']); ?>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" required><?php echo htmlspecialchars($evento['descripcion']); ?></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="deporte_id" class="form-label">Deporte</label>
+                    <select class="form-control" id="deporte_id" name="deporte_id" required>
+                        <option value="">Seleccione un deporte</option>
+                        <?php foreach ($deportes as $deporte) : ?>
+                            <?php
+                            // Compara el ID del deporte actual con el ID del deporte en el bucle
+                            $selected = ($deporte['id'] == $evento['deporte_id']) ? 'selected' : '';
+                            ?>
+                            <option value="<?php echo $deporte['id']; ?>" <?php echo $selected; ?>>
+                                <?php echo htmlspecialchars($deporte['nombre']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fecha_ini" class="form-label">Inicio</label>
+                    <input type="date" class="form-control" id="fecha_ini" name="fecha_ini" required value="<?php echo $evento['fecha_inicio']; ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_f" class="form-label">Fin</label>
+                    <input type="date" class="form-control" id="fecha_f" name="fecha_f" required value="<?php echo $evento['fecha_fin']; ?>">
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="sinImagen" name="sinImagen" onchange="toggleImagenField()">
+                    <label class="form-check-label" for="sinImagen">Editar sin cambiar la imagen</label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" id="imagen" name="imagen" <?php echo isset($_POST['sinImagen']) ? 'disabled' : ''; ?>>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Editar evento</button>
+            </form>
         </div>
-    <?php endif; ?>
-    <form action="editar_evento.php?id=<?php echo $idEvento; ?>" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre del Evento</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo htmlspecialchars($evento['nombre']); ?>">
-        </div>
 
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" required><?php echo htmlspecialchars($evento['descripcion']); ?></textarea>
-        </div>
+        <script>
+            function toggleImagenField() {
+                var imagenField = document.getElementById('imagen');
+                var sinImagenCheckbox = document.getElementById('sinImagen');
 
-        <div class="mb-3">
-            <label for="deporte_id" class="form-label">Deporte</label>
-            <select class="form-control" id="deporte_id" name="deporte_id" required>
-            <option value="">Seleccione un deporte</option>
-                <?php foreach ($deportes as $deporte) : ?>
-                    <?php
-                    // Compara el ID del deporte actual con el ID del deporte en el bucle
-                    $selected = ($deporte['id'] == $evento['deporte_id']) ? 'selected' : '';
-                    ?>
-                    <option value="<?php echo $deporte['id']; ?>" <?php echo $selected; ?>>
-                        <?php echo htmlspecialchars($deporte['nombre']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+                imagenField.disabled = sinImagenCheckbox.checked;
+            }
+        </script>
+        <script>
+            function validarCamposEvento() {
+                // Validación de selección de tipo
+                var deporteSeleccionado = document.getElementById("deporte_id").value;
+                if (deporteSeleccionado === "") {
+                    alert("Por favor, seleccione un deporte");
+                    return false;
+                }
+                var nombreEvento = document.getElementById("nombre").value;
+                if (nombreEvento === "") {
+                    alert("El evento debe tener un nombre");
+                    return false;
+                }
 
-        <div class="mb-3">
-            <label for="fecha_ini" class="form-label">Inicio</label>
-            <input type="date" class="form-control" id="fecha_ini" name="fecha_ini" required value="<?php echo $evento['fecha_inicio']; ?>">
-        </div>
-        <div class="mb-3">
-            <label for="fecha_f" class="form-label">Fin</label>
-            <input type="date" class="form-control" id="fecha_f" name="fecha_f" required value="<?php echo $evento['fecha_fin']; ?>">
-        </div>
+                // Validación de la fecha de inicio
+                var fechaInicio = document.getElementById("fecha_ini").value;
+                var fechaInicioArray = fechaInicio.split("-");
+                if (fechaInicioArray.length !== 3) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
+                var yearInicio = fechaInicioArray[0];
+                var monthInicio = fechaInicioArray[1];
+                var dayInicio = fechaInicioArray[2];
 
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="sinImagen" name="sinImagen" onchange="toggleImagenField()">
-            <label class="form-check-label" for="sinImagen">Editar sin cambiar la imagen</label>
-        </div>
+                // Verificar si el año tiene 4 dígitos
+                if (yearInicio.length !== 4 || isNaN(yearInicio)) {
+                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de inicio.");
+                    return false;
+                }
 
-        <div class="mb-3">
-            <label for="imagen" class="form-label">Imagen</label>
-            <input type="file" class="form-control" id="imagen" name="imagen" <?php echo isset($_POST['sinImagen']) ? 'disabled' : ''; ?>>
-        </div>
+                // Crear objeto de fecha de inicio y verificar si es válida
+                var fechaInicioObjeto = new Date(yearInicio, monthInicio - 1, dayInicio);
+                if (isNaN(fechaInicioObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
 
-        <button type="submit" class="btn btn-primary">Editar evento</button>
-    </form>
-</div>
+                // Validación de la fecha de finalización
+                var fechaFin = document.getElementById("fecha_f").value;
+                var fechaFinArray = fechaFin.split("-");
+                if (fechaFinArray.length !== 3) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
+                var yearFin = fechaFinArray[0];
+                var monthFin = fechaFinArray[1];
+                var dayFin = fechaFinArray[2];
 
-<script>
-    function toggleImagenField() {
-        var imagenField = document.getElementById('imagen');
-        var sinImagenCheckbox = document.getElementById('sinImagen');
+                // Verificar si el año tiene 4 dígitos
+                if (yearFin.length !== 4 || isNaN(yearFin)) {
+                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de finalización.");
+                    return false;
+                }
 
-        imagenField.disabled = sinImagenCheckbox.checked;
-    }
-</script>
-<script>
-    function validarCamposEvento() {
-        // Validación de selección de tipo
-        var deporteSeleccionado = document.getElementById("deporte_id").value;
-        if (deporteSeleccionado === "") {
-            alert("Por favor, seleccione un deporte");
-            return false;
-        }
-        var nombreEvento = document.getElementById("nombre").value;
-        if (nombreEvento === "") {
-            alert("El evento debe tener un nombre");
-            return false;
-        }
+                // Crear objeto de fecha de finalización y verificar si es válida
+                var fechaFinObjeto = new Date(yearFin, monthFin - 1, dayFin);
+                if (isNaN(fechaFinObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
 
-        // Validación de la fecha de inicio
-        var fechaInicio = document.getElementById("fecha_ini").value;
-        var fechaInicioArray = fechaInicio.split("-");
-        if (fechaInicioArray.length !== 3) {
-            alert("Por favor, introduzca una fecha de inicio válida.");
-            return false;
-        }
-        var yearInicio = fechaInicioArray[0];
-        var monthInicio = fechaInicioArray[1];
-        var dayInicio = fechaInicioArray[2];
+                // Validación de la fecha de inicio
+                var fechaInicio = document.getElementById("fecha_ini").value;
+                var fechaInicioObjeto = new Date(fechaInicio);
+                if (isNaN(fechaInicioObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
 
-        // Verificar si el año tiene 4 dígitos
-        if (yearInicio.length !== 4 || isNaN(yearInicio)) {
-            alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de inicio.");
-            return false;
-        }
+                // Validación de la fecha de finalización
+                var fechaFin = document.getElementById("fecha_f").value;
+                var fechaFinObjeto = new Date(fechaFin);
+                if (isNaN(fechaFinObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
 
-        // Crear objeto de fecha de inicio y verificar si es válida
-        var fechaInicioObjeto = new Date(yearInicio, monthInicio - 1, dayInicio);
-        if (isNaN(fechaInicioObjeto.getTime())) {
-            alert("Por favor, introduzca una fecha de inicio válida.");
-            return false;
-        }
+                // Verificar que la fecha de finalización no sea menor que la fecha de inicio
+                if (fechaFinObjeto < fechaInicioObjeto) {
+                    alert("La fecha de finalización no puede ser menor que la fecha de inicio.");
+                    return false;
+                }
 
-        // Validación de la fecha de finalización
-        var fechaFin = document.getElementById("fecha_f").value;
-        var fechaFinArray = fechaFin.split("-");
-        if (fechaFinArray.length !== 3) {
-            alert("Por favor, introduzca una fecha de finalización válida.");
-            return false;
-        }
-        var yearFin = fechaFinArray[0];
-        var monthFin = fechaFinArray[1];
-        var dayFin = fechaFinArray[2];
 
-        // Verificar si el año tiene 4 dígitos
-        if (yearFin.length !== 4 || isNaN(yearFin)) {
-            alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de finalización.");
-            return false;
-        }
-
-        // Crear objeto de fecha de finalización y verificar si es válida
-        var fechaFinObjeto = new Date(yearFin, monthFin - 1, dayFin);
-        if (isNaN(fechaFinObjeto.getTime())) {
-            alert("Por favor, introduzca una fecha de finalización válida.");
-            return false;
-        }
-
-        // Validación de la fecha de inicio
-        var fechaInicio = document.getElementById("fecha_ini").value;
-        var fechaInicioObjeto = new Date(fechaInicio);
-        if (isNaN(fechaInicioObjeto.getTime())) {
-            alert("Por favor, introduzca una fecha de inicio válida.");
-            return false;
-        }
-
-        // Validación de la fecha de finalización
-        var fechaFin = document.getElementById("fecha_f").value;
-        var fechaFinObjeto = new Date(fechaFin);
-        if (isNaN(fechaFinObjeto.getTime())) {
-            alert("Por favor, introduzca una fecha de finalización válida.");
-            return false;
-        }
-
-        // Verificar que la fecha de finalización no sea menor que la fecha de inicio
-        if (fechaFinObjeto < fechaInicioObjeto) {
-            alert("La fecha de finalización no puede ser menor que la fecha de inicio.");
-            return false;
-        }
-        
-
-        // Todas las validaciones pasaron, devolvemos true
-        return true;
-    }
-</script>
+                // Todas las validaciones pasaron, devolvemos true
+                return true;
+            }
+        </script>
 <?php
-}else{
-    header("Location: /Ayudantias-1/public/index.php");
-    exit();
-}
+    } else {
+        header("Location: /Ayudantias-1/public/index.php");
+        exit();
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
