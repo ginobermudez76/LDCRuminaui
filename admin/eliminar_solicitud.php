@@ -16,7 +16,7 @@ if (isset($_POST['id'])) {
     try { 
 
         // Obtener la ruta del documento y el id de solicitante almacenados en la base de datos
-        $stmt = $conn->prepare("SELECT documento, solicitante FROM solicitud WHERE s_id = :id");
+        $stmt = $conn->prepare("SELECT s_doc, solicitante FROM solicitud WHERE s_id = :id");
         $stmt->bindParam(':id', $idSolicitud);
         $stmt->execute();
         $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -25,39 +25,39 @@ if (isset($_POST['id'])) {
         echo "Error: " . $e->getMessage();
     }
 
-    try {
-
+    if ($solicitud && !empty($solicitud['s_doc'])) {
         // Obtener el nombre de usuario
-        $stmt = $conn->prepare("SELECT nombre_usuario FROM usuarios WHERE id = :solicitante");
-        $stmt->bindParam(':solicitante', $solicitanteId, PDO::PARAM_INT);
-        $stmt->execute();
-        $nombreUsuario = $stmt->fetch(PDO::FETCH_ASSOC)['nombre_usuario'];
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-
-
-
-
-    if ($solicitud && !empty($solicitud['documento'])) {
+        try {
+            $stmt = $conn->prepare("SELECT nombre_usuario FROM usuarios WHERE id = :solicitante");
+            $stmt->bindParam(':solicitante', $solicitanteId, PDO::PARAM_INT);
+            $stmt->execute();
+            $nombreUsuario = $stmt->fetch(PDO::FETCH_ASSOC)['nombre_usuario'];
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    
         // Ruta completa del documento
-        $rutaDocumento = "../uploads/documentos/solicitudes/" . $nombreUsuario['nombre_usuario'] . "/" . basename($solicitud['documento']);
-
+        $rutaDocumento = "../uploads/documentos/solicitudes/" . $nombreUsuario . "/" . basename($solicitud['s_doc']);
+       
         // Eliminar el documento del sistema de archivos
         if (file_exists($rutaDocumento)) {
+        
             unlink($rutaDocumento);
+
         }
     }
-
+    
 
     // Eliminar el solicitud de la base de datos
     try {
         $stmtDeleteSolicitud = $conn->prepare("DELETE FROM solicitud WHERE s_id = :id");
         $stmtDeleteSolicitud->bindParam(':id', $idSolicitud);
         $stmtDeleteSolicitud->execute();
+        echo "Solicitud eliminada con exito";
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 } else {
     echo "ID de solicitud no proporcionado";
 }
+//Warning: Undefined variable $rutDocumento in C:/xampp/htdocs/Ayudantias-1/eliminar_solicitud.php on line 54

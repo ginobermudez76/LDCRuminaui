@@ -28,7 +28,7 @@ try {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST['descripcion'];
     $valor = isset($_POST['valor']) ? $_POST['valor'] : null;
-    
+
     // Verificar si el valor es numérico
     if (!is_numeric($valor)) {
         $valor = null;
@@ -42,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
         $nombre_usuario = $usuario['nombre_usuario'];
-
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -154,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php endif; ?>
                         <?php if (!empty($solicitud['descripcion'])) : ?>
                             Descripción: <?php echo htmlspecialchars($solicitud['descripcion']); ?>
-                        <?php endif; ?>  
+                        <?php endif; ?>
                     </td>
 
                     <td>
@@ -171,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php
                         }
                         ?>
-                         <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['s_id']; ?>)">Eliminar</button>
+                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['s_id']; ?>)">Eliminar</button>
 
                     </td>
                 </tr>
@@ -242,41 +241,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function confirmarEliminacion(idSolicitud) {
-var confirmacion = confirm("¿Está seguro que desea eliminar esta solicitud?");
+        var confirmacion = confirm("¿Está seguro que desea eliminar esta solicitud?");
 
-if (confirmacion) {
-// Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_solicitud.php
-eliminarSolicitud(idSolicitud);
- } else {
-// Usuario hizo clic en "Cancelar", no hacer nada
- }
-}
+        if (confirmacion) {
+            // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_solicitud.php
+            eliminarSolicitud(idSolicitud);
+        } else {
+            // Usuario hizo clic en "Cancelar", no hacer nada
+        }
+    }
 
-function eliminarSolicitud(idSolicitud) {
-console.log("ID de solicitud a eliminar:", idSolicitud);
+    function eliminarSolicitud(idSolicitud) {
+        console.log("ID de solicitud a eliminar:", idSolicitud);
 
-// Utiliza jQuery para enviar una solicitud AJAX a eliminar_solicitud.php
-$.ajax({
-type: "POST",
-url: "eliminar_solicitud.php",
- data: {
-id: idSolicitud
- },
- success: function(response) {
- // Manejar la respuesta, si es necesario
- console.log(response);
-
- //Recargar la página
-location.reload();
-},
-error: function(error) {
- // Manejar errores si es necesario
-console.error(error);
-}
-});
-}
-
-
+        // Utiliza jQuery para enviar una solicitud AJAX a eliminar_solicitud.php
+        $.ajax({
+            type: "POST",
+            url: "eliminar_solicitud.php",
+            data: {
+                id: idSolicitud
+            },
+            success: function(response) {
+                // Manejar la respuesta, si es necesario
+                console.log(response);
+                alert("La solicitud se eliminó correctamente. Ruta del documento eliminado: " + response);
+                //Recargar la página
+                location.reload();
+            },
+            error: function(error) {
+                // Manejar errores si es necesario
+                console.error(error);
+            }
+        });
+    }
 </script>
 
 <?php include '../includes/footer.php'; ?>
