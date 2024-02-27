@@ -91,7 +91,7 @@ try {
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion" requerid></textarea>
+                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen</label>

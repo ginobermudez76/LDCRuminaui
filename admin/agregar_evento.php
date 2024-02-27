@@ -101,7 +101,7 @@ try {
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion" required></textarea>
+                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="deporte_id" class="form-label">Deporte</label>
