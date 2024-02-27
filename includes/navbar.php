@@ -99,14 +99,8 @@ try {
                     <?php endif; ?>
                 </li>
                 <?php if (!isset($_SESSION['usuario_admin'])) { ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            SGAD
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Administrativo</a>
-                            <a class="nav-link active" aria-current="page" href="../admin/login.php">Personal</a>
-                        </div>
+                    <li class="nav-item">
+                    <a class="nav-link" href="../admin/login.php">Iniciar sesión</a>
                     </li>
                 <?php } ?>
             </ul>

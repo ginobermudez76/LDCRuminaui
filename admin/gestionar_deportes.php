@@ -22,58 +22,59 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú para publicista
-     //logica para obtener la lista de deportes de la base de datos
-try {
-    $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
-    $stmt->execute();
+        //logica para obtener la lista de deportes de la base de datos
+        try {
+            $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
+            $stmt->execute();
 
-    $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}   
+            $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
 ?>
 
         <div class="container mt-4">
             <h2 class="gestionar">Deportes ofertados</h2>
             <a href="agregar_deporte.php" class="btn btn-primary mb-4">Agregar Deporte</a>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Galería de imagenes</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($deportes as $deporte) : ?>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($deporte['id']); ?></td>
-                            <td>
-                                <?php if (isset($deporte['imagen']) && $deporte['imagen']) : ?>
-                                    <img src="<?php echo htmlspecialchars($deporte['imagen']); ?>" alt="<?php echo htmlspecialchars($deporte['nombre']); ?>" style="width: 100px; height: auto;">
-                                <?php else : ?>
-                                    <p>Sin Imagen</p>
-                                <?php endif; ?>
-                            </td>
-                            <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($deporte['descripcion']); ?></td>
-                            <td>
-                            <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
-                        <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
-                            </td>
-                            <td>
-                                <a href="editar_deporte.php?id=<?php echo $deporte['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
-                                <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deporte['id']; ?>)">Eliminar</button>
-                            </td>
+                            <th>Id</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Galería de imagenes</th>
+                            <th>Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($deportes as $deporte) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($deporte['id']); ?></td>
+                                <td>
+                                    <?php if (isset($deporte['imagen']) && $deporte['imagen']) : ?>
+                                        <img src="<?php echo htmlspecialchars($deporte['imagen']); ?>" alt="<?php echo htmlspecialchars($deporte['nombre']); ?>" style="width: 100px; height: auto;">
+                                    <?php else : ?>
+                                        <p>Sin Imagen</p>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
+                                <td><?php echo htmlspecialchars($deporte['descripcion']); ?></td>
+                                <td>
+                                    <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
+                                    <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
+                                </td>
+                                <td>
+                                    <a href="editar_deporte.php?id=<?php echo $deporte['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deporte['id']; ?>)">Eliminar</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
