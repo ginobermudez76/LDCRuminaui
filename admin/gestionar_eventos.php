@@ -3,21 +3,11 @@
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
 include '../includes/header.php'; //incluyendo la cabecera común
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 
-//logica para obtener la lista de eventos de la base de datos
-try {
-    $stmt = $conn->prepare("SELECT e.id, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.imagen, d.nombre AS nombre_deporte 
-                            FROM eventos e
-                            INNER JOIN deportes d ON e.deporte_id = d.id");
-    $stmt->execute();
 
-    $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 $usuario_id = $_SESSION['usuario_id'];
 
 try {
@@ -31,6 +21,17 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú Administrar
+//logica para obtener la lista de eventos de la base de datos
+try {
+    $stmt = $conn->prepare("SELECT e.id, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.imagen, d.nombre AS nombre_deporte 
+                            FROM eventos e
+                            INNER JOIN deportes d ON e.deporte_id = d.id");
+    $stmt->execute();
+
+    $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}        
 ?>
 
 <div class="container mt-4">
@@ -123,7 +124,7 @@ try {
 
 <?php 
 }else{
-    header("Location: /Ayudantias-1/public/index.php");
+    header("Location: ../public/index.php");
     exit();
 }
 } catch (PDOException $e) {

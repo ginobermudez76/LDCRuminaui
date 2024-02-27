@@ -4,7 +4,7 @@ include '../includes/config.php';
 
 // Verificar si el usuario está autenticado como administrador
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 

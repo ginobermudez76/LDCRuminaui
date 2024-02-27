@@ -4,7 +4,7 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 <?php 
 }else{
-    header("Location: /Ayudantias-1/public/index.php");
+    header("Location: ../public/index.php");
     exit();
 }
 } catch (PDOException $e) {

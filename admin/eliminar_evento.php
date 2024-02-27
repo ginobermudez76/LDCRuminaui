@@ -6,7 +6,18 @@ if (!isset($_SESSION['usuario_admin'])) {
 }
 
 include '../includes/config.php'; // Incluyendo la conexión a la base de datos
+$usuario_id = $_SESSION['usuario_id'];
+try {
+    // Consultar el rol del usuario en la base de datos
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+    $stmt->execute();
 
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si el usuario tiene el rol de Publicista
+    if ($usuario['rol'] == 7) {
+        // Mostrar el elemento del menú Administrarsdasdasdasdasdas
 // Verificar si se recibió un ID válido y realizar la eliminación en la base de datos
 if (isset($_POST['id'])) {
     $idEvento1 = $_POST['id'];
@@ -73,5 +84,11 @@ if (isset($_POST['id'])) {
 } else {
     echo "ID de evento no proporcionado";
 }
-
+} else {
+    header("Location: ../public/index.php");
+    exit();
+}
+} catch (PDOException $e) {
+echo "Error: " . $e->getMessage();
+}
 ?>

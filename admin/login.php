@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_admin'] = $usuario['nombre_usuario'];
 
-                header("Location: /Ayudantias-1/public/index.php");
+                header("Location: ../public/index.php");
                 exit();
             }else {
                 //contraseña incorrecta

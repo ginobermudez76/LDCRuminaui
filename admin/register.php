@@ -3,7 +3,7 @@ include '../includes/config.php'; // Incluyendo la conexión de la base de datos
 include '../includes/header.php'; // Incluyendo la cabecera común
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -251,7 +251,7 @@ try {
 
 <?php
     } else {
-        header("Location: /Ayudantias-1/public/index.php");
+        header("Location: ../public/index.php");
         exit();
     }
 } catch (PDOException $e) {

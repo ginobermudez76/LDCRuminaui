@@ -75,7 +75,6 @@ try {
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($deporte['nombre']); ?></h5>
                         <p class="card-text"><?php echo htmlspecialchars($deporte['descripcion']); ?></p>
-
                     </div>
                 </div>
             </div>

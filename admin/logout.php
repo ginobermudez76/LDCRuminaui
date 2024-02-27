@@ -5,7 +5,7 @@ session_unset();//eliminar todas las variables de la sesion
 
 session_destroy();//destruir la session
 
-header('Location: /Ayudantias-1/admin/login.php');//redirigir al usuario al login
+header('Location: ../admin/login.php');//redirigir al usuario al login
 exit();
 
 ?>

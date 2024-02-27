@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 
@@ -60,4 +60,3 @@ if (isset($_POST['id'])) {
 } else {
     echo "ID de solicitud no proporcionado";
 }
-//Warning: Undefined variable $rutDocumento in C:/xampp/htdocs/Ayudantias-1/eliminar_solicitud.php on line 54

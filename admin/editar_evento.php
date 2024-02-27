@@ -4,7 +4,7 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    header("Location: ../admin/login.php");
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -255,13 +255,43 @@ try {
                 }
 
 
-                // Todas las validaciones pasaron, devolvemos true
+                var archivoInput = document.getElementById("imagen");
+
+
+                var archivo = archivoInput.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
+                var extension = archivo.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+
+
                 return true;
             }
+            // Función para limitar la cantidad de dígitos en el campo de celular
+            document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteNombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (deporteNombre.length > 100) {
+                    this.value = deporteNombre.slice(0, 100);
+                }
+            });
+            // Función para limitar la cantidad de dígitos en el campo de descripcion
+            document.getElementById('descripcion').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteDescripcion = this.value;
+                // Limitar el valor a 10 caracteres
+                if (deporteDescripcion.length > 300) {
+                    this.value = deporteDescripcion.slice(0, 300);
+                }
+            });
         </script>
 <?php
     } else {
-        header("Location: /Ayudantias-1/public/index.php");
+        header("Location: ../public/index.php");
         exit();
     }
 } catch (PDOException $e) {

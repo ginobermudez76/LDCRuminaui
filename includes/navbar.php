@@ -14,7 +14,7 @@ try {
 
 <nav class="navbar navbar-expand-lg bg-light navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="../public/index.php">
             <img src="../img/logo.png" alt="Logo" class="rounded-circle" width="65" height="65">
             Liga Deportiva Cantonal de Rumiñahui
         </a>
@@ -23,19 +23,8 @@ try {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../public/index.php">Inicio</a>
-                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Escuelas
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <?php foreach ($deportes as $deporte) : ?>
-                            <a class="dropdown-item" href="#"><?= $deporte['nombre'] ?></a>
-                        <?php endforeach; ?>
-                    </div>
-                </li>
+
                 <?php
 
 
