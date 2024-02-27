@@ -19,7 +19,7 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-        // Mostrar el elemento del menú Administrar
+        // Mostrar el elemento del menú Administrarsdasdasdasdasdas
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
@@ -99,10 +99,39 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             alert("El deporte debe tener un nombre");
             return false;
         }
+        var archivoInput = document.getElementById("imagen");
+
+
+var archivo = archivoInput.files[0];
+var extensionesPermitidas = ['pdf', 'doc', 'docx', 'txt'];
+var extension = archivo.name.split('.').pop().toLowerCase();
+
+if (!extensionesPermitidas.includes(extension)) {
+    alert("Formato no soportado");
+    return false;
+}
 
  
         return true;
     }
+                // Función para limitar la cantidad de dígitos en el campo de celular
+                document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteNombre = this.value;
+                // Limitar el valor a 10 caracteres
+                if (deporteNombre.length > 100) {
+                    this.value = deporteNombre.slice(0, 100);
+                }
+            });
+                            // Función para limitar la cantidad de dígitos en el campo de celular
+                            document.getElementById('descripcion').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteDescripcion = this.value;
+                // Limitar el valor a 10 caracteres
+                if (deporteDescripcion.length > 100) {
+                    this.value = deporteDescripcion.slice(0, 100);
+                }
+            });
 </script>
 
 <?php 

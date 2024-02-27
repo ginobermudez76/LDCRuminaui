@@ -28,7 +28,7 @@ try {
 }
 
 ?>
-
+<div class="container-fuid">
 <section class="presentacion">
     <div class="presentacion-1">
         <div class="header-txt">
@@ -57,6 +57,7 @@ try {
 
     </div>
 </section>
+
 <section name="Section_deportes" id="Section_deportes">
     <div class="deportes container">
         <div class="deportes-descripcion">
@@ -64,7 +65,29 @@ try {
             <hr>
             <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
         </div>
-        <div class="deportes-group">
+        <div class="row">
+        <?php foreach ($deportes as $deporte) : ?>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <?php if ($deporte['imagen']) : ?>
+                        <img src="../uploads/deportes/<?php echo htmlspecialchars(basename($deporte['imagen'])); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($deporte['nombre']); ?>">
+                    <?php endif; ?>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($deporte['nombre']); ?></h5>
+                        <p class="card-text"><?php echo htmlspecialchars($deporte['descripcion']); ?></p>
+
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+
+
+
+        <?php
+        /*
+                <div class="deportes-group">
 
             <?php
             // Iterar sobre los deportes y mostrar la información
@@ -89,6 +112,7 @@ try {
 
 
         </div>
+ */ ?>
     </div>
 </section>
 
@@ -163,7 +187,7 @@ try {
         <?php endforeach; ?>
     </div>
 </section>
-
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>

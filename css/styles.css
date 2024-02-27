@@ -263,3 +263,43 @@ td{
     color: #CF2D3A;
     font-size: 16px;
  }
+ table{
+    box-shadow: 0px 0px 10px #1f3de6 !important;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    color: #000000;
+
+}
+thead{
+    background-color: #0fc3c6 !important;
+    color: #ffffff !important; 
+    box-shadow: 0px 0px 10px #1fdfe6 !important;
+
+}
+.btn-danger.btn-sm {
+    background-color: #17907a !important;
+    color: #fff;
+    border-color: #0fc3c6;
+    border-radius: 10px;
+}
+
+.btn-danger.btn-sm:hover {
+    background-color: #0fc3c6 !important;
+    border-color: #17907988;
+    color: #fff;
+}
+
+.btn-secondary.btn-sm{
+    border-radius: 10px;
+}
+tr{
+    text-align: center;
+}
+
+tr:hover{
+    background-color: #72dae1 !important;
+    color: #fff;
+    border-radius: 25px !important;
+}

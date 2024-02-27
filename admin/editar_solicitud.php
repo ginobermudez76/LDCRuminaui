@@ -8,6 +8,27 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 
+/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    try {
+
+
+        // Verificar si el checkbox está marcado
+        if (isset($_POST['checkDArchivo'])) {
+             // Eliminar el archivo del sistema de archivos
+                if (file_exists($rutaArchivoAntiguo)) {
+                    unlink($rutaArchivoAntiguo);
+                }          
+            // Actualizar la solicitud en la base de datos con s_doc como NULL
+            $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
+            $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
+        }
+
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+*/
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Obtener los datos del formulario de edición
@@ -38,13 +59,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $nombreUsuario = $stmt->fetch(PDO::FETCH_ASSOC)['nombre_usuario'];
 
-        // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
-        if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
-            $nombreArchivoNuevo = basename($_FILES['documento']['name']);
-            $archivoNuevo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoNuevo;
+            // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
+            if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
+                $nombreArchivoNuevo = basename($_FILES['documento']['name']);
+                $archivoNuevo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoNuevo;
 
-            // Eliminar el archivo antiguo del sistema de archivos
-            $rutaArchivoAntiguo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoAntiguo;
+                // Eliminar el archivo antiguo del sistema de archivos
+                $rutaArchivoAntiguo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoAntiguo;
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                try {
+
+
+                    // Verificar si el checkbox está marcado
+                    if (isset($_POST['checkDArchivo'])) {
+                        // Eliminar el archivo del sistema de archivos
+                        if (file_exists($rutaArchivoAntiguo)) {
+                            unlink($rutaArchivoAntiguo);
+                        }
+                        // Actualizar la solicitud en la base de datos con s_doc como NULL
+                        $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
+                        $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
+                    }
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+            }
             if (file_exists($rutaArchivoAntiguo)) {
                 unlink($rutaArchivoAntiguo);
             }
