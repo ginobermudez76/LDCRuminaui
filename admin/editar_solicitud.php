@@ -8,27 +8,6 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 
-/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-
-
-        // Verificar si el checkbox está marcado
-        if (isset($_POST['checkDArchivo'])) {
-             // Eliminar el archivo del sistema de archivos
-                if (file_exists($rutaArchivoAntiguo)) {
-                    unlink($rutaArchivoAntiguo);
-                }          
-            // Actualizar la solicitud en la base de datos con s_doc como NULL
-            $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
-            $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
-        }
-
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-}
-
-*/
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Obtener los datos del formulario de edición
@@ -91,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Directorio de destino para el documento
                 $directorioArchivoEliminar = "../uploads/documentos/solicitudes/";
                 try {
-                    
+
                     //Buscar el nombre de usuario del solicitante en la tabla usuario
                     $stmt = $conn->prepare("SELECT nombre_usuario FROM usuarios WHERE id = :solicitante");
                     $stmt->bindParam(':solicitante', $solicitanteId, PDO::PARAM_INT);
