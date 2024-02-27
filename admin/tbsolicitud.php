@@ -119,9 +119,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-<div class="container mt-4">
+<div class="container">
     <h2 class="gestionar">Solicitudes</h2>
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarSolicitudModal">Agregar +</button>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -178,6 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         </tbody>
     </table>
+    </div>
 </div>
 <!-- Modal para agregar solicitud -->
 <div class="modal fade" id="agregarSolicitudModal" tabindex="-1" aria-labelledby="agregarSolicitudModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
@@ -324,7 +326,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function eliminarSolicitud(idSolicitud) {
-        console.log("ID de solicitud a eliminar:", idSolicitud);
+
 
         // Utiliza jQuery para enviar una solicitud AJAX a eliminar_solicitud.php
         $.ajax({
@@ -383,6 +385,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         return true;
     }
+
+
 </script>
 
 

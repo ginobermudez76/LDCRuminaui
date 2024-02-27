@@ -36,7 +36,7 @@ try {
 <div class="container mt-4">
     <h2 class="gestionar">Centro de control de eventos</h2>
     <a href="agregar_evento.php" class="btn btn-primary mb-4">Agregar Evento</a>
-
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -80,6 +80,7 @@ try {
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         </tbody>
     </table>
+    </div>
 </div>
 
 <script>

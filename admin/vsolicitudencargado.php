@@ -38,7 +38,7 @@ try {
         </style>
         <div class="container mt-4">
             <h2 class="gestionar">Solicitudes asignadas</h2>
-
+            <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -90,6 +90,7 @@ try {
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            </div>
         </div>
 
         <div class="modal fade" id="AccionesModal" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">

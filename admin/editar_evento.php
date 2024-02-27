@@ -90,7 +90,7 @@ try {
                 $stmt = $conn->prepare("UPDATE eventos SET nombre=?, descripcion=?, fecha_inicio=?, fecha_fin=?, imagen=? WHERE id=?");
                 $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $rutaImagenNueva, $idEvento]);
 
-                echo "Evento editado con éxito";
+
                 header("refresh:2;url=gestionar_eventos.php");
                 exit();
             }

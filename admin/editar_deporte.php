@@ -1,11 +1,11 @@
 <?php
 include '../includes/config.php';
-include '../includes/header.php';
+include '../includes/navbar.php';
 
-//if (!isset($_SESSION['usuario_admin'])) {
-//    header("Location: /ayudantias/admin/login.php");
-//    exit();
-//}
+if (!isset($_SESSION['usuario_admin'])) {
+   header("Location: /ayudantias/admin/login.php");
+   exit();
+}
 
 $error = "";
 
@@ -76,7 +76,7 @@ if (isset($_GET['id'])) {
         $stmt = $conn->prepare("UPDATE deportes SET nombre=?, descripcion=?, imagen=? WHERE id=?");
         $stmt->execute([$nombre, $descripcion, $rutaImagenNueva, $idDeporte]);
 
-        echo "Deporte editado con éxito";
+
         header("refresh:2;url=gestionar_deportes.php");
         exit();
     }
