@@ -152,7 +152,7 @@ try {
                     <h2><?php echo htmlspecialchars($evento['nombre_evento']); ?></h2>
                     <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
                     <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                    <p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>
+                    <!--<p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
                     <p><?php echo htmlspecialchars($evento['estado']); ?></p>
 
                     <div class="descripcion-container">

@@ -1,7 +1,7 @@
 <?php 
 $servername = "localhost";
 $username = "root";
-$password ="ghil3412";
+$password ="";
 $dbname ="liga";
 
 try {
