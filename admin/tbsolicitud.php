@@ -6,6 +6,7 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
+// Llamar al procedimiento almacenado para obtener las solicitudes
 try {
     $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
     $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
@@ -23,7 +24,7 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-// Llamar al procedimiento almacenado para obtener las solicitudes
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST['descripcion'];

@@ -46,6 +46,20 @@ try {
                 $check = getimagesize($_FILES["imagen"]["tmp_name"]);
 
                 if ($check != false) {
+                    // Verificar si el archivo ya existe y renombrarlo si es necesario
+                    $contador = 1;
+                    $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+                    $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+                    $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+
+                    while (file_exists($archivo)) {
+                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
+                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+                        $contador++;
+                    }
+
+                    $archivoImagen = $archivo;
+
                     if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
                         //la imagen se cargo correctamente
 

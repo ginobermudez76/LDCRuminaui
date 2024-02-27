@@ -26,21 +26,30 @@ try {
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
 
-
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
 
                 $directorioDestino = "../uploads/deportes/";
-
                 $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-
                 $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
-
                 $check = getimagesize($_FILES["imagen"]["tmp_name"]);
 
                 if ($check != false) {
-                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                        //la imagen se cargo correctamente
+                    // Verificar si el archivo ya existe y renombrarlo si es necesario
+                    $contador = 1;
+                    $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+                    $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+                    $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
 
+                    while (file_exists($archivo)) {
+                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
+                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+                        $contador++;
+                    }
+
+                    $archivoImagen = $archivo;
+
+                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
+                        // la imagen se cargó correctamente
                     } else {
                         $error = "Hubo un error al cargar la imagen";
                     }
@@ -48,7 +57,7 @@ try {
                     $error = "El archivo no es una imagen";
                 }
             } else {
-                //manejo en el caso de que la imagen no se cargue una imagen
+                // manejo en el caso de que la imagen no se cargue una imagen
                 $archivoImagen = "";
             }
 
