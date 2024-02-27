@@ -19,7 +19,7 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-        // Mostrar el elemento del menú Administrar
+        // Mostrar el elemento del menú Administrarsdasdasdasdasdas
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
 
