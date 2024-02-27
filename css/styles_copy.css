@@ -299,7 +299,7 @@ thead{
     border-radius: 10px;
 }
 tr{
-    text-align: right;
+    text-align: left;
 }
 
 tr:hover{

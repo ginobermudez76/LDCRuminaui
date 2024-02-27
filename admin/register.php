@@ -118,7 +118,7 @@ try {
                         </div>
 
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+                            <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required>
                         </div>
 
                         <button type="submit" class="btn btn-danger" name="registrar" id="registrar">Registrar</button>
@@ -220,6 +220,47 @@ try {
                     this.value = cedula.slice(0, 10);
                 }
             });
+            document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de nombre
+                var nombre = this.value;
+                // Limitar el valor a 45 caracteres
+                if (nombre.length > 45) {
+                    this.value = nombre.slice(0, 45);
+                }
+            });
+            document.getElementById('snombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de snombre
+                var snombre = this.value;
+                // Limitar el valor a 45 caracteres
+                if (snombre.length > 45) {
+                    this.value = snombre.slice(0, 45);
+                }
+            });
+            document.getElementById('apellido').addEventListener('input', function() {
+                // Obtener el valor actual del campo de apellido
+                var apellido = this.value;
+                // Limitar el valor a 45 caracteres
+                if (apellido.length > 45) {
+                    this.value = apellido.slice(0, 45);
+                }
+            });
+            document.getElementById('sapellido').addEventListener('input', function() {
+                // Obtener el valor actual del campo de cedula
+                var sapellido = this.value;
+                // Limitar el valor a 45 caracteres
+                if (sapellido.length > 45) {
+                    this.value = sapellido.slice(0, 45);
+                }
+            });
+            document.getElementById('mail').addEventListener('input', function() {
+                // Obtener el valor actual del campo de cedula
+                var mail = this.value;
+                // Limitar el valor a 45 caracteres
+                if (mail.length > 100) {
+                    this.value = mail.slice(0, 100);
+                }
+            });
+
             document.getElementById("formregistraruser").addEventListener("submit", function(event) {
                 event.preventDefault(); // Evitar el envío del formulario por defecto
 
