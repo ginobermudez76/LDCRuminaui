@@ -59,32 +59,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $nombreUsuario = $stmt->fetch(PDO::FETCH_ASSOC)['nombre_usuario'];
 
-            // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
-            if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
-                $nombreArchivoNuevo = basename($_FILES['documento']['name']);
-                $archivoNuevo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoNuevo;
+        // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
+        if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
+            $nombreArchivoNuevo = basename($_FILES['documento']['name']);
+            $archivoNuevo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoNuevo;
 
-                // Eliminar el archivo antiguo del sistema de archivos
-                $rutaArchivoAntiguo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoAntiguo;
+            // Eliminar el archivo antiguo del sistema de archivos
+            $rutaArchivoAntiguo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoAntiguo;
 
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                try {
-
-
-                    // Verificar si el checkbox está marcado
-                    if (isset($_POST['checkDArchivo'])) {
-                        // Eliminar el archivo del sistema de archivos
-                        if (file_exists($rutaArchivoAntiguo)) {
-                            unlink($rutaArchivoAntiguo);
-                        }
-                        // Actualizar la solicitud en la base de datos con s_doc como NULL
-                        $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
-                        $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
-                    }
-                } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
-                }
-            }
             if (file_exists($rutaArchivoAntiguo)) {
                 unlink($rutaArchivoAntiguo);
             }
@@ -104,9 +86,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $conn->prepare("UPDATE solicitud SET s_doc = ?, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
             $stmt->execute([$archivoNuevo, $valor, $tipo, $descripcion, $idSolicitud]);
         } else {
-            // Actualizar la solicitud en la base de datos sin cambiar el archivo
-            $stmt = $conn->prepare("UPDATE solicitud SET s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
-            $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Directorio de destino para el documento
+                $directorioArchivoEliminar = "../uploads/documentos/solicitudes/";
+                try {
+                    
+                    //Buscar el nombre de usuario del solicitante en la tabla usuario
+                    $stmt = $conn->prepare("SELECT nombre_usuario FROM usuarios WHERE id = :solicitante");
+                    $stmt->bindParam(':solicitante', $solicitanteId, PDO::PARAM_INT);
+                    $stmt->execute();
+                    $nombreUsuario = $stmt->fetch(PDO::FETCH_ASSOC)['nombre_usuario'];
+
+                    // Obtener el nombre de usuario y el nombre del archivo antiguo
+                    $stmt = $conn->prepare("SELECT s_doc FROM solicitud WHERE s_id = :id");
+                    $stmt->bindParam(':id', $idSolicitud);
+                    $stmt->execute();
+                    $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $nombreArchivoEliminar = basename($solicitud['s_doc']);
+
+                    // Verificar si el checkbox está marcado
+                    if (isset($_POST['checkDArchivo'])) {
+
+                        // Actualizar la solicitud en la base de datos con s_doc como NULL
+                        $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
+                        $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
+
+                        $rutaArchivoEliminar = $directorioArchivoEliminar  . $nombreUsuario . "/" . $nombreArchivoEliminar;
+                        // Eliminar el archivo del sistema de archivos
+                        if (file_exists($rutaArchivoEliminar)) {
+                            unlink($rutaArchivoEliminar);
+                        }
+                    }
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+            } else {
+                // Actualizar la solicitud en la base de datos sin cambiar el archivo
+                $stmt = $conn->prepare("UPDATE solicitud SET s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
+                $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
+            }
         }
 
         // Redirigir después de editar
@@ -120,4 +139,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: tbsolicitud.php");
     exit();
 }
-?>
