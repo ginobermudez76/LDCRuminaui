@@ -64,7 +64,9 @@ try {
                         <?php endif; ?>
                     </td>
                     <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
+                    <?php if (!empty($solicitud['s_valor'])) : ?>
                     <td><?php echo htmlspecialchars($evento['descripcion']); ?></td>
+                    <?php endif; ?>
                     <td><?php echo htmlspecialchars($evento['nombre_deporte']); ?></td>
                     <td><?php echo htmlspecialchars($evento['fecha_inicio']); ?></td>
                     <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>

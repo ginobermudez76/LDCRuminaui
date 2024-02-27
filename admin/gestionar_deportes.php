@@ -61,7 +61,9 @@ try {
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
+                                <?php if (!empty($solicitud['descripcion'])) : ?>
                                 <td><?php echo htmlspecialchars($deporte['descripcion']); ?></td>
+                                <?php endif; ?>
                                 <td>
                                     <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
                                     <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
