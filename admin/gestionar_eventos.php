@@ -64,22 +64,23 @@ try {
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
-                                <?php if (!empty($evento['s_valor'])) : ?>
-                                    <td>
+                                <td>
+                                    <?php if (!empty($evento['s_valor'])) : ?>
+
                                         <?php echo htmlspecialchars($evento['descripcion']); ?>
                                     <?php endif; ?>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($evento['nombre_deporte']); ?></td>
-                                    <td><?php echo htmlspecialchars($evento['fecha_inicio']); ?></td>
-                                    <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>
-                                    <td>
-                                        <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-secondary btn-sm">Agregar</a>
-                                        <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-danger btn-sm">Borrar</a>
-                                    </td>
-                                    <td>
-                                        <a href="editar_evento.php?id=<?php echo $evento['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
-                                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $evento['id']; ?>)">Eliminar</button>
-                                    </td>
+                                </td>
+                                <td><?php echo htmlspecialchars($evento['nombre_deporte']); ?></td>
+                                <td><?php echo htmlspecialchars($evento['fecha_inicio']); ?></td>
+                                <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>
+                                <td>
+                                    <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-secondary btn-sm">Agregar</a>
+                                    <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-danger btn-sm">Borrar</a>
+                                </td>
+                                <td>
+                                    <a href="editar_evento.php?id=<?php echo $evento['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $evento['id']; ?>)">Eliminar</button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
