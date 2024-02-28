@@ -34,7 +34,7 @@ try {
 ?>
 
         <div class="container mt-4">
-            
+
             <h2 class="gestionar">Deportes ofertados</h2>
             <a href="agregar_deporte.php" class="btn btn-primary mb-4">Agregar Deporte</a>
             <div class="table-responsive">
@@ -61,9 +61,11 @@ try {
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
-                                <?php if (!empty($solicitud['descripcion'])) : ?>
-                                <td><?php echo htmlspecialchars($deporte['descripcion']); ?></td>
-                                <?php endif; ?>
+                                <td>
+                                    <?php if (!empty($deporte['descripcion'])) : ?>
+                                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
                                     <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
@@ -78,7 +80,7 @@ try {
                     </tbody>
                 </table>
             </div>
-            </div>
+        </div>
 
 
 
