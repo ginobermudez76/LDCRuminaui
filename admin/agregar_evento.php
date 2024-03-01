@@ -88,7 +88,7 @@ try {
 ?>
 
         <div class="container mt-4">
-            <h2>Agregar Evento</h2>
+            <h2 class="gestionar">Agregar Evento</h2>
             <?php if (!empty($error)) : ?>
                 <div class="alert alert-danger">
                     <?php echo $error; ?>

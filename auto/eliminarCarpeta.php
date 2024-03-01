@@ -9,7 +9,6 @@ $stmtLlamarSP->close();
 // Obtener la fecha y hora actual
 $fechaActual = date('Y-m-d H:i:s');
 
-
     // Seleccionar eventos que deben ser eliminados
     $stmt = $conectar->prepare("SELECT id, nombre, imagen FROM eventos WHERE fecha_eliminar < ?");
     $stmt->bind_param('s', $fechaActual);
@@ -20,11 +19,11 @@ $fechaActual = date('Y-m-d H:i:s');
     // Eliminar eventos, carpetas y imágenes asociadas
     foreach ($eventosParaEliminar as $evento) {
         // Borrar carpeta en ../uploads/eventos/
-        $carpetaEvento = "../uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
+        $carpetaEvento = "C:/xampp/htdocs/uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
 
         if ($evento && !empty($evento['imagen'])) {
             // Ruta completa de la imagen
-            $rutaImagen = "../uploads/eventos/" . basename($evento['imagen']);
+            $rutaImagen = "C:/xampp/htdocs/uploads/eventos/" . basename($evento['imagen']);
     
             // Eliminar la imagen del sistema de archivos
             if (file_exists($rutaImagen)) {
@@ -60,4 +59,3 @@ $fechaActual = date('Y-m-d H:i:s');
 // Cierra la conexión
 $conectar->close();
 ?>
-

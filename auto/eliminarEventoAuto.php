@@ -23,14 +23,14 @@ try {
     foreach ($eventosParaEliminar as $evento) {
         // Eliminar imagen del sistema de archivos
         if ($evento && !empty($evento['imagen'])) {
-            $rutaImagen = "../uploads/eventos/" . basename($evento['imagen']);
+            $rutaImagen = "C:/xampp/htdocs/uploads/eventos/" . basename($evento['imagen']);
             if (file_exists($rutaImagen)) {
                 unlink($rutaImagen);
             }
         }
 
         // Eliminar carpeta y su contenido
-        $carpetaEvento = "../uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
+        $carpetaEvento = "C:/xampp/htdocs/uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
         if (file_exists($carpetaEvento) && is_dir($carpetaEvento)) {
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($carpetaEvento, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -54,6 +54,15 @@ try {
         $stmtDeleteEvento = $conectar->prepare("DELETE FROM eventos WHERE id = ?");
         $stmtDeleteEvento->bind_param('i', $evento['id']);
         $stmtDeleteEvento->execute();
+
+        // Mensaje que quieres enviar al console del navegador
+        $mensaje = "Evento eliminado: " . $evento['nombre'];
+
+        // Generar el código JavaScript para enviar el mensaje al console
+        $script = "<script>console.log('" . $mensaje . "');</script>";
+
+        // Imprimir el script en la página web
+        echo $script;
     }
 
     echo "Eventos eliminados correctamente";

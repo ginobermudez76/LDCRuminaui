@@ -78,7 +78,7 @@ try {
 ?>
 
         <div class="container mt-4">
-            <h2>Agregar Deporte</h2>
+            <h2 class="gestionar">Agregar Deporte</h2>
             <?php if (!empty($error)) : ?>
                 <div class="alert alert-danger">
                     <?php echo $error; ?>

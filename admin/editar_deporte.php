@@ -109,7 +109,7 @@ try {
 ?>
 
         <div class="container mt-4">
-            <h2>Editar Producto</h2>
+            <h2 class="gestionar">Editar Producto</h2>
             <?php if (!empty($error)) : ?>
                 <div class="alert alert-danger">
                     <?php echo $error; ?>

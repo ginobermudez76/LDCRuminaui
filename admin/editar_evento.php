@@ -119,7 +119,7 @@ try {
 ?>
 
         <div class="container mt-4">
-            <h2>Editar Evento</h2>
+            <h2 class="gestionar">Editar Evento</h2>
             <?php if (!empty($error)) : ?>
                 <div class="alert alert-danger">
                     <?php echo $error; ?>
