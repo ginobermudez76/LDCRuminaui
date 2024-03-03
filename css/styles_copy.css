@@ -306,7 +306,7 @@ tr{
 }
 
 tr:hover {
-    background-color: #72dae1 !important;
+    background-color: #36bcc6 !important;
     color: #fff !important;
     border-radius: 25px !important;
 }
@@ -353,6 +353,7 @@ tr:hover {
 .row .img {
     width: 50%;
   }
+  
 .column img{
     margin-top: 0px;
   }

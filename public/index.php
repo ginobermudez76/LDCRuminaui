@@ -68,7 +68,9 @@ try {
                 <hr>
                 <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
             </div>
-            <div class="row">
+
+        </div>
+        <div class="row">
                 <?php
                 // Dividir el array de imágenes en grupos de cuatro
                 $chunks = array_chunk($deportes, 4);
@@ -89,7 +91,6 @@ try {
                 }
                 ?>
             </div>
-        </div>
 
 
     <section class="eventos" name="Section_eventos" id="Section_eventos">
