@@ -14,7 +14,7 @@ try {
 
 <nav class="navbar navbar-expand-lg bg-light navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="../public/index.php">
+        <a class="navbar-brand" href="../public/index.php"  style="max-width: 500px; overflow: hidden; text-overflow: ellipsis;">
             <img src="../img/logo.png" alt="Logo" class="rounded-circle" width="65" height="65">
             Liga Deportiva Cantonal de Rumiñahui
         </a>
@@ -51,7 +51,7 @@ try {
                         // Verificar si el usuario tiene el rol de Publicista
                         if ($usuario['rol'] == 8) {
                             // Mostrar el elemento del menú de publicista
-                    ?>
+                        ?>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
                             </li>

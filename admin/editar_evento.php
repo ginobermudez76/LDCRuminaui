@@ -133,7 +133,11 @@ try {
 
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion"><?php echo htmlspecialchars($evento['descripcion']); ?></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion">
+                        <?php if (!empty($evento['descripcion'])) : ?>
+                        <?php echo htmlspecialchars($evento['descripcion']); ?>
+                        <?php endif; ?>
+                    </textarea>
                 </div>
 
                 <div class="mb-3">

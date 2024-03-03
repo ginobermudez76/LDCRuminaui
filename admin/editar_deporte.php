@@ -122,8 +122,11 @@ try {
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"><?php echo htmlspecialchars($deporte['descripcion']); ?>
-                </textarea>
+                    <textarea type="text" class="form-control" id="descripcion" name="descripcion">
+                        <?php if (!empty($deporte['descripcion'])) : ?>
+                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
+                        <?php endif; ?>
+                    </textarea>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="sinImagen" name="sinImagen" onchange="toggleImagenField()">

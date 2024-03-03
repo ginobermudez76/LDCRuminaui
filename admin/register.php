@@ -129,6 +129,24 @@ try {
         </div>
 
         <script>
+            
+            // Función para limitar la cantidad de dígitos en el campo de año
+            document.getElementById('fecha_n').addEventListener('input', function() {
+                // Obtener el valor actual del campo de fecha
+                var fecha = this.value;
+                var fechaArray = fecha.split("-");
+
+                var year = fechaArray[0];
+                var month = fechaArray[1];
+                var day = fechaArray[2];
+
+                // Limitar el valor del año a 4 caracteres
+                if (year.length > 4) {
+                    this.value = year.slice(0, 4);
+                }
+            });
+
+
             function actualizarCampos() {
                 var nombre = document.getElementById("nombre").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
                 var apellido = document.getElementById("apellido").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
@@ -196,10 +214,10 @@ try {
                     alert("Por favor, introduzca una fecha de nacimiento válida.");
                     return false;
                 }
-
                 // Todas las validaciones pasaron, devolvemos true
                 return true;
             }
+
 
             // Función para limitar la cantidad de dígitos en el campo de celular
             document.getElementById('celular').addEventListener('input', function() {
@@ -210,6 +228,7 @@ try {
                     this.value = celular.slice(0, 10);
                 }
             });
+
 
             // Función para limitar la cantidad de dígitos en el campo de cedula
             document.getElementById('cedula').addEventListener('input', function() {

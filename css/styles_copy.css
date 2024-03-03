@@ -12,6 +12,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar {
@@ -225,6 +227,7 @@ td{
 .deportes{
     padding: 100px 0;
     text-align: center;
+
  }
  .deportes-descripcion{
     display: flex;
@@ -302,8 +305,168 @@ tr{
     text-align: left;
 }
 
-tr:hover{
+tr:hover {
     background-color: #72dae1 !important;
-    color: #fff;
+    color: #fff !important;
     border-radius: 25px !important;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 0.5s; /* Transición suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.card-img-top {
+    position: relative;
+}
+
+.card-img-top:hover .overlay {
+    opacity: 1; /* Mostrar la superposición al pasar el mouse sobre la imagen */
+}
+
+.deporte-nombre {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+.column{
+    flex: 25%;
+    padding: 0px;
+  }
+  
+.row .img {
+    width: 50%;
+  }
+.column img{
+    margin-top: 0px;
+  }
+  
+@media (max-width: 720px){
+    body{
+        flex: 100%;
+    }
+    .column{
+        flex: 100%;
+    }
+    .menu{
+        padding: 20px;
+    }
+    .menu label{
+        display: initial;
+    }
+    .menu .navar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+
+    }
+    #menu:checked ~ .navbar{
+        display: initial;
+    }
+    .header{
+        min-height: 0vh;
+    }
+    .header-content{
+        padding: 80px 30px 50px 30px;
+    }
+    .header-txt{
+        margin-bottom: 15px;
+    }
+    .dir p{
+        font-size: 18px;
+    }
+    .mision {
+        flex-direction: column;
+    }
+    
+    .mision-1 {
+        display: none;
+    }
+    
+    .mision-2 {
+        width: 100%;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .vision {
+        flex-direction: column;
+    }
+    
+    .vision-1 {
+        display: none;
+    }
+    
+    .vision-2 {
+        width: 100%;
+        padding: 30px;
+    
+    }
+    h2 {
+        font-size: 70px;
+        line-height: 80px;
+    }
+    p{
+        margin: 15px;
+        text-align: center;
+    }
+    body{
+        max-width: 100%;
+
+    }
+    .header-txt h1, h3 {
+        font-size: 50px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        font-family: 'Bebas Neue', cursive;
+        color: #ffffff;
+        margin-bottom: 15px;
+    }
+    .header-txt{
+        text-align: center;
+        margin-bottom: 45pxs;
+     }
+     .header-txt span {
+        font-size: 40px;
+        color: #FFFFFF;
+     }
+    h3 {
+        font-size: 15px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        font-family: 'Bebas Neue', cursive;
+        color: #ffffff;
+        margin-bottom: 15px;
+    }
+    
+    .header-txt p {
+        color: #ffffff;
+        padding: 0 250px;
+        margin: 25px 0;
+    }
+    
+    .presentacion {
+        max-width: 100%;
+    }
+   span{
+    font-size: 15px;
+   }
+
 }
