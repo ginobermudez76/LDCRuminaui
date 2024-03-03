@@ -58,10 +58,7 @@ try {
         </div>
     </section>
 
-
-
-
-
+        <div class="row">
         <div class="deportes container">
             <div class="deportes-descripcion">
                 <h2>Nuestras escuelas deportivas</h2>
@@ -70,7 +67,6 @@ try {
             </div>
 
         </div>
-        <div class="row">
                 <?php
                 // Dividir el array de imágenes en grupos de cuatro
                 $chunks = array_chunk($deportes, 4);
