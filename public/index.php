@@ -146,7 +146,7 @@ try {
                                 $rutaImagen = $imagen['ruta_imagenes'];
                             ?>
                                 <div class="carousel-item <?php echo $key === 0 ? 'active' : ''; ?>">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen de la galería">
+                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="imagen" alt="Imagen de la galería">
                                 </div>
                             <?php endforeach; ?>
 

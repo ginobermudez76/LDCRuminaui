@@ -65,7 +65,7 @@ try {
                                 </td>
                                 <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
                                 <td>
-                                    <?php if (!empty($evento['s_valor'])) : ?>
+                                    <?php if (!empty($evento['descripcion'])) : ?>
 
                                         <?php echo htmlspecialchars($evento['descripcion']); ?>
                                     <?php endif; ?>
