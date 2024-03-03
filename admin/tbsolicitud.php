@@ -17,7 +17,7 @@ try {
 }
 // obtener lista de tipo de solicitud
 try {
-    $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
+    $stmt = $conn->prepare("SELECT * FROM solicitud_tipo");
     $stmt->execute();
     $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -247,7 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="">Tipo de solicitud</option>
                             <?php foreach ($tipos as $tipo) : ?>
                                 <?php
-                                $selected = ($tipo['id_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
+                                $selected = ($tipo['name_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
                                 <option value="<?php echo $tipo['id_tipo']; ?>" <?php echo $selected; ?>>
                                     <?php echo htmlspecialchars($tipo['name_tipo']); ?>
                                 </option>
