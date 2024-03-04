@@ -107,76 +107,7 @@ try {
 
 
 
-<div class="eventos" name="Section_eventos" id="Section_eventos">
-    <h2>Eventos</h2>
 
-    <?php
-    if (!empty($eventos)) {
-        echo '<div class="container mt-4" id="detalleEvento">';
-
-        foreach ($eventos as $evento) {
-        }
-        echo '</div>';
-    } else {
-        echo '<div class="container mt-4" id="detalleEvento">';
-        echo '<p class="text-center">No hay eventos próximos. ¡No te desanimes! Pronto prepararemos algo especial para ti.</p>';
-        echo '</div>';
-    }
-    ?>
-
-    <div class="container mt-4" id="detalleEvento">
-        <!-- Contenido del Evento -->
-        <?php foreach ($eventos as $evento) : ?>
-
-            <div class="row evento-container" style="background-image: url('<?php echo htmlspecialchars($evento['imagen']); ?>');">
-                <!-- Carrusel en la columna izquierda -->
-                <div class="col-md-6">
-                    <!-- Carrusel de imágenes aquí -->
-                    <div id="carouselEvento_<?php echo $evento['evento_id']; ?>" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <?php
-                            // Obtener imágenes de la galería para el evento actual
-                            $stmtGaleria = $conn->prepare("SELECT ruta_imagenes FROM galeria_imagenes WHERE id_tipo = :evento_id AND tipo = 'Evento'");
-                            $stmtGaleria->bindParam(':evento_id', $evento['evento_id']);
-                            $stmtGaleria->execute();
-                            $imagenesGaleria = $stmtGaleria->fetchAll(PDO::FETCH_ASSOC);
-
-                            // Iterar sobre las imágenes de la galería
-                            foreach ($imagenesGaleria as $key => $imagen) :
-                                $rutaImagen = $imagen['ruta_imagenes'];
-                            ?>
-                                <div class="carousel-item <?php echo $key === 0 ? 'active' : ''; ?>">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="imagen" alt="Imagen de la galería">
-                                </div>
-                            <?php endforeach; ?>
-
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselEvento_<?php echo $evento['evento_id']; ?>" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Anterior</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselEvento_<?php echo $evento['evento_id']; ?>" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Siguiente</span>
-                        </button>
-                    </div>
-                </div>
-                <!-- Detalles del Evento en la columna derecha -->
-                <div class="col-md-6 detalles-evento">
-                    <h2><?php echo htmlspecialchars($evento['nombre_evento']); ?></h2>
-                    <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
-                    <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                    <!--<p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
-                    <p><?php echo htmlspecialchars($evento['estado']); ?></p>
-
-                    <div class="descripcion-container">
-                        <p>Descripción: <?php echo htmlspecialchars($evento['descripcion']); ?></p>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</div>
 
 <div class="contenedor-imagenes">
     <?php foreach ($eventos as $index => $evento) : ?>
@@ -185,7 +116,7 @@ try {
             <div class="texto-desplegable" id="texto-desplegable-<?php echo $index; ?>">
                 <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
                 <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                <!--<p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
+                <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
                 <p><?php echo htmlspecialchars($evento['estado']); ?></p>
                 <p><?php echo htmlspecialchars($evento['descripcion']); ?></p>
             </div>

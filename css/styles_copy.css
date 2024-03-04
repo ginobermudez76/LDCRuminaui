@@ -581,21 +581,23 @@ tr:hover {
 .container1 {
     display: flex;
     align-items: center;
+    width: 100%;
   }
   .texto-desplegable {
     background-color: #0000003d;
     display: none;
-    width: 50%; /* ajusta el espacio entre la imagen y el texto según sea necesario */
+    width: 50%;
+    height: 100%;
   }
   .contenedor-imagenes{
-    display: flex;
     padding: 0px;
-    flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
   }
-  .contenedor-imagenes img{
+  .contenedor-imagenes .imagen1{
     width: 50%;
     height: 500px;
   }
