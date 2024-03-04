@@ -46,7 +46,33 @@ try {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
+        //Logica para el form de reasignar
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $tipo = $_POST['tipo_id'];
 
+            try {
+                $conn->beginTransaction();
+                $stmt = $conn->prepare("UPDATE INTO solicitud (tipo) VALUES (?) WHERE id=?");
+                $stmt->execute([$tipo]);
+
+                // Obtén el ID de la solicitud insertada
+                $solicitudId = $conn->lastInsertId();
+
+                // Llama al procedimiento almacenado
+                $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
+                $stmt->execute([$tipo, $solicitudId]);
+
+                $conn->commit(); // Commit la transacción si todo es correcto
+
+                // Redirigir después de agregar
+                header("Location: vsolicitudencargado.php");
+                exit();
+            } catch (PDOException $e) {
+                $conn->rollBack(); // Hace rollback en caso de error
+                echo "Error: " . $e->getMessage();
+            }
+
+        }
 
         ?>
         <style>
@@ -138,7 +164,6 @@ try {
                         <!-- Modal para Reasignar -->
                         <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1"
                             aria-labelledby="ReasignarModalLabel" aria-hidden="true">
-                            <!-- Contenido del modal... -->
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -175,9 +200,9 @@ try {
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" id="Aprobar" class="btn btn-success"><i
+                                        <button type="submit" id="ReasignarAprobado" class="btn btn-success"><i
                                                 class="fa-solid fa-check"></i>Reasignar</button>
-                                        <button id="Denegar" class="btn btn-danger" data-bs-dismiss="modal"><i
+                                        <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i
                                                 class="fa-solid fa-xmark dism"></i>Cancelar</button>
                                     </div>
                                 </div>
@@ -191,7 +216,7 @@ try {
         </div>
 
 
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
         <script>
             $(document).ready(function () {
                 $('.acciones').click(function () {
@@ -199,19 +224,6 @@ try {
 
                     // Actualizar la URL con el ID
                     history.pushState(null, null, '?id=' + solicitudId);
-
-                    // Cargar detalles de la solicitud en el modal correspondiente
-                    $.ajax({
-                        url: 'obtener_detalles_solicitud.php?id=' + solicitudId,
-                        type: 'GET',
-                        success: function (response) {
-                            // Actualizar el cuerpo del modal correspondiente con los detalles
-                            $('#solicitudDetails' + solicitudId).html(response);
-                        },
-                        error: function (error) {
-                            console.log('Error al obtener detalles de la solicitud');
-                        }
-                    });
 
                     // Mostrar el modal correspondiente
                     $('#AccionesModal' + solicitudId).modal('show');
