@@ -25,6 +25,9 @@ try {
 
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            if (trim($nombre) == '') {
+                $error = "No puede insertar espacios vacios";
+            } else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
 
@@ -74,6 +77,7 @@ try {
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
+        }
         }
 ?>
 

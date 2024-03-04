@@ -39,7 +39,9 @@ try {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $nombre = $_POST['nombre'];
                 $descripcion = $_POST['descripcion'];
-
+                if (trim($nombre) == '') {
+                    $error = "No puede insertar espacios vacios";
+                } else {
                 // Obtener la ruta de la imagen actual almacenada en la base de datos
                 $rutaImagenAntigua = "../uploads/deportes/" . basename($deporte['imagen']);
 
@@ -104,6 +106,7 @@ try {
 
                 header("refresh:2;url=gestionar_deportes.php");
                 exit();
+            }
             }
         }
 ?>

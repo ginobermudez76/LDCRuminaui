@@ -178,43 +178,69 @@ try {
     </div>
 </div>
 
+<div class="contenedor-imagenes">
+    <?php foreach ($eventos as $index => $evento) : ?>
+        <div class="container1">
+            <img onclick="toggleTexto(<?php echo $index; ?>)" class="imagen1" src="<?php echo $evento['imagen']; ?>" alt="<?php echo $evento['descripcion']; ?>">
+            <div class="texto-desplegable" id="texto-desplegable-<?php echo $index; ?>">
+                <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
+                <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
+                <!--<p>Inscripciones: <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
+                <p><?php echo htmlspecialchars($evento['estado']); ?></p>
+                <p><?php echo htmlspecialchars($evento['descripcion']); ?></p>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function(){
-    // Cuando se hace clic en el nombre de deporte
-    $(".deporte-nombre").click(function(){
-        var deporte_id = $(this).data("deporte-id");
-        // Hacer una petición AJAX para obtener las imágenes del carrusel
-        $.ajax({
-            url: "obtener_imagenes.php",
-            method: "GET",
-            data: { deporte_id: deporte_id },
-            success: function(response){
-                // Agregar las imágenes al carrusel
-                $("#carousel").html(response);
-                // Mostrar el modal
-                $("#myModal").css("display", "block");
-            }
+    $(document).ready(function() {
+        // Cuando se hace clic en el nombre de deporte
+        $(".deporte-nombre").click(function() {
+            var deporte_id = $(this).data("deporte-id");
+            // Hacer una petición AJAX para obtener las imágenes del carrusel
+            $.ajax({
+                url: "obtener_imagenes.php",
+                method: "GET",
+                data: {
+                    deporte_id: deporte_id
+                },
+                success: function(response) {
+                    // Agregar las imágenes al carrusel
+                    $("#carousel").html(response);
+                    // Mostrar el modal
+                    $("#myModal").css("display", "block");
+                }
+            });
+
+            // Hacer una petición AJAX para obtener la descripción del deporte
+            $.ajax({
+                url: "obtener_descripcion_deporte.php",
+                method: "GET",
+                data: {
+                    deporte_id: deporte_id
+                },
+                success: function(response) {
+                    // Agregar la descripción del deporte
+                    $("#descripcionDeporte").html(response);
+                }
+            });
         });
 
-        // Hacer una petición AJAX para obtener la descripción del deporte
-        $.ajax({
-            url: "obtener_descripcion_deporte.php",
-            method: "GET",
-            data: { deporte_id: deporte_id },
-            success: function(response){
-                // Agregar la descripción del deporte
-                $("#descripcionDeporte").html(response);
-            }
+        // Cuando se hace clic en el botón de cerrar del modal
+        $(".close").click(function() {
+            $("#myModal").css("display", "none");
         });
     });
 
-    // Cuando se hace clic en el botón de cerrar del modal
-    $(".close").click(function(){
-        $("#myModal").css("display", "none");
-    });
-});
-
+    function toggleTexto(index) {
+        var texto = document.getElementById("texto-desplegable-" + index);
+        if (texto.style.display === "none" || texto.style.display === "") {
+            texto.style.display = "block";
+        } else {
+            texto.style.display = "none";
+        }
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>

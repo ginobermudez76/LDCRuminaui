@@ -424,6 +424,7 @@ tr:hover {
     flex-wrap: wrap;
     justify-content: center;
   }
+
 .column{
     flex: 25%;
     padding: 0px;
@@ -577,3 +578,24 @@ tr:hover {
    }
 
 }
+.container1 {
+    display: flex;
+    align-items: center;
+  }
+  .texto-desplegable {
+    background-color: #0000003d;
+    display: none;
+    width: 50%; /* ajusta el espacio entre la imagen y el texto según sea necesario */
+  }
+  .contenedor-imagenes{
+    display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+
+  }
+  .contenedor-imagenes img{
+    width: 50%;
+    height: 500px;
+  }

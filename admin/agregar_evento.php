@@ -35,6 +35,9 @@ try {
             $fecha_ini = $_POST['fecha_ini'];
             $fecha_f = $_POST['fecha_f'];
             $deporte_id = $_POST['deporte_id'];
+            if (trim($nombre) == '') {
+                $error = "No puede insertar espacios vacios";
+            } else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
                 $directorioDestino = "../uploads/eventos/";
@@ -85,6 +88,7 @@ try {
                 echo "Error: " . $e->getMessage();
             }
         }
+    }
 ?>
 
         <div class="container mt-4">
@@ -252,7 +256,7 @@ try {
 
 <?php
     } else {
-        header("Location: /Ayudantias-1/public/index.php");
+        header("Location: ../public/index.php");
         exit();
     }
 } catch (PDOException $e) {

@@ -42,19 +42,20 @@ try {
             $pass = $_POST['contrasena'];
             $rol = $_POST['rolid'];
             $fechanac = $_POST['fecha_n'];
+            if (trim($nombre) == '' || trim($apellido) == '' || trim($pass) == '' || trim($cedula) == '' || trim($user) == '') {
+                $error = "No puede insertar espacios vacios";
+            } else {
+                try {
+                    $hash = password_hash($pass, PASSWORD_DEFAULT);
+                    $stmt = $conn->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena, rol, fecha_nac ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $hash, $rol, $fechanac]);
 
-
-
-            try {
-                $hash = password_hash($pass, PASSWORD_DEFAULT);
-                $stmt = $conn->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena, rol, fecha_nac ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $hash, $rol, $fechanac]);
-
-                // Redirigir después de agregar
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit();
-            } catch (PDOException $e) {
-                $mensaje = "Error: " . $e->getMessage();
+                    // Redirigir después de agregar
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit();
+                } catch (PDOException $e) {
+                    $mensaje = "Error: " . $e->getMessage();
+                }
             }
         }
 ?>
@@ -129,7 +130,6 @@ try {
         </div>
 
         <script>
-            
             // Función para limitar la cantidad de dígitos en el campo de año
             document.getElementById('fecha_n').addEventListener('input', function() {
                 // Obtener el valor actual del campo de fecha
@@ -148,15 +148,25 @@ try {
 
 
             function actualizarCampos() {
-                var nombre = document.getElementById("nombre").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
-                var apellido = document.getElementById("apellido").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
-                var cedula = document.getElementById("cedula").value.slice(-4);
-                var contrasena = apellido.charAt(0).toUpperCase() + apellido.slice(1) + cedula + "@" + new Date().getFullYear();
-                var username = nombre + "." + apellido + cedula + "@ldcruminahui.com";
+                var nombre = document.getElementById("nombre").value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+                var apellido = document.getElementById("apellido").value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+                var cedula = document.getElementById("cedula").value.trim();
+
+                // Eliminar espacios en blanco de los nombres
+                var nombreSinEspacios = nombre.replace(/\s/g, '');
+                var apellidoSinEspacios = apellido.replace(/\s/g, '');
+
+                if (nombreSinEspacios === '' || apellidoSinEspacios === '' || cedula === '') {
+                    return; // Si hay campos vacíos, no actualizar
+                }
+
+                var contrasena = apellido.charAt(0).toUpperCase() + apellido.slice(1) + cedula.slice(-4) + "@" + new Date().getFullYear();
+                var username = nombreSinEspacios + "." + apellidoSinEspacios + cedula.slice(-4) + "@ldcruminahui.com";
 
                 document.getElementById("username").value = username;
                 document.getElementById("contrasena").value = contrasena;
             }
+
 
             document.getElementById("nombre").addEventListener("input", actualizarCampos);
             document.getElementById("apellido").addEventListener("input", actualizarCampos);

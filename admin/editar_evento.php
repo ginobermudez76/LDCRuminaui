@@ -42,6 +42,9 @@ try {
                 $descripcion = $_POST['descripcion'];
                 $fecha_ini = $_POST['fecha_ini'];
                 $fecha_f = $_POST['fecha_f'];
+                if (trim($nombre) == '') {
+                    $error = "No puede insertar espacios vacios en el nombre";
+                } else {
 
                 // Obtener la ruta de la imagen actual almacenada en la base de datos
                 $rutaImagenAntigua = "../uploads/eventos/" . basename($evento['imagen']);
@@ -107,6 +110,7 @@ try {
                 header("refresh:2;url=gestionar_eventos.php");
                 exit();
             }
+        }
 
             // Obtener la lista de deportes para el formulario
             $stmtDeportes = $conn->prepare("SELECT * FROM deportes");

@@ -19,11 +19,11 @@ $fechaActual = date('Y-m-d H:i:s');
     // Eliminar eventos, carpetas y imágenes asociadas
     foreach ($eventosParaEliminar as $evento) {
         // Borrar carpeta en ../uploads/eventos/
-        $carpetaEvento = "C:/xampp/htdocs/uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
+        $carpetaEvento = "../uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
 
         if ($evento && !empty($evento['imagen'])) {
             // Ruta completa de la imagen
-            $rutaImagen = "C:/xampp/htdocs/uploads/eventos/" . basename($evento['imagen']);
+            $rutaImagen = "../uploads/eventos/" . basename($evento['imagen']);
     
             // Eliminar la imagen del sistema de archivos
             if (file_exists($rutaImagen)) {

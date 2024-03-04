@@ -18,29 +18,28 @@ try {
     // Verificar si el usuario tiene el rol de Administrador
     if ($usuario['rol'] == 8) {
         // Mostrar el elemento del menú Administrar
-// Verificar si se ha enviado el nombre de usuario
-if (isset($_POST['username'])) {
-    // Obtener el nombre de usuario enviado por la petición AJAX
-    $username = $_POST['username'];
+        // Verificar si se ha enviado el nombre de usuario
+        if (isset($_POST['username'])) {
+            // Obtener el nombre de usuario enviado por la petición AJAX
+            $username = $_POST['username'];
 
-    // Consultar si el nombre de usuario ya existe en la base de datos
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE nombre_usuario = ?");
-    $stmt->execute([$username]);
-    $result = $stmt->fetch();
+            // Consultar si el nombre de usuario ya existe en la base de datos
+            $stmt = $conn->prepare("SELECT id FROM usuarios WHERE nombre_usuario = ?");
+            $stmt->execute([$username]);
+            $result = $stmt->fetch();
 
-    if ($result) {
-        // El nombre de usuario ya existe, enviar respuesta "existe" al cliente
-        echo "existe";
+            if ($result) {
+                // El nombre de usuario ya existe, enviar respuesta "existe" al cliente
+                echo "existe";
+            } else {
+                // El nombre de usuario no existe, enviar respuesta "no existe" al cliente
+                echo "no existe";
+            }
+        }
     } else {
-        // El nombre de usuario no existe, enviar respuesta "no existe" al cliente
-        echo "no existe";
+        header("Location: ../public/index.php");
+        exit();
     }
-}
-} else {
-    header("Location: ../public/index.php");
-    exit();
-}
 } catch (PDOException $e) {
-echo "Error: " . $e->getMessage();
+    echo "Error: " . $e->getMessage();
 }
-?>
