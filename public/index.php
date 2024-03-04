@@ -62,7 +62,6 @@ try {
     <div class="deportes container">
         <div class="deportes-descripcion">
             <h2>Nuestras escuelas deportivas</h2>
-            <hr>
             <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
         </div>
 
@@ -108,12 +107,18 @@ try {
 
 
 
+<div class="deportes container">
+        <div class="deportes-descripcion">
+            <h2>Eventos deportivos</h2>
+        </div>
 
+    </div>
 <div class="contenedor-imagenes">
     <?php foreach ($eventos as $index => $evento) : ?>
         <div class="container1">
             <img onclick="toggleTexto(<?php echo $index; ?>)" class="imagen1" src="<?php echo $evento['imagen']; ?>" alt="<?php echo $evento['descripcion']; ?>">
             <div class="texto-desplegable" id="texto-desplegable-<?php echo $index; ?>">
+                <p><?php echo htmlspecialchars($evento['nombre_evento']); ?></p>
                 <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
                 <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
                 <?php echo htmlspecialchars($evento['inscripciones']); ?></p>-->
@@ -164,14 +169,7 @@ try {
         });
     });
 
-    function toggleTexto(index) {
-        var texto = document.getElementById("texto-desplegable-" + index);
-        if (texto.style.display === "none" || texto.style.display === "") {
-            texto.style.display = "block";
-        } else {
-            texto.style.display = "none";
-        }
-    }
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>
