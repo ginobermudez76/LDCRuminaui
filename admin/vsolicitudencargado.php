@@ -132,17 +132,16 @@ try {
                             </td>
                         </tr>
 
-                        <!-- Modal para mostrar detalles de la solicitud -->
+                        <!-- Modal para mostrar botones de acciones -->
                         <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1"
                             aria-labelledby="AccionesModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="AccionesModalLabel">Detalles de la Solicitud</h5>
+                                        <h5 class="modal-title" id="AccionesModalLabel">Acciones de la Solicitud</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body" id="solicitudDetails">
-                                        <!-- Aquí mostrarás el contenido dinámico de la solicitud utilizando JavaScript -->
                                         <?php echo htmlspecialchars($solicitud['s_id']); ?>
                                     </div>
                                     <div class="modal-footer">
@@ -170,7 +169,7 @@ try {
                                         <h5 class="modal-title" id="ReasignarModalLabel">Reasignar</h5>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Aquí mostrarás el contenido del formulario de reasignación -->
+                                        <!-- Formulario reasignacion -->
                                         <form action="vsolicitudencargado.php" method="POST" enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <label for="tipoReasignar" class="form-label"><strong>Tipo</strong></label>
@@ -216,7 +215,7 @@ try {
         </div>
 
 
-
+        <!-- Script para la impresion de la id en la URL y no cambiar de ventana al dar click en el boton Acciones-->
         <script>
             $(document).ready(function () {
                 $('.acciones').click(function () {
