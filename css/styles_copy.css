@@ -235,7 +235,9 @@ h3 {
 .vision {
     display: flex;
 }
-
+.carousel-inner h5{
+    font-size: 80px !important;
+}
 .vision-1 {
     background-image: url(../img/v1.jpg);
     background-position: center center;
@@ -261,30 +263,6 @@ h3 {
     background-repeat: no-repeat;
     margin-top: 50px;
 
-}
-
-.eventos {
-    background-image: url(../img/OIG.jpeg);
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-.detalles-evento p{
-    font-size: 25px;
-    text-transform: uppercase;
-    line-height: 0.4;
-    display: none;
-    flex-direction: column;
-    transition: opacity 0.5s ease-in-out;
-}
-.detalles-evento:hover p {
-    display: block;
-    opacity: 1;
-}
-.detalles-evento h2{
-    margin-top: 10px;
-    font-size: 35px;
-    line-height: 0.5;
 }
 
 .carousel-container {
@@ -426,6 +404,12 @@ tr:hover {
 
   
 @media (max-width: 720px){
+    .carousel-inner h5{
+        font-size: 40px !important;
+    }
+    .carousel-inner p{
+        font-size: 20px !important;
+    }
     body{
         flex: 100%;
     }

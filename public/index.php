@@ -29,34 +29,41 @@ try {
 
 ?>
 
-<div class="presentacion">
-    <div class="presentacion-1">
-        <div class="header-txt">
-            <h1>¿Quienes somos?</h1>
-            <span>LDCR</span>
-            <p>La ‘Liga Deportiva Cantonal Rumiñahui’ es una institución de derecho privado con finalidad social, es máxima entidad del deporte en el Cantón Rumiñahui, Con Sede en la ciudad de Sangolquí, afiliada a la Concentración Deportiva de Pichincha</p>
+<div id="carouselpresentacion" class="carousel slide carousel-fade" data-bs-ride="carousel-fade" data-bs-interval="2000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="../img/ruminahui.webp" alt="¿Quienes somos?">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Sobre nosotros</h5>
+                <p>La ‘Liga Deportiva Cantonal Rumiñahui’ es una institución de derecho privado con finalidad social, es máxima entidad del deporte en el Cantón Rumiñahui, Con Sede en la ciudad de Sangolquí, afiliada a la Concentración Deportiva de Pichincha</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="../img/misiondeportiva.jpg" alt="Misión">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Misión</h5>
+                <p>Nuestra misión es fomentar el desarrollo integral de la comunidad a través del deporte, promoviendo valores, inclusión y bienestar. Trabajamos arduamente para ofrecer oportunidades deportivas que inspiren el espíritu competitivo y fortalezcan los lazos comunitarios.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="../img/visiondeportiva.jpg" alt="Visión">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Visión</h5>
+                <p>Aspiramos a ser un referente regional en el ámbito deportivo, reconocidos por nuestra excelencia, compromiso social y contribución al desarrollo sostenible. Buscamos ser líderes en la promoción de un estilo de vida activo y saludable, impulsando el crecimiento personal y colectivo.</p>
+            </div>
         </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselpresentacion" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselpresentacion" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
 </div>
 
-<div class="mision">
-    <div class="mision-1"></div>
-    <div class="mision-2">
-        <h2>Nuestra misión</h2>
-        <p>Nuestra misión es fomentar el desarrollo integral de la comunidad a través del deporte, promoviendo valores, inclusión y bienestar. Trabajamos arduamente para ofrecer oportunidades deportivas que inspiren el espíritu competitivo y fortalezcan los lazos comunitarios.</p>
-    </div>
-</div>
-<div class="vision">
-    <div class="vision-2">
-        <h2>Nuestra visión</h2>
-        <p>Aspiramos a ser un referente regional en el ámbito deportivo, reconocidos por nuestra excelencia, compromiso social y contribución al desarrollo sostenible. Buscamos ser líderes en la promoción de un estilo de vida activo y saludable, impulsando el crecimiento personal y colectivo.
 
-        </p>
-    </div>
-    <div class="vision-1">
-
-    </div>
-</div>
 
 <div class="row">
     <div class="deportes container">
@@ -64,7 +71,6 @@ try {
             <h2>Nuestras escuelas deportivas</h2>
             <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
         </div>
-
     </div>
     <?php
     // Dividir el array de imágenes en grupos de cuatro
@@ -108,11 +114,11 @@ try {
 
 
 <div class="deportes container">
-        <div class="deportes-descripcion">
-            <h2>Eventos deportivos</h2>
-        </div>
-
+    <div class="deportes-descripcion">
+        <h2>Eventos deportivos</h2>
     </div>
+
+</div>
 <div class="contenedor-imagenes">
     <?php foreach ($eventos as $index => $evento) : ?>
         <div class="container1">
@@ -168,8 +174,6 @@ try {
             $("#myModal").css("display", "none");
         });
     });
-
-
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>
