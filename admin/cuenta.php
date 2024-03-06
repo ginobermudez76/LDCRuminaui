@@ -148,55 +148,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Todas las validaciones pasaron, devolvemos true
         return true;
     }
-                // Función para limitar la cantidad de dígitos en el campo de cedula
-                document.getElementById('cedula').addEventListener('input', function() {
-                // Obtener el valor actual del campo de cedula
-                var cedula = this.value;
-                // Limitar el valor a 10 caracteres
-                if (cedula.length > 10) {
-                    this.value = cedula.slice(0, 10);
-                }
-            });
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de nombre
-                var nombre = this.value;
-                // Limitar el valor a 45 caracteres
-                if (nombre.length > 45) {
-                    this.value = nombre.slice(0, 45);
-                }
-            });
-            document.getElementById('snombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de snombre
-                var snombre = this.value;
-                // Limitar el valor a 45 caracteres
-                if (snombre.length > 45) {
-                    this.value = snombre.slice(0, 45);
-                }
-            });
-            document.getElementById('apellido').addEventListener('input', function() {
-                // Obtener el valor actual del campo de apellido
-                var apellido = this.value;
-                // Limitar el valor a 45 caracteres
-                if (apellido.length > 45) {
-                    this.value = apellido.slice(0, 45);
-                }
-            });
-            document.getElementById('sapellido').addEventListener('input', function() {
-                // Obtener el valor actual del campo de cedula
-                var sapellido = this.value;
-                // Limitar el valor a 45 caracteres
-                if (sapellido.length > 45) {
-                    this.value = sapellido.slice(0, 45);
-                }
-            });
-            document.getElementById('mail').addEventListener('input', function() {
-                // Obtener el valor actual del campo de cedula
-                var mail = this.value;
-                // Limitar el valor a 45 caracteres
-                if (mail.length > 100) {
-                    this.value = mail.slice(0, 100);
-                }
-            });
+    // Función para limitar la cantidad de dígitos en el campo de cedula
+    document.getElementById('cedula').addEventListener('input', function() {
+        // Obtener el valor actual del campo de cedula
+        var cedula = this.value;
+        // Limitar el valor a 10 caracteres
+        if (cedula.length > 10) {
+            this.value = cedula.slice(0, 10);
+        }
+    });
+    document.getElementById('nombre').addEventListener('input', function() {
+        // Obtener el valor actual del campo de nombre
+        var nombre = this.value;
+        // Limitar el valor a 45 caracteres
+        if (nombre.length > 45) {
+            this.value = nombre.slice(0, 45);
+        }
+    });
+    document.getElementById('snombre').addEventListener('input', function() {
+        // Obtener el valor actual del campo de snombre
+        var snombre = this.value;
+        // Limitar el valor a 45 caracteres
+        if (snombre.length > 45) {
+            this.value = snombre.slice(0, 45);
+        }
+    });
+    document.getElementById('apellido').addEventListener('input', function() {
+        // Obtener el valor actual del campo de apellido
+        var apellido = this.value;
+        // Limitar el valor a 45 caracteres
+        if (apellido.length > 45) {
+            this.value = apellido.slice(0, 45);
+        }
+    });
+    document.getElementById('sapellido').addEventListener('input', function() {
+        // Obtener el valor actual del campo de cedula
+        var sapellido = this.value;
+        // Limitar el valor a 45 caracteres
+        if (sapellido.length > 45) {
+            this.value = sapellido.slice(0, 45);
+        }
+    });
+    document.getElementById('mail').addEventListener('input', function() {
+        // Obtener el valor actual del campo de cedula
+        var mail = this.value;
+        // Limitar el valor a 45 caracteres
+        if (mail.length > 100) {
+            this.value = mail.slice(0, 100);
+        }
+    });
 </script>
 <?php
 include '../includes/footer.php'

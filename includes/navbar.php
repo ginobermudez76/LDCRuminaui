@@ -68,6 +68,8 @@ try {
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="nav-link active" aria-current="page" href="../publicista/gestionar_eventos.php">Eventos</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/gestionar_deportes.php">Deportes</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/deportistas_destacados.php">Deportistas destacados</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/logros.php">Logros</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/carta_de_condolencias.php">Carta de condolencias</a>
                                 </div>
                             </li>

@@ -1,7 +1,7 @@
 <?php
 
-include '../includes/config.php'; //incluyebdo la conexion de la base de datos
-include '../includes/header.php'; //incluyendlo la cabecera comun
+include '../includes/config.php'; //incluyendo la conexión de la base de datos
+include '../includes/header.php'; //incluyendo la cabecera común
 
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
@@ -19,19 +19,26 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-        // Mostrar el elemento del menú Administrarsdasdasdasdasdas
-
+        // Mostrar el elemento del menú Administrar
+        // Obtener la lista de tipo de deportes
+        try {
+            $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
+            $stmt->execute();
+            $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $nombre = $_POST['nombre'];
-            $descripcion = $_POST['descripcion'];
+            $depor = $_POST['deporte_id'];
             if (trim($nombre) == '') {
-                $error = "No puede insertar espacios vacios";
+                $error = "El nombre no puede estar vacio.";
             } else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
 
-                $directorioDestino = "../uploads/deportes/";
+                $directorioDestino = "../uploads/deportes/logros/";
                 $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
                 $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
                 $check = getimagesize($_FILES["imagen"]["tmp_name"]);
@@ -67,8 +74,8 @@ try {
             //insertar en la base de datos (con o sin imagen)
 
             try {
-                $stmt = $conn->prepare("INSERT INTO deportes (nombre, descripcion, imagen) VALUES (?, ?, ?)");
-                $stmt->execute([$nombre, $descripcion, $archivoImagen]);
+                $stmt = $conn->prepare("INSERT INTO logros (titulo, deporte_id, imagen) VALUES (?, ?, ?)");
+                $stmt->execute([$nombre, $depor, $archivoImagen]);
 
                 //redirigir despues de agregar
 
@@ -78,74 +85,44 @@ try {
                 echo "Error: " . $e->getMessage();
             }
         }
-        }
+        }   
 ?>
-
         <div class="container mt-4">
-            <h2 class="gestionar">Agregar Deporte</h2>
-            <?php if (!empty($error)) : ?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
-            <form action="agregar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <h2 class="gestionar">Logros</h2>
+            <form action="logros.php" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
+                    <label for="Nombre" class="form-label">Nombre del logro</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre"></input>
                 </div>
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
+                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
+                <select class="form-control" id="deporte_id" name="deporte_id">
+                    <option value="">Seleccione un deporte</option>
+                    <?php foreach ($deportes as $deporte) : ?>
+                        <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" class="btn btn-primary">Publicar</button>
             </form>
         </div>
         <script>
             function validarCamposEvento() {
-                var nombreDeporte = document.getElementById("nombre").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
+
+                var nombreEvento = document.getElementById("nombre").value;
+                if (nombreEvento === "") {
+                    alert("El nombre no puede quedar vacio");
                     return false;
                 }
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg' , 'svg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
+                var nombredeporte = document.getElementById("deporte_id").value;
+                if (nombredeporte === "") {
+                    alert("El deporte no puede quedar vacio");
                     return false;
                 }
-
-
                 return true;
             }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
         </script>
-
 <?php
     } else {
         header("Location: ../public/index.php");
@@ -154,4 +131,5 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php'; ?>
+include '../includes/footer.php';
+?>
