@@ -66,9 +66,9 @@ try {
                                     Publicar
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_eventos.php">Eventos</a>
-                                    <a class="nav-link active" aria-current="page" href="../admin/gestionar_deportes.php">Deportes</a>
-                                    <a class="nav-link active" aria-current="page" href="../admin/carta_de_condolencias.php">Carta de condolencias</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/gestionar_eventos.php">Eventos</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/gestionar_deportes.php">Deportes</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/carta_de_condolencias.php">Carta de condolencias</a>
                                 </div>
                             </li>
                         <?php
@@ -93,10 +93,15 @@ try {
                 <li class="nav-item">
 
                     <?php if (isset($_SESSION['usuario_admin'])) : ?>
-
-                        <a class="nav-link" href="../admin/logout.php">Cerrar Sesión</a>
-
-
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Cuenta
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link active" aria-current="page" href="../admin/cuenta.php">Perfil</a>
+                                    <a class="nav-link" href="../admin/logout.php">Cerrar Sesión</a>
+                                </div>
+                            </li>
                     <?php endif; ?>
                 </li>
                 <?php if (!isset($_SESSION['usuario_admin'])) { ?>

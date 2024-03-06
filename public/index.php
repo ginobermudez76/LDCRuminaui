@@ -28,7 +28,7 @@ try {
 }
 
 ?>
-
+<div class="container-fluid">
 <div id="carouselpresentacion" class="carousel slide carousel-fade" data-bs-ride="carousel-fade" data-bs-interval="2000">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -134,6 +134,8 @@ try {
         </div>
     <?php endforeach; ?>
 </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
