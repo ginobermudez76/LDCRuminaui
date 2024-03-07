@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $idSolicitud = $_POST['idSolicitud'];
         $descripcion = $_POST['descripcion'];
         $valor = isset($_POST['valor']) ? $_POST['valor'] : null;
-        $tipo = $_POST['tipo_id'];
+        $tipo = $_POST['tipoEdit'];
 
         // Verificar si el valor es numérico
         if (!is_numeric($valor)) {
@@ -41,10 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
         if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
             $nombreArchivoNuevo = basename($_FILES['documento']['name']);
-            $archivoNuevo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoNuevo;
+            $archivoNuevo = $directorioDestino . $nombreUsuario . "/" . $nombreArchivoNuevo;
 
             // Eliminar el archivo antiguo del sistema de archivos
-            $rutaArchivoAntiguo = $directorioDestino  . $nombreUsuario . "/" . $nombreArchivoAntiguo;
+            $rutaArchivoAntiguo = $directorioDestino . $nombreUsuario . "/" . $nombreArchivoAntiguo;
 
             if (file_exists($rutaArchivoAntiguo)) {
                 unlink($rutaArchivoAntiguo);
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $stmt = $conn->prepare("UPDATE solicitud SET s_doc = NULL, s_valor = ?, tipo = ?, descripcion = ? WHERE s_id = ?");
                         $stmt->execute([$valor, $tipo, $descripcion, $idSolicitud]);
 
-                        $rutaArchivoEliminar = $directorioArchivoEliminar  . $nombreUsuario . "/" . $nombreArchivoEliminar;
+                        $rutaArchivoEliminar = $directorioArchivoEliminar . $nombreUsuario . "/" . $nombreArchivoEliminar;
                         // Eliminar el archivo del sistema de archivos
                         if (file_exists($rutaArchivoEliminar)) {
                             unlink($rutaArchivoEliminar);
@@ -108,13 +108,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirigir después de editar
-        header("Location: tbsolicitud.php");
+        header("Location: solicitudes.php");
         exit();
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 } else {
     // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-    header("Location: tbsolicitud.php");
+    header("Location: solicitudes.php");
     exit();
 }
+?>

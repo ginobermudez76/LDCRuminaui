@@ -32,7 +32,7 @@ try {
                 if (isset($_SESSION['usuario_admin'])) {
                 ?>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../admin/tbsolicitud.php">Solicitudes</a>
+                        <a class="nav-link active" aria-current="page" href="../admin/solicitudes.php">Solicitudes</a>
                     </li>
 
                     <?php

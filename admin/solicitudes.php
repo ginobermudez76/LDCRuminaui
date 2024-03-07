@@ -6,15 +6,6 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
-// Llamar al procedimiento almacenado para obtener las solicitudes
-try {
-    $stmt = $conn->prepare("CALL mostrar_solicitudes(:usuario_id)");
-    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $solicitudes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
 // obtener lista de tipo de solicitud
 try {
     $stmt = $conn->prepare("SELECT * FROM solicitud_tipo");
@@ -23,8 +14,6 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST['descripcion'];
@@ -49,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Directorio de destino para el documento
     $directorioDestino = "../uploads/documentos/solicitudes/";
-
     // Crear el directorio del usuario si no existe
     $directorioUsuario = $directorioDestino . $nombre_usuario . '/';
     if (!file_exists($directorioUsuario)) {
@@ -108,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->commit(); // Commit la transacción si todo es correcto
 
         // Redirigir después de agregar
-        header("Location: tbsolicitud.php");
+        header("Location: solicitudes.php");
         exit();
     } catch (PDOException $e) {
         $conn->rollBack(); // Hace rollback en caso de error
@@ -116,70 +104,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
-
-
-
-<div class="container">
-    <h2 class="gestionar">Solicitudes</h2>
+<div class="container mt-5 mr-5">
+<h2 class="gestionar">Solicitudes</h2>
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarSolicitudModal">Agregar +</button>
-    <div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Fecha y hora</th>
-                <th>Documento</th>
-                <th>Descripción</th>
-                <th>Encargado</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($solicitudes as $solicitud) : ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($solicitud['s_id']); ?></td>
-                    <td><?php echo htmlspecialchars($solicitud['s_fecha']); ?></td>
-                    <td>
-                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-                        <?php else : ?>
-                            <p1>No hay documento</p1>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        Tipo: <?php echo htmlspecialchars($solicitud['tipo']); ?><br>
-                        <?php if (!empty($solicitud['s_valor'])) : ?>
-                            Monto: $<?php echo htmlspecialchars($solicitud['s_valor']); ?><br>
-                        <?php endif; ?>
-                        <?php if (!empty($solicitud['descripcion'])) : ?>
-                            Descripción: <?php echo htmlspecialchars($solicitud['descripcion']); ?>
-                        <?php endif; ?>
-                    </td>
-
-                    <td>
-                        Departamento: <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
-                        Persona: <?php echo htmlspecialchars($solicitud['encargado']); ?>
-                    </td>
-                    <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
-                    <td>
-                        <?php
-
-                        if ($solicitud['estado'] == 'En tramite') {
-                        ?>
-                            <button type="button" class="btn btn-secondary btn-sm" onclick="abrirModalEdicion(<?php echo $solicitud['s_id']; ?>)">Editar</button>
-                        <?php
-                        }
-                        ?>
-                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['s_id']; ?>)">Eliminar</button>
-
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        </tbody>
-    </table>
+</div>
+<div class="container">
+    <div class="row" id="tablaSoli">
     </div>
 </div>
 <!-- Modal para agregar solicitud -->
@@ -191,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="tbsolicitud.php" method="POST" enctype="multipart/form-data">
+                <form action="solicitudes.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="documento" class="form-label">Documento</label>
                         <input type="file" class="form-control" id="documento" name="documento">
@@ -219,58 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
-<!-- Modal para editar solicitud -->
-<div class="modal fade" id="editarSolicitudModal" tabindex="-1" aria-labelledby="editarSolicitudModalLabel" aria-hidden="true" onsubmit="return validarTipoEdit()">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarSolicitudModalLabel">Editar Solicitud</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formEditarSolicitud" action="editar_solicitud.php" method="POST" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="documentoEdit" class="form-label">Documento</label><br>
-                        <input type="checkbox" class="form-check-input" id="checkDArchivo" name="checkDArchivo" onchange="deshabilitarInputArchivo()">
-
-                        <label class="form-check-label" for="checkEjemplo">Eliminiar</label>
-                        <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-                            <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Documento Anterior</a>
-                        <?php else : ?>
-                            <a>No hay documento</a>
-                        <?php endif; ?>
-                        <input type="file" class="form-control" id="documentoEdit" name="documento" value="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" onchange="deshabilitarCheckbox()">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tipoEdit" class="form-label">Tipo</label>
-                        <select class="form-select" id="tipoEdit" name="tipo_id">
-                            <option value="">Tipo de solicitud</option>
-                            <?php foreach ($tipos as $tipo) : ?>
-                                <?php
-                                $selected = ($tipo['name_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
-                                <option value="<?php echo $tipo['id_tipo']; ?>" <?php echo $selected; ?>>
-                                    <?php echo htmlspecialchars($tipo['name_tipo']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcionEdit" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcionEdit" name="descripcion" rows="3"><?php echo htmlspecialchars($solicitud['descripcion']); ?></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="valorEdit" class="form-label">Valor solicitado</label>
-                        <input type="number" class="form-control" id="valorEdit" name="valor" step="0.01" value="<?php echo htmlspecialchars($solicitud['s_valor']); ?>">
-                    </div>
-                    <input type="hidden" id="idSolicitudEdit" name="idSolicitud">
-                    <button type="submit" class="btn btn-primary">Enviar cambios</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
+    $("#tablaSoli").load("tablaSolicitudes.php"); //load es una funcion de Jquery
+
     function deshabilitarInputArchivo() {
         var checkbox = document.getElementById("checkDArchivo");
         var inputArchivo = document.getElementById("documentoEdit");
@@ -325,46 +207,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Usuario hizo clic en "Cancelar", no hacer nada
         }
     }
-
-    function eliminarSolicitud(idSolicitud) {
-
-
-        // Utiliza jQuery para enviar una solicitud AJAX a eliminar_solicitud.php
-        $.ajax({
-            type: "POST",
-            url: "eliminar_solicitud.php",
-            data: {
-                id: idSolicitud
-            },
-            success: function(response) {
-                // Manejar la respuesta, si es necesario
-                console.log(response);
-                alert(response);
-                //Recargar la página
-                location.reload();
-            },
-            error: function(error) {
-                // Manejar errores si es necesario
-                console.error(error);
-            }
-        });
-    }
 </script>
 <script>
-    function abrirModalEdicion(idSolicitud) {
-        // Aquí puedes obtener la información de la solicitud mediante AJAX si es necesario
-        // Por ahora, asumiremos que tienes la información necesaria en la página
-
-        // Por ejemplo, aquí se asignan valores ficticios al formulario de edición
-        document.getElementById("idSolicitudEdit").value = idSolicitud;
-        document.getElementById("tipoEdit").value;
-        document.getElementById("descripcionEdit").value;
-
-        // Abre el modal de edición
-        var myModal = new bootstrap.Modal(document.getElementById('editarSolicitudModal'));
-        myModal.show();
-    }
-
     function validarTipoEdit() {
         var seleccionTipoEdit = document.getElementById("tipoEdit").value;
         if (seleccionTipoEdit === "") {
@@ -386,8 +230,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         return true;
     }
-
-
 </script>
 
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../includes/config.php'; //incluyendo la conexión de la base de datos
+include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
     exit();
@@ -55,11 +55,45 @@ try {
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
                     </tbody>
                 </table>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            function confirmarEliminacion(idDeportista) {
+                var confirmacion = confirm("¿Está seguro que desea eliminar. Esta acción no se puede deshacer.?");
+
+                if (confirmacion) {
+                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminarDeportista.php
+                    eliminarDeportista(idDeportista);
+                } else {
+                    // Usuario hizo clic en "Cancelar", no hacer nada
+                }
+            }
+
+            function eliminarDeportista(idDeportista) {
+                // Utiliza jQuery para enviar una solicitud AJAX a eliminarDeportista.php
+                $.ajax({
+                    type: "POST",
+                    url: "eliminarDeportista.php",
+                    data: {
+                        id: idDeportista
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta, si es necesario
+                        console.log(response);
+
+                        // Puedes recargar la página o actualizar la lista de deportes de alguna manera
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Manejar errores si es necesario
+                        console.error(error);
+                    }
+                });
+            }
+        </script>
 <?php
     } else {
         header("Location: ../public/index.php");
