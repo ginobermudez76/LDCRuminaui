@@ -50,7 +50,7 @@ try {
                                 <td><?php echo htmlspecialchars($deportista['nombre']); ?></td>
                                 <td><?php echo htmlspecialchars($deportista['deporte']); ?></td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="abrirModalEdicion(<?php echo $deportista['id']; ?>)">Editar</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deportista['id']; ?>)">Editar</button>
                                     <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deportista['id']; ?>)">Eliminar</button>
                                 </td>
                             </tr>
@@ -59,6 +59,48 @@ try {
                 </table>
             </div>
         </div>
+        <div id="modalEditDeportitas" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="formContent"></div>
+            </div>
+        </div>
+        <script>
+    // Función para abrir el modal
+    function openModal() {
+        var modal = document.getElementById("modalEditDeportitas");
+        modal.style.display = "block";
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+        var modal = document.getElementById("modalEditDeportitas");
+        modal.style.display = "none";
+    }
+
+    // Cierra el modal si se hace clic fuera de él
+    window.onclick = function(event) {
+        var modal = document.getElementById("modalEditDeportitas");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Carga el formulario desde el otro script PHP cuando se abre el modal
+    function loadForm(idDeportista) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("formContent").innerHTML = this.responseText;
+            document.getElementById("idDeportistaEdit").value = idDeportista; // Establecer el ID del deportita en el formulario
+            openModal(); // Abre el modal después de cargar el contenido
+        }
+    };
+    xhttp.open("GET", "formEditDeportista.php?id=" + idDeportista, true); // Pasar el ID del deportista en la URL
+    xhttp.send();
+}
+
+</script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             function confirmarEliminacion(idDeportista) {

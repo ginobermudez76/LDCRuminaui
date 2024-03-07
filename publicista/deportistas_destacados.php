@@ -82,6 +82,60 @@ try {
                 return true;
             }
         </script>
+<script>
+    function deshabilitarInputImagen() {
+        var checkbox = document.getElementById("checkDImagen");
+        var inputImagen = document.getElementById("imagenEdit");
+
+        if (checkbox.checked) {
+            inputImagen.disabled = true;
+        } else {
+            inputImagen.disabled = false;
+        }
+    }
+
+    function deshabilitarCheckbox() {
+        var checkbox = document.getElementById("checkDImagen");
+        var inputImagen = document.getElementById("imagenEdit");
+
+        if (inputImagen.value) {
+            checkbox.disabled = true;
+        } else {
+            checkbox.disabled = false;
+        }
+    }
+</script>
+<script>
+    function validarCamposEdit() {
+
+        var nombreEdit = document.getElementById("nombreEdit").value;
+        if (nombreEdit === "") {
+            alert("El nombre no puede quedar vacio");
+            return false;
+        }
+        var nombredeporteEdit = document.getElementById("deporte_idEdit").value;
+        if (nombredeporteEdit === "") {
+            alert("El deporte no puede quedar vacio");
+            return false;
+        }
+        var imagenEditIn = document.getElementById("imagenEdit").value;
+        if (imagenEditin === "") {
+            alert("La imagen es obligatoria");
+            return false;
+        }
+
+        var imagenInputEdit = document.getElementById("imagenEdit");
+        var imagen = imagenInputEdit.files[0];
+        var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
+        var extension = imagen.name.split('.').pop().toLowerCase();
+
+        if (!extensionesPermitidas.includes(extension)) {
+            alert("Formato no soportado");
+            return false;
+        }
+        return true;
+    }
+</script>
         <script>
             $("#tablaDeportista").load("tablaDeportistas.php"); //load es una funcion de Jquery
             $(document).ready(function() {
