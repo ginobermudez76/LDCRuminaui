@@ -48,11 +48,11 @@ if ($idSolicitud) {
     </div>
     <div class="mb-3">
         <label for="tipoEdit" class="form-label">Tipo</label>
-        <select class="form-select" id="tipoEdit" name="tipoEdit">
+        <select class="form-control" id="tipoEdit" name="tipoEdit">
             <option value="">Tipo de solicitud</option>
             <?php foreach ($tipos as $tipo) : ?>
                 <?php
-                $selected = ($tipo['name_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
+                $selected = ($tipo['id_tipo'] == $solicitud['tipo']) ? 'selected' : ''; ?>
                 <option value="<?php echo $tipo['id_tipo']; ?>" <?php echo $selected; ?>>
                     <?php echo htmlspecialchars($tipo['name_tipo']); ?>
                 </option>
