@@ -19,12 +19,12 @@ try {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 // Obtener los datos del formulario de edición
-                $idDeportista = $_POST['idDeportista']; // Corrección aquí
-                $nombre = $_POST['nombre_deportista'];
+                $idLogro = $_POST['idLogro']; // Corrección aquí
+                $titulo = $_POST['tituloEdit'];
                 $deporte = $_POST['deporte_idEdit'];
         
                 // Directorio de destino para el documento
-                $directorioDestino = "../uploads/deportes/deportistas/";
+                $directorioDestino = "../uploads/deportes/logros/";
         
                 // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
                 if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) { // Corrección aquí
@@ -32,33 +32,33 @@ try {
                     $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagen']['name'], $directorioDestino); // Corrección aquí
         
                     // Eliminar el archivo antiguo del sistema de archivos
-                    eliminarArchivoAntiguo($idDeportista, $directorioDestino);
+                    eliminarArchivoAntiguo($idLogro, $directorioDestino);
         
                     // Mover el archivo al directorio de destino
                     if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoNuevo)) {
                         throw new Exception("Hubo un error al cargar el nuevo documento");
                     }
-                    $stmt = $conn->prepare("UPDATE deportistas_destacados SET imagen = ? WHERE id = ?"); // Corrección aquí
-                    $stmt->execute([$archivoNuevo, $idDeportista]); // Corrección aquí
+                    $stmt = $conn->prepare("UPDATE logros SET imagen = ? WHERE id = ?"); // Corrección aquí
+                    $stmt->execute([$archivoNuevo, $idLogro]); // Corrección aquí
                 }
         
                 // Verificar si el checkbox está marcado
                 if (isset($_POST['checkDImagen'])) {
-                    eliminarArchivoYActualizarBD($idDeportista, $nombre, $deporte);
+                    eliminarArchivoYActualizarBD($idLogro, $deporte, $titulo);
                 } else {
                     // Actualizar la solicitud en la base de datos sin cambiar el archivo
-                    actualizarBD($idDeportista, $deporte, $nombre);
+                    actualizarBD($idLogro, $deporte, $titulo);
                 }
         
                 // Redirigir después de editar
-                header("Location: deportistas_destacados.php");
+                header("Location: logros.php");
                 exit();
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         } else {
             // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-            header("Location: deportistas_destacados.php");
+            header("Location: logros.php");
             exit();
         }
     } else {
@@ -85,11 +85,11 @@ function obtenerNombreArchivoNuevo($nombreArchivo, $directorioDestino) {
     return $archivoNuevo;
 }
 
-function eliminarArchivoAntiguo($idDeportista, $directorioDestino) {
+function eliminarArchivoAntiguo($idLogro, $directorioDestino) {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT imagen FROM deportistas_destacados WHERE id = :id");
-    $stmt->bindParam(':id', $idDeportista);
+    $stmt = $conn->prepare("SELECT imagen FROM logros WHERE id = :id");
+    $stmt->bindParam(':id', $idLogro);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']); // Corrección aquí
 
@@ -100,28 +100,28 @@ function eliminarArchivoAntiguo($idDeportista, $directorioDestino) {
     }
 }
 
-function eliminarArchivoYActualizarBD($idDeportista, $nombre, $deporte) {
+function eliminarArchivoYActualizarBD($idLogro, $titulo, $deporte) {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT imagen FROM deportistas_destacados WHERE id = :id");
-    $stmt->bindParam(':id', $idDeportista);
+    $stmt = $conn->prepare("SELECT imagen FROM logros WHERE id = :id");
+    $stmt->bindParam(':id', $idLogro);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']); // Corrección aquí
 
-    $rutaArchivoEliminar = "../uploads/deportes/deportistas/" . $nombreArchivoEliminar;
+    $rutaArchivoEliminar = "../uploads/deportes/logros/" . $nombreArchivoEliminar;
 
     if (file_exists($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 
-    $stmt = $conn->prepare("UPDATE deportistas_destacados SET imagen = NULL, deporte_id = ?, nombre_deportista = ? WHERE id = ?");
-    $stmt->execute([$deporte, $nombre, $idDeportista]);
+    $stmt = $conn->prepare("UPDATE logros SET imagen = NULL, deporte_id = ?, titulo = ? WHERE id = ?");
+    $stmt->execute([$deporte, $titulo, $idLogro]);
 }
 
-function actualizarBD($idDeportista, $deporte, $nombre) {
+function actualizarBD($idLogro, $deporte, $titulo) {
     global $conn;
 
-    $stmt = $conn->prepare("UPDATE deportistas_destacados SET deporte_id = ?, nombre_deportista = ? WHERE id = ?");
-    $stmt->execute([$deporte, $nombre, $idDeportista]);
+    $stmt = $conn->prepare("UPDATE logros SET deporte_id = ?, titulo = ? WHERE id = ?");
+    $stmt->execute([$deporte, $titulo, $idLogro]);
 }
 ?>

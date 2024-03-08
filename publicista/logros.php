@@ -28,68 +28,10 @@ try {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            $nombre = $_POST['nombre'];
-            $depor = $_POST['deporte_id'];
-            if (trim($nombre) == '') {
-                $error = "El nombre no puede estar vacio.";
-            } else {
-
-            if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-
-                $directorioDestino = "../uploads/deportes/logros/";
-                $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-                $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
-                $check = getimagesize($_FILES["imagen"]["tmp_name"]);
-
-                if ($check != false) {
-                    // Verificar si el archivo ya existe y renombrarlo si es necesario
-                    $contador = 1;
-                    $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
-                    $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-                    $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-
-                    while (file_exists($archivo)) {
-                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
-                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-                        $contador++;
-                    }
-
-                    $archivoImagen = $archivo;
-
-                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                        // la imagen se cargó correctamente
-                    } else {
-                        $error = "Hubo un error al cargar la imagen";
-                    }
-                } else {
-                    $error = "El archivo no es una imagen";
-                }
-            } else {
-                // manejo en el caso de que la imagen no se cargue una imagen
-                $archivoImagen = "";
-            }
-
-            //insertar en la base de datos (con o sin imagen)
-
-            try {
-                $stmt = $conn->prepare("INSERT INTO logros (titulo, deporte_id, imagen) VALUES (?, ?, ?)");
-                $stmt->execute([$nombre, $depor, $archivoImagen]);
-
-                //redirigir despues de agregar
-
-                header("Location: gestionar_deportes.php");
-                exit();
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
-            }
-        }
-        }   
 ?>
         <div class="container mt-4">
             <h2 class="gestionar">Logros</h2>
-            <form action="logros.php" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
+            <form action="insertarLogro.php" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
                 <div class="mb-3">
                     <label for="Nombre" class="form-label">Nombre del logro</label>
                     <input type="text" class="form-control" id="nombre" name="nombre"></input>
@@ -107,6 +49,10 @@ try {
                 <button type="submit" class="btn btn-primary">Publicar</button>
             </form>
         </div>
+        <div class="container">
+            <div class="row" id="tablaLogros">
+            </div>
+        </div>
         <script>
             function validarCamposEvento() {
 
@@ -122,6 +68,12 @@ try {
                 }
                 return true;
             }
+        </script>
+                <script>
+            $("#tablaLogros").load("tablaLogros.php"); //load es una funcion de Jquery
+            $(document).ready(function() {
+
+            });
         </script>
 <?php
     } else {
