@@ -153,24 +153,6 @@ footer h3{
 .carousel-inner h5{
     font-size: 80px !important;
 }
-.vision-1 {
-    background-image: url(../img/v1.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 50%;
-    padding: 15px 25px 100px;
-}
-
-.vision-2 {
-    background-image: url(../img/v2.jpeg);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    width: 50%;
-    padding: 15px 25px 100px;
-}
-
 
 
 .carousel-container {
