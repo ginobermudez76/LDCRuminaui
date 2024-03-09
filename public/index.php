@@ -32,7 +32,7 @@ try {
 <div id="carouselpresentacion" class="carousel slide carousel-fade" data-bs-ride="carousel-fade" data-bs-interval="2000">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img class="d-block w-100" src="../img/ruminahui.webp" alt="¿Quienes somos?">
+            <img class="d-block " src="../img/portada.png" alt="¿Quienes somos?">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Sobre nosotros</h5>
                 <p>La ‘Liga Deportiva Cantonal Rumiñahui’ es una institución de derecho privado con finalidad social, es máxima entidad del deporte en el Cantón Rumiñahui, Con Sede en la ciudad de Sangolquí, afiliada a la Concentración Deportiva de Pichincha</p>
@@ -53,6 +53,7 @@ try {
             </div>
         </div>
     </div>
+    
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselpresentacion" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Anterior</span>
