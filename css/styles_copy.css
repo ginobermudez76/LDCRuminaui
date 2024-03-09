@@ -1,18 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital@1&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-}
-.info{
-    margin-left: 100px;
-    color: white;
-    font-size: 18px;
-}
+
+
 .modal {
     background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
@@ -69,7 +59,6 @@
 .carousel-inner {
     position: relative;
     overflow: hidden;
-
 }
 
 .carousel-item {
@@ -92,10 +81,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #63a9cf;
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
-    width: 100%;
+
 }
 
 .navbar {
@@ -105,9 +91,6 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    text-align: center;
-}
 
 p {
     font-size: 30px;
@@ -115,15 +98,9 @@ p {
     margin: 25px 0;
 }
 
-.navbar-toggler-icon {
-    font-size: 0.8rem;
-    align-items: center center;
-}
 
-.navbar-nav .nav-link {
-    color: rgb(0, 0, 0);
-    margin-right: 15px;
-}
+
+
 
 .navbar-nav .nav-link:hover {
     color: rgb(171, 181, 26);
@@ -169,76 +146,10 @@ footer h3{
     height: 100%;
 }
 
-.header-txt h1, h3 {
-    font-size: 110px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font-family: 'Bebas Neue', cursive;
-    color: #ffffff;
-    margin-bottom: 15px;
-}
-.header-txt{
-    text-align: center;
-    margin-bottom: 45pxs;
- }
- .header-txt span {
-    font-size: 40px;
-    color: #FFFFFF;
- }
-h3 {
-    font-size: 30px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font-family: 'Bebas Neue', cursive;
-    color: #ffffff;
-    margin-bottom: 15px;
-}
 
-.header-txt p {
-    color: #ffffff;
-    padding: 0 250px;
-    margin: 25px 0;
-}
 
-.presentacion {
-    background-image: url(../img/ruminahui.webp);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 70vh;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    flex-direction: column ;
-    align-items: center;
-    align-items: center;
-}
 
-.mision {
-    display: flex;
-}
 
-.mision-1 {
-    background-image: url(../img/m1.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 50%;
-}
-
-.mision-2 {
-    background-image: url(../img/0279.jpg);
-    width: 50%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px 25px 100px;
-    background-color: #ffffff;
-}
-
-.vision {
-    display: flex;
-}
 .carousel-inner h5{
     font-size: 80px !important;
 }
@@ -260,14 +171,7 @@ h3 {
     padding: 15px 25px 100px;
 }
 
-.evento-container {
-    background-size: cover;
-    background-position: center center;
-    height: 300px;
-    background-repeat: no-repeat;
-    margin-top: 50px;
 
-}
 
 .carousel-container {
     max-width: 100%;
