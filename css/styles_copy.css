@@ -8,6 +8,7 @@
     text-decoration: none;
     list-style: none;
 }
+
 .info{
     margin-left: 100px;
     color: white;
@@ -60,28 +61,6 @@
 
 }
 
-.carousel {
-    margin-top: 0px;
-    height: 100%;
-
-}
-
-.carousel-inner {
-    position: relative;
-    overflow: hidden;
-}
-
-.carousel-item {
-    display: none;
-    position: relative;
-    float: left;
-    width: 100%;
-    min-height: 100%;
-}
-
-.carousel-item.active {
-    display: block;
-}
 
 .carousel-item img {
     width: 100%;
@@ -121,51 +100,8 @@
     color: #FFFFFF;
  }
 
-.header-txt p {
-    color: #ffffff;
-    padding: 0 250px;
-    margin: 25px 0;
-}
 
-.presentacion {
-    background-image: url(../img/ruminahui.webp);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 70vh;
-    display: flex;
-    margin: 0;
-    padding: 0;
-    flex-direction: column ;
-    align-items: center;
-    align-items: center;
-}
 
-.mision {
-    display: flex;
-}
-
-.mision-1 {
-    background-image: url(../img/m1.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 50%;
-}
-
-.mision-2 {
-    background-image: url(../img/0279.jpg);
-    width: 50%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 15px 25px 100px;
-    background-color: #ffffff;
-}
-
-.vision {
-    display: flex;
-}
 .carousel-inner h5{
     font-size: 80px !important;
 }
@@ -307,61 +243,14 @@ tr:hover {
     .column{
         flex: 100%;
     }
-    .menu{
-        padding: 20px;
-    }
-    .menu label{
-        display: initial;
-    }
-    .menu .navar{
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
 
-    }
     #menu:checked ~ .navbar{
         display: initial;
-    }
-    .header{
-        min-height: 0vh;
-    }
-    .header-content{
-        padding: 80px 30px 50px 30px;
-    }
-    .header-txt{
-        margin-bottom: 15px;
     }
     .dir p{
         font-size: 18px;
     }
-    .mision {
-        flex-direction: column;
-    }
-    
-    .mision-1 {
-        display: none;
-    }
-    
-    .mision-2 {
-        width: 100%;
-        padding: 30px;
-        text-align: center;
-    }
-    
-    .vision {
-        flex-direction: column;
-    }
-    
-    .vision-1 {
-        display: none;
-    }
-    
-    .vision-2 {
-        width: 100%;
-        padding: 30px;
-    
-    }
+
     h2 {
         font-size: 70px;
         line-height: 80px;
@@ -374,22 +263,8 @@ tr:hover {
         max-width: 100%;
 
     }
-    .header-txt h1, h3 {
-        font-size: 50px;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        font-family: 'Bebas Neue', cursive;
-        color: #ffffff;
-        margin-bottom: 15px;
-    }
-    .header-txt{
-        text-align: center;
-        margin-bottom: 45pxs;
-     }
-     .header-txt span {
-        font-size: 40px;
-        color: #FFFFFF;
-     }
+
+
     h3 {
         font-size: 15px;
         letter-spacing: 5px;

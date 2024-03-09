@@ -29,7 +29,8 @@ try {
 
 ?>
 <div class="container-fluid">
-<div id="carouselpresentacion" class="carousel slide carousel-fade" data-bs-ride="carousel-fade" data-bs-interval="2000">
+    <div class= "container mt-4">
+ <div id="carouselpresentacion" class="carousel" data-bs-ride="carousel-fade" data-bs-interval="5000">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <img class="d-block " src="../img/portada.png" alt="¿Quienes somos?">
@@ -62,7 +63,9 @@ try {
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Siguiente</span>
     </button>
-</div>
+</div>       
+    </div>
+
 
 
 
