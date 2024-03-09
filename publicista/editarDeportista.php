@@ -20,7 +20,7 @@ try {
             try {
                 // Obtener los datos del formulario de edición
                 $idDeportista = $_POST['idDeportista']; // Corrección aquí
-                $nombre = $_POST['nombre_deportista'];
+                $nombre = $_POST['nombreEdit'];
                 $deporte = $_POST['deporte_idEdit'];
         
                 // Directorio de destino para el documento
