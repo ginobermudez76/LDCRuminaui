@@ -14,9 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Obtener los datos del formulario de edición
         $pass = $_POST['pass'];
         $newpass = $_POST['newpass'];
-        $hashnewpass = password_hash($newpass, PASSWORD_DEFAULT);
-        $hashpass = password_hash($pass, PASSWORD_DEFAULT);
         $response = array();
+
         // Obtener la contraseña almacenada en la base de datos
         $stmt = $conn->prepare("SELECT contrasena FROM usuarios WHERE id = :usuario_id");
         $stmt->bindParam(':usuario_id', $usuarioId, PDO::PARAM_INT);
@@ -24,21 +23,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $contrasena = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Verificar si la contraseña actual coincide con la almacenada en la base de datos
-        if ($contrasena['contrasena'] != $hashpass) {
-            $response['success'] = false;
-            $response['message'] = "Contraseña anterior incorrecta";
-        } else {
+        if (password_verify($pass, $contrasena['contrasena'])) {
             // Procesar el cambio de contraseña
+            $hashnewpass = password_hash($newpass, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("UPDATE usuarios SET contrasena = ? WHERE id = ?");
             $stmt->execute([$hashnewpass, $usuarioId]);
             $response['success'] = true;
-            $response['message'] = "Contraseña cambiada con exito.";
-
+            $response['message'] = "Contraseña cambiada con éxito.";
+            $response['redirect'] = true;
+        } else {
+            $response['success'] = false;
+            $response['message'] = "Contraseña anterior incorrecta";
         }
     } catch (Exception $e) {
         $response['success'] = false;
         $response['message'] = "Error: " . $e->getMessage();
-        echo json_encode($response);
     }
     echo json_encode($response);
     exit();

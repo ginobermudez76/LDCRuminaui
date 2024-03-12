@@ -106,12 +106,17 @@ if (!isset($_SESSION['usuario_admin'])) {
                 if (jsonData.success) {
                     // Mostrar mensaje de éxito
                     alert(jsonData.message);
-                    $("#")[0].reset();
+                    if (jsonData.redirect) {
+                        // Redireccionar a logout.php
+                        window.location.href = 'logout.php';
+                    }
+                    $("#cambiarpass")[0].reset(); // También puedes restablecer el formulario aquí si lo deseas
                 } else {
                     // Mostrar mensaje de error
                     alert(jsonData.message);
                 }
             }
+
         });
 
 
