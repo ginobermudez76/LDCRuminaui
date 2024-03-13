@@ -68,7 +68,7 @@ try {
                             // Mostrar el elemento del menú de publicista
                         ?>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
+                                <a class="nav-link" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
                             </li>
                         <?php
                         }

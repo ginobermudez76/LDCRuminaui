@@ -99,11 +99,11 @@ try {
 
 
         var archivo = archivoInput.files[0];
-        var extensionesPermitidas = ['pdf', 'doc', 'docx', 'txt'];
+        var extensionesPermitidas = ['pdf'];
         var extension = archivo.name.split('.').pop().toLowerCase();
 
         if (!extensionesPermitidas.includes(extension)) {
-            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF, DOC, DOCX o TXT");
+            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF");
             return false;
         }
         return true;

@@ -28,36 +28,6 @@ try {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Obtener los datos del formulario
-            $nombre = $_POST['nombre'];
-            $snombre = $_POST['snombre'];
-            $apellido = $_POST['apellido'];
-            $sapellido = $_POST['sapellido'];
-            $cedula = $_POST['cedula'];
-            $celular = $_POST['celular'];
-            $correo = $_POST['mail'];
-            $user = $_POST['username'];
-            $pass = $_POST['contrasena'];
-            $rol = $_POST['rolid'];
-            $fechanac = $_POST['fecha_n'];
-            if (trim($nombre) == '' || trim($apellido) == '' || trim($pass) == '' || trim($cedula) == '' || trim($user) == '') {
-                $error = "No puede insertar espacios vacios";
-            } else {
-                try {
-                    $hash = password_hash($pass, PASSWORD_DEFAULT);
-                    $stmt = $conn->prepare("INSERT INTO usuarios (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, cedula, celular, correo, nombre_usuario, contrasena, rol, fecha_nac ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $correo, $user, $hash, $rol, $fechanac]);
-
-                    // Redirigir después de agregar
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
-                } catch (PDOException $e) {
-                    $mensaje = "Error: " . $e->getMessage();
-                }
-            }
-        }
 ?>
         <div class="container">
             <div class="row justify-content-center align-items-center min-vh-100">
@@ -70,7 +40,7 @@ try {
                         </div>
                     <?php endif; ?>
 
-                    <form name="formregistraruser" id="formregistraruser" action="register.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                    <form name="formregistraruser" id="formregistraruser" action="insertarUser.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
                         <!-- Campos del formulario -->
                         <div class="mb-3">
                             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
