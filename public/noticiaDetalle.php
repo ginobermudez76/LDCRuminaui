@@ -40,7 +40,7 @@ if (isset($_GET['id'])) {
         <div class="col-md-6">
             <!-- Carrusel de imágenes aquí -->
 
-        <img src="../uploads/noticias/<?php echo htmlspecialchars(basename($imagen)); ?>" class="d-block w-100 h-100" alt="<?php echo htmlspecialchars($titulo); ?>">
+        <img src="../uploads/noticias/<?php echo htmlspecialchars(basename($imagen)); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($titulo); ?>">
 
         </div>
         <!-- Detalles del Producto en la columna derecha -->
