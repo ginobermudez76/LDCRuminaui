@@ -65,7 +65,7 @@ try {
                 //insertar en la base de datos (con o sin imagen)
 
                 try {
-                    $stmt = $conn->prepare("INSERT INTO noticias (titulo, cuerpo, imagen) VALUES (?, ?, ?)");
+                    $stmt = $conn->prepare("INSERT INTO noticias (titulo, cuerpo, imagen, fecha) VALUES (?, ?, ?, NOW())");
                     $stmt->execute([$titulo, $cuerpo, $archivoImagen]);
 
                     //redirigir despues de agregar

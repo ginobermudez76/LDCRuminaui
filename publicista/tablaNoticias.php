@@ -43,7 +43,7 @@ try {
                                 <td><?php echo htmlspecialchars($noticia['titulo']); ?></td>
                                 <td>
                                     <?php if (isset($noticia['imagen']) && $noticia['imagen']) : ?>
-                                        <img src="<?php echo htmlspecialchars($noticia['imagen']); ?>" alt="<?php echo htmlspecialchars($noticia['titulo']); ?>" style="width: 100px; height: auto;">
+                                        <img src="<?php echo htmlspecialchars($noticia['imagen']); ?>" alt="<?php echo htmlspecialchars($noticia['titulo']); ?>" style="width: 100px; height: 50px;">
                                     <?php else : ?>
                                         <p>Sin Imagen</p>
                                     <?php endif; ?>

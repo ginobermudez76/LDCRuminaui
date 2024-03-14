@@ -29,7 +29,7 @@ try {
                     <a class="nav-link" href="">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Noticias</a>
+                    <a class="nav-link" href="../public/noticias.php">Noticias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Deportes</a>
