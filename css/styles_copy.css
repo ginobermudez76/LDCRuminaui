@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital@1&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+/*estilos para la informacion del usuario*/
+>>>>>>> df2d2ebe8492819d679bd0c25c7b245b891bc51d
 .info{
     margin-left: 100px;
     color: white;
@@ -50,6 +64,11 @@
 
 }
 
+<<<<<<< HEAD
+=======
+
+/*Estilos para el carrucel de misión, visión, sobre nosotros*/
+>>>>>>> df2d2ebe8492819d679bd0c25c7b245b891bc51d
 .carousel-item img {
     width: 100%;
     height: 100%;
@@ -70,26 +89,9 @@
     width: 100%;
     height: 100%;
 }
-
-.header-txt h1, h3 {
-    font-size: 110px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    font-family: 'Bebas Neue', cursive;
+h6{
     color: #ffffff;
-    margin-bottom: 15px;
 }
-.header-txt{
-    text-align: center;
-    margin-bottom: 45pxs;
- }
- .header-txt span {
-    font-size: 40px;
-    color: #FFFFFF;
- }
-
-
-
 .carousel-inner h5{
     font-size: 80px !important;
 }
@@ -99,7 +101,29 @@
     max-width: 100%;
     overflow: hidden;
 }
+.card{
+background-color: #ffffff00;
+}
+.overlayN {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Transparencia del overlay */
+    color: white !important;
+    text-align: center !important;
+    position: absolute; 
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    display: none; 
+    justify-content: center; 
+    align-items: center;
 
+}
+.overlayN a {
+    color: white !important;
+    text-decoration: none !important;
+}
+.card:hover .overlayN {
+    display: flex !important;
+}
 .carousel-item .imagen {
     width: 100%;
     height: 300px;
@@ -108,7 +132,7 @@ td{
     overflow-wrap: break-word !important;
 }
 .gestionar{
-    color: black;
+    color: rgb(255, 255, 255);
 }
 .deportes{
     padding: 100px 0;
@@ -216,8 +240,47 @@ tr:hover {
     -ms-transform: translate(-50%, -50%);
     text-align: center;
 }
+.carousel:hover .overlay2 {
+    height: 100%;
+}
 
-  
+.overlay2-text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+/* Estilos para el carrusel de deportistas destacados */
+.carrusel-destacados img{
+    max-width: 100%;
+    height: 400px;
+}
+.overlayDeportistas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 0.5s; /* Transición suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.carousel:hover .overlayDeportistas {
+    opacity: 1;
+}
+.overlayDeportistas h5{
+    font-size: 20px !important;
+}
+
 @media (max-width: 720px){
     .carousel-inner h5{
         font-size: 40px !important;

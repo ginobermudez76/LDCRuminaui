@@ -69,8 +69,8 @@ try {
                 return true;
             }
         </script>
-                <script>
-            $("#tablaLogros").load("tablaLogros.php"); //load es una funcion de Jquery
+        <script>
+            $("#tablaLogros").load("tablaLogros.php");
             $(document).ready(function() {
 
             });

@@ -17,67 +17,11 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Obtener los datos del formulario
-            $mensaje = $_POST['mensaje'];
-            if (trim($mensaje) == '') {
-                $error = "El mensaje no debe estar vacío";
-            } else {
-                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                    $directorioDestino = "../uploads/cartaCondolencia/";
 
-                    $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-
-                    $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
-
-                    $check = getimagesize($_FILES["imagen"]["tmp_name"]);
-
-                    if ($check != false) {
-                        // Verificar si el archivo ya existe y renombrarlo si es necesario
-                        $contador = 1;
-                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
-                        $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-
-                        while (file_exists($archivo)) {
-                            $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
-                            $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-                            $contador++;
-                        }
-
-                        $archivoImagen = $archivo;
-
-                        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                            //la imagen se cargo correctamente
-
-                        } else {
-                            $error = "Hubo un error al cargar la imagen";
-                        }
-                    } else {
-                        $error = "El archivo no es una imagen";
-                    }
-                } else {
-                    // Manejo en el caso de que la imagen no se cargue
-                    $archivoImagen = "";
-                }
-
-                try {
-                    $fecha_eliminar = date('Y-m-d H:i:s', strtotime('+1 week'));
-                    $stmt = $conn->prepare("INSERT INTO carta_condolencias(imagen, mensaje, fecha_eliminar) VALUES (?, ?, ?)");
-                    $stmt->execute([$archivoImagen, $mensaje, $fecha_eliminar]);
-
-                    // Redirigir después de agregar
-                    header("Location: carta_de_condolencias.php");
-                    exit();
-                } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
-                }
-            }
-        }
 ?>
         <div class="container mt-4">
             <h2 class="gestionar">Carta de condolencias</h2>
-            <form action="carta_de_condolencias.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <form method="post" id="formCartas" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Mensaje</label>
                     <textarea type="text" class="form-control" id="mensaje" name="mensaje"></textarea>
@@ -86,9 +30,14 @@ try {
                     <label for="imagen" class="form-label">Imagen</label>
                     <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Mostrar</button>
+                <button type="submit" class="btn btn-primary" id="btnEnviar">Mostrar</button>
             </form>
         </div>
+        <div class="container">
+            <div class="row" id="tablaCartas">
+            </div>
+        </div>
+
 
         <script>
             function validarCamposEvento() {
@@ -121,6 +70,91 @@ try {
                     this.value = mensajeCondolencia.slice(0, 700);
                 }
             });
+        </script>
+        <script>
+            function deshabilitarInputImagen() {
+                var checkbox = document.getElementById("checkDImagen");
+                var inputImagen = document.getElementById("imagenEdit");
+
+                if (checkbox.checked) {
+                    inputImagen.disabled = true;
+                } else {
+                    inputImagen.disabled = false;
+                }
+            }
+
+            function deshabilitarCheckbox() {
+                var checkbox = document.getElementById("checkDImagen");
+                var inputImagen = document.getElementById("imagenEdit");
+
+                if (inputImagen.value) {
+                    checkbox.disabled = true;
+                } else {
+                    checkbox.disabled = false;
+                }
+            }
+        </script>
+        <script>
+            $("#tablaCartas").load("tablaCartas.php"); //load es una funcion de Jquery
+            $(document).ready(function() {
+
+
+                $('#btnEnviar').click(function() {
+                    var formData = new FormData($('#formCartas')[0]);
+                    $.ajax({
+                        url: 'insertarCarta.php',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            var jsonData = JSON.parse(response);
+                            if (jsonData.success) {
+                                // Mostrar mensaje de éxito
+                                alert(jsonData.message);
+                                $("#tablaCartas").load("tablaCartas.php");
+                                $("#formCartas")[0].reset();
+                            } else {
+                                // Mostrar mensaje de error
+                                alert(jsonData.message);
+                            }
+                        }
+                    });
+
+
+                });
+            });
+        </script>
+        <script>
+            function validarCamposEdit() {
+
+                var nombreEdit = document.getElementById("nombreEdit").value;
+                if (nombreEdit === "") {
+                    alert("El nombre no puede quedar vacio");
+                    return false;
+                }
+                var nombredeporteEdit = document.getElementById("deporte_idEdit").value;
+                if (nombredeporteEdit === "") {
+                    alert("El deporte no puede quedar vacio");
+                    return false;
+                }
+                var imagenEditIn = document.getElementById("imagenEdit").value;
+                if (imagenEditin === "") {
+                    alert("La imagen es obligatoria");
+                    return false;
+                }
+
+                var imagenInputEdit = document.getElementById("imagenEdit");
+                var imagen = imagenInputEdit.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
+                var extension = imagen.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+                return true;
+            }
         </script>
 
 <?php

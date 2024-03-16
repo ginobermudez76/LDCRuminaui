@@ -29,7 +29,7 @@ try {
                     <a class="nav-link" href="">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Noticias</a>
+                    <a class="nav-link" href="../public/noticias.php">Noticias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Deportes</a>
@@ -68,7 +68,7 @@ try {
                             // Mostrar el elemento del menú de publicista
                         ?>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
+                                <a class="nav-link" aria-current="page" href="../admin/register.php">Registrar usuarios</a>
                             </li>
                         <?php
                         }
@@ -85,6 +85,7 @@ try {
                                     <a class="nav-link active" aria-current="page" href="../publicista/gestionar_deportes.php">Deportes</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/deportistas_destacados.php">Deportistas destacados</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/logros.php">Logros</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/noticias.php">Noticias</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/carta_de_condolencias.php">Carta de condolencias</a>
                                 </div>
                             </li>
@@ -93,7 +94,7 @@ try {
                         if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
                         ?>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
+                                <a class="nav-link" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
                             </li>
                 <?php
                         }
