@@ -29,41 +29,14 @@ try {
 
 ?>
 <div class="container-fluid">
-    <div class= "container mt-4">
- <div id="carouselpresentacion" class="carousel" data-bs-ride="carousel-fade" data-bs-interval="5000">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img class="d-block " src="../img/portada.png" alt="¿Quienes somos?">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Sobre nosotros</h5>
+    <div class= "container">
+
+    <img class="inicio-img" src="../img/portada.png" alt="¿Quienes somos?">
+            <div class="carousel-caption d-none d-md-block text-inicio">
+                <h5 class="">Sobre nosotros</h5>
                 <p>La ‘Liga Deportiva Cantonal Rumiñahui’ es una institución de derecho privado con finalidad social, es máxima entidad del deporte en el Cantón Rumiñahui, Con Sede en la ciudad de Sangolquí, afiliada a la Concentración Deportiva de Pichincha</p>
             </div>
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="../img/misiondeportiva.jpg" alt="Misión">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Misión</h5>
-                <p>Nuestra misión es fomentar el desarrollo integral de la comunidad a través del deporte, promoviendo valores, inclusión y bienestar. Trabajamos arduamente para ofrecer oportunidades deportivas que inspiren el espíritu competitivo y fortalezcan los lazos comunitarios.</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="../img/visiondeportiva.jpg" alt="Visión">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Visión</h5>
-                <p>Aspiramos a ser un referente regional en el ámbito deportivo, reconocidos por nuestra excelencia, compromiso social y contribución al desarrollo sostenible. Buscamos ser líderes en la promoción de un estilo de vida activo y saludable, impulsando el crecimiento personal y colectivo.</p>
-            </div>
-        </div>
-    </div>
-    
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselpresentacion" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselpresentacion" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-    </button>
-</div>       
+        </div>       
     </div>
 
 
