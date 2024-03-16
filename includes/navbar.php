@@ -94,7 +94,7 @@ try {
                         if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
                         ?>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
+                                <a class="nav-link" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>
                             </li>
                 <?php
                         }

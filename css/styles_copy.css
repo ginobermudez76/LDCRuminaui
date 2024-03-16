@@ -8,7 +8,7 @@
     text-decoration: none;
     list-style: none;
 }
-
+/*estilos para la informacion del usuario*/
 .info{
     margin-left: 100px;
     color: white;
@@ -62,6 +62,7 @@
 }
 
 
+/*Estilos para el carrucel de misión, visión, sobre nosotros*/
 .carousel-item img {
     width: 100%;
     height: 100%;
@@ -82,7 +83,9 @@
     width: 100%;
     height: 100%;
 }
-
+h6{
+    color: #ffffff;
+}
 .carousel-inner h5{
     font-size: 80px !important;
 }
@@ -231,8 +234,47 @@ tr:hover {
     -ms-transform: translate(-50%, -50%);
     text-align: center;
 }
+.carousel:hover .overlay2 {
+    height: 100%;
+}
 
-  
+.overlay2-text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+/* Estilos para el carrusel de deportistas destacados */
+.carrusel-destacados img{
+    max-width: 100%;
+    height: 400px;
+}
+.overlayDeportistas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
+    opacity: 0; /* Inicialmente oculto */
+    transition: opacity 0.5s; /* Transición suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.carousel:hover .overlayDeportistas {
+    opacity: 1;
+}
+.overlayDeportistas h5{
+    font-size: 20px !important;
+}
+
 @media (max-width: 720px){
     .carousel-inner h5{
         font-size: 40px !important;

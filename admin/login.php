@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 ?>
 
 
-    <h5> Los usuarios y contraseñas son proporcionados unicamente al personal de la LDCR, si forma parte del mismo y no posee sus credenciales de acceso al sistema, por favor, acerquese a nuestras instalaciones a solicitarlas.</h5>
+    <h6> Los usuarios y contraseñas son proporcionados unicamente al personal de la LDCR, si forma parte del mismo y no posee sus credenciales de acceso al sistema, por favor, acerquese a nuestras instalaciones a solicitarlas.</h6>
     <div class="container">
         <!-- Centrado Vertical y Horizontal -->
         <div class="row justify-content-center align-items-center min-vh-100">
@@ -54,11 +54,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
                         <!-- Formulario -->
                         <form action="login.php" method="post">
                             <div class="mb-3">
-                                <label for="username" class="form-label">Nombre de Usuario</label>
+                                <label for="username" class="form-label"><h6>Nombre de Usuario</h6></label>
                                 <input type="text" class="form-control" id="username" name="nombre_usuario" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
+                                <label for="password" class="form-label"><h6>Contraseña</h6></label>
                                 <input type="password" class="form-control" id="password" name="contrasena" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
