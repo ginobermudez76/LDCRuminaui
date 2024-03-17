@@ -85,23 +85,12 @@ try {
 
         </div>
 
-    <?php
-        include '../includes/config.php';
-        try {
-            $stmt = $conn->prepare("CALL info_logros()");
-            $stmt->execute();
-            $logros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $stmt->closeCursor();
-        } catch (PDOException $e) {
-            echo "Error al obtener la información de deportistas: " . $e->getMessage();
-        }
-        ?>
-        <div id="carouselLogro" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselDeporte" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php
-                // Dividir el array $logros en grupos de tres
-                $grupos = array_chunk($logros, 4);
+                // Dividir el array $deportes en grupos de tres
+                $grupos = array_chunk($deportes, 4);
 
                 // Iterar sobre los grupos de imágenes
                 foreach ($grupos as $grupo_index => $grupo) {
@@ -110,12 +99,12 @@ try {
                         <div class="row">
                             <?php
                             // Iterar sobre las imágenes dentro de cada grupo
-                            foreach ($grupo as $logro) {
-                                $rutaImagen = $logro['imagen'];
-                                $titulo = $logro['titulo'];
+                            foreach ($grupo as $deporte) {
+                                $rutaImagen = $deporte['imagen'];
+                                $titulo = $deporte['nombre'];
                                 ?>
                                 <div class="col imagenes-deportes">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del logro">
+                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del deporte">
 
                                 </div>
                             <?php
@@ -127,11 +116,11 @@ try {
                 }
         ?>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLogro" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Anterior</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselLogro" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Siguiente</span>
         </button>
