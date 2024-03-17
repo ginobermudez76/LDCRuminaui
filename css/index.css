@@ -1,14 +1,37 @@
-@font-face {
-    font-family: 'Damages Italic';
-    src: url('font/Damages-Italic.woff2') format('woff2'); /* Formato WOFF */
+.container {
+    position: relative;
 }
 
-.inicio-img{
-    width: 100%;
-    height: 20%;
-    transform: scaleX(-1)
+.inicio-img {
+    display: block; /* Esto asegura que la imagen ocupe todo el espacio del contenedor */
+    width: 100%; /* Ancho máximo */
+    transform: scaleX(-1);
 }
 
-.texto-inicio{
-    font-family: 'Damages Italic', sans-serif;
+.banner-inicio {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    color: white;
+    text-align: left; /* Alinea el texto a la izquierda */
+    width: 100%; /* Ancho del contenedor */
+}
+
+.banner-inicio h5{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.titulo-inicio {
+    width: 100%; /* Ancho del contenedor */
+    max-width: 500px; /* Ancho máximo del texto */
+    margin: 0 auto; /* Centra horizontalmente el texto */
+    margin-top: 80px;
+}
+
+.titulo-inicio path{
+    fill: white;
+}
+
+.titulo-inicio path:hover{
+    fill: aquamarine;
 }
