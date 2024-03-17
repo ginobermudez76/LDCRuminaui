@@ -373,3 +373,40 @@ tr:hover {
 .texto-desplegable p {
     margin: 5px 10px;
 }
+
+
+/* estilos de los logros*/
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.overlayLogros {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    height: 150px;
+    width: 70%;
+    justify-content: center;
+    text-align: center;
+}
+.overlayLogros h5{
+    font-size: 20px !important;
+}
+.overlayLogros p{
+    font-size: 15px;
+}
+
+.image-container:hover .overlayLogros {
+    opacity: 1;
+}
+.carrusel-logros img{
+    max-width: 70%;
+    height: 150px;
+}
