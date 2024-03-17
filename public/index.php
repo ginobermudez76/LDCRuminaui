@@ -76,7 +76,9 @@ try {
         </div>
 >>>>>>> df2d2ebe8492819d679bd0c25c7b245b891bc51d
     </div>
-
+    <div class="row">
+    <?php include '../public/logros.php'; ?>  
+    </div>
 
     <div class="row">
         
