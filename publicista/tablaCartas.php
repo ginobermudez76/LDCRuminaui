@@ -32,7 +32,7 @@ try {
                             <th>Id</th>
                             <th>Imagen</th>
                             <th>Mensaje</th>
-                            <th>Fecha de eliminación</th>
+                            <th>Visible hasta:</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>

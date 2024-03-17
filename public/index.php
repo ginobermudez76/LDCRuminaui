@@ -14,7 +14,14 @@ try {
 } catch (PDOException $e) {
     echo "Error al obtener la información de eventos: " . $e->getMessage();
 }
-
+try {
+    $stmt = $conn->prepare("SELECT imagen, mensaje FROM carta_condolencias");
+    $stmt->execute();
+    $condolencias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+} catch (PDOException $e) {
+    echo "Error al obtener carta de condolencias: " . $e->getMessage();
+}
 try {
     // Obtener datos de la tabla "deporte"
     $stmtDeportes = $conn->prepare("SELECT * FROM deportes");
@@ -132,7 +139,7 @@ try {
 
     </div>
 
-    <div class="modal" id="myModal">
+    <div class="modal" id="modalDeportes">
         <div class="modal-dialog">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -147,6 +154,41 @@ try {
         </div>
     </div>
 
+    <div class="modal condolenciasModal" id="modalCondolencias">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php foreach ($condolencias as $key => $condolencia): ?>
+                            <div class="carousel-item <?php echo ($key == 0) ? 'active' : ''; ?>">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img src="<?php echo $condolencia['imagen']; ?>" class="d-block w-100" alt="Imagen">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mensaje">
+                                            <?php echo $condolencia['mensaje']; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -190,7 +232,7 @@ try {
                     // Agregar las imágenes al carrusel
                     $("#carousel").html(response);
                     // Mostrar el modal
-                    $("#myModal").css("display", "block");
+                    $("#modalDeportes").css("display", "block");
                 }
             });
 
@@ -210,9 +252,18 @@ try {
 
         // Cuando se hace clic en el botón de cerrar del modal
         $(".close").click(function() {
-            $("#myModal").css("display", "none");
+            $("#modalDeportes").css("display", "none");
         });
     });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    <?php if (!empty($condolencias)) : ?>
+        // Si hay registros en $condolencias, abrir el modal
+        var modalCondolencias = new bootstrap.Modal(document.getElementById('modalCondolencias'));
+        modalCondolencias.show();
+    <?php endif; ?>
+});
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bYQVJwS/Jt2f7fSFb4hKQVaPvhIrm+PoH6n/TYYJ8WlxFgyC3m8M2MUpM3Il7eJb" crossorigin="anonymous"></script>
