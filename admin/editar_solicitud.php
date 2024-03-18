@@ -49,6 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             actualizarBD($idSolicitud, $valor, $tipo, $descripcion);
         }
 
+        // Llamar al procedimiento almacenado para actualizar el departamento y otros campos relacionados
+        $stmt = $conn->prepare("CALL actualizarDepartamentoEnUpdate(?, ?)");
+        $stmt->execute([$tipo, $idSolicitud]);
+
         // Redirigir después de editar
         header("Location: solicitudes.php");
         exit();
