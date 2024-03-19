@@ -16,7 +16,7 @@ try {
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Verificar si el usuario tiene el rol de Publicista
-    if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
+    if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1 || $usuario['rol'] == 9) {
         // Mostrar el elemento del menú Administrar
 
         // Llamar al procedimiento almacenado para obtener las solicitudes
@@ -59,7 +59,7 @@ try {
                 $solicitudId = $conn->lastInsertId();
 
                 // Llama al procedimiento almacenado
-                $stmt = $conn->prepare("CALL actualizar_departamento_encargado_proc(?, ?)");
+                $stmt = $conn->prepare("CALL actualizarDepartamentoEnUpdate(?, ?)");
                 $stmt->execute([$tipo, $solicitudId]);
 
                 $conn->commit(); // Commit la transacción si todo es correcto
@@ -71,10 +71,9 @@ try {
                 $conn->rollBack(); // Hace rollback en caso de error
                 echo "Error: " . $e->getMessage();
             }
-
         }
 
-        ?>
+?>
         <style>
             .fa-solid {
                 padding-right: 5px;
@@ -97,7 +96,7 @@ try {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($solicitudes as $solicitud): ?>
+                    <?php foreach ($solicitudes as $solicitud) : ?>
                         <tr>
                             <td>
                                 <?php echo htmlspecialchars($solicitud['s_id']); ?>
@@ -106,9 +105,9 @@ try {
                                 <?php echo htmlspecialchars($solicitud['s_fecha']); ?>
                             </td>
                             <td>
-                                <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']): ?>
+                                <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
                                     <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-                                <?php else: ?>
+                                <?php else : ?>
                                     <p1>No hay documento</p1>
                                 <?php endif; ?>
                             </td>
@@ -116,25 +115,27 @@ try {
                             <td>
                                 <?php echo htmlspecialchars($solicitud['tipo']); ?>
                             </td>
-                            <td>
-                                <?php echo htmlspecialchars($solicitud['descripcion']); ?>
-                            </td>
+                            <td><?php if (!empty($solicitud['descripcion'])) { ?>
+                                    $ <?php echo htmlspecialchars($solicitud['Descripcion']); ?>
+                                <?php } else { ?>
+                                    Sin descripción
+                                <?php } ?>
                             <td>
                                 <?php echo htmlspecialchars($solicitud['solicitante']); ?>
                             </td>
-                            <td>$
-                                <?php echo htmlspecialchars($solicitud['s_valor']); ?>
+                            <td><?php if (!empty($solicitud['s_valor'])) { ?>
+                                    $ <?php echo htmlspecialchars($solicitud['s_valor']); ?>
+                                <?php } else { ?>
+                                    No aplica
+                                <?php } ?>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary mb-4 acciones"
-                                    data-solicitud-id="<?php echo $solicitud['s_id']; ?>" data-bs-toggle="modal"
-                                    data-bs-target="#AccionesModal<?php echo $solicitud['s_id']; ?>">Acciones</button>
+                                <button type="button" class="btn btn-primary mb-4 acciones" data-solicitud-id="<?php echo $solicitud['s_id']; ?>" data-bs-toggle="modal" data-bs-target="#AccionesModal<?php echo $solicitud['s_id']; ?>">Acciones</button>
                             </td>
                         </tr>
 
                         <!-- Modal para mostrar botones de acciones -->
-                        <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1"
-                            aria-labelledby="AccionesModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -145,13 +146,9 @@ try {
                                         <?php echo htmlspecialchars($solicitud['s_id']); ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" id="Aprobar" class="btn btn-success"><i
-                                                class="fa-solid fa-check"></i>Aprobar</button>
-                                        <button type="submit" id="Denegar" class="btn btn-danger"><i
-                                                class="fa-solid fa-xmark"></i>Denegar</button>
-                                        <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal"
-                                            data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>"
-                                            data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
+                                        <button type="submit" id="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
+                                        <button type="submit" id="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
+                                        <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
                                             <i class=" fa-solid fa-rotate-right"></i>Reasignar
                                         </button>
                                     </div>
@@ -161,8 +158,7 @@ try {
 
 
                         <!-- Modal para Reasignar -->
-                        <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1"
-                            aria-labelledby="ReasignarModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -175,8 +171,8 @@ try {
                                                 <label for="tipoReasignar" class="form-label"><strong>Tipo</strong></label>
                                                 <!-- Agrega el select de tipos -->
                                                 <select id="tipoReasignar" class="form-select">
-                                                    <?php foreach ($tipo as $tiporea): ?>
-                                                        <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']): ?>
+                                                    <?php foreach ($tipo as $tiporea) : ?>
+                                                        <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
                                                             <option value="<?php echo $tiporea['name_tipo']; ?>">
                                                                 <?php echo htmlspecialchars($tiporea['name_tipo']); ?>
                                                             </option>
@@ -189,7 +185,7 @@ try {
                                                 <label for="usuarioReasignar" class="form-label"><strong>Usuario</strong></label>
                                                 <!-- Agrega el select de usuarios -->
                                                 <select id="usuarioReasignar" class="form-select">
-                                                    <?php foreach ($usuarios as $usuariosrea): ?>
+                                                    <?php foreach ($usuarios as $usuariosrea) : ?>
                                                         <option value="<?php echo $usuariosrea['nombre_usuario']; ?>">
                                                             <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
                                                         </option>
@@ -199,10 +195,8 @@ try {
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" id="ReasignarAprobado" class="btn btn-success"><i
-                                                class="fa-solid fa-check"></i>Reasignar</button>
-                                        <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i
-                                                class="fa-solid fa-xmark dism"></i>Cancelar</button>
+                                        <button type="submit" id="ReasignarAprobado" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
+                                        <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark dism"></i>Cancelar</button>
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +211,8 @@ try {
 
         <!-- Script para la impresion de la id en la URL y no cambiar de ventana al dar click en el boton Acciones-->
         <script>
-            $(document).ready(function () {
-                $('.acciones').click(function () {
+            $(document).ready(function() {
+                $('.acciones').click(function() {
                     var solicitudId = $(this).data('solicitud-id');
 
                     // Actualizar la URL con el ID
@@ -229,14 +223,14 @@ try {
                 });
 
                 // Manejar el evento de cierre del modal AccionesModal
-                $('.modal').on('hidden.bs.modal', function () {
+                $('.modal').on('hidden.bs.modal', function() {
                     // Restaurar la URL sin el parámetro de solicitud_id
                     history.pushState(null, null, window.location.pathname);
                 });
             });
         </script>
 
-        <?php
+<?php
 
     } else {
         header("Location: ../public/index.php");

@@ -59,9 +59,11 @@ try {
                 </table>
             </div>
         </div>
-        <div id="modalEditLogros" class="modal">
+        <div id="modalEditLogros" class="modal edit">
             <div class="modal-content">
-                <span class="close">&times;</span>
+            <div class="modal-header">
+                <h5 class="modal-title">Editar logro</h5>
+            </div>
                 <div id="formContent"></div>
             </div>
         </div>

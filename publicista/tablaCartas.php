@@ -59,9 +59,11 @@ try {
                 </table>
             </div>
         </div>
-        <div id="modalEditCartas" class="modal">
+        <div id="modalEditCartas" class="modal edit">
             <div class="modal-content">
-                <span class="close">&times;</span>
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Carta de condolencias</h5>
+            </div>
                 <div id="formContent"></div>
             </div>
         </div>

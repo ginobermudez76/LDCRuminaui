@@ -120,29 +120,6 @@ try {
         }
     }
 </script>
-<script>
-    function validarTipoEdit() {
-        var seleccionTipoEdit = document.getElementById("tipoEdit").value;
-        if (seleccionTipoEdit === "") {
-            alert("Por favor, seleccione un tipo de solicitud");
-            return false;
-        }
-
-        // Validar el tipo de archivo seleccionado
-        var archivoInputEdit = document.getElementById("documentoEdit");
-
-
-        var archivoEdit = archivoInputEdit.files[0];
-        var extensionesPermitidasEdit = ['pdf', 'doc', 'docx', 'txt'];
-        var extensionEdit = archivoEdit.name.split('.').pop().toLowerCase();
-
-        if (!extensionesPermitidasEdit.includes(extensionEdit)) {
-            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF, DOC, DOCX o TXT");
-            return false;
-        }
-        return true;
-    }
-</script>
 
 
 <?php include '../includes/footer.php'; ?>

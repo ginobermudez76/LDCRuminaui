@@ -3,13 +3,14 @@
     color: white;
     font-size: 18px;
 }
-.modal {
+/*estilos para modal del deporte clickeado*/
+.mdDeporte {
     background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     margin-bottom: 0;
 }
 
-.modal-content {
+.mdDeporte .modal-content {
     margin: 0;
     padding: 20px;
     width: 100%;
@@ -18,43 +19,38 @@
 
 }
 
-.modal-body {
+.mdDeporte .modal-body {
     padding: 0;
     margin: 0;
     margin-bottom: 0;
 }
 
-.close {
+.mdDeporte .close {
     color: #ffffff;
     position: absolute;
-    top: -50px;
+    top: 0px;
     right: 5px;
     font-size: 50px;
     font-weight: bold;
     cursor: pointer;
 }
-.modal-dialog {
+.mdDeporte .modal-dialog {
     height: 100%;
     max-width: 90%; 
     max-height: 90%;
 
 }
-.modal-dialog img {
+.mdDeporte .modal-dialog img {
     max-width: 100%; 
     height: 100%;
 }
-.modal-body img {
+.mdDeporte .modal-body img {
     height: 100%;
     max-width: 100%; 
     max-height: 100%;
 
 }
-
-<<<<<<< HEAD
-
-/*Estilos para el carrucel de misión, visión, sobre nosotros*/
-=======
->>>>>>> 8cbca8780d5152d6ca3642350b0f21c1deaa087c
+/*fin estilos para modal del deporte clickeado*/
 .carousel-item img {
     width: 100%;
     height: 100%;
@@ -114,9 +110,7 @@ background-color: #ffffff00;
     width: 100%;
     height: 300px;
 }
-td{
-    overflow-wrap: break-word !important;
-}
+
 .gestionar{
     color: rgb(255, 255, 255);
 }
@@ -124,6 +118,7 @@ td{
     padding: 100px 0;
     text-align: center;
  }
+
 
 
 .btn-danger.btn-sm {
@@ -142,14 +137,12 @@ td{
 .btn-secondary.btn-sm{
     border-radius: 10px;
 }
+
 tr{
     text-align: left;
 }
-
-tr:hover {
-    background-color: #36bcc6 !important;
-    color: #fff !important;
-    border-radius: 25px !important;
+td{
+    overflow-wrap: break-word;
 }
 .overlay {
     position: absolute;
@@ -266,67 +259,7 @@ tr:hover {
 .overlayDeportistas h5{
     font-size: 20px !important;
 }
-
-@media (max-width: 720px){
-    .carousel-inner h5{
-        font-size: 40px !important;
-    }
-    .carousel-inner p{
-        font-size: 20px !important;
-    }
-    body{
-        flex: 100%;
-    }
-    .column{
-        flex: 100%;
-    }
-
-    #menu:checked ~ .navbar{
-        display: initial;
-    }
-    .dir p{
-        font-size: 18px;
-    }
-
-    h2 {
-        font-size: 70px;
-        line-height: 80px;
-    }
-    p{
-        margin: 15px;
-        text-align: center;
-    }
-    body{
-        max-width: 100%;
-
-    }
-
-
-    h3 {
-        font-size: 15px;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        font-family: 'Bebas Neue', cursive;
-        color: #ffffff;
-        margin-bottom: 15px;
-    }
-    
-    .header-txt p {
-        color: #ffffff;
-        padding: 0 250px;
-        margin: 25px 0;
-    }
-    
-    .presentacion {
-        max-width: 100%;
-    }
-   span{
-    font-size: 15px;
-   }
-   .texto-desplegable p {
-    margin: 5px 10px;
-    font-size: 20px;
-}
+/* Fin para el carrusel de deportistas destacados */
 .close {
     color: #000000;
     position: absolute;
@@ -337,7 +270,6 @@ tr:hover {
     cursor: pointer;
 }
 
-}
 .container1 {
     display: flex;
     align-items: center;
@@ -410,3 +342,19 @@ tr:hover {
     max-width: 70%;
     height: 150px;
 }
+/*estilos para modal edit*/
+.edit {
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    margin: auto;
+}
+
+.edit .modal-content {
+    margin: auto;
+    padding: 20px;
+    width: 41%;
+    max-width: 41%;
+    position: relative;
+    height: auto;
+}
+/*fin estilos para modal edit*/
