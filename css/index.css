@@ -51,7 +51,7 @@
     }
     .carousel-item{
         justify-content: center;
-        margin-left: -106px;
+        margin-left: -11%;
     }
     .imagenes-deportesN {
         display: flex;
@@ -59,12 +59,12 @@
     }
 
     .imagenes-deportesN img{
-        width: 300px !important;
+        width: 25% !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
-        margin-left: 90px;
+        margin-left: 9%;
     }
     .col {
-        margin-right: -1017px;  
+        margin-right: -78%;  
     }
 /* END DEPORTES  */
