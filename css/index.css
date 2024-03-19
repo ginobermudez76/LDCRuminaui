@@ -37,7 +37,7 @@
 }
 
 /* SECCION DEPORTES*/
-    .imagenes-deportes {
+    /*.imagenes-deportes {
         display: flex;
         flex-direction: row;
         justify-content: center !important;
@@ -48,23 +48,23 @@
         width: 20% !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
-    }
-    .carousel-item{
+    }*/
+    .carrusel-deportes .carousel-item{
         justify-content: center;
         margin-left: -11%;
     }
-    .imagenes-deportesN {
+    .carrusel-deportes .imagenes-deportes {
         display: flex;
         flex-direction: row;
     }
 
-    .imagenes-deportesN img{
+    .carrusel-deportes .imagenes-deportes img{
         width: 25% !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
         margin-left: 9%;
     }
-    .col {
+    .carrusel-deportes .col {
         margin-right: -78%;  
     }
 /* END DEPORTES  */

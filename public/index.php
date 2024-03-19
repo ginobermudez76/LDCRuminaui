@@ -104,7 +104,8 @@ try {
                 <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
             </div>
         </div>
-
+        <?php
+/*
         <div class="imagenes-deportes">
             <?php
             $fuente = "../img/v1.jpg";
@@ -116,9 +117,10 @@ try {
             <?php } ?>
 
         </div>
+        */
+?>
 
-
-        <div id="carouselDeporte" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php
                 // Dividir el array $deportes en grupos de tres
@@ -135,7 +137,7 @@ try {
                                 $rutaImagen = $deporte['imagen'];
                                 $titulo = $deporte['nombre'];
                             ?>
-                                <div class="col imagenes-deportesN" >
+                                <div class="col imagenes-deportes" >
                                     <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del deporte">
 
                                 </div>
