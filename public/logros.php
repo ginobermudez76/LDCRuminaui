@@ -19,7 +19,7 @@ try {
         // Iterar sobre los grupos de imágenes
         foreach ($grupos as $grupo_index => $grupo) {
             ?>
-            <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
+            <div class="carousel-item itemLogro <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
                 <div class="row">
                     <?php
                     // Iterar sobre las imágenes dentro de cada grupo
@@ -27,8 +27,8 @@ try {
                         $rutaImagen = $logro['imagen'];
                         $titulo = $logro['titulo'];
                         ?>
-                        <div class="col">
-                            <div class="image-container">
+                        <div class="column">
+                            <div class="image-container imglogros" >
                                 <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del logro">
                                 <div class="overlayLogros">
                                     <h5><?php echo htmlspecialchars($titulo); ?></h5>

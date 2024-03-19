@@ -59,7 +59,7 @@
     }
 
     .imagenes-deportesN img{
-        width: 248px !important;
+        width: 300px !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
         margin-left: 90px;

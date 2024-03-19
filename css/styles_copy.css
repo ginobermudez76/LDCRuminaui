@@ -358,3 +358,8 @@ td{
     height: auto;
 }
 /*fin estilos para modal edit*/
+.itemLogro{
+    justify-content: center !important;
+    align-items: center !important;
+    left: 170px;
+}
