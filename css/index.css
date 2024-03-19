@@ -49,4 +49,22 @@
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
     }
+    .carousel-item{
+        justify-content: center;
+        margin-left: -106px;
+    }
+    .imagenes-deportesN {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .imagenes-deportesN img{
+        width: 248px !important;
+        height: 480px !important;
+        clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
+        margin-left: 90px;
+    }
+    .col {
+        margin-right: -1017px;  
+    }
 /* END DEPORTES  */

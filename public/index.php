@@ -135,7 +135,7 @@ try {
                                 $rutaImagen = $deporte['imagen'];
                                 $titulo = $deporte['nombre'];
                             ?>
-                                <div class="col imagenes-deportes">
+                                <div class="col imagenes-deportesN" >
                                     <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del deporte">
 
                                 </div>
