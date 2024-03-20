@@ -62,8 +62,14 @@ try {
                         </td>
 
                         <td>
-                            Departamento: <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
-                            Persona: <?php echo htmlspecialchars($solicitud['encargado']); ?>
+                            <?php if (!empty($solicitud['departamento_encargado']) && !empty($solicitud['encargado'])) { ?>
+                                Departamento: <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
+                                Persona: <?php echo htmlspecialchars($solicitud['encargado']); ?>
+                            <?php } else { ?>
+                                La el proceso ha finalizado.
+                            <?php } ?>
+
+
                         </td>
                         <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
                         <td>
@@ -75,7 +81,11 @@ try {
                                 <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['id']; ?>)">Eliminar</button>
                             <?php
                             } else { ?>
-                                No permitido.
+                                <form action="historialSolicitud.php" method="post">
+                                    <input type="hidden" name="id_solicitud" value="<?php echo $solicitud['id']; ?>">
+                                    <button type="submit" class="btn btn-link">Ver historial</button>
+                                </form>
+
                             <?php
                             }
                             ?>
@@ -90,16 +100,16 @@ try {
     </div>
 </div>
 
-    <div id="myModal" class="modal edit" onsubmit="return validarTipoEdit()">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarSolicitudModalLabel">Editar solicitud</h5>
-            </div>
-            <div id="formContent"></div>
-            
-
+<div id="myModal" class="modal edit" onsubmit="return validarTipoEdit()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editarSolicitudModalLabel">Editar solicitud</h5>
         </div>
+        <div id="formContent"></div>
+
+
     </div>
+</div>
 
 <script>
     // Función para abrir el modal

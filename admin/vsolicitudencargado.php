@@ -41,40 +41,14 @@ try {
 
         try {
             // Consultar usuarios
-            $stmt = $conn->prepare("SELECT id, nombre_usuario FROM usuarios");
+            $stmt = $conn->prepare("SELECT u.id as id, u.nombre_usuario as nombre_usuario, r.rol_name AS rol 
+            FROM usuarios u
+            LEFT JOIN roles r ON u.rol = r.id_rol
+            WHERE u.rol <> 5");
             $stmt->execute();
             $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
-        }
-
-
-
-        //Logica para el form de reasignar
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $tipo = $_POST['tipo_id'];
-
-            try {
-                $conn->beginTransaction();
-                $stmt = $conn->prepare("UPDATE INTO solicitud (tipo) VALUES (?) WHERE id=?");
-                $stmt->execute([$tipo]);
-
-                // Obtén el ID de la solicitud insertada
-                $solicitudId = $conn->lastInsertId();
-
-                // Llama al procedimiento almacenado
-                $stmt = $conn->prepare("CALL actualizarDepartamentoEnUpdate(?, ?)");
-                $stmt->execute([$tipo, $solicitudId]);
-
-                $conn->commit(); // Commit la transacción si todo es correcto
-
-                // Redirigir después de agregar
-                header("Location: vsolicitudencargado.php");
-                exit();
-            } catch (PDOException $e) {
-                $conn->rollBack(); // Hace rollback en caso de error
-                echo "Error: " . $e->getMessage();
-            }
         }
 
 ?>
@@ -85,7 +59,7 @@ try {
         </style>
         <div class="container mt-4">
             <h2 class="gestionar">Solicitudes asignadas</h2>
-
+            <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -120,21 +94,26 @@ try {
                                 <?php echo htmlspecialchars($solicitud['tipo']); ?>
                             </td>
                             <td><?php if (!empty($solicitud['descripcion'])) { ?>
-                                    $ <?php echo htmlspecialchars($solicitud['Descripcion']); ?>
+                                    <?php echo htmlspecialchars($solicitud['descripcion']); ?>
                                 <?php } else { ?>
                                     Sin descripción
                                 <?php } ?>
                             <td>
                                 <?php echo htmlspecialchars($solicitud['solicitante']); ?>
                             </td>
-                            <td><?php if (!empty($solicitud['s_valor'])) { ?>
-                                    $ <?php echo htmlspecialchars($solicitud['s_valor']); ?>
+                            <td>
+                                <?php if (!empty($solicitud['s_valor'])) { ?>
+                                    $<?php echo htmlspecialchars($solicitud['s_valor']); ?>
                                 <?php } else { ?>
                                     No aplica
                                 <?php } ?>
                             </td>
                             <td>
+                                <?php if($solicitud['estado'] == 'Rechazada' || $solicitud['estado'] == 'Aprobada'){ ?>
+                                    <button type="button" class="btn btn-secondary mb-4 btncerrar">Cerrar</button>
+                                <?php }else{ ?>
                                 <button type="button" class="btn btn-primary mb-4 acciones" data-solicitud-id="<?php echo $solicitud['s_id']; ?>" data-bs-toggle="modal" data-bs-target="#AccionesModal<?php echo $solicitud['s_id']; ?>">Acciones</button>
+                                <?php } ?>
                             </td>
                         </tr>
 
@@ -176,14 +155,14 @@ try {
                                     </div>
                                     <div class="modal-body">
                                         <!-- Formulario reasignacion -->
-                                        <form action="vsolicitudencargado.php" method="POST" enctype="multipart/form-data">
+                                        <form action="reasignarSolicitud.php" method="POST" enctype="multipart/form-data">
                                             <div class="mb-3">
                                                 <label for="tipoReasignar" class="form-label"><strong>Tipo</strong></label>
                                                 <!-- Agrega el select de tipos -->
                                                 <select id="tipoReasignar" class="form-select">
                                                     <?php foreach ($tipo as $tiporea) : ?>
                                                         <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
-                                                            <option value="<?php echo $tiporea['name_tipo']; ?>">
+                                                            <option value="<?php echo $tiporea['id_tipo']; ?>">
                                                                 <?php echo htmlspecialchars($tiporea['name_tipo']); ?>
                                                             </option>
                                                         <?php endif; ?>
@@ -196,8 +175,8 @@ try {
                                                 <!-- Agrega el select de usuarios -->
                                                 <select id="usuarioReasignar" class="form-select">
                                                     <?php foreach ($usuarios as $usuariosrea) : ?>
-                                                        <option value="<?php echo $usuariosrea['nombre_usuario']; ?>">
-                                                            <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
+                                                        <option value="<?php echo $usuariosrea['id']; ?>">
+                                                        <?php echo htmlspecialchars($usuariosrea['rol']); ?>: <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -215,7 +194,10 @@ try {
 
                     <?php endforeach; ?>
                 </tbody>
-            </table>
+            </table>                
+            </div>
+
+
         </div>
 
 
