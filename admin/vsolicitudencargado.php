@@ -17,6 +17,7 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1 || $usuario['rol'] == 9) {
+
         // Mostrar el elemento del menú Administrar
 
         // Llamar al procedimiento almacenado para obtener las solicitudes
@@ -46,6 +47,9 @@ try {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
+
+
+
         //Logica para el form de reasignar
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $tipo = $_POST['tipo_id'];
@@ -146,11 +150,17 @@ try {
                                         <?php echo htmlspecialchars($solicitud['s_id']); ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" id="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
-                                        <button type="submit" id="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
-                                        <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
-                                            <i class=" fa-solid fa-rotate-right"></i>Reasignar
-                                        </button>
+                                        <!-- Dentro de tu bucle foreach -->
+                                        <form action="aprobar_denegar.php" method="POST" enctype="multipart/form-data">
+                                            <input type="hidden" name="solicitud_id" value="<?php echo $solicitud['s_id']; ?>">
+                                            <input type="hidden" name="tipo_solicitud" value="<?php echo htmlspecialchars($solicitud['tipo']); ?>">
+                                            <button type="submit" name="accion" value="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
+                                            <button type="submit" name="accion" value="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
+                                            <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
+                                                <i class=" fa-solid fa-rotate-right"></i>Reasignar
+                                            </button>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
