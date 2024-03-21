@@ -74,7 +74,7 @@ try {
                     $stmt->bindParam(':solicitud_id', $solicitud_id, PDO::PARAM_INT);
                     $stmt->execute();
                     //ejecutar otra consulta
-                    $stmt = $conn->prepare("    INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo)
+                    $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo)
                     VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
                     $stmt->execute([$solicitud_id, $nuevo_estado, $usuario_id, $usuario['rol'], $tipoId['id_tipo'], ]);
                     header("Location: ../admin/vsolicitudencargado.php");

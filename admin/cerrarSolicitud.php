@@ -21,29 +21,24 @@ try {
     if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1 || $usuario['rol'] == 9) {
         //Logica para el form de reasignar
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $tipo = $_POST['tipo_id'];
-            $solicitudId = $_POST['solicitud_id'];
-            $checkMostrarUsuarios = $_POST['checkMostrarUsuariosHidden'];
+            $solicitudId = $_POST['solicitud_id']; // Cambiado a 'solicitud_id'
+
+            // Obtener estado y tipo de la solicitud
+            $stmt = $conn->prepare("SELECT estado, tipo FROM solicitud WHERE s_id = ?");
+            $stmt->execute([$solicitudId]); 
+            $solicitud = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $estado = $solicitud['estado'];
+            $tipo = $solicitud['tipo'];
 
             try {
-                // Iniciar transacción
-                $conn->beginTransaction();
+                // Actualizar la solicitud
+                $stmt = $conn->prepare("UPDATE solicitud SET estado = ?, encargado = NULL, departamento_encargado = NULL WHERE s_id = ?");
+                $stmt->execute([$estado, $solicitudId]);
 
-                if ($checkMostrarUsuarios == 1) {
-                    $usuarioReasignar = $_POST['usuarioReasignar'];
-                    $stmt = $conn->prepare("UPDATE solicitud SET tipo = ?, encargado = ? WHERE id = ?");
-                    $stmt->execute([$tipo, $usuarioReasignar, $solicitudId]);
-                } else {
-                    $stmt = $conn->prepare("UPDATE solicitud SET tipo = ? WHERE id = ?");
-                    $stmt->execute([$tipo, $solicitudId]);
-                }
-
-                // Llamar al procedimiento almacenado
-                $stmt = $conn->prepare("CALL actualizarDepartamentoEnUpdate(?, ?)");
-                $stmt->execute([$tipo, $solicitudId]);
-
-                // Confirmar transacción
-                $conn->commit();
+                // Registrar en el historial de la solicitud
+                $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo) VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
+                $stmt->execute([$solicitudId, $estado, $usuario_id, $usuario['rol'], $tipo]);
 
                 // Redirigir después de actualizar
                 header("Location: vsolicitudencargado.php");
