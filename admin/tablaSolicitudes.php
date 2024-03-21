@@ -66,7 +66,7 @@ try {
                                 <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
                                 <?php echo htmlspecialchars($solicitud['encargado']); ?>
                             <?php } else { ?>
-                                La el proceso ha finalizado.
+                                El proceso ha finalizado.
                             <?php } ?>
 
 

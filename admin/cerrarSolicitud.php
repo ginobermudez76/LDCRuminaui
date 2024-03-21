@@ -33,12 +33,12 @@ try {
 
             try {
                 // Actualizar la solicitud
-                $stmt = $conn->prepare("UPDATE solicitud SET estado = ?, encargado = NULL, departamento_encargado = NULL WHERE s_id = ?");
-                $stmt->execute([$estado, $solicitudId]);
+                $stmt = $conn->prepare("UPDATE solicitud SET estado = 6, encargado = NULL, departamento_encargado = NULL WHERE s_id = ?");
+                $stmt->execute([$solicitudId]);
 
                 // Registrar en el historial de la solicitud
-                $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo) VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
-                $stmt->execute([$solicitudId, $estado, $usuario_id, $usuario['rol'], $tipo]);
+                $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo, fecha_respuesta) VALUES (?, CURRENT_TIMESTAMP(), 6, ?, ?, ?, CURRENT_TIMESTAMP())");
+                $stmt->execute([$solicitudId, $usuario_id, $usuario['rol'], $tipo]);
 
                 // Redirigir después de actualizar
                 header("Location: vsolicitudencargado.php");
