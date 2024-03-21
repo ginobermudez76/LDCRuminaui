@@ -29,28 +29,6 @@ try {
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-
-        //obtener lista de tipo de solicitud
-        try {
-            $stmt = $conn->prepare("SELECT id_tipo, name_tipo FROM solicitud_tipo");
-            $stmt->execute();
-            $tipo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-
-        try {
-            // Consultar usuarios
-            $stmt = $conn->prepare("SELECT u.id as id, u.nombre_usuario as nombre_usuario, r.rol_name AS rol 
-            FROM usuarios u
-            LEFT JOIN roles r ON u.rol = r.id_rol
-            WHERE u.rol <> 5");
-            $stmt->execute();
-            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-
 ?>
         <style>
             .fa-solid {
@@ -60,141 +38,110 @@ try {
         <div class="container mt-4">
             <h2 class="gestionar">Solicitudes asignadas</h2>
             <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Fecha</th>
-                        <th>Documento</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Solicitante</th>
-                        <th>Valor solicitado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($solicitudes as $solicitud) : ?>
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>
-                                <?php echo htmlspecialchars($solicitud['s_id']); ?>
-                            </td>
-                            <td>
-                                <?php echo htmlspecialchars($solicitud['s_fecha']); ?>
-                            </td>
-                            <td>
-                                <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
-                                    <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
-                                <?php else : ?>
-                                    <p1>No hay documento</p1>
-                                <?php endif; ?>
-                            </td>
-
-                            <td>
-                                <?php echo htmlspecialchars($solicitud['tipo']); ?>
-                            </td>
-                            <td><?php if (!empty($solicitud['descripcion'])) { ?>
-                                    <?php echo htmlspecialchars($solicitud['descripcion']); ?>
-                                <?php } else { ?>
-                                    Sin descripción
-                                <?php } ?>
-                            <td>
-                                <?php echo htmlspecialchars($solicitud['solicitante']); ?>
-                            </td>
-                            <td>
-                                <?php if (!empty($solicitud['s_valor'])) { ?>
-                                    $<?php echo htmlspecialchars($solicitud['s_valor']); ?>
-                                <?php } else { ?>
-                                    No aplica
-                                <?php } ?>
-                            </td>
-                            <td>
-                                <?php if($solicitud['estado'] == 'Rechazada' || $solicitud['estado'] == 'Aprobada'){ ?>
-                                    <button type="button" class="btn btn-secondary mb-4 btncerrar">Cerrar</button>
-                                <?php }else{ ?>
-                                <button type="button" class="btn btn-primary mb-4 acciones" data-solicitud-id="<?php echo $solicitud['s_id']; ?>" data-bs-toggle="modal" data-bs-target="#AccionesModal<?php echo $solicitud['s_id']; ?>">Acciones</button>
-                                <?php } ?>
-                            </td>
+                            <th>Id</th>
+                            <th>Fecha</th>
+                            <th>Documento</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Solicitante</th>
+                            <th>Valor solicitado</th>
+                            <th>Acciones</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($solicitudes as $solicitud) : ?>
+                            <tr>
+                                <td>
+                                    <?php echo htmlspecialchars($solicitud['s_id']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($solicitud['s_fecha']); ?>
+                                </td>
+                                <td>
+                                    <?php if (isset($solicitud['s_doc']) && $solicitud['s_doc']) : ?>
+                                        <a href="<?php echo htmlspecialchars($solicitud['s_doc']); ?>" target="_blank">Ver documento</a>
+                                    <?php else : ?>
+                                        <p1>No hay documento</p1>
+                                    <?php endif; ?>
+                                </td>
 
-                        <!-- Modal para mostrar botones de acciones -->
-                        <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="AccionesModalLabel">Acciones de la Solicitud</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body" id="solicitudDetails">
-                                        <?php echo htmlspecialchars($solicitud['s_id']); ?>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <!-- Dentro de tu bucle foreach -->
-                                        <form action="aprobar_denegar.php" method="POST" enctype="multipart/form-data">
-                                            <input type="hidden" name="solicitud_id" value="<?php echo $solicitud['s_id']; ?>">
-                                            <input type="hidden" name="tipo_solicitud" value="<?php echo htmlspecialchars($solicitud['tipo']); ?>">
-                                            <button type="submit" name="accion" value="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
-                                            <button type="submit" name="accion" value="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
-                                            <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
-                                                <i class=" fa-solid fa-rotate-right"></i>Reasignar
-                                            </button>
-                                        </form>
+                                <td>
+                                    <?php echo htmlspecialchars($solicitud['tipo']); ?>
+                                </td>
+                                <td><?php if (!empty($solicitud['descripcion'])) { ?>
+                                        <?php echo htmlspecialchars($solicitud['descripcion']); ?>
+                                    <?php } else { ?>
+                                        Sin descripción
+                                    <?php } ?>
+                                <td>
+                                    <?php echo htmlspecialchars($solicitud['solicitante']); ?>
+                                </td>
+                                <td>
+                                    <?php if (!empty($solicitud['s_valor'])) { ?>
+                                        $<?php echo htmlspecialchars($solicitud['s_valor']); ?>
+                                    <?php } else { ?>
+                                        No aplica
+                                    <?php } ?>
+                                </td>
+                                <td>
+                                    <?php if ($solicitud['estado'] == 'Rechazada' || $solicitud['estado'] == 'Aprobada') { ?>
+                                        <button type="button" class="btn btn-secondary mb-4 btncerrar">Cerrar</button>
+                                    <?php } else { ?>
+                                        <button type="button" class="btn btn-primary mb-4 acciones" data-solicitud-id="<?php echo $solicitud['s_id']; ?>" data-bs-toggle="modal" data-bs-target="#AccionesModal<?php echo $solicitud['s_id']; ?>">Acciones</button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Modal para Reasignar -->
-                        <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="ReasignarModalLabel">Reasignar</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Formulario reasignacion -->
-                                        <form action="reasignarSolicitud.php" method="POST" enctype="multipart/form-data">
-                                            <div class="mb-3">
-                                                <label for="tipoReasignar" class="form-label"><strong>Tipo</strong></label>
-                                                <!-- Agrega el select de tipos -->
-                                                <select id="tipoReasignar" class="form-select">
-                                                    <?php foreach ($tipo as $tiporea) : ?>
-                                                        <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
-                                                            <option value="<?php echo $tiporea['id_tipo']; ?>">
-                                                                <?php echo htmlspecialchars($tiporea['name_tipo']); ?>
-                                                            </option>
-                                                        <?php endif; ?>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
+                            <!-- Modal para mostrar botones de acciones -->
+                            <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="AccionesModalLabel">Acciones de la Solicitud</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" id="solicitudDetails">
                                             <?php echo htmlspecialchars($solicitud['s_id']); ?>
-                                            <div class="mb-3">
-                                                <label for="usuarioReasignar" class="form-label"><strong>Usuario</strong></label>
-                                                <!-- Agrega el select de usuarios -->
-                                                <select id="usuarioReasignar" class="form-select">
-                                                    <?php foreach ($usuarios as $usuariosrea) : ?>
-                                                        <option value="<?php echo $usuariosrea['id']; ?>">
-                                                        <?php echo htmlspecialchars($usuariosrea['rol']); ?>: <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" id="ReasignarAprobado" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
-                                        <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark dism"></i>Cancelar</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Dentro de tu bucle foreach -->
+                                            <form action="aprobar_denegar.php" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="solicitud_id" value="<?php echo $solicitud['s_id']; ?>">
+                                                <input type="hidden" name="tipo_solicitud" value="<?php echo htmlspecialchars($solicitud['tipo']); ?>">
+                                                <button type="submit" name="accion" value="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
+                                                <button type="submit" name="accion" value="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
+                                                <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
+                                                    <i class=" fa-solid fa-rotate-right"></i>Reasignar
+                                                </button>
+                                            </form>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                    <?php endforeach; ?>
-                </tbody>
-            </table>                
+                            <!-- Modal para Reasignar -->
+                            <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ReasignarModalLabel">Reasignar solicitud: <?php echo htmlspecialchars($solicitud['s_id']); ?></h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Formulario reasignacion -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
 
 
@@ -221,6 +168,79 @@ try {
                 });
             });
         </script>
+        <script>
+            // Obtener referencia al checkbox
+            var checkbox = document.getElementById("checkMostrarUsuarios");
+
+            // Obtener referencia al div que contiene el select de usuarios
+            var divUsuarioReasignar = document.getElementById("divUsuarioReasignar");
+
+            // Agregar un listener al checkbox para escuchar el cambio de estado
+            checkbox.addEventListener('change', function() {
+                // Si el checkbox está marcado, mostrar el div; de lo contrario, ocultarlo
+                if (this.checked) {
+                    divUsuarioReasignar.style.display = "block";
+                } else {
+                    divUsuarioReasignar.style.display = "none";
+                }
+            });
+        </script>
+        <script>
+            // Agregar un controlador de eventos al botón "Reasignar" dentro del modal
+            document.getElementById("btnReasignar").addEventListener("click", function() {
+                // Obtener los valores seleccionados de los campos del formulario
+                var tipoReasignar = document.getElementById("tipoReasignar").value;
+                var checkMostrarUsuarios = document.getElementById("checkMostrarUsuarios").checked;
+                var usuarioReasignar = document.getElementById("usuarioReasignar").value;
+
+                // Crear un objeto con los datos a enviar al servidor
+                var datos = {
+                    tipo_id: tipoReasignar,
+                    solicitud_id: <?php echo $solicitud['s_id']; ?>,
+                    checkMostrarUsuarios: checkMostrarUsuarios,
+                    usuario_id: usuarioReasignar
+                };
+
+                // Crear una instancia de XMLHttpRequest
+                var xhr = new XMLHttpRequest();
+
+                // Configurar la solicitud
+                xhr.open("POST", "reasignarSolicitud.php");
+
+                // Establecer el tipo de contenido
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                // Enviar los datos al servidor
+                xhr.send(JSON.stringify(datos));
+
+                // Manejar la respuesta del servidor
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        // La solicitud se ha completado correctamente
+                        // Puedes redirigir o mostrar un mensaje de éxito aquí
+                        console.log(xhr.responseText);
+                        // Recarga la página después de reasignar
+                        location.reload();
+                    } else {
+                        // La solicitud no se ha completado correctamente
+                        // Puedes mostrar un mensaje de error aquí
+                        console.error('Error al reasignar solicitud');
+                    }
+                };
+            });
+        </script>
+<script>
+    // Agregar un controlador de eventos al botón "Reasignar" dentro del modal
+    document.getElementById("btnReasignar").addEventListener("click", function() {
+        // Obtener el valor del checkbox
+        var checkMostrarUsuarios = document.getElementById("checkMostrarUsuarios").checked;
+
+        // Establecer el valor del campo oculto con el estado del checkbox
+        document.getElementById("checkMostrarUsuariosHidden").value = checkMostrarUsuarios ? 1 : 0;
+
+        // Resto del código para enviar los datos al servidor...
+    });
+</script>
 
 <?php
 

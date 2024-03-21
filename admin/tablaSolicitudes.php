@@ -63,8 +63,8 @@ try {
 
                         <td>
                             <?php if (!empty($solicitud['departamento_encargado']) && !empty($solicitud['encargado'])) { ?>
-                                Departamento: <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
-                                Persona: <?php echo htmlspecialchars($solicitud['encargado']); ?>
+                                <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
+                                <?php echo htmlspecialchars($solicitud['encargado']); ?>
                             <?php } else { ?>
                                 La el proceso ha finalizado.
                             <?php } ?>

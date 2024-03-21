@@ -2,12 +2,13 @@
 session_start();
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
 
-
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
     exit();
 }
+
 $usuario_id = $_SESSION['usuario_id'];
+
 try {
     // Consultar el rol del usuario en la base de datos
     $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
@@ -22,31 +23,37 @@ try {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $tipo = $_POST['tipo_id'];
             $solicitudId = $_POST['solicitud_id'];
+            $checkMostrarUsuarios = $_POST['checkMostrarUsuariosHidden'];
 
             try {
+                // Iniciar transacción
                 $conn->beginTransaction();
-                $stmt = $conn->prepare("UPDATE INTO solicitud (tipo) VALUES (?) WHERE id=?");
-                $stmt->execute([$tipo]);
 
-                // Obtén el ID de la solicitud insertada
-                $solicitudId = $conn->lastInsertId();
+                if ($checkMostrarUsuarios == 1) {
+                    $usuarioReasignar = $_POST['usuarioReasignar'];
+                    $stmt = $conn->prepare("UPDATE solicitud SET tipo = ?, encargado = ? WHERE id = ?");
+                    $stmt->execute([$tipo, $usuarioReasignar, $solicitudId]);
+                } else {
+                    $stmt = $conn->prepare("UPDATE solicitud SET tipo = ? WHERE id = ?");
+                    $stmt->execute([$tipo, $solicitudId]);
+                }
 
-                // Llama al procedimiento almacenado
+                // Llamar al procedimiento almacenado
                 $stmt = $conn->prepare("CALL actualizarDepartamentoEnUpdate(?, ?)");
                 $stmt->execute([$tipo, $solicitudId]);
 
-                $conn->commit(); // Commit la transacción si todo es correcto
+                // Confirmar transacción
+                $conn->commit();
 
-                // Redirigir después de agregar
+                // Redirigir después de actualizar
                 header("Location: vsolicitudencargado.php");
                 exit();
             } catch (PDOException $e) {
-                $conn->rollBack(); // Hace rollback en caso de error
+                // Revertir transacción en caso de error
+                $conn->rollBack();
                 echo "Error: " . $e->getMessage();
             }
         }
-
-
     } else {
         header("Location: ../public/index.php");
         exit();
@@ -54,3 +61,4 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+?>
