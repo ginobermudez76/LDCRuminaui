@@ -115,16 +115,6 @@ try {
                                     <?php } ?>
                                 </td>
                             </tr>
-
-
-
-
-
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <!-- Modal para mostrar botones de acciones -->
         <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -152,7 +142,6 @@ try {
                 </div>
             </div>
         </div>
-
 
         <!-- Modal para Reasignar -->
         <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
@@ -215,6 +204,17 @@ try {
                 </div>
             </div>
         </div>
+
+
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
         <script>
     $(document).ready(function() {
         $(".btncerrar").click(function() {
@@ -266,14 +266,11 @@ try {
             $(document).ready(function() {
                 $('.acciones').click(function() {
                     var solicitudId = $(this).data('solicitud-id');
-
                     // Actualizar la URL con el ID
                     history.pushState(null, null, '?id=' + solicitudId);
-
                     // Mostrar el modal correspondiente
                     $('#AccionesModal' + solicitudId).modal('show');
                 });
-
                 // Manejar el evento de cierre del modal AccionesModal
                 $('.modal').on('hidden.bs.modal', function() {
                     // Restaurar la URL sin el parámetro de solicitud_id
