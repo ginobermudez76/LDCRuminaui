@@ -115,95 +115,106 @@ try {
                                     <?php } ?>
                                 </td>
                             </tr>
-        <!-- Modal para mostrar botones de acciones -->
-        <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="AccionesModalLabel">Acciones de la Solicitud</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="solicitudDetails">
-                        <?php echo htmlspecialchars($solicitud['s_id']); ?>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Dentro de tu bucle foreach -->
-                        <form action="aprobar_denegar.php" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="solicitud_id" value="<?php echo $solicitud['s_id']; ?>">
-                            <input type="hidden" name="tipo_solicitud" value="<?php echo htmlspecialchars($solicitud['tipo']); ?>">
-                            <button type="submit" name="accion" value="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
-                            <button type="submit" name="accion" value="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
-                            <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
-                                <i class=" fa-solid fa-rotate-right"></i>Reasignar
-                            </button>
-                        </form>
+                            <!-- Modal para mostrar botones de acciones -->
+                            <div class="modal fade" id="AccionesModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="AccionesModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="AccionesModalLabel">Acciones de la solicitud: <?php echo htmlspecialchars($solicitud['s_id']); ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" id="solicitudDetails">
+                                            <?php if ($solicitud['tipo'] == 'Otro tipo') { ?>
+                                                <p style="color:red; font-size:20px;">Esta solicitud es "otro tipo", hacer click en aceptar o denegar aprobara o rechazara la solicitud en su totalidad, si usted no es quien debe procesar estás acciones, por favor reasignela.</p>
+                                            <?php } ?>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Dentro de tu bucle foreach -->
+                                            <form action="aprobar_denegar.php" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="solicitud_id" value="<?php echo $solicitud['s_id']; ?>">
+                                                <input type="hidden" name="tipo_solicitud" value="<?php echo htmlspecialchars($solicitud['tipo']); ?>">
+                                                <button type="submit" name="accion" value="Aprobar" class="btn btn-success"><i class="fa-solid fa-check"></i>Aprobar</button>
+                                                <button type="submit" name="accion" value="Denegar" class="btn btn-danger"><i class="fa-solid fa-xmark"></i>Denegar</button>
+                                                <button type="button" id="Reasignar" class="btn btn-info text-light" data-bs-toggle="modal" data-bs-target="#ReasignarModal<?php echo $solicitud['s_id']; ?>" data-solicitud-id="<?php echo $solicitud['s_id']; ?>">
+                                                    <i class=" fa-solid fa-rotate-right"></i>Reasignar
+                                                </button>
+                                            </form>
 
-        <!-- Modal para Reasignar -->
-        <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ReasignarModalLabel">Reasignar solicitud: <?php echo htmlspecialchars($solicitud['s_id']); ?></h5>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Formulario reasignacion -->
-                        <form action="reasignarSolicitudTipo.php" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="tipoReasignarLabel" class="form-label"><strong>Reasignar automaticamente por tipo</strong></label>
-                                <!-- Agrega el select de tipos -->
-                                <select id="tipoReasignar" class="form-select" name="tipoReasignar">
-                                    <option value="">
-                                        Seleccione un tipo
-                                    </option>
-                                    <?php foreach ($tipo as $tiporea) : ?>
-                                        <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
-                                            <option value="<?php echo $tiporea['id_tipo']; ?>">
-                                                <?php echo htmlspecialchars($tiporea['name_tipo']); ?>
-                                            </option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <input type="hidden" id="solicitudId" name="solicitudId" value="<?php echo $solicitud['s_id']; ?>">
-                            <button type="submit" id="btnReasignarPorTipo" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
-                        </form>
-                        <div class="mb-3">
-                            <input type="checkbox" class="form-check-input" id="checkMostrarUsuarios" name="checkMostrarUsuarios">
-                            <label for="reasignarUser" class="form-label">Reasignar manualmente por usuario</label>
-                        </div>
-                        <form enctype="multipart/form-data">
-                            <div id="divUsuarioReasignar" style="display: none;">
-                                <div class="mb-3">
-                                    <label for="reasignarUser" class="form-label">El departamento encargado se asigna de forma automatica</label>
-                                    <label for="usuarioReasignar" class="form-label"><strong>Usuario</strong></label>
-                                    <!-- Agrega el select de usuarios -->
-                                    <select id="usuarioReasignarPorUsuario" class="form-select">
-                                        <option value="">
-                                            Seleccione un usuario
-                                        </option>
-                                        <?php foreach ($usuarios as $usuariosrea) : ?>
-                                            <option value="<?php echo $usuariosrea['id']; ?>">
-                                                <?php echo htmlspecialchars($usuariosrea['rol']); ?>: <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-
+                                        </div>
+                                    </div>
                                 </div>
-                                <button type="submit" id="btnReasignar" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark dism"></i>Cancelar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+                            <!-- Modal para Reasignar -->
+                            <div class="modal fade" id="ReasignarModal<?php echo $solicitud['s_id']; ?>" tabindex="-1" aria-labelledby="ReasignarModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ReasignarModalLabel">Reasignar solicitud: <?php echo htmlspecialchars($solicitud['s_id']); ?></h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Formulario reasignacion -->
+                                            <form action="reasignarSolicitudTipo.php" method="POST" enctype="multipart/form-data" class="form-reasignar-tipo" onsubmit="return validarTipo()">
+                                                <div class="mb-3">
+                                                    <label for="tipoReasignarLabel" class="form-label"><strong>Reasignar automaticamente por tipo</strong></label>
+                                                    <!-- Agrega el select de tipos -->
+                                                    <select id="tipoReasignar" class="form-select tipo" name="tipoReasignar">
+                                                        <option value="">
+                                                            Seleccione un tipo
+                                                        </option>
+                                                        <?php foreach ($tipo as $tiporea) : ?>
+                                                            <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
+                                                                <option value="<?php echo $tiporea['id_tipo']; ?>">
+                                                                    <?php echo htmlspecialchars($tiporea['name_tipo']); ?>
+                                                                </option>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" id="solicitudId" name="solicitudId" value="<?php echo $solicitud['s_id']; ?>">
+                                                <button type="submit" id="btnReasignarPorTipo" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
+
+                                            </form>
+
+                                            <?php if ($solicitud['tipo'] == 'Otro tipo') { ?>
+                                                <div class="mb-3">
+                                                    <input type="checkbox" class="form-check-input checkMostrarUsuarios" id="checkMostrarUsuarios_<?php echo $solicitud['s_id']; ?>" data-target="#divUsuarioReasignar_<?php echo $solicitud['s_id']; ?>">
+                                                    <label for="checkMostrarUsuarios_<?php echo $solicitud['s_id']; ?>" class="form-label">Reasignar manualmente por usuario</label>
+                                                </div>
+                                                <div id="divUsuarioReasignar_<?php echo $solicitud['s_id']; ?>" class="divUsuarioReasignar" style="display: none;">
+                                                    <form action="reasignarSolicitudUsuario.php" method="POST" enctype="multipart/form-data" class="form-reasignar-usuario" onsubmit="return validarUsuario()">
+
+                                                        <div class="mb-3">
+                                                            <label for="reasignarUser" class="form-label">El departamento encargado se asigna de forma automatica</label>
+                                                            <label for="usuarioReasignar" class="form-label"><strong>Usuario</strong></label>
+                                                            <!-- Agrega el select de usuarios -->
+                                                            <select id="usuarioReasignarPorUsuario" class="form-select usuario" name="usuarioReasignarPorUsuario">
+                                                                <option value="">
+                                                                    Seleccione un usuario
+                                                                </option>
+                                                                <?php foreach ($usuarios as $usuariosrea) : ?>
+                                                                    <option value="<?php echo $usuariosrea['id']; ?>">
+                                                                        <?php echo htmlspecialchars($usuariosrea['rol']); ?>: <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+
+                                                        </div>
+                                                        <input type="hidden" id="solicitudIdUsuario" name="solicitudIdUsuario" value="<?php echo $solicitud['s_id']; ?>">
+                                                        <button type="submit" id="btnReasignarPorUsuario" class="btn btn-success"><i class="fa-solid fa-check"></i>Reasignar</button>
+
+                                                    </form>
+
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="Cancelar" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark dism"></i>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         <?php endforeach; ?>
@@ -212,54 +223,67 @@ try {
             </div>
         </div>
 
-
-
-
         <script>
-    $(document).ready(function() {
-        $(".btncerrar").click(function() {
-            var solicitud_id1 = $(this).data("solicitud-id1");
-            // Aquí puedes enviar los datos al script de procesamiento utilizando AJAX
-            $.ajax({
-                url: 'cerrarSolicitud.php', // Ruta al script de procesamiento
-                method: 'POST',
-                data: {
-                    solicitud_id: solicitud_id1
-                    // Aquí puedes incluir más datos si los necesitas
-                },
-                success: function(response) {
-                    // Manejar la respuesta del script de procesamiento
-                    console.log(response);
-                    // Recargar la página después de cerrar la solicitud exitosamente
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // Manejar errores
-                    console.error(xhr);
+            function validarUsuario() {
+                var seleccionEncargado = document.getElementById("usuarioReasignarPorUsuario").value;
+                if (seleccionEncargado === "") {
+                    alert("Por favor, seleccione un encargado");
+                    return false;
                 }
-            });
-        });
-    });
-</script>
 
+                return true;
+            }
 
+            function validarTipo() {
+                var seleccionTipo = document.getElementById("tipoReasignar").value;
+                if (seleccionTipo === "") {
+                    alert("Por favor, seleccione un tipo de solicitud");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
         <script>
-            // Obtener referencia al checkbox
-            var checkbox = document.getElementById("checkMostrarUsuarios");
-
-            // Obtener referencia al div que contiene el select de usuarios
-            var divUsuarioReasignar = document.getElementById("divUsuarioReasignar");
-
-            // Agregar un listener al checkbox para escuchar el cambio de estado
-            checkbox.addEventListener('change', function() {
-                // Si el checkbox está marcado, mostrar el div; de lo contrario, ocultarlo
-                if (this.checked) {
-                    divUsuarioReasignar.style.display = "block";
-                } else {
-                    divUsuarioReasignar.style.display = "none";
-                }
+            $(document).ready(function() {
+                $(".btncerrar").click(function() {
+                    var solicitud_id1 = $(this).data("solicitud-id1");
+                    // Aquí puedes enviar los datos al script de procesamiento utilizando AJAX
+                    $.ajax({
+                        url: 'cerrarSolicitud.php', // Ruta al script de procesamiento
+                        method: 'POST',
+                        data: {
+                            solicitud_id: solicitud_id1
+                            // Aquí puedes incluir más datos si los necesitas
+                        },
+                        success: function(response) {
+                            // Manejar la respuesta del script de procesamiento
+                            console.log(response);
+                            // Recargar la página después de cerrar la solicitud exitosamente
+                            location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            // Manejar errores
+                            console.error(xhr);
+                        }
+                    });
+                });
             });
         </script>
+
+
+        <script>
+            document.querySelectorAll('.checkMostrarUsuarios').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var targetId = this.getAttribute('data-target');
+                    var targetDiv = document.querySelector(targetId);
+                    if (targetDiv) {
+                        targetDiv.style.display = this.checked ? 'block' : 'none';
+                    }
+                });
+            });
+        </script>
+
 
         <!-- Script para la impresion de la id en la URL y no cambiar de ventana al dar click en el boton Acciones-->
         <script>
