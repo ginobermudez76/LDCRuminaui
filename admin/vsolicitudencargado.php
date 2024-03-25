@@ -155,14 +155,11 @@ try {
                                         </div>
                                         <div class="modal-body">
                                             <!-- Formulario reasignacion -->
-                                            <form action="reasignarSolicitudTipo.php" method="POST" enctype="multipart/form-data" class="form-reasignar-tipo" onsubmit="return validarTipo()">
+                                            <form action="reasignarSolicitudTipo.php" method="POST" enctype="multipart/form-data" class="form-reasignar-tipo">
                                                 <div class="mb-3">
                                                     <label for="tipoReasignarLabel" class="form-label"><strong>Reasignar automaticamente por tipo</strong></label>
                                                     <!-- Agrega el select de tipos -->
                                                     <select id="tipoReasignar" class="form-select tipo" name="tipoReasignar">
-                                                        <option value="">
-                                                            Seleccione un tipo
-                                                        </option>
                                                         <?php foreach ($tipo as $tiporea) : ?>
                                                             <?php if ($tiporea['name_tipo'] !== $solicitud['tipo']) : ?>
                                                                 <option value="<?php echo $tiporea['id_tipo']; ?>">
@@ -183,16 +180,13 @@ try {
                                                     <label for="checkMostrarUsuarios_<?php echo $solicitud['s_id']; ?>" class="form-label">Reasignar manualmente por usuario</label>
                                                 </div>
                                                 <div id="divUsuarioReasignar_<?php echo $solicitud['s_id']; ?>" class="divUsuarioReasignar" style="display: none;">
-                                                    <form action="reasignarSolicitudUsuario.php" method="POST" enctype="multipart/form-data" class="form-reasignar-usuario" onsubmit="return validarUsuario()">
+                                                    <form action="reasignarSolicitudUsuario.php" method="POST" enctype="multipart/form-data" class="form-reasignar-usuario" >
 
                                                         <div class="mb-3">
                                                             <label for="reasignarUser" class="form-label">El departamento encargado se asigna de forma automatica</label>
                                                             <label for="usuarioReasignar" class="form-label"><strong>Usuario</strong></label>
                                                             <!-- Agrega el select de usuarios -->
                                                             <select id="usuarioReasignarPorUsuario" class="form-select usuario" name="usuarioReasignarPorUsuario">
-                                                                <option value="">
-                                                                    Seleccione un usuario
-                                                                </option>
                                                                 <?php foreach ($usuarios as $usuariosrea) : ?>
                                                                     <option value="<?php echo $usuariosrea['id']; ?>">
                                                                         <?php echo htmlspecialchars($usuariosrea['rol']); ?>: <?php echo htmlspecialchars($usuariosrea['nombre_usuario']); ?>
@@ -223,27 +217,6 @@ try {
             </div>
         </div>
 
-        <script>
-            function validarUsuario() {
-                var seleccionEncargado = document.getElementById("usuarioReasignarPorUsuario").value;
-                if (seleccionEncargado === "") {
-                    alert("Por favor, seleccione un encargado");
-                    return false;
-                }
-
-                return true;
-            }
-
-            function validarTipo() {
-                var seleccionTipo = document.getElementById("tipoReasignar").value;
-                if (seleccionTipo === "") {
-                    alert("Por favor, seleccione un tipo de solicitud");
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
         <script>
             $(document).ready(function() {
                 $(".btncerrar").click(function() {
