@@ -81,21 +81,21 @@ try {
 
     <!-- DEPORTISTAS DESTACADOS -->
     <div class="contenedorDeportistas">
-    <!-- Carrusel izquierdo -->
+        <!-- Carrusel izquierdo -->
 
         <?php include '../public/deportistas1.php'; ?>
-  
 
-    <!-- Espacio vacío entre carruseles -->
+
+        <!-- Espacio vacío entre carruseles -->
 
         <img src="../img/logo.png" alt="Imagen del medio" class="medioDestacados">
-  
 
-    <!-- Carrusel derecho -->
-  
+
+        <!-- Carrusel derecho -->
+
         <?php include '../public/deportistas2.php'; ?>
- 
-</div>
+
+    </div>
 
 
 
@@ -110,7 +110,7 @@ try {
             </div>
         </div>
         <?php
-/*
+        /*
         <div class="imagenes-deportes">
             <?php
             $fuente = "../img/v1.jpg";
@@ -123,7 +123,7 @@ try {
 
         </div>
         */
-?>
+        ?>
 
         <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -142,7 +142,7 @@ try {
                                 $rutaImagen = $deporte['imagen'];
                                 $titulo = $deporte['nombre'];
                             ?>
-                                <div class="col imagenes-deportes" >
+                                <div class="col imagenes-deportes">
                                     <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del deporte">
 
                                 </div>
@@ -182,14 +182,14 @@ try {
         </div>
     </div>
 
-    <div class="modal mdDeporte" id="modalCondolencias">
+    <div class="modal mdCondolencia" id="modalCondolencias">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Carta de condolencias</h5>
                 </div>
                 <div class="modal-body">
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div id="carruselCondolencias" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <?php foreach ($condolencias as $key => $condolencia) : ?>
                                 <div class="carousel-item <?php echo ($key == 0) ? 'active' : ''; ?>">
@@ -206,14 +206,14 @@ try {
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <button id="prevDer" class="carousel-control-prev" type="button" data-bs-target="#carruselCondolencias" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button id="nextDer" class="carousel-control-next" type="button" data-bs-target="#carruselCondolencias" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
                     </div>
                 </div>
             </div>
