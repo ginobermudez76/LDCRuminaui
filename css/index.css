@@ -49,4 +49,8 @@
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
     }
+   #carouselLogro, .carousel-inner, .carousel-item, .row, .col{
+    padding: none !important;
+    margin: none !important;
+    }
 /* END DEPORTES  */
