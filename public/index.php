@@ -142,9 +142,11 @@ try {
                                 $rutaImagen = $deporte['imagen'];
                                 $titulo = $deporte['nombre'];
                             ?>
-                                <div class="col imagenes-deportes">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del deporte">
-
+                                <div class="col imagenes-deportes overlayDeportes">
+                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>"  alt="Imagen del deporte">
+                                    <div class="overlay-content">
+                                        <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
+                                    </div>
                                 </div>
                             <?php
                             }

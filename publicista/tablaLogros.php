@@ -32,6 +32,7 @@ try {
                             <th>Id</th>
                             <th>Imagen</th>
                             <th>Título</th>
+                            <th>Tipo</th>
                             <th>Deporte</th>
                             <th>Acciones</th>
                         </tr>
@@ -48,6 +49,7 @@ try {
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($logro['titulo']); ?></td>
+                                <td><?php echo htmlspecialchars($logro['tipologro']); ?></td>
                                 <td><?php echo htmlspecialchars($logro['deporte']); ?></td>
                                 <td>
                                     <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $logro['id']; ?>)">Editar</button>

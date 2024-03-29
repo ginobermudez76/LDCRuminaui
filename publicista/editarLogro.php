@@ -22,6 +22,7 @@ try {
                 $idLogro = $_POST['idLogro']; // Corrección aquí
                 $titulo = $_POST['tituloEdit'];
                 $deporte = $_POST['deporte_idEdit'];
+                $tipo = $_POST['tipoLogro'];
         
                 // Directorio de destino para el documento
                 $directorioDestino = "../uploads/deportes/logros/";
@@ -44,10 +45,10 @@ try {
         
                 // Verificar si el checkbox está marcado
                 if (isset($_POST['checkDImagen'])) {
-                    eliminarArchivoYActualizarBD($idLogro, $deporte, $titulo);
+                    eliminarArchivoYActualizarBD($idLogro, $deporte, $titulo, $tipo);
                 } else {
                     // Actualizar la solicitud en la base de datos sin cambiar el archivo
-                    actualizarBD($idLogro, $deporte, $titulo);
+                    actualizarBD($idLogro, $deporte, $titulo, $tipo);
                 }
         
                 // Redirigir después de editar
@@ -100,7 +101,7 @@ function eliminarArchivoAntiguo($idLogro, $directorioDestino) {
     }
 }
 
-function eliminarArchivoYActualizarBD($idLogro, $titulo, $deporte) {
+function eliminarArchivoYActualizarBD($idLogro, $titulo, $deporte, $tipo) {
     global $conn;
 
     $stmt = $conn->prepare("SELECT imagen FROM logros WHERE id = :id");
@@ -114,14 +115,14 @@ function eliminarArchivoYActualizarBD($idLogro, $titulo, $deporte) {
         unlink($rutaArchivoEliminar);
     }
 
-    $stmt = $conn->prepare("UPDATE logros SET imagen = NULL, deporte_id = ?, titulo = ? WHERE id = ?");
-    $stmt->execute([$deporte, $titulo, $idLogro]);
+    $stmt = $conn->prepare("UPDATE logros SET imagen = NULL, deporte_id = ?, titulo = ?, tipologro= ? WHERE id = ?");
+    $stmt->execute([$deporte, $titulo, $tipo, $idLogro]);
 }
 
-function actualizarBD($idLogro, $deporte, $titulo) {
+function actualizarBD($idLogro, $deporte, $titulo, $tipo) {
     global $conn;
 
-    $stmt = $conn->prepare("UPDATE logros SET deporte_id = ?, titulo = ? WHERE id = ?");
-    $stmt->execute([$deporte, $titulo, $idLogro]);
+    $stmt = $conn->prepare("UPDATE logros SET deporte_id = ?, titulo = ?, tipologro = ? WHERE id = ?");
+    $stmt->execute([$deporte, $titulo, $tipo, $idLogro]);
 }
 ?>

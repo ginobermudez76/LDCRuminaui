@@ -23,6 +23,7 @@ try {
 
             $nombre = $_POST['nombre'];
             $depor = $_POST['deporte_id'];
+            $tipo = $_POST['tipoLogro'];
             if (trim($nombre) == '') {
                 $error = "El nombre no puede estar vacio.";
             } else {
@@ -65,8 +66,8 @@ try {
                 //insertar en la base de datos (con o sin imagen)
 
                 try {
-                    $stmt = $conn->prepare("INSERT INTO logros (titulo, deporte_id, imagen) VALUES (?, ?, ?)");
-                    $stmt->execute([$nombre, $depor, $archivoImagen]);
+                    $stmt = $conn->prepare("INSERT INTO logros (titulo, tipologro, deporte_id, imagen) VALUES (?,?, ?, ?)");
+                    $stmt->execute([$nombre,$tipo, $depor, $archivoImagen]);
 
                     //redirigir despues de agregar
 

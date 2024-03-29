@@ -37,6 +37,15 @@ try {
                     <input type="text" class="form-control" id="nombre" name="nombre"></input>
                 </div>
                 <div class="mb-3">
+                <label for="Tipo" class="form-label">Tipo</label>
+                <select class="form-control" id="tipoLogro" name="tipoLogro">
+                        <option value="">Seleccione un tipo</option>
+                        <option value="Medalla">Medalla</option>
+                        <option value="Copa">Copa</option>
+                        <option value="Reconocimiento">Reconocimiento</option>
+                </select>
+                </div>
+                <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen</label>
                     <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
                 </div>
@@ -59,6 +68,11 @@ try {
                 var nombreEvento = document.getElementById("nombre").value;
                 if (nombreEvento === "") {
                     alert("El nombre no puede quedar vacio");
+                    return false;
+                }
+                var nombreEvento = document.getElementById("tipoLogro").value;
+                if (nombreEvento === "") {
+                    alert("Seleccione un tipo de logro");
                     return false;
                 }
                 var nombredeporte = document.getElementById("deporte_id").value;
