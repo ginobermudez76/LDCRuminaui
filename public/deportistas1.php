@@ -26,11 +26,11 @@ try {
                 </div>
             <?php endforeach; ?>
         </div>
-        <button id="prevIzq" class="carousel-control-prev" type="button" data-bs-target="#carouselDerecho" data-bs-slide="prev">
+        <button id="prevIzq" class="carousel-control-prev" type="button" data-bs-target="#carouselIzquierdo" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Anterior</span>
         </button>
-        <button id="nextIzq" class="carousel-control-next" type="button" data-bs-target="#carouselDerecho" data-bs-slide="next">
+        <button id="nextIzq" class="carousel-control-next" type="button" data-bs-target="#carouselIzquierdo" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Siguiente</span>
         </button>

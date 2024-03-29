@@ -59,9 +59,11 @@ try {
                 </table>
             </div>
         </div>
-        <div id="modalEditDeportitas" class="modal">
+        <div id="modalEditDeportitas" class="modal edit">
             <div class="modal-content">
-                <span class="close">&times;</span>
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarSolicitudModalLabel">Editar informacion del deportista</h5>
+            </div>
                 <div id="formContent"></div>
             </div>
         </div>

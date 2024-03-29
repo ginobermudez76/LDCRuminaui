@@ -62,8 +62,14 @@ try {
                         </td>
 
                         <td>
-                            Departamento: <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
-                            Persona: <?php echo htmlspecialchars($solicitud['encargado']); ?>
+                            <?php if (!empty($solicitud['departamento_encargado']) && !empty($solicitud['encargado'])) { ?>
+                                <?php echo htmlspecialchars($solicitud['departamento_encargado']); ?><br>
+                                <?php echo htmlspecialchars($solicitud['encargado']); ?>
+                            <?php } else { ?>
+                                El proceso ha finalizado.
+                            <?php } ?>
+
+
                         </td>
                         <td><?php echo htmlspecialchars($solicitud['estado']); ?></td>
                         <td>
@@ -74,12 +80,16 @@ try {
                                 <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $solicitud['id']; ?>)">Editar</button>
                                 <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $solicitud['id']; ?>)">Eliminar</button>
                             <?php
-                            }else{?>
-                            No permitido.
-                                <?php
+                            } else { ?>
+                                <form action="historialSolicitud.php" method="post">
+                                    <input type="hidden" name="id_solicitud" value="<?php echo $solicitud['id']; ?>">
+                                    <button type="submit" class="btn btn-link">Ver historial</button>
+                                </form>
+
+                            <?php
                             }
                             ?>
-                           
+
 
                         </td>
                     </tr>
@@ -89,12 +99,18 @@ try {
         </table>
     </div>
 </div>
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div id="formContent"></div>
-  </div>
+
+<div id="myModal" class="modal edit" onsubmit="return validarTipoEdit()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="editarSolicitudModalLabel">Editar solicitud</h5>
+        </div>
+        <div id="formContent"></div>
+
+
+    </div>
 </div>
+
 <script>
     // Función para abrir el modal
     function openModal() {
@@ -118,18 +134,17 @@ try {
 
     // Carga el formulario desde el otro script PHP cuando se abre el modal
     function loadForm(idSolicitud) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("formContent").innerHTML = this.responseText;
-            document.getElementById("idSolicitudEdit").value = idSolicitud; // Establecer el ID de la solicitud en el formulario
-            openModal(); // Abre el modal después de cargar el contenido
-        }
-    };
-    xhttp.open("GET", "formEditSoli.php?id=" + idSolicitud, true); // Pasar el ID de la solicitud en la URL
-    xhttp.send();
-}
-
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("formContent").innerHTML = this.responseText;
+                document.getElementById("idSolicitudEdit").value = idSolicitud; // Establecer el ID de la solicitud en el formulario
+                openModal(); // Abre el modal después de cargar el contenido
+            }
+        };
+        xhttp.open("GET", "formEditSoli.php?id=" + idSolicitud, true); // Pasar el ID de la solicitud en la URL
+        xhttp.send();
+    }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -171,7 +186,6 @@ try {
 </script>
 
 <script>
-
     function validarTipoEdit() {
         var seleccionTipoEdit = document.getElementById("tipoEdit").value;
         if (seleccionTipoEdit === "") {
@@ -184,17 +198,16 @@ try {
 
 
         var archivoEdit = archivoInputEdit.files[0];
-        var extensionesPermitidasEdit = ['pdf', 'doc', 'docx', 'txt'];
+        var extensionesPermitidasEdit = ['pdf'];
         var extensionEdit = archivoEdit.name.split('.').pop().toLowerCase();
 
         if (!extensionesPermitidasEdit.includes(extensionEdit)) {
-            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF, DOC, DOCX o TXT");
+            alert("El archivo seleccionado no es válido. Por favor, seleccione un archivo PDF");
             return false;
         }
         return true;
     }
 </script>
-<!-- Agrega este script al final del HTML -->
 <script>
     $(document).ready(function() {
         $('#formEditarSolicitud').submit(function(event) {

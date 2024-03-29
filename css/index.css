@@ -37,7 +37,7 @@
 }
 
 /* SECCION DEPORTES*/
-    .imagenes-deportes {
+    /*.imagenes-deportes {
         display: flex;
         flex-direction: row;
         justify-content: center !important;
@@ -48,6 +48,24 @@
         width: 20% !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
+    }*/
+    .carrusel-deportes .carousel-item{
+        justify-content: center;
+        margin-left: -11%;
+    }
+    .carrusel-deportes .imagenes-deportes {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .carrusel-deportes .imagenes-deportes img{
+        width: 25% !important;
+        height: 480px !important;
+        clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
+        margin-left: 9%;
+    }
+    .carrusel-deportes .col {
+        margin-right: -78%;  
     }
    #carouselLogro, .carousel-inner, .carousel-item, .row, .col{
     padding: none !important;

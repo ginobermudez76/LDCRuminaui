@@ -91,7 +91,7 @@ try {
                             </li>
                         <?php
                         }
-                        if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1) {
+                        if ($usuario['rol'] == 4 || $usuario['rol'] == 3 || $usuario['rol'] == 2 || $usuario['rol'] == 1 || $usuario['rol'] == 9) {
                         ?>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="../admin/vsolicitudencargado.php">Solicitudes asignadas</a>

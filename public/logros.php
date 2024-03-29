@@ -7,7 +7,7 @@ try {
 
     $stmt->closeCursor();
 } catch (PDOException $e) {
-    echo "Error al obtener la información de deportistas: " . $e->getMessage();
+    echo "Error al obtener la información de logros: " . $e->getMessage();
 }
 ?>
 <div id="carouselLogro" class="carousel slide carrusel-logros" data-bs-ride="carousel">
@@ -28,7 +28,7 @@ try {
                         $titulo = $logro['titulo'];
                         ?>
                         <div class="col">
-                            <div class="image-container">
+                            <div class="image-container" >
                                 <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="d-block w-100" alt="Imagen del logro">
                                 <div class="overlayLogros">
                                     <h5><?php echo htmlspecialchars($titulo); ?></h5>
