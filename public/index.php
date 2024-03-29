@@ -80,20 +80,25 @@ try {
 
 
     <!-- DEPORTISTAS DESTACADOS -->
-    <div class="row">
-        <!-- Carrusel izquierdo -->
-        <div class="col-md-6">
-            <?php include '../public/deportistas1.php'; ?>
-        </div>
+    <div class="contenedorDeportistas">
+    <!-- Carrusel izquierdo -->
 
-        <!-- Espacio vacío entre carruseles -->
-        <div class="col-md-2"></div>
+        <?php include '../public/deportistas1.php'; ?>
+  
 
-        <!-- Carrusel derecho -->
-        <div class="col-md-6">
-            <?php include '../public/deportistas2.php'; ?>
-        </div>
-    </div>
+    <!-- Espacio vacío entre carruseles -->
+
+        <img src="../img/logo.png" alt="Imagen del medio" class="medioDestacados">
+  
+
+    <!-- Carrusel derecho -->
+  
+        <?php include '../public/deportistas2.php'; ?>
+ 
+</div>
+
+
+
 
 
     <!-- -->
