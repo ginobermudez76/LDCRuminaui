@@ -238,7 +238,6 @@ try {
                     <p><?php echo htmlspecialchars($evento['nombre_evento']); ?></p>
                     <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
                     <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                    <?php echo htmlspecialchars($evento['inscripciones']); ?></p>
                     <p><?php echo htmlspecialchars($evento['estado']); ?></p>
                     <p><?php echo htmlspecialchars($evento['descripcion']); ?></p>
                 </div>
