@@ -27,30 +27,88 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-        <div class="container mt-4">
+        <div class="container mt-5 mr-5">
             <h2 class="gestionar">Deportistas destacados</h2>
-            <form id="formDeportistas" enctype="multipart/form-data" method="post" onsubmit="return validarCampos()">
-                <div class="mb-3">
-                    <label for="Nombre" class="form-label">Nombre del deportista</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre"></input>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
-                </div>
-                <select class="form-control" id="deporte_id" name="deporte_id">
-                    <option value="">Seleccione un deporte</option>
-                    <?php foreach ($deportes as $deporte) : ?>
-                        <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
-            </form>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDeportistaModal">Agregar deportista +</button>
         </div>
+        <!-- Modal para agregar deportista destacado -->
+        <div class="modal fade" id="agregarDeportistaModal" tabindex="-1" aria-labelledby="agregarDeportistaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarDeportistaModalLabel">Agregar deportista</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formDeportistas" enctype="multipart/form-data" method="post" onsubmit="return validarCampos()">
+                            <div class="mb-3">
+                                <label for="Nombre" class="form-label">Nombre del deportista</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
+                            </div>
+                            <select class="form-control" id="deporte_id" name="deporte_id">
+                                <option value="">Seleccione un deporte</option>
+                                <?php foreach ($deportes as $deporte) : ?>
+                                    <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row" id="tablaDeportista">
             </div>
         </div>
+        <script>
+            $("#tablaDeportista").load("tablaDeportistas.php");
+
+        </script>
+
+<script>
+    // Función para manejar la respuesta del servidor
+    function handleResponse(response) {
+        if (response.success) {
+            alertify.success(response.message);
+            // Recargar la página después de 3 segundos
+            setTimeout(function() {
+                location.reload();
+            }, 1500);
+        } else {
+            alertify.error(response.message);
+        }
+    }
+
+    $(document).ready(function() {
+        // Manejar el envío del formulario
+        $('#formDeportistas').submit(function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+            var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+            $.ajax({
+                url: 'insertardeportista.php',
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function(response) {
+                    handleResponse(JSON.parse(response));
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+    });
+</script>
+
+
+
         <script>
             function validarCampos() {
 
@@ -82,90 +140,59 @@ try {
                 return true;
             }
         </script>
-<script>
-    function deshabilitarInputImagen() {
-        var checkbox = document.getElementById("checkDImagen");
-        var inputImagen = document.getElementById("imagenEdit");
-
-        if (checkbox.checked) {
-            inputImagen.disabled = true;
-        } else {
-            inputImagen.disabled = false;
-        }
-    }
-
-    function deshabilitarCheckbox() {
-        var checkbox = document.getElementById("checkDImagen");
-        var inputImagen = document.getElementById("imagenEdit");
-
-        if (inputImagen.value) {
-            checkbox.disabled = true;
-        } else {
-            checkbox.disabled = false;
-        }
-    }
-</script>
-<script>
-    function validarCamposEdit() {
-
-        var nombreEdit = document.getElementById("nombreEdit").value;
-        if (nombreEdit === "") {
-            alert("El nombre no puede quedar vacio");
-            return false;
-        }
-        var nombredeporteEdit = document.getElementById("deporte_idEdit").value;
-        if (nombredeporteEdit === "") {
-            alert("El deporte no puede quedar vacio");
-            return false;
-        }
-        var imagenEditIn = document.getElementById("imagenEdit").value;
-        if (imagenEditin === "") {
-            alert("La imagen es obligatoria");
-            return false;
-        }
-
-        var imagenInputEdit = document.getElementById("imagenEdit");
-        var imagen = imagenInputEdit.files[0];
-        var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
-        var extension = imagen.name.split('.').pop().toLowerCase();
-
-        if (!extensionesPermitidas.includes(extension)) {
-            alert("Formato no soportado");
-            return false;
-        }
-        return true;
-    }
-</script>
         <script>
-            $("#tablaDeportista").load("tablaDeportistas.php"); //load es una funcion de Jquery
-            $(document).ready(function() {
+            function deshabilitarInputImagen() {
+                var checkbox = document.getElementById("checkDImagen");
+                var inputImagen = document.getElementById("imagenEdit");
 
+                if (checkbox.checked) {
+                    inputImagen.disabled = true;
+                } else {
+                    inputImagen.disabled = false;
+                }
+            }
 
-                $('#btnEnviar').click(function() {
-                    var formData = new FormData($('#formDeportistas')[0]);
-                    $.ajax({
-                        url: 'insertardeportista.php',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            var jsonData = JSON.parse(response);
-                            if (jsonData.success) {
-                                // Mostrar mensaje de éxito
-                                alert(jsonData.message);
-                                $("#tablaDeportista").load("tablaDeportistas.php");
-                                $("#formDeportistas")[0].reset();
-                            } else {
-                                // Mostrar mensaje de error
-                                alert(jsonData.message);
-                            }
-                        }
-                    });
+            function deshabilitarCheckbox() {
+                var checkbox = document.getElementById("checkDImagen");
+                var inputImagen = document.getElementById("imagenEdit");
 
+                if (inputImagen.value) {
+                    checkbox.disabled = true;
+                } else {
+                    checkbox.disabled = false;
+                }
+            }
+        </script>
+        <script>
+            function validarCamposEdit() {
 
-                });
-            });
+                var nombreEdit = document.getElementById("nombreEdit").value;
+                if (nombreEdit === "") {
+                    alert("El nombre no puede quedar vacio");
+                    return false;
+                }
+                var nombredeporteEdit = document.getElementById("deporte_idEdit").value;
+                if (nombredeporteEdit === "") {
+                    alert("El deporte no puede quedar vacio");
+                    return false;
+                }
+                var imagenEditIn = document.getElementById("imagenEdit").value;
+                if (imagenEditin === "") {
+                    alert("La imagen es obligatoria");
+                    return false;
+                }
+
+                var imagenInputEdit = document.getElementById("imagenEdit");
+                var imagen = imagenInputEdit.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
+                var extension = imagen.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+                return true;
+            }
         </script>
 <?php
     } else {
