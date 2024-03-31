@@ -4,7 +4,7 @@
               <div class="col-md-6">
                 <h3>Contacto</h3>
                 <p>Dirección: Espejo 133 y Eloy Alfaro, Sangolquí, Ecuador</p>
-                <p>Teléfono: (+593) 098 452 9759</p>
+                <p>Teléfono: <a href="tel:+5930984529759"> (+593) 098 452 9759</a></p>
                 <p>Facebook: <a href="https://www.facebook.com/liga.ruminahui">facebook.com/liga.ruminahui</a></p>
                 <p>X: <a href="https://twitter.com/ldc_ruminahui?lang=es">twitter.com/ldc_ruminahui</a></p>
                 <p>Instagram: <a href="https://www.instagram.com/ldc_ruminahui/?hl=es-la">@ldc_ruminahui</a></p>

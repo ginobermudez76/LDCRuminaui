@@ -112,11 +112,12 @@ try {
                     success: function(response) {
                         // Manejar la respuesta, si es necesario
                         console.log(response);
-
+                        alert(response);
                         // Puedes recargar la página o actualizar la lista de productos de alguna manera
                         location.reload();
                     },
                     error: function(error) {
+                        alert(response);
                         // Manejar errores si es necesario
                         console.error(error);
                     }

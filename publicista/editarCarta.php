@@ -26,15 +26,15 @@ try {
                 $directorioDestino = "../uploads/cartaCondolencia/";
         
                 // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
-                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) { // Corrección aquí
+                if (isset($_FILES['imagenEdit']) && $_FILES['imagenEdit']['error'] == 0) { // Corrección aquí
         
-                    $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagen']['name'], $directorioDestino); // Corrección aquí
+                    $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagenEdit']['name'], $directorioDestino); // Corrección aquí
         
                     // Eliminar el archivo antiguo del sistema de archivos
                     eliminarArchivoAntiguo($idCarta, $directorioDestino);
         
                     // Mover el archivo al directorio de destino
-                    if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoNuevo)) {
+                    if (!move_uploaded_file($_FILES["imagenEdit"]["tmp_name"], $archivoNuevo)) {
                         throw new Exception("Hubo un error al cargar el nuevo documento");
                     }
                     $stmt = $conn->prepare("UPDATE carta_condolencias SET imagen = ? WHERE id = ?"); // Corrección aquí

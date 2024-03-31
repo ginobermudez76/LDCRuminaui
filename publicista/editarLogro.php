@@ -22,7 +22,7 @@ try {
                 $idLogro = $_POST['idLogro']; // Corrección aquí
                 $titulo = $_POST['tituloEdit'];
                 $deporte = $_POST['deporte_idEdit'];
-                $tipo = $_POST['tipoLogro'];
+                $tipo = $_POST['tipoLogroEdit'];
         
                 // Directorio de destino para el documento
                 $directorioDestino = "../uploads/deportes/logros/";

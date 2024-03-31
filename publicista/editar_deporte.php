@@ -1,13 +1,11 @@
 <?php
+session_start();
 include '../includes/config.php';
-include '../includes/header.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
     exit();
 }
-
-$error = "";
 $usuario_id = $_SESSION['usuario_id'];
 try {
     // Consultar el rol del usuario en la base de datos
@@ -19,182 +17,53 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-        // Mostrar el elemento del menú Administrarsdasdasdasdasdas
 
-        if (isset($_GET['id'])) {
-            $idDeporte = $_GET['id'];
+        // Procesar la nueva imagen si se proporciona
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            try {
+                $idDeporte = $_POST['idDeporteEdit'];
+                $nombre = $_POST['nombreEdit'];
+                $descripcion = $_POST['descripcionEdit'];
 
-            // Obtener la información actual del producto
-            $stmt = $conn->prepare("SELECT * FROM deportes WHERE id = :id");
-            $stmt->bindParam(':id', $idDeporte);
-            $stmt->execute();
-            $deporte = $stmt->fetch(PDO::FETCH_ASSOC);
+                // Directorio de destino para el documento
+                $directorioDestino = "../uploads/deportes/";
 
-            if (!$deporte) {
-                echo "ID de deporte no válido";
-                exit();
-            }
+                // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
+                if (isset($_FILES['imagenEdit']) && $_FILES['imagenEdit']['error'] == 0) {
 
-            // Procesar la nueva imagen si se proporciona
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $nombre = $_POST['nombre'];
-                $descripcion = $_POST['descripcion'];
-                if (trim($nombre) == '') {
-                    $error = "No puede insertar espacios vacios";
+                    $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagenEdit']['name'], $directorioDestino);
+
+                    // Eliminar el archivo antiguo del sistema de archivos
+                    eliminarArchivoAntiguo($idDeporte, $directorioDestino);
+
+                    // Mover el archivo al directorio de destino
+                    if (!move_uploaded_file($_FILES["imagenEdit"]["tmp_name"], $archivoNuevo)) {
+                        throw new Exception("Hubo un error al cargar el nuevo documento");
+                    }
+                    $stmt = $conn->prepare("UPDATE deportes SET imagen =? WHERE id = ?");
+                    $stmt->execute([$archivoNuevo, $idDeporte]);
+                }
+
+                // Verificar si el checkbox está marcado
+                if (isset($_POST['checkDImagen'])) {
+                    eliminarArchivoYActualizarBD($idDeporte, $nombre, $descripcion);
                 } else {
-                // Obtener la ruta de la imagen actual almacenada en la base de datos
-                $rutaImagenAntigua = "../uploads/deportes/" . basename($deporte['imagen']);
-
-                if (!empty($deporte['imagen']) && file_exists($rutaImagenAntigua)) {
-                    // Eliminar la imagen antigua del sistema de archivos solo si se envió un nuevo archivo
-                    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                        unlink($rutaImagenAntigua);
-                    }
-                }
-                $rutaImagenNueva = ""; // Establecer la ruta de la nueva imagen como cadena vacía por defecto
-
-                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                    // Procesar la imagen solo si se proporciona una nueva y el checkbox no está marcado
-                    $directorioDestino = "../uploads/deportes/";
-
-                    $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
-
-                    $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
-
-                    $check = getimagesize($_FILES["imagen"]["tmp_name"]);
-
-                    if ($check !== false) {
-                        // Verificar si el archivo ya existe y renombrarlo si es necesario
-                        $contador = 1;
-                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
-                        $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
-                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-
-                        while (file_exists($archivo)) {
-                            $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
-                            $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-                            $contador++;
-                        }
-
-                        $archivoImagen = $archivo;
-                        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                            // La imagen se cargó correctamente
-                            // Actualizar la ruta de la nueva imagen en la base de datos
-                            $rutaImagenNueva = "../uploads/deportes/" . basename($_FILES['imagen']['name']);
-                        } else {
-                            $error = "Hubo un error al cargar la nueva imagen";
-                        }
-                    } else {
-                        $error = "El archivo no es una imagen válida";
-                    }
+                    // Actualizar la solicitud en la base de datos sin cambiar el archivo
+                    actualizarBD($idDeporte, $nombre, $descripcion);
                 }
 
-                // Si el campo de imagen está deshabilitado, establecer la ruta de la nueva imagen como la imagen anterior
-                if (isset($_POST['sinImagen'])) {
-                    $rutaImagenNueva = $deporte['imagen'];
-                }
 
-                // Eliminar la imagen anterior solo si existe y se proporciona una nueva imagen
-                if (!empty($deporte['imagen']) && file_exists($rutaImagenAntigua) && !isset($_POST['sinImagen'])) {
-                    unlink($rutaImagenAntigua);
-                }
-
-                // Actualizar la base de datos con la nueva imagen o la imagen anterior
-                $stmt = $conn->prepare("UPDATE deportes SET nombre=?, descripcion=?, imagen=? WHERE id=?");
-                $stmt->execute([$nombre, $descripcion, $rutaImagenNueva, $idDeporte]);
-
-
-                header("refresh:2;url=gestionar_deportes.php");
+                // Redirigir después de editar
+                header("Location: deportes.php");
                 exit();
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
             }
-            }
+        } else {
+            // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
+            header("Location: deportes.php");
+            exit();
         }
-?>
-
-        <div class="container mt-4">
-            <h2 class="gestionar">Editar Producto</h2>
-            <?php if (!empty($error)) : ?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
-            <form action="editar_deporte.php?id=<?php echo $idDeporte; ?>" method="post" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" required value="<?php echo htmlspecialchars($deporte['nombre']); ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion">
-                        <?php if (!empty($deporte['descripcion'])) : ?>
-                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
-                        <?php endif; ?>
-                    </textarea>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="sinImagen" name="sinImagen" onchange="toggleImagenField()">
-                    <label class="form-check-label" for="sinImagen">Editar sin cambiar la imagen</label>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" <?php echo isset($_POST['sinImagen']) ? 'disabled' : ''; ?>>
-                </div>
-                <button type="submit" class="btn btn-primary">Editar deporte</button>
-            </form>
-        </div>
-
-        <script>
-            function toggleImagenField() {
-                var imagenField = document.getElementById('imagen');
-                var sinImagenCheckbox = document.getElementById('sinImagen');
-
-                imagenField.disabled = sinImagenCheckbox.checked;
-            }
-        </script>
-
-        <script>
-            function validarCamposEvento() {
-                var nombreDeporte = document.getElementById("nombre").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
-                    return false;
-                }
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
-        </script>
-
-<?php
     } else {
         header("Location: ../public/index.php");
         exit();
@@ -202,5 +71,61 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php';
+
+
+function obtenerNombreArchivoNuevo($nombreArchivo, $directorioDestino)
+{
+    $archivoNuevo = $directorioDestino . $nombreArchivo;
+
+    $contador = 1;
+    while (file_exists($archivoNuevo)) {
+        $nombreArchivo = pathinfo($nombreArchivo, PATHINFO_FILENAME) . '_' . $contador . '.' . pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+        $archivoNuevo = $directorioDestino . $nombreArchivo;
+        $contador++;
+    }
+    return $archivoNuevo;
+}
+
+function eliminarArchivoAntiguo($idDeporte, $directorioDestino)
+{
+    global $conn;
+
+    $stmt = $conn->prepare("SELECT imagen FROM deportes WHERE id = :id");
+    $stmt->bindParam(':id', $idDeporte);
+    $stmt->execute();
+    $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
+
+    $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
+
+    if (file_exists($rutaArchivoEliminar)) {
+        unlink($rutaArchivoEliminar);
+    }
+}
+
+function eliminarArchivoYActualizarBD($idDeporte, $nombre, $descripcion)
+{
+    global $conn;
+
+    $stmt = $conn->prepare("SELECT imagen FROM deportes WHERE id = :id");
+    $stmt->bindParam(':id', $idDeporte);
+    $stmt->execute();
+    $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
+
+    $rutaArchivoEliminar = "../uploads/deportes/" . $nombreArchivoEliminar;
+
+    if (file_exists($rutaArchivoEliminar)) {
+        unlink($rutaArchivoEliminar);
+    }
+
+    $stmt = $conn->prepare("UPDATE deportes SET imagen = NULL, nombre = ?,  descripcion = ? WHERE id = ?");
+    $stmt->execute([$nombre, $descripcion, $idDeporte]);
+}
+
+function actualizarBD($idDeporte, $nombre, $descripcion)
+{
+    global $conn;
+
+    $stmt = $conn->prepare("UPDATE deportes SET  nombre = ?, descripcion = ? WHERE id = ?");
+    $stmt->execute([$nombre, $descripcion, $idDeporte]);
+}
 ?>

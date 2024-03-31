@@ -63,7 +63,7 @@ try {
             </div>
         </div>
         <script>
-            function validarCamposEvento() {
+            function validarCampos() {
 
                 var nombreEvento = document.getElementById("nombre").value;
                 if (nombreEvento === "") {

@@ -45,7 +45,7 @@ try {
             </div>
             <div class="mb-3">
                 <label for="Tipo" class="form-label">Tipo</label>
-                <select class="form-control" id="tipoLogro" name="tipoLogro">
+                <select class="form-control" id="tipoLogroEdit" name="tipoLogroEdit">
                     <option value="">Seleccione un tipo</option>
                     <option value="Medalla" <?php echo ($logro['tipologro'] == 'Medalla') ? 'selected' : ''; ?>>Medalla</option>
                     <option value="Copa" <?php echo ($logro['tipologro'] == 'Copa') ? 'selected' : ''; ?>>Copa</option>
@@ -66,7 +66,7 @@ try {
                 <input type="file" class="form-control" id="imagenEdit" name="imagen" value="<?php echo htmlspecialchars($logro['imagen']); ?>" onchange="deshabilitarCheckbox()">
             </div>
             <select class="form-control" id="deporte_idEdit" name="deporte_idEdit" required>
-                <option value="">Seleccione un logro</option>
+                <option value="">Seleccione un deporte</option>
                 <?php foreach ($deportes as $deporte) : ?>
                     <?php
                     // Compara el ID del logro actual con el ID del logro en el bucle

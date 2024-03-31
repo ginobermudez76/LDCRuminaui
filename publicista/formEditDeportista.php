@@ -67,8 +67,8 @@ try {
             </option>
         <?php endforeach; ?>
     </select>
-    <input type="hidden" id="idDeportistaEdit" name="idDeportista" value="<?php echo $idDeportista; ?>">
-    <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
+    <input type="hidden" id="idDeportistaEdit" name="idDeportistaEdit" value="<?php echo $idDeportista; ?>">
+    <button type="submit" class="btn btn-primary" id="btnEnviarEdit">Publicar</button>
 </form>
 
 

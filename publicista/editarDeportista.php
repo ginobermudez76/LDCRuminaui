@@ -19,7 +19,7 @@ try {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 // Obtener los datos del formulario de edición
-                $idDeportista = $_POST['idDeportista']; // Corrección aquí
+                $idDeportista = $_POST['idDeportistaEdit']; // Corrección aquí
                 $nombre = $_POST['nombreEdit'];
                 $deporte = $_POST['deporte_idEdit'];
         

@@ -44,7 +44,7 @@ try {
         <?php else : ?>
             <a>No hay imagen</a>
         <?php endif; ?>
-        <input type="file" class="form-control" id="imagenEdit" name="imagen" value="<?php echo htmlspecialchars($carta['imagen']); ?>" onchange="deshabilitarCheckbox()">
+        <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($carta['imagen']); ?>" onchange="deshabilitarCheckbox()">
     </div>
     <div class="mb-3">
         <label for="Mensaje" class="form-label">Mensaje</label>

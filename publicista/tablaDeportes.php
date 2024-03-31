@@ -1,14 +1,12 @@
 <?php
+session_start();
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
-
-include '../includes/header.php'; //incluyendo la cabecera común
 
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
     exit();
 }
 
-$error = "";
 $usuario_id = $_SESSION['usuario_id'];
 
 try {
@@ -24,7 +22,7 @@ try {
         // Mostrar el elemento del menú para publicista
         //logica para obtener la lista de deportes de la base de datos
         try {
-            $stmt = $conn->prepare("SELECT id, nombre, descripcion, imagen FROM deportes");
+            $stmt = $conn->prepare("SELECT * FROM deportes");
             $stmt->execute();
 
             $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,6 +30,7 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
+
 
         <div class="container mt-4">
 
@@ -64,6 +63,8 @@ try {
                                 <td>
                                     <?php if (!empty($deporte['descripcion'])) : ?>
                                         <?php echo htmlspecialchars($deporte['descripcion']); ?>
+                                    <?php else : ?>
+                                        <p>Sin descripción</p>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -71,21 +72,60 @@ try {
                                     <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
                                 </td>
                                 <td>
-                                    <a href="editar_deporte.php?id=<?php echo $deporte['id']; ?>" class="btn btn-secondary btn-sm">Editar</a>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deporte['id']; ?>)">Editar</button>
                                     <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deporte['id']; ?>)">Eliminar</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <div id="modalEditDeportes" class="modal edit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarDeporteModalLabel">Editar deporte</h5>
+                </div>
+                <div id="formContent"></div>
+            </div>
+        </div>
+        <script>
+            // Función para abrir el modal
+            function openModal() {
+                var modal = document.getElementById("modalEditDeportes");
+                modal.style.display = "block";
+            }
 
+            // Función para cerrar el modal
+            function closeModal() {
+                var modal = document.getElementById("modalEditDeportes");
+                modal.style.display = "none";
+            }
 
+            // Cierra el modal si se hace clic fuera de él
+            window.onclick = function(event) {
+                var modal = document.getElementById("modalEditDeportes");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
 
-        <!-- Y finalmente, tu script personalizado -->
+            // Carga el formulario desde el otro script PHP cuando se abre el modal
+            function loadForm(idDeporte) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("formContent").innerHTML = this.responseText;
+                        document.getElementById("idDeporteEdit").value = idDeporte; // Establecer el ID del deportita en el formulario
+                        openModal(); // Abre el modal después de cargar el contenido
+                    }
+                };
+                xhttp.open("GET", "formEditDeporte.php?id=" + idDeporte, true); // Pasar el ID del deporte en la URL
+                xhttp.send();
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             function confirmarEliminacion(idDeporte) {
                 var confirmacion = confirm("¿Está seguro que desea eliminar este deporte?");
@@ -109,20 +149,18 @@ try {
                     success: function(response) {
                         // Manejar la respuesta, si es necesario
                         console.log(response);
-
+                        alert(response);
                         // Puedes recargar la página o actualizar la lista de deportes de alguna manera
                         location.reload();
                     },
                     error: function(error) {
                         // Manejar errores si es necesario
+                        alert(response);
                         console.error(error);
                     }
                 });
             }
         </script>
-        </tbody>
-        </table>
-        </div>
 
 <?php
     } else {
@@ -132,4 +170,4 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php'; ?>
+?>

@@ -103,6 +103,22 @@ try {
 }
 
 </script>
+<script>
+            function validarCamposEdit() {
+
+                var tituloNoticia = document.getElementById("tituloEdit").value;
+                if (tituloNoticia === "") {
+                    alert("El titulo no puede quedar vacio.");
+                    return false;
+                }
+                var cuerpoNoticia = document.getElementById("cuerpoEdit").value;
+                if (cuerpoNoticia === "") {
+                    alert("La noticia debe tener un cuerpo.");
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             function confirmarEliminacion(idNoticia) {

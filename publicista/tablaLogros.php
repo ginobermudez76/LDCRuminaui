@@ -105,6 +105,27 @@ try {
 }
 
 </script>
+<script>
+            function validarCamposEdit() {
+
+                var nombreEvento = document.getElementById("tituloEdit").value;
+                if (nombreEvento === "") {
+                    alert("El nombre no puede quedar vacio");
+                    return false;
+                }
+                var nombreEvento = document.getElementById("tipoLogroEdit").value;
+                if (nombreEvento === "") {
+                    alert("Seleccione un tipo de logro");
+                    return false;
+                }
+                var nombredeporte = document.getElementById("deporte_idEdit").value;
+                if (nombredeporte === "") {
+                    alert("El deporte no puede quedar vacio");
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             function confirmarEliminacion(idLogro) {
