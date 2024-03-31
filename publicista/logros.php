@@ -29,39 +29,63 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-        <div class="container mt-4">
+        <div class="container mt-5 mr-5">
             <h2 class="gestionar">Logros</h2>
-            <form action="insertarLogro.php" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
-                <div class="mb-3">
-                    <label for="Nombre" class="form-label">Nombre del logro</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre"></input>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarLogroModal">Agregar logro</button>
+        </div>
+        <!-- Modal para agregar deportista destacado -->
+        <div class="modal fade" id="agregarLogroModal" tabindex="-1" aria-labelledby="agregarLogroModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarLogroModalLabel">Agregar logro +</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formLogros" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
+                            <div class="mb-3">
+                                <label for="Nombre" class="form-label">Nombre del logro</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Tipo" class="form-label">Tipo</label>
+                                <select class="form-control" id="tipoLogro" name="tipoLogro">
+                                    <option value="">Seleccione un tipo</option>
+                                    <option value="Medalla">Medalla</option>
+                                    <option value="Copa">Copa</option>
+                                    <option value="Reconocimiento">Reconocimiento</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="deporte" class="form-label">Deporte</label>
+                                <select class="form-control" id="deporte_id" name="deporte_id">
+                                    <option value="">Seleccione un deporte</option>
+                                    <?php foreach ($deportes as $deporte) : ?>
+                                        <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Publicar</button>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                <label for="Tipo" class="form-label">Tipo</label>
-                <select class="form-control" id="tipoLogro" name="tipoLogro">
-                        <option value="">Seleccione un tipo</option>
-                        <option value="Medalla">Medalla</option>
-                        <option value="Copa">Copa</option>
-                        <option value="Reconocimiento">Reconocimiento</option>
-                </select>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
-                </div>
-                <select class="form-control" id="deporte_id" name="deporte_id">
-                    <option value="">Seleccione un deporte</option>
-                    <?php foreach ($deportes as $deporte) : ?>
-                        <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit" class="btn btn-primary">Publicar</button>
-            </form>
+            </div>
         </div>
         <div class="container">
             <div class="row" id="tablaLogros">
             </div>
         </div>
+        <script>
+            $("#tablaLogros").load("tablaLogros.php");
+        </script>
         <script>
             function validarCampos() {
 
@@ -83,12 +107,43 @@ try {
                 return true;
             }
         </script>
-        <script>
-            $("#tablaLogros").load("tablaLogros.php");
-            $(document).ready(function() {
 
+        <script>
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
+
+            $(document).ready(function() {
+                // Manejar el envío del formulario
+                $('#formLogros').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+                    $.ajax({
+                        url: 'insertarLogro.php',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function(response) {
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
             });
         </script>
+
 <?php
     } else {
         header("Location: ../public/index.php");

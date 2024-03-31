@@ -76,7 +76,7 @@ try {
     function handleResponse(response) {
         if (response.success) {
             alertify.success(response.message);
-            // Recargar la página después de 3 segundos
+            // Recargar la página después de 1.5 segundos
             setTimeout(function() {
                 location.reload();
             }, 1500);

@@ -20,23 +20,41 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
 ?>
-        <div class="container mt-4">
+        <div class="container mt-5 mr-5">
             <h2 class="gestionar">Noticias</h2>
-            <form action="insertarNoticia.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposNoticias()">
-                <div class="mb-3">
-                    <label for="titulo" class="form-label">Titulo</label>
-                    <input type="text" class="form-control" id="titulo" name="titulo"></input>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarNoticiaModal">Publicar una noticia</button>
+        </div>
+        <!-- Modal para agregar deportista destacado -->
+        <div class="modal fade" id="agregarNoticiaModal" tabindex="-1" aria-labelledby="agregarNoticiaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarNoticiaModalLabel">Publicar noticia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNoticias" method="post" enctype="multipart/form-data" onsubmit="return validarCamposNoticias()">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Titulo</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cuerpo" class="form-label">Cuerpo de la noticia</label>
+                                <textarea class="form-control" id="cuerpo" name="cuerpo" rows="3" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Publicar</button>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="cuerpo" class="form-label">Cuerpo de la noticia</label>
-                    <textarea class="form-control" id="cuerpo" name="cuerpo" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Publicar</button>
-            </form>
+            </div>
         </div>
         <div class="container">
             <div class="row" id="tablaNoticias">
@@ -58,10 +76,45 @@ try {
                 return true;
             }
         </script>
-                <script>
+        <script>
             $("#tablaNoticias").load("tablaNoticias.php"); //load es una funcion de Jquery
             $(document).ready(function() {
 
+            });
+        </script>
+        <script>
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
+
+            $(document).ready(function() {
+                // Manejar el envío del formulario
+                $('#formNoticias').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+                    $.ajax({
+                        url: 'insertarNoticia.php',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function(response) {
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
             });
         </script>
 <?php

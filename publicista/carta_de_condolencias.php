@@ -19,25 +19,42 @@ try {
     if ($usuario['rol'] == 7) {
 
 ?>
-        <div class="container mt-4">
+        <div class="container mt-5 mr-5">
             <h2 class="gestionar">Carta de condolencias</h2>
-            <form method="post" id="formCartas" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Mensaje</label>
-                    <textarea type="text" class="form-control" id="mensaje" name="mensaje"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" id="btnEnviar">Mostrar</button>
-            </form>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarCartaModal">Publicar carta de condolencias</button>
         </div>
+        <!-- Modal para agregar deportista destacado -->
+        <div class="modal fade" id="agregarCartaModal" tabindex="-1" aria-labelledby="agregarDeportistaModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarCartaModalLabel">Mostrar carta de condolencias</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formCartas" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Mensaje</label>
+                                <textarea type="text" class="form-control" id="mensaje" name="mensaje"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Mostrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row" id="tablaCartas">
             </div>
         </div>
-
+        <script>
+            $("#tablaCartas").load("tablaCartas.php"); //load es una funcion de Jquery
+        </script>
 
         <script>
             function validarCamposEvento() {
@@ -116,33 +133,37 @@ try {
             }
         </script>
         <script>
-            $("#tablaCartas").load("tablaCartas.php"); //load es una funcion de Jquery
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
+
             $(document).ready(function() {
-
-
-                $('#btnEnviar').click(function() {
-                    var formData = new FormData($('#formCartas')[0]);
+                // Manejar el envío del formulario
+                $('#formCartas').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
                     $.ajax({
                         url: 'insertarCarta.php',
                         type: 'POST',
                         data: formData,
-                        processData: false,
-                        contentType: false,
+                        async: false,
                         success: function(response) {
-                            var jsonData = JSON.parse(response);
-                            if (jsonData.success) {
-                                // Mostrar mensaje de éxito
-                                alert(jsonData.message);
-                                $("#tablaCartas").load("tablaCartas.php");
-                                $("#formCartas")[0].reset();
-                            } else {
-                                // Mostrar mensaje de error
-                                alert(jsonData.message);
-                            }
-                        }
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
                     });
-
-
+                    return false;
                 });
             });
         </script>
