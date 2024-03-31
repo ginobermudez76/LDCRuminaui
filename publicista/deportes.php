@@ -31,6 +31,38 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
+<div class="container mt-5 mr-5">
+<h2 class="gestionar">Deportes ofertados</h2>
+    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDeporteModal">Agregar deporte +</button>
+</div>
+<!-- Modal para agregar dporte -->
+<div class="modal fade" id="agregarDeporteModal" tabindex="-1" aria-labelledby="agregarDeporteModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarDeporteModalLabel">Agregar deporte</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form id="formDeporte" action="insertarDeporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Deporte</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Imagen</label>
+                    <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
         <div class="container">
             <div class="row" id="tablaDeportes">
             </div>
@@ -42,13 +74,13 @@ try {
             });
         </script>
         <script>
-            function validarCamposEvento() {
-                var nombreDeporte = document.getElementById("nombre").value;
+            function validarCamposEdit() {
+                var nombreDeporte = document.getElementById("nombreEdit").value;
                 if (nombreDeporte === "") {
                     alert("El deporte debe tener un nombre");
                     return false;
                 }
-                var archivoInput = document.getElementById("imagen");
+                var archivoInput = document.getElementById("imagenEdit");
 
 
                 var archivo = archivoInput.files[0];
@@ -64,7 +96,7 @@ try {
                 return true;
             }
             // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
+            document.getElementById('nombreEdit').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular
                 var deporteNombre = this.value;
                 // Limitar el valor a 100 caracteres
@@ -73,7 +105,7 @@ try {
                 }
             });
             // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
+            document.getElementById('descripcionedit').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular
                 var deporteDescripcion = this.value;
                 // Limitar el valor a 10 caracteres
@@ -104,6 +136,47 @@ try {
                     checkbox.disabled = false;
                 }
             }
+        </script>
+            <script>
+            function validarCamposEvento() {
+                var nombreDeporte = document.getElementById("nombre").value;
+                if (nombreDeporte === "") {
+                    alert("El deporte debe tener un nombre");
+                    return false;
+                }
+                var archivoInput = document.getElementById("imagen");
+
+
+                var archivo = archivoInput.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg' , 'svg'];
+                var extension = archivo.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+
+
+                return true;
+            }
+            // Función para limitar la cantidad de dígitos en el campo de celular
+            document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteNombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (deporteNombre.length > 100) {
+                    this.value = deporteNombre.slice(0, 100);
+                }
+            });
+            // Función para limitar la cantidad de dígitos en el campo de descripcion
+            document.getElementById('descripcion').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteDescripcion = this.value;
+                // Limitar el valor a 10 caracteres
+                if (deporteDescripcion.length > 300) {
+                    this.value = deporteDescripcion.slice(0, 300);
+                }
+            });
         </script>
 <?php
     } else {

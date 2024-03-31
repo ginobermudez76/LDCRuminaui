@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include '../includes/config.php'; //incluyebdo la conexion de la base de datos
-include '../includes/header.php'; //incluyendlo la cabecera comun
+
 
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
@@ -72,81 +72,13 @@ try {
 
                 //redirigir despues de agregar
 
-                header("Location: gestionar_deportes.php");
+                header("Location: deportes.php");
                 exit();
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
         }
         }
-?>
-
-        <div class="container mt-4">
-            <h2 class="gestionar">Agregar Deporte</h2>
-            <?php if (!empty($error)) : ?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
-            <form action="agregar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
-            </form>
-        </div>
-        <script>
-            function validarCamposEvento() {
-                var nombreDeporte = document.getElementById("nombre").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
-                    return false;
-                }
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg' , 'svg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
-        </script>
-
-<?php
     } else {
         header("Location: ../public/index.php");
         exit();
@@ -154,4 +86,4 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php'; ?>
+?>

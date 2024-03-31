@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
-include '../includes/header.php'; //incluyendo la cabecera común
+
 
 if (!isset($_SESSION['usuario_admin'])) {
     header("Location: ../admin/login.php");
@@ -20,15 +20,6 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú Administrar
-        // Obtener la lista de tipo de deportes
-        try {
-            $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
-            $stmt->execute();
-            $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
@@ -82,28 +73,14 @@ try {
                 $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte_id, $archivoImagen]);
 
                 // Redirigir después de agregar
-                header("Location: gestionar_eventos.php");
+                header("Location: eventos.php");
                 exit();
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }
         }
     }
-?>
 
-        <div class="container mt-4">
-            <h2 class="gestionar">Agregar Evento</h2>
-            <?php if (!empty($error)) : ?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
-
-        </div>
-
-
-
-<?php
     } else {
         header("Location: ../public/index.php");
         exit();
@@ -111,4 +88,4 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php'; ?>
+?>

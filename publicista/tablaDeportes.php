@@ -30,12 +30,7 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-
-
         <div class="container mt-4">
-
-            <h2 class="gestionar">Deportes ofertados</h2>
-            <a href="agregar_deporte.php" class="btn btn-primary mb-4">Agregar Deporte</a>
             <div class="table-responsive">
                 <table class="table">
                     <thead>

@@ -39,43 +39,12 @@ if (file_exists($carpetaImagenes) && is_dir($carpetaImagenes)) {
     $archivos = scandir($carpetaImagenes);
     $imagenes = array_diff($archivos, array('..', '.'));
 }
-
-// Eliminación de imágenes seleccionadas
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
-    // Obtener las imágenes seleccionadas
-    $imagenesAEliminar = $_POST['eliminar'];
-
-    // Ruta de la carpeta de imágenes
-    $carpetaImagenes = ($tipo == "Evento")
-        ? "../uploads/eventos/" . $nombreEvento . "_" . $idEvento
-        : "../uploads/deportes/" . $nombreEvento . "_" . $idEvento;
-
-    foreach ($imagenesAEliminar as $imagen) {
-        // Construir la ruta completa de la imagen
-        $rutaImagen = $carpetaImagenes . "/" . $imagen;
-
-        // Eliminar la imagen si existe
-        if (file_exists($rutaImagen)) {
-            unlink($rutaImagen);
-        }
-
-        // Eliminar la entrada de la base de datos
-        $stmtEliminarImagen = $conn->prepare("DELETE FROM galeria_imagenes WHERE tipo = ? AND id_tipo = ? AND nombre = ? AND ruta_imagenes = ?");
-        $stmtEliminarImagen->execute([$tipo, $idEvento, $nombreEvento, $rutaImagen]);
-    }
-    if ($tipo == "Evento") {
-        header("Location: gestionar_eventos.php");
-    } elseif ($tipo == "Deporte") {
-        header("Location: gestionar_deportes.php"); // Corregir el nombre del archivo
-    }
-}
-
 ?>
 
 <div class="container mt-4">
     <h2>Galería de Imágenes</h2>
 
-    <form action="eliminar_selecciones.php?id=<?php echo $idEvento; ?>&nombre=<?php echo urlencode($nombreEvento); ?>&tipo=<?php echo $tipo; ?>" method="post">
+    <form action="eliminarGaleria.php?id=<?php echo $idEvento; ?>&nombre=<?php echo urlencode($nombreEvento); ?>&tipo=<?php echo $tipo; ?>" method="post">
         <table class="table">
             <thead>
                 <tr>
@@ -96,8 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
                 <?php endforeach; ?>
             </tbody>
         </table>
-
+        <input type="hidden" id="tipo" name="tipo" value="<?php echo $tipo; ?>">
+        <input type="hidden" id="idEvento" name="idEvento" value="<?php echo $idEvento; ?>">
+        <input type="hidden" id="nombreEvento" name="nombreEvento" value="<?php echo $nombreEvento; ?>">
         <button type="submit" class="btn btn-danger">Eliminar selección</button>
+
     </form>
 </div>
 

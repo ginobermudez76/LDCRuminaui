@@ -38,7 +38,7 @@ try {
             exit();
         }
 ?>
-        <form id="formDeporteEdit" action="editar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+        <form id="formDeporteEdit" action="editar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Deporte</label>
                 <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($deporte['nombre']); ?>">
@@ -53,7 +53,7 @@ try {
                 <?php else : ?>
                     <a>No hay imagen</a>
                 <?php endif; ?>
-                <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($deportista['imagen']); ?>" onchange="deshabilitarCheckbox()">
+                <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($deporte['imagen']); ?>" onchange="deshabilitarCheckbox()">
             </div>
             <div class="mb-3">
                 <label for="descripcionEdit" class="form-label">Descripción</label>
@@ -65,7 +65,7 @@ try {
             </div>
 
             <input type="hidden" id="idDeporteEdit" name="idDeporteEdit" value="<?php echo $idDeporte; ?>">
-            <button type="submit" class="btn btn-primary" id="btnEnviar">Editar deporte</button>
+            <button type="submit" class="btn btn-primary" id="btnEnviarEdit">Editar deporte</button>
         </form>
 
 
