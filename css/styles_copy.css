@@ -418,3 +418,37 @@ td{
     height: auto;
 }
 /*fin estilos para modal edit*/
+/*estilos documentos*/
+.documento {
+    position: relative;
+    overflow: hidden;
+    border-radius: 51%;
+}
+
+.documento .image-container {
+    position: relative;
+}
+
+.documento .image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.infoDocumento {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+.infoDocumento h3{
+font-size: 20px;
+}
+.infoDocumento p {
+    font-size: 15px;
+}
+
+/*fin estilos documentos*/
