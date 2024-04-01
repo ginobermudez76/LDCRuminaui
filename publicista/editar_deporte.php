@@ -3,7 +3,7 @@ session_start();
 include '../includes/config.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -54,18 +54,18 @@ try {
 
 
                 // Redirigir después de editar
-                header("Location: deportes.php");
+                echo "<script>window.location.href='../publicista/deportes.php';</script>";
                 exit();
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         } else {
             // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-            header("Location: deportes.php");
+            echo "<script>window.location.href='../publicista/deportes.php';</script>";
             exit();
         }
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

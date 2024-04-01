@@ -3,7 +3,7 @@ session_start();
 include '../includes/config.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
 }
  
 }else{
-    header("Location: ../public/index.php");
+    echo "<script>window.location.href='../public/index.php';</script>";
     exit();
 }
 } catch (PDOException $e) {

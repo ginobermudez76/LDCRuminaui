@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: /Ayudantias-1/admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 
@@ -85,7 +85,7 @@ try {
             echo "ID de evento no proporcionado";
         }
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

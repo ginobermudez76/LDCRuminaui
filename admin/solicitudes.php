@@ -2,7 +2,7 @@
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 include '../includes/header.php'; // incluyendo la cabecera común
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];

@@ -4,7 +4,7 @@ include '../includes/config.php';
 
 // Verificar si el usuario está autenticado como administrador
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 
@@ -54,14 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$tipo, $idSolicitud]);
 
         // Redirigir después de editar
-        header("Location: solicitudes.php");
+        echo "<script>window.location.href='../public/solicitudes.php';</script>";
         exit();
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 } else {
     // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-    header("Location: solicitudes.php");
+    echo "<script>window.location.href='../public/solicitudes.php';</script>";
     exit();
 }
 

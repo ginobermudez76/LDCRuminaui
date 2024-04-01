@@ -2,7 +2,7 @@
 include '../includes/config.php';
 include '../includes/header.php';
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 ?>

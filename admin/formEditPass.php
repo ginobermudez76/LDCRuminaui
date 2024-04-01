@@ -3,7 +3,7 @@ session_start();
 include '../includes/config.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 ?>

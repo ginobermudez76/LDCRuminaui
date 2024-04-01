@@ -37,6 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["nombre_usuario"]) && 
 }
 
 $_SESSION['error_login'] = $error_login;
-echo "<script>window.location.href='login.php';</script>";
+echo "<script>window.location.href='../admin/login.php';</script>";
 exit();
 ?>

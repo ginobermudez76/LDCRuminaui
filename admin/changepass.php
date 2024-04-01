@@ -4,7 +4,7 @@ include '../includes/config.php';
 
 // Verificar si el usuario está autenticado como administrador
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuarioId = $_SESSION['usuario_id'];

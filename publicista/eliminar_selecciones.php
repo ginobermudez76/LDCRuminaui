@@ -4,7 +4,7 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -76,7 +76,7 @@ if (file_exists($carpetaImagenes) && is_dir($carpetaImagenes)) {
 
 <?php 
 }else{
-    header("Location: ../public/index.php");
+    echo "<script>window.location.href='../public/index.php';</script>";
     exit();
 }
 } catch (PDOException $e) {
