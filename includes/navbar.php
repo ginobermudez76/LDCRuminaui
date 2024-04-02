@@ -43,7 +43,7 @@ try {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="nav-link active" aria-current="page" href="#">Escuelas permanentes</a>
-                        <a class="nav-link active" aria-current="page" href="#">Escenarios deportivos</a>
+                        <a class="nav-link active" aria-current="page" href="../public/escenariosDeportivos.php">Escenarios deportivos</a>
                         <a class="nav-link active" aria-current="page" href="../public/documentosDisponibles.php">Descarga de documentos</a>
                         <a class="nav-link active" aria-current="page" href="#">Cursos vacacionales</a>
                     </div>

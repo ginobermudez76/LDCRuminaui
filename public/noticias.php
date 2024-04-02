@@ -11,7 +11,7 @@ try{
     echo "Error: " . $e ->getMessage();
 }
 ?>
-<div class="container mt-4">
+<div class="container mt-4 noticias">
     <h2>NOTICIAS</h2>
     <div class="row">
         <?php foreach ($noticias as $noticia) : ?>

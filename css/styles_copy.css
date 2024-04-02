@@ -110,7 +110,14 @@ background-color: #ffffff00;
     width: 100%;
     height: 300px;
 }
-
+/*estilos de noticias*/
+.noticias .row {
+    display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+/*fin estilos de noticias*/
 .gestionar{
     color: rgb(255, 255, 255);
 }
@@ -168,62 +175,10 @@ td{
     opacity: 1; /* Mostrar la superposición al pasar el mouse sobre la imagen */
 }
 
-.deporte-nombre {
-    color: white;
-    font-size: 24px;
-    text-align: center;
-}
 /* estilos de carrucel de los deportes */
-.overlayDeportes {
-    position: relative;
-    display: inline-block;
-    width: 25%;
-}
 
-.overlayDeportes .overlay-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 25% !important;
-    height: 480px !important;
-    clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
-    margin-left: 9%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-    display: flex;
-}
-
-.overlayDeportes:hover .overlay-content {
-    opacity: 1;
-}
-
-.overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1; /* Asegura que el texto esté encima de la imagen */
-}
 /* fin de estilos de carrucel de los deportes */
-.row {
-    display: flex;
-    padding: 0px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 
-.column{
-    flex: 25%;
-    padding: 0px;
-  }
-  
-  
-.column img{
-    margin-top: 0px;
-  }
   .overlay2 {
     position: absolute;
     bottom: 0;
@@ -400,7 +355,22 @@ td{
 .contenedor-infoLogros p {
     font-size: 15px;
 }
+.carrusel-logros .row {
+    display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
+.carrusel-logros .column{
+    flex: 25%;
+    padding: 0px;
+  }
+  
+  
+.carrusel-logros .column img{
+    margin-top: 0px;
+  }
 /*fin logros*/
 /*estilos para modal edit*/
 .edit {
@@ -422,7 +392,7 @@ td{
 .documento {
     position: relative;
     overflow: hidden;
-    border-radius: 51%;
+    border-radius: 55%;
 }
 
 .documento .image-container {
@@ -450,5 +420,23 @@ font-size: 20px;
 .infoDocumento p {
     font-size: 15px;
 }
+.documentos .row {
+    display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
 /*fin estilos documentos*/
+/*estilos de escenarios*/
+.escenarios{
+    display: flex;
+    justify-content: center;  
+}
+.carousel-escenarios{
+    width: 90%;
+}
+.carousel-escenarios img{
+    height: 500px;
+}
+/*fin de estilos escenarios*/

@@ -102,13 +102,9 @@ try {
 
 
     <!-- -->
-    <div class="row">
-        <div class="deportes container">
-            <div class="deportes-descripcion">
-                <h2>Nuestras escuelas deportivas</h2>
-                <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
-            </div>
-        </div>
+   
+
+
         <?php
         /*
         <div class="imagenes-deportes">
@@ -125,49 +121,62 @@ try {
         */
         ?>
 
-        <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                // Dividir el array $deportes en grupos de tres
-                $grupos = array_chunk($deportes, 4);
+<div class="escuelas">
+<div class="deportes container">
+            <div class="deportes-descripcion">
+                <h2>Nuestras escuelas deportivas</h2>
+                <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
+            </div>
+        </div>
+    <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php
+            // Dividir el array $deportes en grupos de tres
+            $grupos = array_chunk($deportes, 4);
 
-                // Iterar sobre los grupos de imágenes
-                foreach ($grupos as $grupo_index => $grupo) {
+            // Iterar sobre los grupos de imágenes
+            foreach ($grupos as $grupo_index => $grupo) {
                 ?>
-                    <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
-                        <div class="row">
-                            <?php
-                            // Iterar sobre las imágenes dentro de cada grupo
-                            foreach ($grupo as $deporte) {
-                                $rutaImagen = $deporte['imagen'];
-                                $titulo = $deporte['nombre'];
+                <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
+                    <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
+                        <?php
+                        // Calcular el tamaño de las columnas
+                        $column_width = 12 / count($grupo);
+
+                        // Iterar sobre las imágenes dentro de cada grupo
+                        foreach ($grupo as $deporte) {
+                            $rutaImagen = $deporte['imagen'];
+                            $titulo = $deporte['nombre'];
                             ?>
-                                <div class="col imagenes-deportes overlayDeportes">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>"  alt="Imagen del deporte">
+                            <div class="col-<?php echo $column_width; ?> overlayDeportes">
+                                <div class="imagenes-deportes">
+                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen del deporte">
                                     <div class="overlay-content">
                                         <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
                                     </div>
                                 </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </div>
-                <?php
-                }
-                ?>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
+                </div>
+            <?php
+            }
+            ?>
         </div>
-
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
     </div>
+</div>
+
+    
 
     <div class="modal mdDeporte" id="modalDeportes">
         <div class="modal-dialog">
