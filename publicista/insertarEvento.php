@@ -26,12 +26,29 @@ try {
             $fecha_ini = $_POST['fecha_ini'];
             $fecha_f = $_POST['fecha_f'];
             $deporte_id = $_POST['deporte_id'];
+            // Validar las fechas
+            $fecha_ini_obj = DateTime::createFromFormat('Y-m-d', $fecha_ini);
+            $fecha_f_obj = DateTime::createFromFormat('Y-m-d', $fecha_f);
+            $response = array();
             if (trim($nombre) == '') {
-                $error = "No puede insertar espacios vacios";
+                $response['success'] = false;
+                $response['message'] = "El nombre no puede estar vacío.";
+            } elseif (empty($deporte_id)) {
+                $response['success'] = false;
+                $response['message'] = "El deporte es obligatorio.";
+            } elseif (!$fecha_ini_obj) {
+                $response['success'] = false;
+                $response['message'] = "La fecha de inicio tienen un formato inválido.";
+            } elseif (!$fecha_f_obj) {
+                $response['success'] = false;
+                $response['message'] = "La fecha de finalización tienen un formato inválido.";
+            }elseif ($fecha_f_obj < $fecha_ini_obj) {
+                $response['success'] = false;
+                $response['message'] = "La fecha de fin no puede ser anterior a la fecha de inicio.";
             } else {
 
-            if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                $directorioDestino = "../uploads/eventos/";
+                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+                    $directorioDestino = "../uploads/eventos/";
 
                 $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
 
@@ -58,10 +75,12 @@ try {
                         //la imagen se cargo correctamente
 
                     } else {
-                        $error = "Hubo un error al cargar la imagen";
+                        $response['success'] = false;
+                        $response['message'] = "Hubo un error al cargar la imagen.";
                     }
                 } else {
-                    $error = "El archivo no es una imagen";
+                    $response['success'] = false;
+                    $response['message'] = "El archivo no es una imagen.";
                 }
             } else {
                 // Manejo en el caso de que la imagen no se cargue
@@ -73,12 +92,15 @@ try {
                 $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte_id, $archivoImagen]);
 
                 // Redirigir después de agregar
-                header("Location: eventos.php");
-                exit();
+                $response['success'] = true;
+                $response['message'] = "El evento se inserto correctamente";
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                $response['success'] = false;
+                $response['message'] = "Ocurrio un error: " . $e->getMessage();
             }
         }
+        echo json_encode($response);
+        exit();
     }
 
     } else {

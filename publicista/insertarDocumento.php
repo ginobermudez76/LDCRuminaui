@@ -25,8 +25,10 @@ try {
 
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            $response = array();
             if (trim($nombre) == '') {
-                $error = "No puede insertar espacios vacios";
+                $response['success'] = false;
+                $response['message'] = "El nombre no puede estar vacío.";
             } else {
 
             if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
@@ -51,10 +53,12 @@ try {
                 if (move_uploaded_file($_FILES["documento"]["tmp_name"], $archivoDocumento)) {
                     // el documento se cargó correctamente
                 } else {
-                    $error = "Hubo un error al cargar el documento";
+                    $response['success'] = false;
+                    $response['message'] = "Hubo un error al cargar lel documento.";
                 }
             } else {
                 // manejo en el caso de que el documento no se cargue
+
                 $archivoDocumento = "";
             }
 
@@ -66,12 +70,15 @@ try {
 
                 //redirigir despues de agregar
 
-                header("Location: documentos.php");
-                exit();
+                $response['success'] = true;
+                $response['message'] = "El documento se publico correctamente";
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                $response['success'] = false;
+                $response['message'] = "Ocurrio un error: " . $e->getMessage();
             }
         }
+        echo json_encode($response);
+        exit();     
         }
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

@@ -45,7 +45,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="insertarEvento.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+                        <form id="formEvento" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -271,6 +271,42 @@ try {
                 }
             });
         </script>
+                <script>
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
+
+            $(document).ready(function() {
+                // Manejar el envío del formulario
+                $('#formEvento').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+                    $.ajax({
+                        url: 'insertarEvento.php',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function(response) {
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
+            });
+        </script>
+        
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

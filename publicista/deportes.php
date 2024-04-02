@@ -44,7 +44,7 @@ try {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formDeporte" action="insertarDeporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <form id="formDeporte" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Deporte</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" requerid>
@@ -176,6 +176,41 @@ try {
                 if (deporteDescripcion.length > 300) {
                     this.value = deporteDescripcion.slice(0, 300);
                 }
+            });
+        </script>
+                <script>
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
+
+            $(document).ready(function() {
+                // Manejar el envío del formulario
+                $('#formDeporte').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+                    $.ajax({
+                        url: 'insertarDeporte.php',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function(response) {
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
             });
         </script>
 <?php

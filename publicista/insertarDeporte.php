@@ -25,8 +25,10 @@ try {
 
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            $response = array();
             if (trim($nombre) == '') {
-                $error = "No puede insertar espacios vacios";
+                $response['success'] = false;
+                $response['message'] = "El nombre no puede estar vacío.";
             } else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
@@ -54,10 +56,12 @@ try {
                     if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
                         // la imagen se cargó correctamente
                     } else {
-                        $error = "Hubo un error al cargar la imagen";
+                        $response['success'] = false;
+                        $response['message'] = "Hubo un error al cargar la imagen.";
                     }
                 } else {
-                    $error = "El archivo no es una imagen";
+                    $response['success'] = false;
+                    $response['message'] = "El archivo no es una imagen.";
                 }
             } else {
                 // manejo en el caso de que la imagen no se cargue una imagen
@@ -71,13 +75,15 @@ try {
                 $stmt->execute([$nombre, $descripcion, $archivoImagen]);
 
                 //redirigir despues de agregar
-
-                header("Location: deportes.php");
-                exit();
+                $response['success'] = true;
+                $response['message'] = "El deporte se inserto correctamente";
             } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                $response['success'] = false;
+                $response['message'] = "Ocurrio un error: " . $e->getMessage();
             }
         }
+        echo json_encode($response);
+        exit();
         }
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";
