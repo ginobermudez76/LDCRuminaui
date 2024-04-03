@@ -431,10 +431,13 @@ font-size: 20px;
 /*estilos de escenarios*/
 .escenarios{
     display: flex;
-    justify-content: center;  
+    justify-content: center;
 }
 .carousel-escenarios{
     width: 90%;
+}
+.carousel-escenarios .carousel-item h5{
+    text-align: left;
 }
 .carousel-escenarios img{
     height: 500px;

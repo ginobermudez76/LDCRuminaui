@@ -105,6 +105,7 @@ try {
                                     <a class="nav-link active" aria-current="page" href="../publicista/noticias.php">Noticias</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/carta_de_condolencias.php">Carta de condolencias</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/documentos.php">Formatos de documento</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/escenarios.php">Escenarios</a>
                                 </div>
                             </li>
                         <?php

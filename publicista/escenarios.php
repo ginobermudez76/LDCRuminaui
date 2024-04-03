@@ -21,63 +21,79 @@ try {
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú para publicista
-        //logica para obtener la lista de deportes de la base de datos
+        //logica para obtener la lista de escenarios de la base de datos
         try {
-            $stmt = $conn->prepare("SELECT * FROM deportes");
+            $stmt = $conn->prepare("SELECT * FROM escenarios");
             $stmt->execute();
 
-            $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
 ?>
 <div class="container mt-5 mr-5">
-<h2 class="gestionar">Deportes ofertados</h2>
-    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDeporteModal">Agregar deporte +</button>
+<h2 class="gestionar">Escenarios ofertados</h2>
+    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEscenarioModal">Agregar escenario +</button>
 </div>
-<!-- Modal para agregar dporte -->
-<div class="modal fade" id="agregarDeporteModal" tabindex="-1" aria-labelledby="agregarDeporteModalLabel" aria-hidden="true"">
+<!-- Modal para agregar escenario -->
+<div class="modal fade" id="agregarEscenarioModal" tabindex="-1" aria-labelledby="agregarEscenarioModalLabel" aria-hidden="true"">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarDeporteModalLabel">Agregar deporte</h5>
+                <h5 class="modal-title" id="agregarEscenarioModalLabel">Agregar escenario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formDeporte" method="post" enctype="multipart/form-data" onsubmit="return validarCamposDeporte()">
+            <form id="formEscenario" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEscenario()">
                 <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
+                    <label for="nombre" class="form-label">Nombre del Escenario</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
                 </div>
                 <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
+                    <label for="ubicacion" class="form-label">Ubicación</label>
+                    <textarea class="form-control" id="ubicacion" name="ubicacion" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono">
+                </div>
+                <div class="mb-3">
+                    <label for="supervisor" class="form-label">Supervisor</label>
+                    <input type="text" class="form-control" id="supervisor" name="supervisor">
+                </div>
+                <div class="mb-3">
+                    <label for="celular" class="form-label">Celular del supervisor</label>
+                    <input type="text" class="form-control" id="celular" name="celular">
                 </div>
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
+                    <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
+                <button type="submit" class="btn btn-primary">Agregar nuevo escenario</button>
             </form>
             </div>
         </div>
     </div>
 </div>
         <div class="container">
-            <div class="row" id="tablaDeportes">
+            <div class="row" id="tablaEscenarios">
             </div>
         </div>
         <script>
-            $("#tablaDeportes").load("tablaDeportes.php");
+            $("#tablaEscenarios").load("tablaEscenarios.php");
             $(document).ready(function() {
 
             });
         </script>
         <script>
             function validarCamposEdit() {
-                var nombreDeporte = document.getElementById("nombreEdit").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
+                var nombreEscenario = document.getElementById("nombreEdit").value;
+                if (nombreEscenario === "") {
+                    alert("El escenario debe tener un nombre");
                     return false;
                 }
                 var archivoInput = document.getElementById("imagenEdit");
@@ -98,21 +114,13 @@ try {
             // Función para limitar la cantidad de dígitos en el campo de celular
             document.getElementById('nombreEdit').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
+                var escenarioNombre = this.value;
                 // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
+                if (escenarioNombre.length > 100) {
+                    this.value = escenarioNombre.slice(0, 100);
                 }
             });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcionedit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
+
         </script>
         <script>
             function deshabilitarInputImagen() {
@@ -138,10 +146,10 @@ try {
             }
         </script>
             <script>
-            function validarCamposDeporte() {
-                var nombreDeporte = document.getElementById("nombre").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
+            function validarCamposEscenario() {
+                var nombreEscenario = document.getElementById("nombre").value;
+                if (nombreEscenario === "") {
+                    alert("El escenario debe tener un nombre");
                     return false;
                 }
                 var archivoInput = document.getElementById("imagen");
@@ -162,19 +170,10 @@ try {
             // Función para limitar la cantidad de dígitos en el campo de celular
             document.getElementById('nombre').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
+                var escenarioNombre = this.value;
                 // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
+                if (escenarioNombre.length > 100) {
+                    this.value = escenarioNombre.slice(0, 100);
                 }
             });
         </script>
@@ -194,11 +193,11 @@ try {
 
             $(document).ready(function() {
                 // Manejar el envío del formulario
-                $('#formDeporte').submit(function(event) {
+                $('#formEscenario').submit(function(event) {
                     event.preventDefault(); // Evitar el envío del formulario por defecto
                     var formData = new FormData($(this)[0]); // Obtener los datos del formulario
                     $.ajax({
-                        url: 'insertarDeporte.php',
+                        url: 'insertarEscenario.php',
                         type: 'POST',
                         data: formData,
                         async: false,
