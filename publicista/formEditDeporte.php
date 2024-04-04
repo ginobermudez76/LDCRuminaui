@@ -57,11 +57,7 @@ try {
             </div>
             <div class="mb-3">
                 <label for="descripcionEdit" class="form-label">Descripción</label>
-                <textarea type="text" class="form-control" id="descripcionEdit" name="descripcionEdit">
-                        <?php if (!empty($deporte['descripcion'])) : ?>
-                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
-                        <?php endif; ?>
-                    </textarea>
+                <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" rows="3"><?php echo htmlspecialchars($deporte['descripcion']); ?></textarea>
             </div>
 
             <input type="hidden" id="idDeporteEdit" name="idDeporteEdit" value="<?php echo $idDeporte; ?>">

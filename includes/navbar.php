@@ -30,10 +30,10 @@ try {
                         Nosotros
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link active" aria-current="page" href="#">Historia</a>
-                        <a class="nav-link active" aria-current="page" href="#">Misión</a>
-                        <a class="nav-link active" aria-current="page" href="#">Visión</a>
-                        <a class="nav-link active" aria-current="page" href="#">Directorio</a>
+                        <a class="nav-link active" aria-current="page" href="../public/nosotros.php?tipo=historia">Historia</a>
+                        <a class="nav-link active" aria-current="page" href="../public/nosotros.php?tipo=mision">Misión</a>
+                        <a class="nav-link active" aria-current="page" href="../public/nosotros.php?tipo=vision">Visión</a>
+                        <a class="nav-link active" aria-current="page" href="../public/nosotros.php?tipo=directorio">Directorio</a>
                     </div>
                 </li>
 

@@ -1,3 +1,4 @@
+
 .info{
     margin-left: 100px;
     color: white;
@@ -122,7 +123,7 @@ background-color: #ffffff00;
     color: rgb(255, 255, 255);
 }
 .deportes{
-    padding: 100px 0;
+    padding: 50px 0;
     text-align: center;
  }
 
@@ -220,18 +221,37 @@ td{
     text-align: center;
 }
 .contenedorDeportistas {
-    margin-top: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 15%;
+    gap: 10%;
 }
 
 /* Estilos para el carrusel de deportistas destacados */
+.title-deportistas{
+    text-align: left;
+    left: 10%;
+    padding: 50px 0 50px 0;
+    display: inline-block;
+    position: relative;
+    color: white;
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.title-deportistas::after{
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 5px;
+    background-color: #3cc9c9;
+    top: 50%;
+
+}
 .carrusel-destacados img{
     max-width: 100%;
-    height: 450px;
+    height: 330px;
 }
 .medioDestacados{
     max-width: 25%;
@@ -253,7 +273,7 @@ td{
 }
 .carrusel-destacados{
     align-items: center !important;
-    max-width: 20%;
+    width: 23%;
 }
 .carousel:hover .overlayDeportistas {
     opacity: 1;
@@ -313,13 +333,23 @@ td{
 
 /* estilos de los logros*/
 
+    .title-logros{
+
+        display: inline-block;
+        position: relative;
+        color: white;
+        font-family: "Lobster", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
 .contenedor-infoLogros {
-    max-width: 25%;
+    max-width: 27%;
     position: relative; /* Establecer posicionamiento relativo */
 }
 
 .contenedor-infoLogros img {
-    height: 120px;
+    height: 80px;
 }
 
 .contenedor-infoLogros .image-container {
@@ -329,9 +359,9 @@ td{
 .contenedor-infoLogros h5{
     position: absolute; /* Establecer posicionamiento absoluto */
     top: 25%; /* Alinear desde la mitad superior del contenedor */
-    left: 50%; /* Alinear desde la mitad izquierda del contenedor */
+    left: 60%; /* Alinear desde la mitad izquierda del contenedor */
     transform: translate(-50%, -50%); /* Centrar tanto vertical como horizontalmente */
-    text-align: center; /* Alinear texto al centro */
+    text-align: left; /* Alinear texto al centro */
     margin: 0; /* Eliminar márgenes predeterminados */
     padding: 0; /* Eliminar relleno predeterminado */
     width: 100%; /* Ajustar ancho al 100% */
@@ -340,14 +370,24 @@ td{
 .contenedor-infoLogros p {
     position: absolute; /* Establecer posicionamiento absoluto */
     top: 50%; /* Alinear desde la mitad superior del contenedor */
-    left: 50%; /* Alinear desde la mitad izquierda del contenedor */
+    left: 60%; /* Alinear desde la mitad izquierda del contenedor */
     transform: translate(-50%, -50%); /* Centrar tanto vertical como horizontalmente */
-    text-align: center; /* Alinear texto al centro */
+    text-align: left; /* Alinear texto al centro */
     margin: 0; /* Eliminar márgenes predeterminados */
     padding: 0; /* Eliminar relleno predeterminado */
     width: 100%; /* Ajustar ancho al 100% */
 }
-
+#carouselDerecho {
+    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 8px; /* Espacio alrededor del carrusel */
+}
+#carouselIzquierdo{
+    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 8px; /* Espacio alrededor del carrusel */
+}
+.logro-txt{
+    max-width: 70%;
+}
 .contenedor-infoLogros h5 {
     font-size: 20px !important;
 }

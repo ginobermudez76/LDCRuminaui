@@ -87,10 +87,13 @@ function mostrarLogro($logro, $tipo)
 ?>
     <div class="col contenedor-infoLogros">
         <div class="image-container">
-            <img src="../img/<?php echo $tipo; ?>.jpg" class="default-image d-block w-100 main-image" alt="Imagen del logro">
+            <img src="../img/<?php echo $tipo; ?>.png" class="default-image d-block w-100 main-image" alt="Imagen del logro">
             <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="hover-image d-none w-100 main-image" alt="Imagen del logro">
-            <h5><?php echo htmlspecialchars($titulo); ?></h5>
-            <p><?php echo $logro['deporte']; ?></p>
+            <div class="logro-txt">
+                <h5><?php echo htmlspecialchars($titulo); ?></h5>
+                <p><?php echo $logro['deporte']; ?></p>
+            </div>
+
         </div>
     </div>
 <?php
