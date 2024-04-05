@@ -33,49 +33,51 @@ try {
     echo "Error al obtener la información de logros: " . $e->getMessage();
 }
 ?>
+<div class="contenedor-logros">
+    <div id="carouselLogro" class="carousel slide carrusel-logros" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php
+            // Iterar sobre los logros y agruparlos en grupos de tres según su tipo
+            $numGrupos = max(count($copas), count($medallas), count($reconocimientos));
+            for ($i = 0; $i < $numGrupos; $i++) {
+            ?>
+                <div class="carousel-item <?php echo ($i === 0) ? 'active' : ''; ?>">
+                    <div class="grupo-logros">
+                        <?php
+                        // Mostrar logro de tipo "Copa" en la posición actual del grupo
+                        if (isset($copas[$i])) {
+                            $logro = $copas[$i];
+                            mostrarLogro($logro, "copa");
+                        }
 
-<div id="carouselLogro" class="carousel slide carrusel-logros" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <?php
-        // Iterar sobre los logros y agruparlos en grupos de tres según su tipo
-        $numGrupos = max(count($copas), count($medallas), count($reconocimientos));
-        for ($i = 0; $i < $numGrupos; $i++) {
-        ?>
-            <div class="carousel-item <?php echo ($i === 0) ? 'active' : ''; ?>">
-                <div class="row">
-                    <?php
-                    // Mostrar logro de tipo "Copa" en la posición actual del grupo
-                    if (isset($copas[$i])) {
-                        $logro = $copas[$i];
-                        mostrarLogro($logro, "copa");
-                    }
+                        // Mostrar logro de tipo "Medalla" en la posición actual del grupo
+                        if (isset($medallas[$i])) {
+                            $logro = $medallas[$i];
+                            mostrarLogro($logro, "medalla");
+                        }
 
-                    // Mostrar logro de tipo "Medalla" en la posición actual del grupo
-                    if (isset($medallas[$i])) {
-                        $logro = $medallas[$i];
-                        mostrarLogro($logro, "medalla");
-                    }
-
-                    // Mostrar logro de tipo "Reconocimiento" en la posición actual del grupo
-                    if (isset($reconocimientos[$i])) {
-                        $logro = $reconocimientos[$i];
-                        mostrarLogro($logro, "reconocimiento");
-                    }
-                    ?>
+                        // Mostrar logro de tipo "Reconocimiento" en la posición actual del grupo
+                        if (isset($reconocimientos[$i])) {
+                            $logro = $reconocimientos[$i];
+                            mostrarLogro($logro, "reconocimiento");
+                        }
+                        ?>
+                    </div>
                 </div>
-            </div>
-        <?php
-        }
-        ?>
+            <?php
+            }
+            ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselLogro" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselLogro" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselLogro" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselLogro" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-    </button>
+
 </div>
 
 <?php
@@ -85,10 +87,10 @@ function mostrarLogro($logro, $tipo)
     $rutaImagen = $logro['imagen'];
     $titulo = $logro['titulo'];
 ?>
-    <div class="col contenedor-infoLogros">
+    <div class="contenedor-infoLogros">
         <div class="image-container">
-            <img src="../img/<?php echo $tipo; ?>.png" class="default-image d-block w-100 main-image" alt="Imagen del logro">
-            <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="hover-image d-none w-100 main-image" alt="Imagen del logro">
+            <img src="../img/<?php echo $tipo; ?>.png" class="default-image d-block" alt="Imagen del logro">
+            <img src="<?php echo htmlspecialchars($rutaImagen); ?>" class="hover-image d-none" alt="Imagen del logro">
             <div class="logro-txt">
                 <h5><?php echo htmlspecialchars($titulo); ?></h5>
                 <p><?php echo $logro['deporte']; ?></p>

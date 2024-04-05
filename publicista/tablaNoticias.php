@@ -104,15 +104,20 @@ try {
 
 </script>
 <script>
+        function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
             function validarCamposEdit() {
 
                 var tituloNoticia = document.getElementById("tituloEdit").value;
-                if (tituloNoticia === "") {
+                tituloNoticia1 = trim(tituloNoticia);
+                if (tituloNoticia1 === "") {
                     alert("El titulo no puede quedar vacio.");
                     return false;
                 }
                 var cuerpoNoticia = document.getElementById("cuerpoEdit").value;
-                if (cuerpoNoticia === "") {
+                cuerpoNoticia1 = trim(cuerpoNoticia);
+                if (cuerpoNoticia1 === "") {
                     alert("La noticia debe tener un cuerpo.");
                     return false;
                 }

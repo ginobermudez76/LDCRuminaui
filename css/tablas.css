@@ -1,0 +1,31 @@
+.btn-danger.btn-sm {
+    background-color: #175690 !important;
+    color: #fff;
+    border-color: #0fc3c6;
+    border-radius: 10px;
+}
+
+.btn-danger.btn-sm:hover {
+    background-color: #0fc3c6 !important;
+    border-color: #17907988;
+    color: #fff;
+}
+.btn-secondary.btn-sm:hover {
+    background-color: #0fc0c6 !important;
+    border-color: #17907988;
+    color: #fff;
+}
+
+.btn-secondary.btn-sm{
+    border-radius: 10px;
+    background-color: #0ed425;
+}
+
+
+.btn-primary {
+    background-color: #17907a; 
+    color: #fff;
+    border-color: #0fc3c6;
+}
+
+

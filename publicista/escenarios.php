@@ -90,9 +90,14 @@ try {
             });
         </script>
         <script>
+                function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
             function validarCamposEdit() {
                 var nombreEscenario = document.getElementById("nombreEdit").value;
-                if (nombreEscenario === "") {
+                nombreEscenario1 = trim(nombreEscenario);
+                if (nombreEscenario1 === "") {
                     alert("El escenario debe tener un nombre");
                     return false;
                 }

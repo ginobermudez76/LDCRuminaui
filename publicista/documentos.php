@@ -50,10 +50,6 @@ try {
                     <input type="text" class="form-control" id="nombre" name="nombre" requerid>
                 </div>
                 <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea type="text" class="form-control" id="descripcion" name="descripcion"></textarea>
-                </div>
-                <div class="mb-3">
                     <label for="documento" class="form-label">Documento</label>
                     <input type="file" class="form-control" id="documento" name="documento" requerid></textarea>
                 </div>
@@ -74,9 +70,13 @@ try {
             });
         </script>
         <script>
+                function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
             function validarCamposEdit() {
                 var nombreDocumento = document.getElementById("nombreEdit").value;
-                if (nombreDocumento === "") {
+                nombreDocumento1 = trim(nombreDocumento);
+                if (nombreDocumento1 === "") {
                     alert("El documento debe tener un nombre");
                     return false;
                 }
@@ -102,15 +102,6 @@ try {
                 // Limitar el valor a 100 caracteres
                 if (documentoNombre.length > 100) {
                     this.value = documentoNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcionedit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var documentoDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (documentoDescripcion.length > 300) {
-                    this.value = documentoDescripcion.slice(0, 300);
                 }
             });
         </script>

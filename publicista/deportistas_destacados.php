@@ -164,10 +164,14 @@ try {
             }
         </script>
         <script>
+                function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
             function validarCamposEdit() {
 
                 var nombreEdit = document.getElementById("nombreEdit").value;
-                if (nombreEdit === "") {
+                nombreEdit1 = trim(nombreEdit);
+                if (nombreEdit1 === "") {
                     alert("El nombre no puede quedar vacio");
                     return false;
                 }

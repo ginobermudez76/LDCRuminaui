@@ -106,15 +106,19 @@ try {
 
 </script>
 <script>
+      function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }  
             function validarCamposEdit() {
 
-                var nombreEvento = document.getElementById("tituloEdit").value;
-                if (nombreEvento === "") {
-                    alert("El nombre no puede quedar vacio");
+                var nombreLogro = document.getElementById("tituloEdit").value;
+                nombreLogro1 = trim(nombreLogro);
+                if (nombreLogro1 === "") {
+                    alert("El titulo no puede quedar vacio");
                     return false;
                 }
-                var nombreEvento = document.getElementById("tipoLogroEdit").value;
-                if (nombreEvento === "") {
+                var tipoLogro = document.getElementById("tipoLogroEdit").value;
+                if (tipoLogro === "") {
                     alert("Seleccione un tipo de logro");
                     return false;
                 }

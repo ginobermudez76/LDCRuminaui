@@ -73,47 +73,57 @@ try {
 
             });
         </script>
-        <script>
-            function validarCamposEdit() {
-                var nombreDeporte = document.getElementById("nombreEdit").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
-                    return false;
-                }
-                var archivoInput = document.getElementById("imagenEdit");
+<script>
+    // Función trim similar a la de PHP en JavaScript
+    function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }
+
+    function validarCamposEdit() {
+        var nombreDeporte = document.getElementById("nombreEdit").value;
+        
+        // Utilizamos la función trim para eliminar espacios en blanco al principio y al final
+        nombreDeporte1 = trim(nombreDeporte);
+
+        if (nombreDeporte1 === "") {
+            alert("El deporte debe tener un nombre");
+            return false;
+        }
+        var archivoInput = document.getElementById("imagenEdit");
 
 
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
+        var archivo = archivoInput.files[0];
+        var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
+        var extension = archivo.name.split('.').pop().toLowerCase();
 
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
+        if (!extensionesPermitidas.includes(extension)) {
+            alert("Formato no soportado");
+            return false;
+        }
 
+        return true;
+    }
 
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombreEdit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcionedit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
-        </script>
+    // Función para limitar la cantidad de dígitos en el campo de celular
+    document.getElementById('nombreEdit').addEventListener('input', function() {
+        // Obtener el valor actual del campo de celular
+        var deporteNombre = this.value;
+        // Limitar el valor a 100 caracteres
+        if (deporteNombre.length > 100) {
+            this.value = deporteNombre.slice(0, 100);
+        }
+    });
+    // Función para limitar la cantidad de dígitos en el campo de descripcion
+    document.getElementById('descripcionedit').addEventListener('input', function() {
+        // Obtener el valor actual del campo de celular
+        var deporteDescripcion = this.value;
+        // Limitar el valor a 10 caracteres
+        if (deporteDescripcion.length > 300) {
+            this.value = deporteDescripcion.slice(0, 300);
+        }
+    });
+</script>
+
         <script>
             function deshabilitarInputImagen() {
                 var checkbox = document.getElementById("checkDImagen");

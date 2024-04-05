@@ -33,6 +33,33 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
+<style>
+    table{
+    box-shadow: 0px 0px 10px #1fcfe6;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 25px;
+    color: #000000;
+
+}
+thead{
+    background-color: #000000;
+    color: #ffffff; 
+    box-shadow: 0px 0px 10px #1fdfe6;
+
+}
+
+tr{
+    text-align: center;
+}
+
+tr:hover{
+    background-color: #72dae1;
+    color: #fff;
+    border-radius: 25px;
+}
+</style>
 <div class="container mt-4">
             <div class="table-responsive">
                 <table class="table">
@@ -129,7 +156,11 @@ try {
             }
         </script>
         <script>
+                        function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }    
             function validarCamposEdit() {
+
                 // Validación de selección de tipo
                 var deporteSeleccionado = document.getElementById("deporte_idEdit").value;
                 if (deporteSeleccionado === "") {
@@ -137,7 +168,8 @@ try {
                     return false;
                 }
                 var nombreEvento = document.getElementById("nombreEdit").value;
-                if (nombreEvento === "") {
+                nombreEvento1 = trim(nombreEvento);
+                if (nombreEvento1 === "") {
                     alert("El evento debe tener un nombre");
                     return false;
                 }

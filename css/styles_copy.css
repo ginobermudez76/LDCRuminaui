@@ -1,262 +1,33 @@
-
-.info{
-    margin-left: 100px;
-    color: white;
-    font-size: 18px;
-}
-/*estilos para modal del deporte clickeado*/
-.mdDeporte {
-    background-color: rgba(0, 0, 0, 0.9);
-    width: 100%;
-    margin-bottom: 0;
-}
-
-.mdDeporte .modal-content {
-    margin: 0;
-    padding: 20px;
-    width: 100%;
-    max-width: 100%;
-    position: relative;
-
-}
-
-.mdDeporte .modal-body {
-    padding: 0;
-    margin: 0;
-    margin-bottom: 0;
-}
-
-.mdDeporte .close {
-    color: #ffffff;
-    position: absolute;
-    top: 0px;
-    right: 5px;
-    font-size: 50px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.mdDeporte .modal-dialog {
-    height: 100%;
-    max-width: 90%; 
-    max-height: 90%;
-
-}
-.mdDeporte .modal-dialog img {
-    max-width: 100%; 
-    height: 100%;
-}
-.mdDeporte .modal-body img {
-    height: 100%;
-    max-width: 100%; 
-    max-height: 100%;
-
-}
-/*fin estilos para modal del deporte clickeado*/
-.carousel-item img {
-    width: 100%;
-    height: 100%;
-}
-
-
-.map-container {
-    position: relative;
-    overflow: hidden;
-    padding-bottom: 56.25%;
-    height: 0;
-}
-
-.map-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-h6{
-    color: #ffffff;
-}
-.carousel-inner h5{
-    font-size: 80px !important;
-}
-
-
-.carousel-container {
-    max-width: 100%;
-    overflow: hidden;
-}
-.card{
-background-color: #ffffff00;
-}
-.overlayN {
-    background-color: rgba(0, 0, 0, 0.5) !important; /* Transparencia del overlay */
-    color: white !important;
-    text-align: center !important;
-    position: absolute; 
-    top: 0; 
-    width: 100%;
-    height: 100%;
-    display: none; 
-    justify-content: center; 
-    align-items: center;
-
-}
-.overlayN a {
-    color: white !important;
-    text-decoration: none !important;
-}
-.card:hover .overlayN {
-    display: flex !important;
-}
-.carousel-item .imagen {
-    width: 100%;
-    height: 300px;
-}
-/*estilos de noticias*/
-.noticias .row {
+/*inicio deportistas*/
+.contenedor-deportistas {
     display: flex;
-    padding: 0px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-/*fin estilos de noticias*/
-.gestionar{
-    color: rgb(255, 255, 255);
-}
-.deportes{
-    padding: 50px 0;
-    text-align: center;
- }
-
-
-
-.btn-danger.btn-sm {
-    background-color: #17907a !important;
-    color: #fff;
-    border-color: #0fc3c6;
-    border-radius: 10px;
+    justify-content: center; /*centra horizontal*/
+    align-items: center; /*centra vertical*/
+    width: 100%; /*ancho del di*/
+    gap: 10%; /*espacio entre items*/
+    height: 600px;
 }
 
-.btn-danger.btn-sm:hover {
-    background-color: #0fc3c6 !important;
-    border-color: #17907988;
-    color: #fff;
-}
-
-.btn-secondary.btn-sm{
-    border-radius: 10px;
-}
-
-tr{
-    text-align: left;
-}
-td{
-    overflow-wrap: break-word;
-}
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
-    opacity: 0; /* Inicialmente oculto */
-    transition: opacity 0.5s; /* Transición suave */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px;
-    color: white;
-}
-
-.card-img-top {
-    position: relative;
-}
-
-.card-img-top:hover .overlay {
-    opacity: 1; /* Mostrar la superposición al pasar el mouse sobre la imagen */
-}
-
-/* estilos de carrucel de los deportes */
-
-/* fin de estilos de carrucel de los deportes */
-
-  .overlay2 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    overflow: hidden;
-    width: 100%;
-    height: 0;
-    transition: .5s ease;
-}
-
-.carousel:hover .overlay2 {
-    height: 100%;
-}
-
-.overlay2-text {
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-}
-.carousel:hover .overlay2 {
-    height: 100%;
-}
-
-.overlay2-text {
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    text-align: center;
-}
-.contenedorDeportistas {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap: 10%;
-}
-
-/* Estilos para el carrusel de deportistas destacados */
-.title-deportistas{
-    text-align: left;
-    left: 10%;
-    padding: 50px 0 50px 0;
-    display: inline-block;
-    position: relative;
-    color: white;
-    font-family: "Lobster", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-.title-deportistas::after{
-    content: '';
-    position: absolute;
-    width: 40%;
-    height: 5px;
-    background-color: #3cc9c9;
-    top: 50%;
-
-}
-.carrusel-destacados img{
-    max-width: 100%;
-    height: 330px;
-}
 .medioDestacados{
     max-width: 25%;
-    max-height: 150px;
+    max-height: 15%;
 }
+
+.carrusel-destacados {
+    width: 25%;
+    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 2px; /* Espacio alrededor del carrusel */
+    height: 80%;
+}
+.carrusel-destacados img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+.contenedor-deportistas .carousel-item{
+    height: 466px; /*altura de los items*/
+}
+
 .overlayDeportistas {
     position: absolute;
     top: 0;
@@ -271,10 +42,7 @@ td{
     align-items: center;
     color: white;
 }
-.carrusel-destacados{
-    align-items: center !important;
-    width: 23%;
-}
+
 .carousel:hover .overlayDeportistas {
     opacity: 1;
 }
@@ -283,151 +51,98 @@ td{
     text-align: center;
     margin: auto;
 }
-/* Fin para el carrusel de deportistas destacados */
-.close {
-    color: #000000;
-    position: absolute;
-    top: 0;
-    right: 5px;
-    font-size: 25px;
-    font-weight: bold;
-    cursor: pointer;
-}
+/*fin deportistas*/
 
-.container1 {
+/* estilos de los logros*/
+.contenedor-logros {
+    height: 300px;
     display: flex;
+    justify-content: center;
     align-items: center;
     width: 100%;
+}
+
+.carrusel-logros {
+    width: 100%;
+}
+
+
+.grupo-logros {
+    width: 90%;
+    display: flex;
+    gap: 5%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.contenedor-infoLogros {
+    width: 25%;
+    height: 120px;
     position: relative;
 }
 
-.texto-desplegable {
-    background-color: rgba(0, 0, 0, 0.71);
-    display: none;
-    position: absolute;
-    top: 0;
+.image-container {
+    position: relative;
     width: 100%;
     height: 100%;
 }
 
-.container1:hover .texto-desplegable {
-    display: block;
-}
-
-.contenedor-imagenes {
-    display: flex;
-    padding: 0px;
-    justify-content: center;
+.image-container img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.contenedor-imagenes img {
-    width: 100%;
-    height: 500px;
+.logro-txt {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70%;
+    padding: 7%;
+    top: 0%;
 }
 
-.texto-desplegable p {
-    margin: 5px 10px;
+.logro-txt h5, .logro-txt p {
+    color: white;
+    margin: 0;
 }
-
-
-/* estilos de los logros*/
-
-    .title-logros{
-
-        display: inline-block;
-        position: relative;
-        color: white;
-        font-family: "Lobster", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-    }
-
-.contenedor-infoLogros {
-    max-width: 27%;
-    position: relative; /* Establecer posicionamiento relativo */
+.logro-txt h5{
+    font-size: 20px;
 }
-
-.contenedor-infoLogros img {
-    height: 80px;
-}
-
-.contenedor-infoLogros .image-container {
-    position: relative; /* Establecer posicionamiento relativo */
-}
-
-.contenedor-infoLogros h5{
-    position: absolute; /* Establecer posicionamiento absoluto */
-    top: 25%; /* Alinear desde la mitad superior del contenedor */
-    left: 60%; /* Alinear desde la mitad izquierda del contenedor */
-    transform: translate(-50%, -50%); /* Centrar tanto vertical como horizontalmente */
-    text-align: left; /* Alinear texto al centro */
-    margin: 0; /* Eliminar márgenes predeterminados */
-    padding: 0; /* Eliminar relleno predeterminado */
-    width: 100%; /* Ajustar ancho al 100% */
-    color: #ffffff;
-}
-.contenedor-infoLogros p {
-    position: absolute; /* Establecer posicionamiento absoluto */
-    top: 50%; /* Alinear desde la mitad superior del contenedor */
-    left: 60%; /* Alinear desde la mitad izquierda del contenedor */
-    transform: translate(-50%, -50%); /* Centrar tanto vertical como horizontalmente */
-    text-align: left; /* Alinear texto al centro */
-    margin: 0; /* Eliminar márgenes predeterminados */
-    padding: 0; /* Eliminar relleno predeterminado */
-    width: 100%; /* Ajustar ancho al 100% */
-}
-#carouselDerecho {
-    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
-    padding: 8px; /* Espacio alrededor del carrusel */
-}
-#carouselIzquierdo{
-    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
-    padding: 8px; /* Espacio alrededor del carrusel */
-}
-.logro-txt{
-    max-width: 70%;
-}
-.contenedor-infoLogros h5 {
-    font-size: 20px !important;
-}
-
-.contenedor-infoLogros p {
+.logro-txt p{
     font-size: 15px;
 }
-.carrusel-logros .row {
-    display: flex;
-    padding: 0px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-.carrusel-logros .column{
-    flex: 25%;
-    padding: 0px;
-  }
-  
-  
-.carrusel-logros .column img{
-    margin-top: 0px;
-  }
 /*fin logros*/
-/*estilos para modal edit*/
-.edit {
-    background-color: rgba(0, 0, 0, 0.9);
-    width: 100%;
-    margin: auto;
+/*fin estilos documentos*/
+/*estilos de escenarios*/
+.escenarios{
+    display: flex;
+    justify-content: center;
+}
+.carousel-escenarios{
+    width: 90%;
+}
+.carousel-escenarios .carousel-item h5{
+    text-align: left;
+}
+.carousel-escenarios img{
+    height: 500px;
+}
+.map-container {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    height: 0;
 }
 
-.edit .modal-content {
-    margin: auto;
-    padding: 20px;
-    width: 41%;
-    max-width: 41%;
-    position: relative;
-    height: auto;
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
-/*fin estilos para modal edit*/
+/*fin de estilos escenarios*/
 /*estilos documentos*/
 .documento {
     position: relative;
@@ -468,18 +183,35 @@ font-size: 20px;
   }
 
 /*fin estilos documentos*/
-/*estilos de escenarios*/
-.escenarios{
+/*estilos de noticias*/
+.noticias .row {
     display: flex;
+    padding: 0px;
+    flex-wrap: wrap;
     justify-content: center;
-}
-.carousel-escenarios{
-    width: 90%;
-}
-.carousel-escenarios .carousel-item h5{
-    text-align: left;
-}
-.carousel-escenarios img{
-    height: 500px;
-}
-/*fin de estilos escenarios*/
+  }
+  .card{
+    background-color: #ffffff00;
+    }
+    .overlayN {
+        background-color: rgba(0, 0, 0, 0.5) !important; /* Transparencia del overlay */
+        color: white !important;
+        text-align: center !important;
+        position: absolute; 
+        top: 0; 
+        width: 100%;
+        height: 100%;
+        display: none; 
+        justify-content: center; 
+        align-items: center;
+    
+    }
+    .overlayN a {
+        color: white !important;
+        text-decoration: none !important;
+    }
+    .card:hover .overlayN {
+        display: flex !important;
+    }
+/*fin estilos de noticias*/
+
