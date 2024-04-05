@@ -33,7 +33,7 @@ try {
     echo "Error al obtener la información de logros: " . $e->getMessage();
 }
 ?>
-<div class="contenedor-logros">
+
     <div id="carouselLogro" class="carousel slide carrusel-logros" data-bs-ride="carousel">
         <div class="carousel-inner">
             <?php
@@ -77,8 +77,6 @@ try {
             <span class="visually-hidden">Siguiente</span>
         </button>
     </div>
-
-</div>
 
 <?php
 // Función para mostrar un logro en HTML

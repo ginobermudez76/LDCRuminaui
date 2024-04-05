@@ -79,12 +79,13 @@ try {
 
     <div class="titulo-containerl">
         <h1 class="title-logros">Logros</h1>
-        <div class="horizontal"></div>
-        
-        <div class="vertical"></div>
         <div class="horizontal2"></div>
-    </div>
+        <div class="horizontal"></div>
+        <div class="vertical"></div>  
+            <div class="contenedor-logros">
         <?php include '../public/logros.php'; ?>
+    </div>
+    </div>
 
 
 
@@ -97,9 +98,7 @@ try {
         <div class="vertical"></div>
         <div class="horizontal"></div>
         <div class="horizontal2"></div>  
-    </div>
-
-    <div class="contenedor-deportistas">
+        <div class="contenedor-deportistas">
         <!-- Carrusel izquierdo -->
         <?php include '../public/deportistas1.php'; ?>
         <!-- Espacio vacío entre carruseles -->
@@ -107,6 +106,9 @@ try {
         <!-- Carrusel derecho -->
         <?php include '../public/deportistas2.php'; ?>
     </div>
+    </div>
+
+
     <!-- -->
 
 
