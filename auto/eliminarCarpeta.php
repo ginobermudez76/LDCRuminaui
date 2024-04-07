@@ -55,6 +55,8 @@ $fechaActual = date('Y-m-d H:i:s');
         $stmtDeleteEvento->execute();
 
     }
+    echo $rutaImagen;
+    echo $carpetaEvento;
 
 // Cierra la conexión
 $conectar->close();

@@ -41,11 +41,11 @@ try {
         <form id="formLogroEdit" action="editarLogro.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="Titulo" class="form-label">Nombre del logro</label>
-                <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($logro['titulo']); ?>"></input>
+                <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($logro['titulo']); ?>" required maxlength="100"></input>
             </div>
             <div class="mb-3">
                 <label for="Tipo" class="form-label">Tipo</label>
-                <select class="form-control" id="tipoLogroEdit" name="tipoLogroEdit">
+                <select class="form-control" id="tipoLogroEdit" name="tipoLogroEdit" required>
                     <option value="">Seleccione un tipo</option>
                     <option value="Medalla" <?php echo ($logro['tipologro'] == 'Medalla') ? 'selected' : ''; ?>>Medalla</option>
                     <option value="Copa" <?php echo ($logro['tipologro'] == 'Copa') ? 'selected' : ''; ?>>Copa</option>

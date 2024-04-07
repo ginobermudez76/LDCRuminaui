@@ -6,8 +6,7 @@ $stmt = $conn->prepare("SELECT * FROM escenarios");
 $stmt->execute();
 $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-    <div class="escenarios">
+<div class="escenarios">
     <div id="carouselEscenario" class="carousel slide carousel-escenarios" data-bs-ride="carousel">
         <div class="carousel-inner">
             <?php
@@ -39,41 +38,75 @@ $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-
 <div class="container-escenario">
     <?php foreach ($escenarios as $escenario) : ?>
-            <div class="escenario">
-                <div class="imagen-ubicacion">
-                    <img src="<?php echo htmlspecialchars($escenario['imagen']); ?>" alt="<?php echo htmlspecialchars($escenario['nombre']); ?>">
-                    <div class="map-container">
-                        <?php 
-                        // Validar y sanitizar la URL antes de usarla en el iframe
-                        $ubicacion = $escenario['ubicacion'];
-                        if (filter_var($ubicacion, FILTER_VALIDATE_URL)) {
-                            // Si la URL es válida, mostrar el iframe
-                            echo '<iframe src="' . htmlspecialchars($ubicacion) . '"></iframe>';
-                        } else {
-                            // Si la URL no es válida, mostrar un mensaje de error o una URL predeterminada
-                            echo 'URL no válida';
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="informacion-escenario">
-                    <h2><?php echo htmlspecialchars($escenario['nombre']); ?></h2>
-                    <p>Dirección: <?php echo htmlspecialchars($escenario['direccion']); ?></p>
-                    <p>Teléfono: <?php echo htmlspecialchars($escenario['telefono']); ?></p>
-                    <p>Supervisor: <?php echo htmlspecialchars($escenario['supervisor']); ?></p>
-                    <p>Celular: <?php echo htmlspecialchars($escenario['celular']); ?></p>
+        <div class="linea"></div>
+        <div class="escenario">
+
+            <div class="imagen-ubicacion">
+                <img src="<?php echo htmlspecialchars($escenario['imagen']); ?>" alt="<?php echo htmlspecialchars($escenario['nombre']); ?>">
+                <div class="map-container">
+                    <?php
+                    // Validar y sanitizar la URL antes de usarla en el iframe
+                    $ubicacion = $escenario['ubicacion'];
+                    if (filter_var($ubicacion, FILTER_VALIDATE_URL)) {
+                        // Si la URL es válida, mostrar el iframe
+                        echo '<iframe src="' . htmlspecialchars($ubicacion) . '"></iframe>';
+                    } else {
+                        // Si la URL no es válida, mostrar un mensaje de error o una URL predeterminada
+                        echo 'URL no válida';
+                    }
+                    ?>
                 </div>
             </div>
+            <div class="informacion-escenario">
+                <?php if (empty($escenario['nombre'])) { ?>
+                    <h2>No se proporcionó nombre</h2>
+                <?php } else { ?>
+                    <h2><?php echo htmlspecialchars($escenario['nombre']); ?></h2>
+                <?php } ?>
+
+                <?php if (empty($escenario['direccion'])) { ?>
+                    <p>No se proporcionó dirección</p>
+                <?php } else { ?>
+                    <p>Dirección: <?php echo htmlspecialchars($escenario['direccion']); ?></p>
+                <?php } ?>
+
+                <?php if (empty($escenario['telefono'])) { ?>
+                    <p>No se proporcionó teléfono</p>
+                <?php } else { ?>
+                    <p>Teléfono: <?php echo htmlspecialchars($escenario['telefono']); ?></p>
+                <?php } ?>
+
+                <?php if (empty($escenario['supervisor'])) { ?>
+                    <p>No se proporcionó supervisor</p>
+                <?php } else { ?>
+                    <p>Supervisor: <?php echo htmlspecialchars($escenario['supervisor']); ?></p>
+                <?php } ?>
+
+                <?php if (empty($escenario['celular'])) { ?>
+                    <p>No se proporcionó celular</p>
+                <?php } else { ?>
+                    <p>Celular: <?php echo htmlspecialchars($escenario['celular']); ?></p>
+                <?php } ?>
+            </div>
+
+        </div>
+
     <?php endforeach; ?>
 </div>
 <style>
+    .linea {
+        background-color: #0fc3c6;
+        width: 100%;
+        height: 5px;
+    }
+
     .container-escenario {
         flex-direction: column;
         justify-content: center;
-    }    
+    }
+
     .escenario {
         justify-content: center;
         display: flex;
@@ -97,24 +130,27 @@ $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         height: 300px;
         padding: 0 0 0 0;
     }
-    .imagen-ubicacion iframe{
+
+    .imagen-ubicacion iframe {
         height: 300px;
     }
+
     .escenario .informacion {
         width: 30%;
         padding-left: 20px;
     }
-    .escenario h2{
+
+    .escenario h2 {
         font-size: 30px;
         color: white;
         padding-left: 30px;
     }
-    .escenario p{
+
+    .escenario p {
         font-size: 15px;
         color: white;
         padding-left: 40px;
     }
-
 </style>
 
 

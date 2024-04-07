@@ -32,6 +32,9 @@ try {
 } catch (PDOException $e) {
     echo "Error al obtener la información de logros: " . $e->getMessage();
 }
+if (empty($logros)){
+    echo '<p>No hay logros para mostrar</p>';
+}else{
 ?>
 
     <div id="carouselLogro" class="carousel slide carrusel-logros" data-bs-ride="carousel">
@@ -80,6 +83,8 @@ try {
 
 <?php
 // Función para mostrar un logro en HTML
+
+}
 function mostrarLogro($logro, $tipo)
 {
     $rutaImagen = $logro['imagen'];

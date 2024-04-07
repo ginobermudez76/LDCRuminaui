@@ -26,7 +26,7 @@ try {
 ?>
         <div class="container mt-5">
             <div class="table-responsive">
-                <table class="table">
+            <table class="table">
                     <thead>
                         <tr>
                             <th>Id</th>

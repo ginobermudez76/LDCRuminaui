@@ -35,7 +35,7 @@ try {
                         <form id="formCartas" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Mensaje</label>
-                                <textarea type="text" class="form-control" id="mensaje" name="mensaje"></textarea>
+                                <textarea type="text" class="form-control" id="mensaje" name="mensaje" required maxlength="5000"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="imagen" class="form-label">Imagen</label>
@@ -83,8 +83,8 @@ try {
                 // Obtener el valor actual del campo de mensaje
                 var mensajeCondolencia = this.value;
                 // Limitar el valor a 700 caracteres
-                if (mensajeCondolencia.length > 700) {
-                    this.value = mensajeCondolencia.slice(0, 700);
+                if (mensajeCondolencia.length > 5000) {
+                    this.value = mensajeCondolencia.slice(0, 5000);
                 }
             });
         </script>

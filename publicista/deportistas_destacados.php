@@ -43,13 +43,13 @@ try {
                         <form id="formDeportistas" enctype="multipart/form-data" method="post" onsubmit="return validarCampos()">
                             <div class="mb-3">
                                 <label for="Nombre" class="form-label">Nombre del deportista</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"></input>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="200"></input>
                             </div>
                             <div class="mb-3">
                                 <label for="imagen" class="form-label">Imagen</label>
                                 <input type="file" class="form-control" id="imagen" name="imagen" required></textarea>
                             </div>
-                            <select class="form-control" id="deporte_id" name="deporte_id">
+                            <select class="form-control" id="deporte_id" name="deporte_id" required>
                                 <option value="">Seleccione un deporte</option>
                                 <?php foreach ($deportes as $deporte) : ?>
                                     <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
@@ -68,44 +68,43 @@ try {
         </div>
         <script>
             $("#tablaDeportista").load("tablaDeportistas.php");
-
         </script>
 
-<script>
-    // Función para manejar la respuesta del servidor
-    function handleResponse(response) {
-        if (response.success) {
-            alertify.success(response.message);
-            // Recargar la página después de 1.5 segundos
-            setTimeout(function() {
-                location.reload();
-            }, 1500);
-        } else {
-            alertify.error(response.message);
-        }
-    }
+        <script>
+            // Función para manejar la respuesta del servidor
+            function handleResponse(response) {
+                if (response.success) {
+                    alertify.success(response.message);
+                    // Recargar la página después de 1.5 segundos
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    alertify.error(response.message);
+                }
+            }
 
-    $(document).ready(function() {
-        // Manejar el envío del formulario
-        $('#formDeportistas').submit(function(event) {
-            event.preventDefault(); // Evitar el envío del formulario por defecto
-            var formData = new FormData($(this)[0]); // Obtener los datos del formulario
-            $.ajax({
-                url: 'insertardeportista.php',
-                type: 'POST',
-                data: formData,
-                async: false,
-                success: function(response) {
-                    handleResponse(JSON.parse(response));
-                },
-                cache: false,
-                contentType: false,
-                processData: false
+            $(document).ready(function() {
+                // Manejar el envío del formulario
+                $('#formDeportistas').submit(function(event) {
+                    event.preventDefault(); // Evitar el envío del formulario por defecto
+                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
+                    $.ajax({
+                        url: 'insertardeportista.php',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function(response) {
+                            handleResponse(JSON.parse(response));
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
             });
-            return false;
-        });
-    });
-</script>
+        </script>
 
 
 
@@ -139,6 +138,14 @@ try {
                 }
                 return true;
             }
+            document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var Nombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (Nombre.length > 100) {
+                    this.value = Nombre.slice(0, 100);
+                }
+            });
         </script>
         <script>
             function deshabilitarInputImagen() {
@@ -164,9 +171,10 @@ try {
             }
         </script>
         <script>
-                function trim(str) {
-        return str.replace(/^\s+|\s+$/g, '');
-    }
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            }
+
             function validarCamposEdit() {
 
                 var nombreEdit = document.getElementById("nombreEdit").value;

@@ -32,48 +32,49 @@ try {
 ?>
         <div class="container mt-4">
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Galería de imagenes</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($deportes as $deporte) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($deporte['id']); ?></td>
-                                <td>
-                                    <?php if (isset($deporte['imagen']) && $deporte['imagen']) : ?>
-                                        <img src="<?php echo htmlspecialchars($deporte['imagen']); ?>" alt="<?php echo htmlspecialchars($deporte['nombre']); ?>" style="width: 100px; height: auto;">
-                                    <?php else : ?>
-                                        <p>Sin Imagen</p>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo htmlspecialchars($deporte['nombre']); ?></td>
-                                <td>
-                                    <?php if (!empty($deporte['descripcion'])) : ?>
-                                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
-                                    <?php else : ?>
-                                        <p>Sin descripción</p>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
-                                    <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deporte['id']; ?>)">Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deporte['id']; ?>)">Eliminar</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Galería de imágenes</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($deportes as $deporte) : ?>
+            <tr>
+                <td><?php echo htmlspecialchars($deporte['id']); ?></td>
+                <td>
+                    <?php if (isset($deporte['imagen']) && $deporte['imagen']) : ?>
+                        <img src="<?php echo htmlspecialchars($deporte['imagen']); ?>" alt="<?php echo htmlspecialchars($deporte['nombre']); ?>" style="width: 100px; height: auto;">
+                    <?php else : ?>
+                        <p>Sin Imagen</p>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo empty($deporte['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($deporte['nombre']); ?></td>
+                <td>
+                    <?php if (empty($deporte['descripcion'])) : ?>
+                        <p>Sin descripción</p>
+                    <?php else : ?>
+                        <?php echo htmlspecialchars($deporte['descripcion']); ?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <a href="galeria_de_imagenes.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-secondary btn-sm">Agregar</a>
+                    <a href="eliminar_selecciones.php?id=<?php echo $deporte['id']; ?>&nombre=<?php echo urlencode($deporte['nombre']); ?>&tipo=Deporte" class="btn btn-danger btn-sm">Borrar</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deporte['id']; ?>)">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deporte['id']; ?>)">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
             </div>
         </div>
 

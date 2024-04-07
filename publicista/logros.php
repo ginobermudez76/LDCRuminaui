@@ -45,11 +45,11 @@ try {
                         <form id="formLogros" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
                             <div class="mb-3">
                                 <label for="Nombre" class="form-label">Nombre del logro</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"></input>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100"></input>
                             </div>
                             <div class="mb-3">
                                 <label for="Tipo" class="form-label">Tipo</label>
-                                <select class="form-control" id="tipoLogro" name="tipoLogro">
+                                <select class="form-control" id="tipoLogro" name="tipoLogro" required>
                                     <option value="">Seleccione un tipo</option>
                                     <option value="Medalla">Medalla</option>
                                     <option value="Copa">Copa</option>
@@ -106,6 +106,14 @@ try {
                 }
                 return true;
             }
+            document.getElementById('nombre').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var nombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (nombre.length > 100) {
+                    this.value = nombre.slice(0, 100);
+                }
+            });
         </script>
 
         <script>
@@ -145,7 +153,7 @@ try {
         </script>
 
 <?php
-    } else { 
+    } else {
         echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }

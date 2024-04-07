@@ -47,7 +47,11 @@ try {
             <form id="formDocumento" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Documento</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
+                    <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="200">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción (la descripción no se muestra al publico)</label>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="2000"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="documento" class="form-label">Documento</label>
@@ -101,7 +105,7 @@ try {
                 var documentoNombre = this.value;
                 // Limitar el valor a 100 caracteres
                 if (documentoNombre.length > 100) {
-                    this.value = documentoNombre.slice(0, 100);
+                    this.value = documentoNombre.slice(0, 200);
                 }
             });
         </script>
@@ -156,7 +160,7 @@ try {
                 var documentoNombre = this.value;
                 // Limitar el valor a 100 caracteres
                 if (documentoNombre.length > 100) {
-                    this.value = documentoNombre.slice(0, 100);
+                    this.value = documentoNombre.slice(0, 200);
                 }
             });
             // Función para limitar la cantidad de dígitos en el campo de descripcion
@@ -165,7 +169,7 @@ try {
                 var documentoDescripcion = this.value;
                 // Limitar el valor a 10 caracteres
                 if (documentoDescripcion.length > 300) {
-                    this.value = documentoDescripcion.slice(0, 300);
+                    this.value = documentoDescripcion.slice(0, 2000);
                 }
             });
         </script>

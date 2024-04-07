@@ -41,7 +41,7 @@ try {
         <form id="formDocumentoEdit" action="editarDocumento.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Documento</label>
-                <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($documento['nombre']); ?>">
+                <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($documento['nombre']); ?>" maxlength="200">
             </div>
             <div class="mb-3">
                 <label for="imagen" class="form-label">Documento</label><br>
@@ -56,12 +56,8 @@ try {
                 <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($documento['documento']); ?>" onchange="deshabilitarCheckbox()">
             </div>
             <div class="mb-3">
-                <label for="descripcionEdit" class="form-label">Descripción</label>
-                <textarea type="text" class="form-control" id="descripcionEdit" name="descripcionEdit">
-                        <?php if (!empty($documento['descripcion'])) : ?>
-                        <?php echo htmlspecialchars($documento['descripcion']); ?>
-                        <?php endif; ?>
-                    </textarea>
+                <label for="descripcionEdit" class="form-label">Descripción (la descripción no e mostrara al publico)</label>
+                <textarea class="form-control" id="descripcionEdit" name="descripcionEdit" maxlength="300" rows="3"><?php echo htmlspecialchars($documento['descripcion']); ?></textarea>
             </div>
 
             <input type="hidden" id="idDocumentoEdit" name="idDocumentoEdit" value="<?php echo $idDocumento; ?>">

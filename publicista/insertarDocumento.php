@@ -25,10 +25,14 @@ try {
 
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            $extension = pathinfo($_FILES['documento']['name'], PATHINFO_EXTENSION);
             $response = array();
             if (trim($nombre) == '') {
                 $response['success'] = false;
                 $response['message'] = "El nombre no puede estar vacío.";
+            }elseif($extension != 'pdf'){
+                $response['success'] = false;
+                $response['message'] = "El archivo debe ser un PDF.";
             } else {
 
             if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
@@ -55,6 +59,7 @@ try {
                 } else {
                     $response['success'] = false;
                     $response['message'] = "Hubo un error al cargar lel documento.";
+                    $archivoDocumento = "";
                 }
             } else {
                 // manejo en el caso de que el documento no se cargue

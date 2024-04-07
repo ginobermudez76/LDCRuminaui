@@ -90,7 +90,7 @@ try {
 
                 // Redirigir después de agregar
                 if ($tipo == "Evento") {
-                    header("Location: gestionar_eventos.php");
+                    header("Location: eventos.php");
                 } elseif ($tipo == "Deporte") {
                     header("Location: deportes.php");
                 }

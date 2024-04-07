@@ -99,10 +99,59 @@ if (isset($_GET['tipo'])) {
             </div>
 
         </div>
-    <?php elseif ($tipo === "directorio") : ?>
-        <div class="directorio-container">
 
+    <?php elseif ($tipo === "directorio") : ?>
+        <style>
+            .linea {
+                background-color: #0fc3c6;
+                width: 100%;
+                height: 5px;
+            }
+
+            .directorio-container {
+                color: rgb(255, 255, 255);
+                height: 1000px;
+                width: 100%;
+            }
+
+            .directorio-container img {
+                height: 30%;
+                width: 30%;
+                border: 5px;
+                padding: 5px;
+                background-color: #0fc3c6;
+            }
+
+            .dirigencia {
+                height: 50%;
+            }
+            .presidente{
+                height: 50%;
+            }
+            .presidente img{
+                height: 60%;
+            }
+        </style>
+        <div class="directorio-container">
+            <div class="dirigencia">
+                <h5>DIRIGENCIA</h5>
+                <img src="../img/medalla.jpg" alt="dirigencia">
+                <p>PRESIDENTE:</p>
+
+                <p>VICEPRESIDENTE:</p>
+
+                <p>SECRETARIO:</p>
+
+                <p>TESORERO:</p>
+                <div class="linea"></div>
+            </div>
+            <div class="presidente">
+                <h5>PRESIDENTE</h5>
+                <img src="../img/medalla.jpg" alt="Presidente">
+                <p></p>
+            </div>
         </div>
+
     <?php endif; ?>
 </div>
 

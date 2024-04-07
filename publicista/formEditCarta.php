@@ -48,7 +48,7 @@ try {
     </div>
     <div class="mb-3">
         <label for="Mensaje" class="form-label">Mensaje</label>
-        <textarea type="text" class="form-control" id="mensajeEdit" name="mensajeEdit"><?php echo htmlspecialchars($carta['mensaje']); ?></textarea>
+        <textarea type="text" class="form-control" id="mensajeEdit" name="mensajeEdit" required maxlength="5000"><?php echo htmlspecialchars($carta['mensaje']); ?></textarea>
     </div>
     <input type="hidden" id="idCartaEdit" name="idCarta" value="<?php echo $idCarta; ?>">
     <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>

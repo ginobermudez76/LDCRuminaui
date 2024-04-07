@@ -77,10 +77,12 @@ try {
                     } else {
                         $response['success'] = false;
                         $response['message'] = "Hubo un error al cargar la imagen.";
+                        $archivoImagen = "";
                     }
                 } else {
                     $response['success'] = false;
                     $response['message'] = "El archivo no es una imagen.";
+                    $archivoImagen = "";
                 }
             } else {
                 // Manejo en el caso de que la imagen no se cargue

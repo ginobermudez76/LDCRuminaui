@@ -41,7 +41,7 @@ try {
 <form id="formDeportistaEdit" action="editarDeportista.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
     <div class="mb-3">
         <label for="Nombre" class="form-label">Nombre del deportista</label>
-        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" value="<?php echo htmlspecialchars($deportista['nombre_deportista']); ?>"></input>
+        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required maxlength="200" value="<?php echo htmlspecialchars($deportista['nombre_deportista']); ?>"></input>
     </div>
     <div class="mb-3">
         <label for="imagenEdit" class="form-label">imagen</label><br>

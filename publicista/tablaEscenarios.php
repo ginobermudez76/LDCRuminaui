@@ -31,50 +31,46 @@ try {
 ?>
         <div class="container mt-4">
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Ubicación</th>
-                            <th>Dirección</th>
-                            <th>Teléfono</th>
-                            <th>Supervisor</th>
-                            <th>Celular</th>
-                            <th>Galería de imágenes</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($escenarios as $escenario) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($escenario['id']); ?></td>
-                                <td>
-                                    <?php if (isset($escenario['imagen']) && $escenario['imagen']) : ?>
-                                        <img src="<?php echo htmlspecialchars($escenario['imagen']); ?>" alt="<?php echo htmlspecialchars($escenario['nombre']); ?>" style="width: 100px; height: auto;">
-                                    <?php else : ?>
-                                        <p>Sin Imagen</p>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo htmlspecialchars($escenario['nombre']); ?></td>
-                                <td><?php echo htmlspecialchars($escenario['ubicacion']); ?></td>
-                                <td><?php echo htmlspecialchars($escenario['direccion']); ?></td>
-                                <td><?php echo htmlspecialchars($escenario['telefono']); ?></td>
-                                <td><?php echo htmlspecialchars($escenario['supervisor']); ?></td>
-                                <td><?php echo htmlspecialchars($escenario['celular']); ?></td>
-                                <td>
-                                    <a href="galeria_de_imagenes.php?id=<?php echo $escenario['id']; ?>&nombre=<?php echo urlencode($escenario['nombre']); ?>&tipo=Escenario" class="btn btn-secondary btn-sm">Agregar</a>
-                                    <a href="eliminar_selecciones.php?id=<?php echo $escenario['id']; ?>&nombre=<?php echo urlencode($escenario['nombre']); ?>&tipo=Escenario" class="btn btn-danger btn-sm">Borrar</a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $escenario['id']; ?>)">Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $escenario['id']; ?>)">Eliminar</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Supervisor</th>
+            <th>Celular</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($escenarios as $escenario) : ?>
+            <tr>
+                <td><?php echo htmlspecialchars($escenario['id']); ?></td>
+                <td>
+                    <?php if (isset($escenario['imagen']) && $escenario['imagen']) : ?>
+                        <img src="<?php echo htmlspecialchars($escenario['imagen']); ?>" alt="<?php echo htmlspecialchars($escenario['nombre']); ?>" style="width: 100px; height: auto;">
+                    <?php else : ?>
+                        <p>Sin Imagen</p>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo empty($escenario['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($escenario['nombre']); ?></td>
+                <td><?php echo empty($escenario['ubicacion']) ? 'No se proporcionó ubicación' : htmlspecialchars($escenario['ubicacion']); ?></td>
+                <td><?php echo empty($escenario['direccion']) ? 'No se proporcionó dirección' : htmlspecialchars($escenario['direccion']); ?></td>
+                <td><?php echo empty($escenario['telefono']) ? 'No se proporcionó teléfono' : htmlspecialchars($escenario['telefono']); ?></td>
+                <td><?php echo empty($escenario['supervisor']) ? 'No se proporcionó supervisor' : htmlspecialchars($escenario['supervisor']); ?></td>
+                <td><?php echo empty($escenario['celular']) ? 'No se proporcionó celular' : htmlspecialchars($escenario['celular']); ?></td>
+                <td>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $escenario['id']; ?>)">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $escenario['id']; ?>)">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
             </div>
         </div>
 
@@ -84,6 +80,33 @@ try {
                     <h5 class="modal-title" id="editarEscenarioModalLabel">Editar escenario</h5>
                 </div>
                 <div id="formContent"></div>
+                <script>
+                    function trim(str) {
+                        return str.replace(/^\s+|\s+$/g, '');
+                    }
+
+                    function validarCamposEdit() {
+                        var nombreEscenario = trim(document.getElementById("nombreEdit").value);
+                        var ubicacionEscenario = trim(document.getElementById("ubicacionEdit").value);
+                        var direccionEscenario = trim(document.getElementById("direccionEdit").value);
+                        var telefonoEscenario = trim(document.getElementById("telefonoEdit").value);
+                        var supervisorEscenario = trim(document.getElementById("supervisorEdit").value);
+                        var celularEscenario = trim(document.getElementById("celularEdit").value);
+
+                        if (nombreEscenario === "" || ubicacionEscenario === "" || direccionEscenario === "" || telefonoEscenario === "" || supervisorEscenario === "" || celularEscenario === "") {
+                            alert("Todos los campos son obligatorios");
+                            return false;
+                        }
+
+                        var archivoInput = document.getElementById("imagenEdit");
+                        var archivo = archivoInput.files[0];
+                        if (archivo && !(/\.(jpg|jpeg|png|gif)$/i).test(archivo.name)) {
+                            alert("Formato de imagen no válido");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
             </div>
         </div>
         <script>

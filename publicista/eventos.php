@@ -48,11 +48,11 @@ try {
                         <form id="formEvento" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="300"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="deporte_id" class="form-label">Deporte</label>

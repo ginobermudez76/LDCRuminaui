@@ -4,7 +4,7 @@ include '../includes/config.php'; // Reemplaza 'conexion.php' con la ruta correc
 
 // Verifica si se ha enviado el parámetro deporte_id
 if (isset($_GET['deporte_id'])) {
-    // Sanitiza el valor del parámetro para evitar inyección SQLwarning: Trying to access array offset on value of type bool in C:\xampp\htdocs\Ayudantias\public\obtener_imagenes.php on line 42Descripci%C3%B3n:
+    // Sanitiza el valor del parámetro para evitar inyección SQL
     $deporte_id = htmlspecialchars($_GET['deporte_id']);
 
     $stmtDescripcion = $conn->prepare("SELECT * FROM deportes WHERE id = :deporte_id");
@@ -22,8 +22,7 @@ if (isset($_GET['deporte_id'])) {
     if ($imagenesGaleria) {
 ?>
         <div class="row">
-
-            <div id="carouselDeporte" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselgaleriaDeportes" class="carousel slide galeria" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php
                     // Iterar sobre las imágenes de la galería
@@ -41,17 +40,16 @@ if (isset($_GET['deporte_id'])) {
                     }
                     ?>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselgaleriaDeportes" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Anterior</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselgaleriaDeportes" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Siguiente</span>
                 </button>
             </div>
         </div>
-
 <?php
     } else {
         // Si no hay imágenes, muestra un mensaje de error o maneja la situación de otra manera

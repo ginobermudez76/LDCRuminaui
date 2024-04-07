@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
     echo "<script>window.location.href='../admin/login.php';</script>";
@@ -41,28 +42,28 @@ try {
         <form id="formEscenarioEdit" action="editarEscenario.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Escenario</label>
-                <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($escenario['nombre']); ?>">
+                <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($escenario['nombre']); ?>" maxlength="100">
             </div>
             <div class="mb-3">
                 <label for="ubicacion" class="form-label">Ubicación</label>
-                <textarea class="form-control" id="ubicacionEdit" name="ubicacionEdit" rows="3"><?php echo htmlspecialchars($escenario['ubicacion']); ?></textarea>
+                <textarea class="form-control" id="ubicacionEdit" name="ubicacionEdit" rows="3" required maxlength="5000"><?php echo htmlspecialchars($escenario['ubicacion']); ?></textarea>
             </div>
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccionEdit" name="direccionEdit" required value="<?php echo htmlspecialchars($escenario['direccion']); ?>">
+                <input type="text" class="form-control" id="direccionEdit" name="direccionEdit" required value="<?php echo htmlspecialchars($escenario['direccion']); ?>" maxlength="500">
 
             </div>
             <div class="mb-3">
                 <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="telefonoEdit" name="telefonoEdit" required value="<?php echo htmlspecialchars($escenario['telefono']); ?>">
+                <input type="text" class="form-control" id="telefonoEdit" name="telefonoEdit" required value="<?php echo htmlspecialchars($escenario['telefono']); ?>" maxlength="10">
             </div>
             <div class="mb-3">
                 <label for="supervisor" class="form-label">Supervisor</label>
-                <input type="text" class="form-control" id="supervisorEdit" name="supervisorEdit" required value="<?php echo htmlspecialchars($escenario['supervisor']); ?>">
+                <input type="text" class="form-control" id="supervisorEdit" name="supervisorEdit" required value="<?php echo htmlspecialchars($escenario['supervisor']); ?>" maxlength="250">
             </div>
             <div class="mb-3">
                 <label for="celular" class="form-label">Celular del supervisor</label>
-                <input type="text" class="form-control" id="celularEdit" name="celularEdit" required value="<?php echo htmlspecialchars($escenario['celular']); ?>">
+                <input type="text" class="form-control" id="celularEdit" name="celularEdit" required value="<?php echo htmlspecialchars($escenario['celular']); ?>" maxlength="10">
             </div>
             <div class="mb-3">
                 <label for="imagen" class="form-label">Imagen</label><br>
@@ -80,32 +81,7 @@ try {
             <input type="hidden" id="idEscenarioEdit" name="idEscenarioEdit" value="<?php echo $idEscenario; ?>">
             <button type="submit" class="btn btn-primary" id="btnEnviarEdit">Editar escenario</button>
         </form>
-
-        <script>
-            function validarCamposEdit() {
-                var nombreEscenario = document.getElementById("nombreEdit").value;
-                var ubicacionEscenario = document.getElementById("ubicacionEdit").value;
-                var direccionEscenario = document.getElementById("direccionEdit").value;
-                var telefonoEscenario = document.getElementById("telefonoEdit").value;
-                var supervisorEscenario = document.getElementById("supervisorEdit").value;
-                var celularEscenario = document.getElementById("celularEdit").value;
-
-                if (nombreEscenario === "" || ubicacionEscenario === "" || direccionEscenario === "" || telefonoEscenario === "" || supervisorEscenario === "" || celularEscenario === "") {
-                    alert("Todos los campos son obligatorios");
-                    return false;
-                }
-
-                var archivoInput = document.getElementById("imagenEdit");
-                var archivo = archivoInput.files[0];
-                if (archivo && !(/\.(jpg|jpeg|png|gif)$/i).test(archivo.name)) {
-                    alert("Formato de imagen no válido");
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
-
+        <script src="../includes/validar.js"></script>
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

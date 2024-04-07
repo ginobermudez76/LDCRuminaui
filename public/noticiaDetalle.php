@@ -22,8 +22,6 @@ if (isset($_GET['id'])) {
         $fecha = $noticia['fecha'];
         $cuerpo = $noticia['cuerpo'];
         $imagen = $noticia['imagen'];
-
-
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
@@ -33,19 +31,44 @@ if (isset($_GET['id'])) {
 }
 ?>
 
-<div class="container mt-4" id="detalleProducto">
+<div class="container mt-4" id="detalleNoticia">
     <!-- Contenido del Producto -->
     <div class="row">
         <!-- Carrusel en la columna izquierda -->
         <div class="col-md-6">
 
-        <img src="../uploads/noticias/<?php echo htmlspecialchars(basename($imagen)); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($titulo); ?>">
+            <img src="../uploads/noticias/<?php echo htmlspecialchars(basename($imagen)); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($titulo); ?>">
 
         </div>
         <div class="col-md-6 detalles-producto">
-            <h2><?php echo htmlspecialchars($titulo); ?></h2>
-            <h><?php echo htmlspecialchars($fecha); ?></h>
-            <p><?php echo htmlspecialchars($cuerpo); ?></p>
+            <?php
+            if (empty($titulo)) {
+                echo 'No se ha insertado titulo';
+            } else {
+            ?>
+                <h2><?php echo htmlspecialchars($titulo); ?></h2>
+            <?php
+            }
+            ?>
+            <?php
+            if (empty($fecha)) {
+                echo 'No se ha insertado titulo';
+            } else {
+            ?>
+                <h><?php echo htmlspecialchars($fecha); ?></h>
+            <?php
+            }
+            ?> <?php
+                if (empty($cuerpo)) {
+                    echo 'No se ha insertado titulo';
+                } else {
+                ?>
+                <p><?php echo htmlspecialchars($cuerpo); ?></p>
+            <?php
+                }
+            ?>
+
+
         </div>
     </div>
 </div>

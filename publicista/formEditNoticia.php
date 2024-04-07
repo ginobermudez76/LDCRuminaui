@@ -35,7 +35,7 @@ try {
 <form id="formNoticiaEdit" action="editarNoticia.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
     <div class="mb-3">
         <label for="Titulo" class="form-label">Titulo</label>
-        <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($noticia['titulo']); ?>"></input>
+        <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($noticia['titulo']); ?>" required maxlength="100"></input>
     </div>
     <div class="mb-3">
         <label for="imagenEdit" class="form-label">imagen</label><br>
@@ -51,7 +51,7 @@ try {
     </div>
     <div class="mb-3">
                     <label for="cuerpo" class="form-label">Cuerpo de la noticia</label>
-                    <textarea class="form-control" id="cuerpoEdit" name="cuerpoEdit" rows="3" required><?php echo htmlspecialchars($noticia['cuerpo']); ?></textarea>
+                    <textarea class="form-control" id="cuerpoEdit" name="cuerpoEdit" rows="3" required maxlength="5000"><?php echo htmlspecialchars($noticia['cuerpo']); ?></textarea>
                 </div>
     <input type="hidden" id="idNoticiaEdit" name="idNoticia" value="<?php echo $idNoticia; ?>">
     <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>

@@ -1,23 +1,21 @@
 /*inicio deportistas*/
 .contenedor-deportistas {
+    position: relative;
     display: flex;
     justify-content: center; /*centra horizontal*/
     align-items: center; /*centra vertical*/
     width: 100%; /*ancho del di*/
-    gap: 10%; /*espacio entre items*/
-    height: 600px;
+    gap: 5%; /*espacio entre items*/
+    height: 66.66%;
+    top: -8%;
 }
 
 .medioDestacados{
-    max-width: 25%;
-    max-height: 15%;
+    max-width: 30%;
+    max-height: 40%;
 }
-
 .carrusel-destacados {
-    width: 25%;
-    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
-    padding: 2px; /* Espacio alrededor del carrusel */
-    height: 80%;
+width: 25%;
 }
 .carrusel-destacados img {
     width: 100%;
@@ -25,9 +23,10 @@
     object-fit: cover
 }
 .contenedor-deportistas .carousel-item{
-    height: 466px; /*altura de los items*/
-}
-
+    height: 447px;    
+    border: 5px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 2px; /* Espacio alrededor del carrusel */
+}  
 .overlayDeportistas {
     position: absolute;
     top: 0;
@@ -55,13 +54,13 @@
 
 /* estilos de los logros*/
 .titulo-containerl{
- 
     color: white;
     font-family: "Lobster", sans-serif;
     font-weight: 400;
     font-style: normal;
     height: 300px;
     width: 100%;
+
  }
  .title-logros{
     position: relative;
@@ -246,12 +245,51 @@ font-size: 20px;
     
     }
     .overlayN a {
-        color: white !important;
+        color: rgb(255, 255, 255) !important;
         text-decoration: none !important;
     }
     .card:hover .overlayN {
         display: flex !important;
     }
 /*fin estilos de noticias*/
+
+.titulo-containerdd .vertical{
+    position: relative;
+    left: 90%;
+    top: -6%;
+    width: 5px;
+    height: 23%;
+    background-color: #0fc3c6;
+}
+ .title-deportistas{
+    position: relative;
+    top:20%;
+    font-size: auto;
+    right: 20%;
+ }
+ .titulo-containerdd{
+    color: white;
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    height: 900px;
+    width: 100%;
+ }
+.titulo-containerdd .horizontal{
+    position: relative;
+    top: 17%;
+    left: 46.8%;
+    width: 43.45%;
+    height: 5px; 
+    background-color: #0fc3c6;
+}
+.titulo-containerdd .horizontal2{
+    position: relative;
+    width: 9.4%;
+    top: -29%;
+    height: 5px; 
+    background-color: #0fc3c6;
+    left: 90%;
+}
 
 

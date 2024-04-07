@@ -30,7 +30,7 @@ try {
         }
 
         // Eliminar carpeta y su contenido
-        $carpetaEvento = "C:/xampp/htdocs/uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
+        $carpetaEvento = "../uploads/eventos/" . $evento['nombre'] . "_" . $evento['id'];
         if (file_exists($carpetaEvento) && is_dir($carpetaEvento)) {
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($carpetaEvento, RecursiveDirectoryIterator::SKIP_DOTS),

@@ -95,18 +95,20 @@ try {
     <!-- DEPORTISTAS DESTACADOS -->
     <div class="titulo-containerdd">
         <h1 class="title-deportistas">Deportistas destacados</h1>
-        <div class="vertical"></div>
         <div class="horizontal"></div>
+        <div class="vertical"></div>
+        
         <div class="horizontal2"></div>  
-        <div class="contenedor-deportistas">
+            <div class="contenedor-deportistas">
         <!-- Carrusel izquierdo -->
         <?php include '../public/deportistas1.php'; ?>
         <!-- Espacio vacío entre carruseles -->
-        <img src="../img/logo.png" alt="Imagen del medio" class="medioDestacados">
+        <img src="../img/logoX_LDCR.png" alt="Imagen del medio" class="medioDestacados">
         <!-- Carrusel derecho -->
         <?php include '../public/deportistas2.php'; ?>
     </div>
     </div>
+
 
 
     <!-- -->
@@ -133,7 +135,11 @@ try {
         <div class="horizontal"></div>
     </div>
     <div class="escuelas">
-
+<?php
+if(empty($deportes)){
+    echo '<p>No se han agregado las escuelas deportivas</p>';
+}else{
+?>
         <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php
@@ -180,23 +186,9 @@ try {
                 <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
-    </div>
-
-
-
-    <div class="modal mdDeporte" id="modalDeportes">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-body">
-                    <div id="carousel" class="carousel"></div>
-                    <!-- Corregir la clase del contenedor de la superposición -->
-                    <div class="overlay2">
-                        <div class="col-md-6" id="descripcionDeporte"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<?php
+}
+?>     
     </div>
 
     <div class="modal mdCondolencia" id="modalCondolencias">
@@ -267,46 +259,6 @@ try {
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Cuando se hace clic en el nombre de deporte
-        $(".deporte-nombre").click(function() {
-            var deporte_id = $(this).data("deporte-id");
-            // Hacer una petición AJAX para obtener las imágenes del carrusel
-            $.ajax({
-                url: "obtener_imagenes.php",
-                method: "GET",
-                data: {
-                    deporte_id: deporte_id
-                },
-                success: function(response) {
-                    // Agregar las imágenes al carrusel
-                    $("#carousel").html(response);
-                    // Mostrar el modal
-                    $("#modalDeportes").css("display", "block");
-                }
-            });
-
-            // Hacer una petición AJAX para obtener la descripción del deporte
-            $.ajax({
-                url: "obtener_descripcion_deporte.php",
-                method: "GET",
-                data: {
-                    deporte_id: deporte_id
-                },
-                success: function(response) {
-                    // Agregar la descripción del deporte
-                    $("#descripcionDeporte").html(response);
-                }
-            });
-        });
-
-        // Cuando se hace clic en el botón de cerrar del modal
-        $(".close").click(function() {
-            $("#modalDeportes").css("display", "none");
-        });
-    });
-</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         <?php if (!empty($condolencias)) : ?>

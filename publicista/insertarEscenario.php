@@ -32,7 +32,23 @@ try {
             if (trim($nombre) == '') {
                 $response['success'] = false;
                 $response['message'] = "El nombre no puede estar vacío.";
-            } else {
+            }elseif(trim($ubicacion) == ''){
+                $response['success'] = false;
+                $response['message'] = "El escenario debe tener un enlace de ubicación";
+            }elseif(trim($direccion) == ''){
+                $response['success'] = false;
+                $response['message'] = "El escenario debe tener la dirección";
+            }elseif(trim($telefono) == ''){
+                $response['success'] = false;
+                $response['message'] = "Debe proporcionar un numero de contacto";
+            }elseif(trim($supervisor) == ''){
+                $response['success'] = false;
+                $response['message'] = "Debe asignar un encargado para este escenario";
+            }elseif(trim($celular) == ''){
+                $response['success'] = false;
+                $response['message'] = "Debe proporcionar el numero de contacto del servidor";
+            } 
+            else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
 
@@ -61,10 +77,12 @@ try {
                     } else {
                         $response['success'] = false;
                         $response['message'] = "Hubo un error al cargar la imagen.";
+                        $archivoImagen = "";
                     }
                 } else {
                     $response['success'] = false;
                     $response['message'] = "El archivo no es una imagen.";
+                    $archivoImagen = "";
                 }
             } else {
                 // manejo en el caso de que la imagen no se cargue una imagen

@@ -47,11 +47,11 @@ try {
             <form id="formDeporte" method="post" enctype="multipart/form-data" onsubmit="return validarCamposDeporte()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid>
+                    <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="100">
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="300"></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen</label>

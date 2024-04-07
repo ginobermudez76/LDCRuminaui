@@ -32,43 +32,44 @@ try {
 ?>
         <div class="container mt-4">
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Documento</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($documentos as $documento) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($documento['id']); ?></td>
-                                <td>
-                                    <?php if (isset($documento['documento']) && $documento['documento']) : ?>
-                                        <a href="<?php echo htmlspecialchars($documento['documento']); ?>" target="_blank">Ver documento</a>
-                                    <?php else : ?>
-                                        <p1>No hay documento</p1>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo htmlspecialchars($documento['nombre']); ?></td>
-                                <td>
-                                    <?php if (!empty($documento['descripcion'])) : ?>
-                                        <?php echo htmlspecialchars($documento['descripcion']); ?>
-                                    <?php else : ?>
-                                        <p>Sin descripción</p>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $documento['id']; ?>)">Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $documento['id']; ?>)">Eliminar</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($documentos as $documento) : ?>
+            <tr>
+                <td><?php echo htmlspecialchars($documento['id']); ?></td>
+                <td>
+                    <?php if (isset($documento['documento']) && $documento['documento']) : ?>
+                        <a href="<?php echo htmlspecialchars($documento['documento']); ?>" target="_blank">Ver documento</a>
+                    <?php else : ?>
+                        <p>No hay documento</p>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo empty($documento['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($documento['nombre']); ?></td>
+                <td>
+                    <?php if (empty($documento['descripcion'])) : ?>
+                        <p>No hay descripción</p>
+                    <?php else : ?>
+                        <?php echo htmlspecialchars($documento['descripcion']); ?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $documento['id']; ?>)">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $documento['id']; ?>)">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
             </div>
         </div>
 

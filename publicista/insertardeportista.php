@@ -28,6 +28,7 @@ try {
             } elseif (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] != 0) {
                 $response['success'] = false;
                 $response['message'] = "La imagen es obligatoria.";
+                
             } elseif (empty($depor)) {
                 $response['success'] = false;
                 $response['message'] = "El deporte es obligatorio.";
@@ -39,6 +40,8 @@ try {
                 $check = getimagesize($_FILES["imagen"]["tmp_name"]);
 
                 if ($check != false) {
+                    // Es una imagen, continuar con el proceso
+
                     // Verificar si el archivo ya existe y renombrarlo si es necesario
                     $contador = 1;
                     $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
@@ -58,10 +61,12 @@ try {
                     } else {
                         $response['success'] = false;
                         $response['message'] = "Hubo un error al cargar la imagen.";
+                        $archivoImagen="";
                     }
                 } else {
                     $response['success'] = false;
                     $response['message'] = "El archivo no es una imagen.";
+                    $archivoImagen="";                
                 }
 
                 //insertar en la base de datos (con o sin imagen)

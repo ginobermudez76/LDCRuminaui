@@ -26,37 +26,38 @@ try {
 ?>
         <div class="container mt-5">
             <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Deporte</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($deportistas as $deportista) : ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($deportista['id']); ?></td>
-                                <td>
-                                    <?php if (isset($deportista['imagen']) && $deportista['imagen']) : ?>
-                                        <img src="<?php echo htmlspecialchars($deportista['imagen']); ?>" alt="<?php echo htmlspecialchars($deportista['nombre']); ?>" style="width: 100px; height: auto;">
-                                    <?php else : ?>
-                                        <p>Sin Imagen</p>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo htmlspecialchars($deportista['nombre']); ?></td>
-                                <td><?php echo htmlspecialchars($deportista['deporte']); ?></td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deportista['id']; ?>)">Editar</button>
-                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deportista['id']; ?>)">Eliminar</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Deporte</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($deportistas as $deportista) : ?>
+            <tr>
+                <td><?php echo htmlspecialchars($deportista['id']); ?></td>
+                <td>
+                    <?php if (isset($deportista['imagen']) && $deportista['imagen']) : ?>
+                        <img src="<?php echo htmlspecialchars($deportista['imagen']); ?>" alt="<?php echo htmlspecialchars($deportista['nombre']); ?>" style="width: 100px; height: auto;">
+                    <?php else : ?>
+                        <p>Sin Imagen</p>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo empty($deportista['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($deportista['nombre']); ?></td>
+                <td><?php echo empty($deportista['deporte']) ? 'No se proporcionó deporte' : htmlspecialchars($deportista['deporte']); ?></td>
+                <td>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $deportista['id']; ?>)">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $deportista['id']; ?>)">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
             </div>
         </div>
         <div id="modalEditDeportitas" class="modal edit">
