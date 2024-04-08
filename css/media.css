@@ -2,6 +2,10 @@
 /*deportes*/
 .imagenes-deportes img{
     height: 149px;
+    width: 100%;
+}
+.overlayDeportes {
+    width: 30%;
 }
 .overlayDeportes .overlay-content {
     height: 149px !important;
@@ -91,6 +95,9 @@
     width: 0;
 
 }
+.carrusel-deportes .carousel-inner .row{
+width: 100%;
+  }
 /*titulo principal*/
  .title-escuela{
     font-size: 25px;

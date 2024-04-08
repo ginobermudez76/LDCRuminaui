@@ -63,11 +63,21 @@
         padding: 0px;
         flex-wrap: wrap;
         justify-content: center;
+        align-items: center;
       }
-
+      .carrusel-deportes .carousel-inner .row{
+        justify-content: center;
+        display: flex;
+        align-items: center;
+      }
     .carrusel-deportes .carousel-inner{
         width: 100%;
+
+    }
+    .carrusel-deportes .carousel-item{
+        display: flex;
         justify-content: center;
+        align-items: center;
     }
     .overlayDeportes {
         position: relative;

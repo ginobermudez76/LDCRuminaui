@@ -148,7 +148,7 @@ try {
                     foreach ($grupos as $grupo_index => $grupo) {
                     ?>
                         <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
-                            <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
+                            <div class="row"> <!-- Alinea las columnas al centro -->
                                 <?php
                                 // Calcular el tamaño de las columnas
                                 $column_width = 12 / count($grupo);
@@ -226,35 +226,6 @@ try {
             </div>
         </div>
     </div>
-
-
-
-    <div class="titulo-containerc">
-        <h1 class="title-curso">Cursos vacacionales</h1>
-        <div class="horizontal"></div>
-        <div class="vertical"></div>
-    </div>
-    <div class="contenedor-imagenes">
-        <?php foreach ($eventos as $index => $evento) : ?>
-            <div class="container1">
-                <img onclick="toggleTexto(<?php echo $index; ?>)" class="imagen1" src="<?php echo $evento['imagen']; ?>" alt="<?php echo $evento['descripcion']; ?>">
-                <div class="texto-desplegable" id="texto-desplegable-<?php echo $index; ?>">
-                    <p><?php echo htmlspecialchars($evento['nombre_evento']); ?></p>
-                    <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
-                    <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                    <p><?php echo htmlspecialchars($evento['estado']); ?></p>
-                    <p><?php echo htmlspecialchars($evento['descripcion']); ?></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</div>
-
-
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
