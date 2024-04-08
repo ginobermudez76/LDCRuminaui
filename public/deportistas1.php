@@ -19,7 +19,7 @@ try {
                 <div class="carousel-item <?= ($index === 0 ? 'active' : '') ?>">
                     <img class="d-block w-100" src="<?= $deportistaImpar['imagen'] ?>" alt="<?= $deportistaImpar['nombre_deportista'] ?>">
                     <div class="overlayDeportistas">
-                        <div class="carousel-caption d-none d-md-block">
+                        <div class="carousel-caption">
                             <h5><?= $deportistaImpar['nombre_deportista'] ?></h5>
                         </div>
                     </div>

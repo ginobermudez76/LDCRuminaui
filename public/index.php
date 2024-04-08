@@ -81,12 +81,12 @@ try {
         <h1 class="title-logros">Logros</h1>
         <div class="horizontal2"></div>
         <div class="horizontal"></div>
-        <div class="vertical"></div>  
-            <div class="contenedor-logros">
+        <div class="vertical"></div>
+
+    </div>
+    <div class="contenedor-logros">
         <?php include '../public/logros.php'; ?>
     </div>
-    </div>
-
 
 
 
@@ -97,9 +97,9 @@ try {
         <h1 class="title-deportistas">Deportistas destacados</h1>
         <div class="horizontal"></div>
         <div class="vertical"></div>
-        
-        <div class="horizontal2"></div>  
-            <div class="contenedor-deportistas">
+        <div class="horizontal2"></div>
+    </div>
+    <div class="contenedor-deportistas">
         <!-- Carrusel izquierdo -->
         <?php include '../public/deportistas1.php'; ?>
         <!-- Espacio vacío entre carruseles -->
@@ -107,8 +107,6 @@ try {
         <!-- Carrusel derecho -->
         <?php include '../public/deportistas2.php'; ?>
     </div>
-    </div>
-
 
 
     <!-- -->
@@ -135,60 +133,60 @@ try {
         <div class="horizontal"></div>
     </div>
     <div class="escuelas">
-<?php
-if(empty($deportes)){
-    echo '<h1>No se han agregado las escuelas deportivas</h1>';
-}else{
-?>
-        <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                // Dividir el array $deportes en grupos de tres
-                $grupos = array_chunk($deportes, 4);
+        <?php
+        if (empty($deportes)) {
+            echo '<h1>No se han agregado las escuelas deportivas</h1>';
+        } else {
+        ?>
+            <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php
+                    // Dividir el array $deportes en grupos de tres
+                    $grupos = array_chunk($deportes, 4);
 
-                // Iterar sobre los grupos de imágenes
-                foreach ($grupos as $grupo_index => $grupo) {
-                ?>
-                    <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
-                        <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
-                            <?php
-                            // Calcular el tamaño de las columnas
-                            $column_width = 12 / count($grupo);
+                    // Iterar sobre los grupos de imágenes
+                    foreach ($grupos as $grupo_index => $grupo) {
+                    ?>
+                        <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
+                            <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
+                                <?php
+                                // Calcular el tamaño de las columnas
+                                $column_width = 12 / count($grupo);
 
-                            // Iterar sobre las imágenes dentro de cada grupo
-                            foreach ($grupo as $deporte) {
-                                $rutaImagen = $deporte['imagen'];
-                                $titulo = $deporte['nombre'];
-                            ?>
-                                <div class="col-<?php echo $column_width; ?> overlayDeportes">
-                                    <div class="imagenes-deportes">
-                                        <img src="<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen del deporte">
-                                        <div class="overlay-content">
-                                            <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
+                                // Iterar sobre las imágenes dentro de cada grupo
+                                foreach ($grupo as $deporte) {
+                                    $rutaImagen = $deporte['imagen'];
+                                    $titulo = $deporte['nombre'];
+                                ?>
+                                    <div class="col-<?php echo $column_width; ?> overlayDeportes">
+                                        <div class="imagenes-deportes">
+                                            <img src="<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen del deporte">
+                                            <div class="overlay-content">
+                                                <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
-                    </div>
-                <?php
-                }
-                ?>
+                    <?php
+                    }
+                    ?>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
-<?php
-}
-?>     
+        <?php
+        }
+        ?>
     </div>
 
     <div class="modal mdCondolencia" id="modalCondolencias">

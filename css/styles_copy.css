@@ -2,14 +2,14 @@
 .titulo-containerdd .vertical{
     position: relative;
     left: 90%;
-    top: -6%;
     width: 5px;
-    height: 23%;
+    height: 68%;
+    bottom: 18%;
     background-color: #0fc3c6;
 }
  .title-deportistas{
     position: relative;
-    top:20%;
+    top: 60%;
     font-size: 40px;
     right: 20%;
  }
@@ -18,12 +18,12 @@
     font-family: "Lobster", sans-serif;
     font-weight: 400;
     font-style: normal;
-    height: 900px;
+    height: 300px;
     width: 100%;
  }
 .titulo-containerdd .horizontal{
     position: relative;
-    top: 17%;
+    top: 50%;
     left: 46.8%;
     width: 43.45%;
     height: 5px; 
@@ -32,7 +32,7 @@
 .titulo-containerdd .horizontal2{
     position: relative;
     width: 9.4%;
-    top: -29%;
+    bottom: 87%;
     height: 5px; 
     background-color: #0fc3c6;
     left: 90%;
@@ -100,6 +100,12 @@ width: 25%;
     width: 100%;
 
  }
+ .grupo-logros img{
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
  .title-logros{
     position: relative;
     top:40%;
@@ -155,9 +161,12 @@ width: 25%;
     width: 25%;
     height: 120px;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.image-container {
+.contenedor-infoLogros .image-container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -166,7 +175,9 @@ width: 25%;
 .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .logro-txt {
