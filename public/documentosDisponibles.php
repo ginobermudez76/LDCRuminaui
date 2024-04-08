@@ -9,6 +9,9 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+if(empty($documentos)){
+echo '<h2>No hay formatos de documentos disponibles por ahora</h2>';
+}else{
 ?>
 <div class="container mt-4 documentos">
     <h2 class="descarga-documentos">Descarga de formatos de documentos</h2>
@@ -33,5 +36,6 @@ try {
     </div>
 </div>
 <?php
+}
 include '../includes/footer.php';
 ?>

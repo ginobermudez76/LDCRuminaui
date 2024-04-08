@@ -45,14 +45,14 @@ try {
                         <a class="nav-link active" aria-current="page" href="../public/escuelas.php">Escuelas permanentes</a>
                         <a class="nav-link active" aria-current="page" href="../public/escenariosDeportivos.php">Escenarios deportivos</a>
                         <a class="nav-link active" aria-current="page" href="../public/documentosDisponibles.php">Descarga de documentos</a>
-                        <a class="nav-link active" aria-current="page" href="#">Cursos vacacionales</a>
+                        <a class="nav-link active" aria-current="page" href="../public/vacacionales.php">Cursos vacacionales</a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../public/noticias.php">Noticias</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Eventos</a>
+                    <a class="nav-link" href="../public/contacto.php">Contacto</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto pattaya-regular">
@@ -98,7 +98,7 @@ try {
                                     Publicar
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link active" aria-current="page" href="../publicista/eventos.php">Eventos</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/eventos.php">Cursos vacacionales</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/deportes.php">Deportes</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/deportistas_destacados.php">Deportistas destacados</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/logros.php">Logros</a>

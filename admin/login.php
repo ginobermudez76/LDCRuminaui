@@ -3,16 +3,14 @@ include '../includes/config.php';
 include '../includes/header.php'; // Incluyendo la cabecera común
 ?>
 <div class="iniciar-sesion">
-    <div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-4">
-            <?php if (isset($_SESSION['error_login'])) { ?>
+    <div class="contenedor-sesion">
+            <?php if (isset($_SESSION['error_login'])) {?>
                 <div class="alert alert-danger">
                     <?php echo $_SESSION['error_login']; ?>
                 </div>
                 <?php unset($_SESSION['error_login']); ?>
             <?php } ?>            
-            <div class="card">
+            <div class="card custom-card">
                 <div class="card-header text-center">
                     <h3 class="gestionar">Iniciar Sesión</h3>
                 </div>
@@ -29,10 +27,9 @@ include '../includes/header.php'; // Incluyendo la cabecera común
                         <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                     </form>
                 </div>
-            </div>
 
         </div>
-    </div>
+
 </div>
 </div>
 

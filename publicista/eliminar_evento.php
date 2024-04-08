@@ -77,7 +77,7 @@ try {
                 $stmtDeleteEvento->bindParam(':id', $idEvento);
                 $stmtDeleteEvento->execute();
 
-                echo "Evento eliminado con éxito";
+                echo "Se eliminó el vacional";
             } catch (PDOException $e) {
                 echo "Error: " . $e->getMessage();
             }

@@ -5,7 +5,13 @@ include '../includes/config.php';
 $stmt = $conn->prepare("SELECT * FROM escenarios");
 $stmt->execute();
 $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if(empty($escenarios)){
+    echo '<h2>No se han agregado escenarios</h2>';
+}else{
+
+
 ?>
+
 <div class="escenarios">
     <div id="carouselEscenario" class="carousel slide carousel-escenarios" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -158,5 +164,6 @@ $escenarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <?php
+}
 include '../includes/footer.php';
 ?>

@@ -33,8 +33,8 @@ try {
         }
 ?>
         <div class="container mt-5 mr-5">
-            <h2 class="gestionar">Gestionar eventos</h2>
-            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEventoModal">Agregar evento +</button>
+            <h2 class="gestionar">Cursos vacionales</h2>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEventoModal">Agregar curso +</button>
         </div>
         <!-- Modal para agregar dporte -->
         <div class="modal fade" id="agregarEventoModal" tabindex="-1" aria-labelledby="agregarEventoModalLabel" aria-hidden="true">
@@ -118,7 +118,7 @@ try {
         </script>
         <script>
             function confirmarEliminacion(idEvento) {
-                var confirmacion = confirm("¿Está seguro que desea eliminar este evento?");
+                var confirmacion = confirm("¿Está seguro que desea eliminar este vacacional?");
 
                 if (confirmacion) {
                     // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_evento.php
@@ -162,7 +162,7 @@ try {
                 }
                 var nombreEvento = document.getElementById("nombre").value;
                 if (nombreEvento === "") {
-                    alert("El evento debe tener un nombre");
+                    alert("El curso debe tener un nombre");
                     return false;
                 }
 

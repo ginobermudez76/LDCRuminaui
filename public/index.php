@@ -137,7 +137,7 @@ try {
     <div class="escuelas">
 <?php
 if(empty($deportes)){
-    echo '<p>No se han agregado las escuelas deportivas</p>';
+    echo '<h1>No se han agregado las escuelas deportivas</h1>';
 }else{
 ?>
         <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">

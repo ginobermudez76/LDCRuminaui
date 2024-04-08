@@ -95,7 +95,7 @@ try {
 
                 // Redirigir después de agregar
                 $response['success'] = true;
-                $response['message'] = "El evento se inserto correctamente";
+                $response['message'] = "El curso se inserto correctamente";
             } catch (PDOException $e) {
                 $response['success'] = false;
                 $response['message'] = "Ocurrio un error: " . $e->getMessage();

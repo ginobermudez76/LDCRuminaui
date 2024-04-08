@@ -182,7 +182,32 @@ footer h3{
     font-size: 45px;
     text-align: center;
 }
-.iniciar-sesion{
-    margin: 0 0 0 0;
+.contenedor-sesion{
+    width: 90%;
+}
+/*vacacionales*/
+.info-vacacional {
+    width: 100%;
+}
+
+.imagen-boton {
+    width: 100%;
+    margin-top: 20px; /* Puedes ajustar este valor según sea necesario */
+}
+.container-vacacional h5{
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.container-vacacional p{
+    font-size: 14px;
+}
+.container-vacacional .imagen-boton img{
+    height: 300px;
+}
+h2{
+    font-size: 45px;
+}
+p{
+    font-size: 12px;
 }
 }

@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="contacto">
           <h3>Dirección</h3>
-          <p>Dirección: Espejo 133 y Eloy Alfaro, Sangolquí, Ecuador</p>
+          <p>Dirección: Espejo 176 y Eloy Alfaro, Sangolquí 171103, Ecuador</p>
           <div class="col-md-6">
             <h3>Contacto</h3>
             <a href="https://api.whatsapp.com/send?phone=593984529759">
@@ -29,8 +29,7 @@
         <div class="ubicacion">
           <h3>Ubicación</h3>
           <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d498.7190510276677!2d-78.44643170647767!3d-0.32933987342479176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d5bd1dfcbe7a45%3A0xff3a75ac0af44d8a!2sEspejo%20133%2C%20Sangolqu%C3%AD%20171103!5e0!3m2!1ses-419!2sec!4v1705713651967!5m2!1ses-419!2sec">
-            </iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3989.7525841707093!2d-78.44837492503538!3d-0.3288999996678666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMMKwMTknNDQuMCJTIDc4wrAyNic0NC45Ilc!5e0!3m2!1ses-419!2sec!4v1712551709959!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>
@@ -95,16 +94,16 @@
           Daniel Vizcaíno Chanataxi
         </p>
         <div class="info-desarrollador"">
-          <a href="https://api.whatsapp.com/send?phone=593978678671">
+          <a href="#">
             <img src="../img/whatsapp.png" alt="Facebook">
           </a>
-          <a href="https://www.facebook.com/gino.bermudez.902">
+          <a href="#">
             <img src="../img/facebook.png" alt="Facebook">
           </a>
-          <a href="https://www.linkedin.com/in/gino-berm%C3%BAdez-santos-985599227">
+          <a href="#">
             <img src="../img/linkedin.png" alt="Linkedin">
           </a>
-          <a href="https://github.com/ginobermudez76">
+          <a href="#">
             <img src="../img/github.png" alt="GitHub">
           </a>
         </div>
