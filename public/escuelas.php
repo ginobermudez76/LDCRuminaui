@@ -17,14 +17,11 @@ try {
 
 ?>
 
-<div id="overlay">
-    
-</div>
-
 <div class="contenedor-galeria">
     <div class="deportes container">
         <div class="deportes-descripcion">
             <h2>Escuelas disponibles de forma permanente</h2>
+            <div class="linea"></div>
             <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
         </div>
     </div>
@@ -38,7 +35,7 @@ try {
 
         // Iterar sobre cada grupo de imágenes
         foreach ($chunks as $grupo) {
-            echo '<div class="column">';
+            echo '<div class="column-grupo">';
             // Iterar sobre las imágenes en el grupo
             foreach ($grupo as $depor) {
                 echo '<div class="column">';

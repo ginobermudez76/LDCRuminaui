@@ -23,7 +23,7 @@ try {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 pattaya-regular">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Inicio</a>
+                    <a class="nav-link" href="../public/index.php">Inicio</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,0 +1,44 @@
+footer{
+    width: 100%;
+    height: auto;
+}
+.footer-container{
+ width: 90%;
+ position: relative;
+}
+
+.footer-container img{
+    width: 40px;
+    height: 40px;
+    margin-right: 5%; 
+}
+.footer-container .contacto{
+    padding-left: 12%;
+    color: #FFFFFF;
+}
+.footer-container .contacto p{
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.footer-container .ubicacion{
+    padding-left: 12%;
+}
+.desarrollador-container p{
+    color: #FFFFFF;
+    font-size: 20px;
+}
+.info-desarrollador{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 1%;
+}
+.gino, .daniel {
+    width: 50%;
+    float: left;
+  }
+.info-desarrollador img{
+    width: 30px;
+    height: 30px;
+}

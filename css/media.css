@@ -1,0 +1,188 @@
+@media (max-width: 720px){
+/*deportes*/
+.imagenes-deportes img{
+    height: 180px;
+}
+.overlayDeportes .overlay-content {
+    height: 180px !important;
+    font-size: 10px;
+}
+
+/*deportistas*/
+.overlayDeportistas h5{
+    font-size: 8px !important;
+}
+.contenedor-deportistas .carousel-item{
+    height: 149px;    
+    border: 2px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 1px; /* Espacio alrededor del carrusel */
+}
+.titulo-containerdd{
+    height: 300px;
+ } 
+ .title-deportistas{
+    top:22%;
+    font-size: 12px;
+ }
+ .titulo-containerdd .horizontal{
+    height: 2px; 
+}
+.titulo-containerdd .vertical{
+    width: 2px;
+}
+.titulo-containerdd .horizontal2{
+    height: 2px; 
+}
+/*logros*/
+.titulo-containerl{
+    height: 210px;
+ }
+ .contenedor-infoLogros {
+    height: 60px;
+
+}
+.logro-txt h5{
+    font-size: 10px;
+}
+.logro-txt p{
+    font-size: 6px;
+}
+.titulo-containerl .vertical{
+    width: 2px;
+    height: 45%;
+    top: 33.6%;
+}
+.titulo-containerl .horizontal{
+    height: 2px; 
+    top: 34%;
+}
+.titulo-containerl .horizontal2{
+    height: 2px; 
+}
+.title-logros{
+    font-size: 12px;
+    top: 42.5%;
+ }
+ /*ESCUELAS*/
+ .titulo-containere .horizontal{
+    margin: -15px 0 0 0;
+    height: 2px;
+
+}
+/*titulo principal*/
+ .title-escuela{
+    font-size: 12px;
+ }
+ .titulo-inicio {
+    margin-top: 15px;
+}
+.banner-inicio h5{
+    font-size: 10px;
+}
+/*seccion escuelas*/
+.deportes-descripcion h2{
+    font-size: 35px;
+}
+.deportes-descripcion p{
+    font-size: 15px;
+}
+ .deporte-nombre p{
+    font-size: 12px;
+}
+.contenedor-galeria .column-grupo{
+    flex: 100%;
+}
+.contenedor-galeria .card-img-top img{
+    margin-bottom: 20px;
+    height: 250px;
+  }
+  .overlay{
+    height: 250px;
+  }
+  /*seccion nosotros*/
+  .vision-info h5{
+    font-size: 15px;
+  }
+  .vision-info p{
+    font-size: 10px;
+  }
+  .mision-info h5{
+    font-size: 15px;
+  }
+  .mision-info p{
+    font-size: 10px;
+  }
+  .directorio-container .presidente img{
+    height: 40%;
+    width: 80%;
+    border: 2px;
+    padding: 2px;
+}
+.directorio-container .dirigencia img{
+    height: 35%;
+    width: 70%;
+    border: 2px;
+    padding: 2px;
+}
+.directorio-container .dirigencia h5{
+font-size: 15px;
+}
+.directorio-container .dirigencia p{
+font-size: 10px;
+}
+.directorio-container .presidente h5{
+    font-size: 15px;
+    }
+    .directorio-container .presidente p{
+    font-size: 10px;
+    }
+    /*footer*/
+.footer-container h3{
+    font-size: 18px;
+}
+.footer-container .contacto p{
+    font-size: 12px;
+}
+footer h3{
+    font-size: 18px;
+}
+.desarrollador-container p{
+    font-size: 12px;
+}
+/*navbar*/
+.nav-item .nav-link{
+    color: #FFFFFF !important;
+}
+.dropdown-toggle{
+    color: #FFFFFF !important;
+}
+.dropdown .active{
+    color: #000000 !important;
+}
+.navbar-collapse{
+    color: #FFFFFF !important;
+}
+.navbar-expand-lg .logo{
+    width: 70px;
+    height: 70px;
+}
+.navbar-toggler-icon{
+    background-color: #ffffff68 !important;
+}
+.login{
+    width: 100px;
+    height: 40px;
+}
+.icon{
+    width: 30px;
+    height: 15px;
+}
+/*documentos*/
+.descarga-documentos{
+    font-size: 45px;
+    text-align: center;
+}
+.iniciar-sesion{
+    margin: 0 0 0 0;
+}
+}

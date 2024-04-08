@@ -11,7 +11,7 @@ try {
 }
 ?>
 <div class="container mt-4 documentos">
-    <h2>Descarga de formatos de documentos</h2>
+    <h2 class="descarga-documentos">Descarga de formatos de documentos</h2>
     <div class="row">
         <?php foreach ($documentos as $documento) : ?>
             <div class="col-md-4 mb-4">

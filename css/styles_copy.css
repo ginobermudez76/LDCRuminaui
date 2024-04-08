@@ -1,4 +1,42 @@
 /*inicio deportistas*/
+.titulo-containerdd .vertical{
+    position: relative;
+    left: 90%;
+    top: -6%;
+    width: 5px;
+    height: 23%;
+    background-color: #0fc3c6;
+}
+ .title-deportistas{
+    position: relative;
+    top:20%;
+    font-size: 40px;
+    right: 20%;
+ }
+ .titulo-containerdd{
+    color: white;
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    height: 900px;
+    width: 100%;
+ }
+.titulo-containerdd .horizontal{
+    position: relative;
+    top: 17%;
+    left: 46.8%;
+    width: 43.45%;
+    height: 5px; 
+    background-color: #0fc3c6;
+}
+.titulo-containerdd .horizontal2{
+    position: relative;
+    width: 9.4%;
+    top: -29%;
+    height: 5px; 
+    background-color: #0fc3c6;
+    left: 90%;
+}
 .contenedor-deportistas {
     position: relative;
     display: flex;
@@ -253,43 +291,137 @@ font-size: 20px;
     }
 /*fin estilos de noticias*/
 
-.titulo-containerdd .vertical{
-    position: relative;
-    left: 90%;
-    top: -6%;
-    width: 5px;
-    height: 23%;
+
+
+.titulo-containere .horizontal{
+    width: 36%;
+    height: 5px;
+    margin: -30px 0 0 0;
     background-color: #0fc3c6;
 }
- .title-deportistas{
-    position: relative;
-    top:20%;
-    font-size: auto;
-    right: 20%;
- }
- .titulo-containerdd{
+
+
+ .titulo-containerc{
+    font-size: 40px;
+    padding: 50px 0 50px 0;
+    text-align: center;
     color: white;
     font-family: "Lobster", sans-serif;
     font-weight: 400;
     font-style: normal;
-    height: 900px;
-    width: 100%;
  }
-.titulo-containerdd .horizontal{
-    position: relative;
-    top: 17%;
-    left: 46.8%;
-    width: 43.45%;
-    height: 5px; 
+.titulo-containere{
+    font-size: 40px;
+    padding: 50px 0 50px 0;
+    text-align: center;
+    color: white;
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+ }
+/*nosotros*/
+
+.linea {
     background-color: #0fc3c6;
-}
-.titulo-containerdd .horizontal2{
-    position: relative;
-    width: 9.4%;
-    top: -29%;
-    height: 5px; 
-    background-color: #0fc3c6;
-    left: 90%;
+    width: 100%;
+    height: 5px;
 }
 
+.directorio-container {
+    color: rgb(255, 255, 255);
+    height: 1000px;
+    width: 100%;
+}
+
+.directorio-container .dirigencia img {
+    height: 30%;
+    width: 30%;
+    border: 5px;
+    padding: 5px;
+    background-color: #0fc3c6;
+}
+
+.dirigencia {
+    height: 50%;
+}
+.presidente{
+    height: 50%;
+}
+.directorio-container .presidente img{
+    height: 40%;
+    width: 40%;
+        border: 5px;
+    padding: 5px;
+    background-color: #0fc3c6;
+}
+.directorio-container .dirigencia h5{
+font-size: 25px;
+}
+.directorio-container .dirigencia p{
+font-size: 18px;
+}
+.directorio-container .presidente h5{
+    font-size: 25px;
+    }
+    .directorio-container .presidente p{
+    font-size: 18px;
+    }
+.nosotros-container {
+    text-align: center;
+    /* Alinea el texto en el centro */
+}
+
+.nosotros-container img {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+
+.historia-info,
+.mision-info,
+.vision-info {
+    width: 95%;
+    color: #FFF;
+    margin: 0 auto;
+    /* Centra horizontalmente */
+    text-align: left;
+    /* Restablece la alineación del texto a la izquierda */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+}
+
+.nosotros-container h5 {
+    font-size: 35px;
+}
+
+.nosotros-container p {
+    font-size: 25px;
+}
+
+/* Añade el estilo para el efecto de oscurecimiento */
+.imagen-oscura {
+    position: relative;
+}
+
+.imagen-oscura::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Cambia el valor alpha (0.5) para ajustar la opacidad */
+}
+
+.imagen-oscura img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+/*fin nosotros*/
+/**/
 
