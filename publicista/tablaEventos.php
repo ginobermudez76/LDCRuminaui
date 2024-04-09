@@ -23,7 +23,7 @@ try {
         // Mostrar el elemento del menú Administrar
         //logica para obtener la lista de eventos de la base de datos
         try {
-            $stmt = $conn->prepare("SELECT e.id, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.imagen, d.nombre AS nombre_deporte 
+            $stmt = $conn->prepare("SELECT e.id, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.inscripciones, e.imagen, d.nombre AS nombre_deporte 
                             FROM eventos e
                             INNER JOIN deportes d ON e.deporte_id = d.id");
             $stmt->execute();
@@ -33,34 +33,7 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-<style>
-    table{
-    box-shadow: 0px 0px 10px #1fcfe6;
-    width: 100%;
-    margin-bottom: 20px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 25px;
-    color: #000000;
-
-}
-thead{
-    background-color: #000000;
-    color: #ffffff; 
-    box-shadow: 0px 0px 10px #1fdfe6;
-
-}
-
-tr{
-    text-align: center;
-}
-
-tr:hover{
-    background-color: #72dae1;
-    color: #fff;
-    border-radius: 25px;
-}
-</style>
-<div class="container mt-4">
+        <div class="container mt-4">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -72,6 +45,7 @@ tr:hover{
                             <th>Deporte</th>
                             <th>Fecha de inicio</th>
                             <th>Fecha de finalización</th>
+                            <th>Inscripciones</th>
                             <th>Galeria de imagenes</th>
                             <th>Acciones</th>
                         </tr>
@@ -98,11 +72,18 @@ tr:hover{
                                 <td><?php echo htmlspecialchars($evento['fecha_inicio']); ?></td>
                                 <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>
                                 <td>
+                                    <?php if ($evento['inscripciones'] == 'Abiertas') { ?>
+                                        <button class="btn btn-secondary btn-sm" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Cerradas')">Abiertas</button>
+                                    <?php } else { ?>
+                                        <button class="btn btn-danger btn-sm" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Abiertas')">Cerradas</button>
+                                    <?php } ?>
+                                </td>
+                                <td>
                                     <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-secondary btn-sm">Agregar</a>
                                     <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Evento" class="btn btn-danger btn-sm">Borrar</a>
                                 </td>
                                 <td>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $evento['id']; ?>)">Editar</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $evento['id']; ?>)">Editar</button>
                                     <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $evento['id']; ?>)">Eliminar</button>
                                 </td>
                             </tr>
@@ -156,9 +137,10 @@ tr:hover{
             }
         </script>
         <script>
-                        function trim(str) {
-        return str.replace(/^\s+|\s+$/g, '');
-    }    
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            }
+
             function validarCamposEdit() {
 
                 // Validación de selección de tipo

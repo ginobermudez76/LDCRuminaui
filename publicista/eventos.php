@@ -116,6 +116,42 @@ try {
                 }
             }
         </script>
+<script>
+    function ConfirmarInscripcion(idEvento, estado) {
+        var enviarCambio = confirm("Haga click en aceptar para enviar el cambio");
+
+        if (enviarCambio) {
+            ActualizarInscripcion(idEvento, estado);
+        } else {
+            // No hacer nada
+        }
+    }
+
+    function ActualizarInscripcion(idEvento, estado) {
+        $.ajax({
+            type: "POST",
+            url: "inscripciones.php",
+            data: {
+                id: idEvento,
+                tipo: estado
+            },
+            success: function(response) {
+                // Manejar la respuesta, si es necesario
+                console.log(response);
+                alertify.success(response);
+                // Recargar la tabla después de 1.5 segundos
+                setTimeout(function() {
+                    $("#tablaEventos").load("tablaEventos.php")
+                }, 1500);
+            },
+            error: function(error) {
+                alertify.error(response);
+                // Manejar errores si es necesario
+                console.error(error);
+            }
+        });
+    }
+</script>
         <script>
             function confirmarEliminacion(idEvento) {
                 var confirmacion = confirm("¿Está seguro que desea eliminar este vacacional?");
@@ -141,7 +177,7 @@ try {
                         console.log(response);
                         alert(response);
                         // Puedes recargar la página o actualizar la lista de productos de alguna manera
-                        location.reload();
+                        $("#tablaEventos").load("tablaEventos.php")
                     },
                     error: function(error) {
                         alert(response);
@@ -271,14 +307,18 @@ try {
                 }
             });
         </script>
-                <script>
+        <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {
                 if (response.success) {
                     alertify.success(response.message);
-                    // Recargar la página después de 1.5 segundos
+                    // Recargar la tabla después de 1.5 segundos
                     setTimeout(function() {
-                        location.reload();
+                        $('#tablaEventos').load('tablaEventos.php', function() {
+                            // Recetear el formulario de evento
+                            $('#formEvento')[0].reset();
+                            // Cerrar el modal
+                        });
                     }, 1500);
                 } else {
                     alertify.error(response.message);
@@ -306,7 +346,6 @@ try {
                 });
             });
         </script>
-        
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";
