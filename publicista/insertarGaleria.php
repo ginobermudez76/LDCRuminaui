@@ -39,6 +39,8 @@ try {
                 $carpetaImagenes = "../uploads/eventos/" . $nombre . "_" . $id;
             } elseif ($tipo == "Deporte") {
                 $carpetaImagenes = "../uploads/deportes/" . $nombre . "_" . $id;
+            } elseif ($tipo == "Curso") {
+                $carpetaImagenes = "../uploads/cursos/" . $nombre . "_" . $id;
             }
 
             if (!file_exists($carpetaImagenes)) {
@@ -90,9 +92,11 @@ try {
 
                 // Redirigir después de agregar
                 if ($tipo == "Evento") {
-                    header("Location: eventos.php");
+                    echo "<script>window.location.href='../publicista/eventos.php';</script>";
                 } elseif ($tipo == "Deporte") {
-                    header("Location: deportes.php");
+                    echo "<script>window.location.href='../publicista/deportes.php';</script>";
+                }elseif ($tipo == "Curso") {
+                    echo "<script>window.location.href='../publicista/cursos.php';</script>";
                 }
 
                 exit();

@@ -103,7 +103,7 @@ function eliminarArchivoAntiguo($idEscenario, $directorioDestino)
 
     $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 }
@@ -121,7 +121,7 @@ function eliminarImagenYActualizarBD($idEscenario, $nombre, $ubicacion, $direcci
 
     $rutaArchivoEliminar = "../uploads/escenarios/" . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 

@@ -148,7 +148,7 @@ try {
                     foreach ($grupos as $grupo_index => $grupo) {
                     ?>
                         <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
-                            <div class="row"> <!-- Alinea las columnas al centro -->
+                            <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
                                 <?php
                                 // Calcular el tamaño de las columnas
                                 $column_width = 12 / count($grupo);

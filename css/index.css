@@ -1,13 +1,11 @@
 .container {
     position: relative;
 }
-
 .inicio-img {
     display: block; /* Esto asegura que la imagen ocupe todo el espacio del contenedor */
     width: 100%; /* Ancho máximo */
     transform: scaleX(-1);
 }
-
 .banner-inicio {
     position: absolute;
     top: 10%;
@@ -16,68 +14,48 @@
     text-align: left; /* Alinea el texto a la izquierda */
     width: 100%; /* Ancho del contenedor */
 }
-
 .banner-inicio h5{
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
-
 .titulo-inicio {
     width: 100%; /* Ancho del contenedor */
     max-width: 500px; /* Ancho máximo del texto */
     margin: 0 auto; /* Centra horizontalmente el texto */
     margin-top: 80px;
 }
-
 .titulo-inicio path{
     fill: white;
 }
-
 .titulo-inicio path:hover{
     fill: aquamarine;
 }
-
-
     /*.imagenes-deportes {
         display: flex;
         flex-direction: row;
         justify-content: center !important;
         align-items: center  !important;
     }
-
     .imagenes-deportes img{
         width: 20% !important;
         height: 480px !important;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%) !important;
     }*/
 /* SECCION DEPORTES*/
-
     .imagenes-deportes img{
         width: 100% ;
         height: 480px;
         clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%);
-
     }
-
     .carrusel-deportes {
         display: flex;
         padding: 0px;
         flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
       }
-      .carrusel-deportes .carousel-inner .row{
-        justify-content: center;
-        display: flex;
-        align-items: center;
-      }
+
     .carrusel-deportes .carousel-inner{
         width: 100%;
-
-    }
-    .carrusel-deportes .carousel-item{
-        display: flex;
         justify-content: center;
-        align-items: center;
     }
     .overlayDeportes {
         position: relative;
@@ -102,6 +80,7 @@
     .overlayDeportes:hover .overlay-content {
         opacity: 1;
     }
+
     
     .overlay-text {
         position: absolute;

@@ -97,7 +97,7 @@ function eliminarArchivoAntiguo($idDocumento, $directorioDestino)
 
     $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 }
@@ -113,7 +113,7 @@ function eliminarArchivoYActualizarBD($idDocumento, $nombre, $descripcion)
 
     $rutaArchivoEliminar = "../uploads/documentos/" . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 

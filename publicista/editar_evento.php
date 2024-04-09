@@ -101,10 +101,11 @@ function eliminarArchivoAntiguo($idEvento, $directorioDestino)
 
     $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 }
+
 
 function eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
 {
@@ -117,7 +118,7 @@ function eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_i
 
     $rutaArchivoEliminar = "../uploads/eventos/" . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 

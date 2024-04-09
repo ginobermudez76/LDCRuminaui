@@ -94,7 +94,7 @@ function eliminarArchivoAntiguo($idCarta, $directorioDestino) {
 
     $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 }
@@ -109,7 +109,7 @@ function eliminarArchivoYActualizarBD($idCarta, $mensaje) {
 
     $rutaArchivoEliminar = "../uploads/cartaCondolencia/" . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 

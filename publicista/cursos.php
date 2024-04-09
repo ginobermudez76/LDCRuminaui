@@ -33,15 +33,15 @@ try {
         }
 ?>
         <div class="container mt-5 mr-5">
-            <h2 class="gestionar">Eventos</h2>
-            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEventoModal">Agregar evento +</button>
+            <h2 class="gestionar">Cursos vacionales</h2>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEventoModal">Agregar curso +</button>
         </div>
         <!-- Modal para agregar dporte -->
         <div class="modal fade" id="agregarEventoModal" tabindex="-1" aria-labelledby="agregarEventoModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="agregarEventoModalLabel">Agregar evento</h5>
+                        <h5 class="modal-title" id="agregarEventoModalLabel">Agregar curso</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -84,11 +84,11 @@ try {
             </div>
         </div>
         <div class="container">
-            <div class="row" id="tablaEventos">
+            <div class="row" id="tablaCursos">
             </div>
         </div>
         <script>
-            $("#tablaEventos").load("tablaEventos.php");
+            $("#tablaCursos").load("tablaCursos.php");
             $(document).ready(function() {
 
             });
@@ -130,7 +130,7 @@ try {
     function ActualizarInscripcion(idEvento, estado) {
         $.ajax({
             type: "POST",
-            url: "inscripciones.php",
+            url: "inscripcionesCurso.php",
             data: {
                 id: idEvento,
                 tipo: estado
@@ -141,7 +141,7 @@ try {
                 alertify.success(response);
                 // Recargar la tabla después de 1.5 segundos
                 setTimeout(function() {
-                    $("#tablaEventos").load("tablaEventos.php")
+                    $("#tablaCursos").load("tablaCursos.php")
                 }, 1500);
             },
             error: function(error) {
@@ -168,7 +168,7 @@ try {
                 // Utiliza jQuery para enviar una solicitud AJAX a eliminar_evento.php
                 $.ajax({
                     type: "POST",
-                    url: "eliminar_evento.php",
+                    url: "eliminarCurso.php",
                     data: {
                         id: idEvento
                     },
@@ -177,7 +177,7 @@ try {
                         console.log(response);
                         alert(response);
                         // Puedes recargar la página o actualizar la lista de productos de alguna manera
-                        $("#tablaEventos").load("tablaEventos.php")
+                        $("#tablaCursos").load("tablaCursos.php")
                     },
                     error: function(error) {
                         alert(response);
@@ -316,7 +316,7 @@ try {
                     $('#formEvento')[0].reset();
                     // Recargar la tabla después de 1.5 segundos
                     setTimeout(function() {
-                        $('#tablaEventos').load('tablaEventos.php', function() {
+                        $('#tablaCursos').load('tablaCursos.php', function() {
                                                       
                         });
                     }, 1500);
@@ -331,7 +331,7 @@ try {
                     event.preventDefault(); // Evitar el envío del formulario por defecto
                     var formData = new FormData($(this)[0]); // Obtener los datos del formulario
                     $.ajax({
-                        url: 'insertarEvento.php',
+                        url: 'insertarCurso.php',
                         type: 'POST',
                         data: formData,
                         async: false,

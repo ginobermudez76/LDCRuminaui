@@ -7,6 +7,7 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
+
 try {
     // Consultar el rol del usuario en la base de datos
     $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
@@ -17,16 +18,19 @@ try {
 
     // Verificar si el usuario tiene el rol de Publicista
     if ($usuario['rol'] == 7) {
-
-        // Procesar la nueva imagen si se proporciona
+        // Mostrar el elemento del menú Administrar
+        // Procesar el formulario si se envió
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
-                $idDeporte = $_POST['idDeporteEdit'];
+                $idEvento = $_POST['idEventoEdit'];
                 $nombre = $_POST['nombreEdit'];
                 $descripcion = $_POST['descripcionEdit'];
+                $fecha_ini = $_POST['fecha_iniEdit'];
+                $fecha_f = $_POST['fecha_fEdit'];
+                $deporte = $_POST['deporte_idEdit'];
 
                 // Directorio de destino para el documento
-                $directorioDestino = "../uploads/deportes/";
+                $directorioDestino = "../uploads/cursos/";
 
                 // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
                 if (isset($_FILES['imagenEdit']) && $_FILES['imagenEdit']['error'] == 0) {
@@ -34,34 +38,34 @@ try {
                     $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagenEdit']['name'], $directorioDestino);
 
                     // Eliminar el archivo antiguo del sistema de archivos
-                    eliminarArchivoAntiguo($idDeporte, $directorioDestino);
+                    eliminarArchivoAntiguo($idEvento, $directorioDestino);
 
                     // Mover el archivo al directorio de destino
                     if (!move_uploaded_file($_FILES["imagenEdit"]["tmp_name"], $archivoNuevo)) {
                         throw new Exception("Hubo un error al cargar el nuevo documento");
                     }
-                    $stmt = $conn->prepare("UPDATE deportes SET imagen =? WHERE id = ?");
-                    $stmt->execute([$archivoNuevo, $idDeporte]);
+                    $stmt = $conn->prepare("UPDATE cursos SET imagen =? WHERE id = ?");
+                    $stmt->execute([$archivoNuevo, $idEvento]);
                 }
 
                 // Verificar si el checkbox está marcado
                 if (isset($_POST['checkDImagen'])) {
-                    eliminarArchivoYActualizarBD($idDeporte, $nombre, $descripcion);
+                    eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
                 } else {
                     // Actualizar la solicitud en la base de datos sin cambiar el archivo
-                    actualizarBD($idDeporte, $nombre, $descripcion);
+                    actualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
                 }
 
 
                 // Redirigir después de editar
-                echo "<script>window.location.href='../publicista/deportes.php';</script>";
+                echo "<script>window.location.href='../publicista/cursos.php';</script>";
                 exit();
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         } else {
             // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-            echo "<script>window.location.href='../publicista/deportes.php';</script>";
+            echo "<script>window.location.href='../publicista/cursos.php';</script>";
             exit();
         }
     } else {
@@ -86,12 +90,12 @@ function obtenerNombreArchivoNuevo($nombreArchivo, $directorioDestino)
     return $archivoNuevo;
 }
 
-function eliminarArchivoAntiguo($idDeporte, $directorioDestino)
+function eliminarArchivoAntiguo($idEvento, $directorioDestino)
 {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT imagen FROM deportes WHERE id = :id");
-    $stmt->bindParam(':id', $idDeporte);
+    $stmt = $conn->prepare("SELECT imagen FROM cursos WHERE id = :id");
+    $stmt->bindParam(':id', $idEvento);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
 
@@ -102,30 +106,30 @@ function eliminarArchivoAntiguo($idDeporte, $directorioDestino)
     }
 }
 
-function eliminarArchivoYActualizarBD($idDeporte, $nombre, $descripcion)
+
+function eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
 {
     global $conn;
 
-    $stmt = $conn->prepare("SELECT imagen FROM deportes WHERE id = :id");
-    $stmt->bindParam(':id', $idDeporte);
+    $stmt = $conn->prepare("SELECT imagen FROM cursos WHERE id = :id");
+    $stmt->bindParam(':id', $idEvento);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
 
-    $rutaArchivoEliminar = "../uploads/deportes/" . $nombreArchivoEliminar;
+    $rutaArchivoEliminar = "../uploads/cursos/" . $nombreArchivoEliminar;
 
     if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 
-    $stmt = $conn->prepare("UPDATE deportes SET imagen = NULL, nombre = ?,  descripcion = ? WHERE id = ?");
-    $stmt->execute([$nombre, $descripcion, $idDeporte]);
+    $stmt = $conn->prepare("UPDATE cursos SET imagen = NULL, nombre = ?,  descripcion = ?, fecha_inicio =?, fecha_fin = ?, deporte_id = ? WHERE id = ?");
+    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idEvento]);
 }
 
-function actualizarBD($idDeporte, $nombre, $descripcion)
+function actualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
 {
     global $conn;
 
-    $stmt = $conn->prepare("UPDATE deportes SET  nombre = ?, descripcion = ? WHERE id = ?");
-    $stmt->execute([$nombre, $descripcion, $idDeporte]);
+    $stmt = $conn->prepare("UPDATE cursos SET  nombre = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, deporte_id = ? WHERE id = ?");
+    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idEvento]);
 }
-?>

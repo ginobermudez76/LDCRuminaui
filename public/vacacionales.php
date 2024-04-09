@@ -2,7 +2,7 @@
 include '../includes/header.php';
 include '../includes/config.php';
 try {
-    $stmt = $conn->prepare("CALL ObtenerInfoEventos()");
+    $stmt = $conn->prepare("CALL ObtenerInfoCursos()");
     $stmt->execute();
     $eventos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt->closeCursor();

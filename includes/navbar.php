@@ -98,7 +98,7 @@ try {
                                     Publicar
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link active" aria-current="page" href="../publicista/eventos.php">Cursos vacacionales</a>
+                                    <a class="nav-link active" aria-current="page" href="../publicista/cursos.php">Cursos vacacionales</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/deportes.php">Deportes</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/deportistas_destacados.php">Deportistas destacados</a>
                                     <a class="nav-link active" aria-current="page" href="../publicista/logros.php">Logros</a>
