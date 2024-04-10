@@ -116,42 +116,41 @@ try {
                 }
             }
         </script>
-<script>
-    function ConfirmarInscripcion(idEvento, estado) {
-        var enviarCambio = confirm("Haga click en aceptar para enviar el cambio");
+        <script>
+            function ConfirmarInscripcion(idEvento, estado) {
+                var enviarCambio = confirm("Haga click en aceptar para enviar el cambio");
 
-        if (enviarCambio) {
-            ActualizarInscripcion(idEvento, estado);
-        } else {
-            // No hacer nada
-        }
-    }
-
-    function ActualizarInscripcion(idEvento, estado) {
-        $.ajax({
-            type: "POST",
-            url: "inscripcionesCurso.php",
-            data: {
-                id: idEvento,
-                tipo: estado
-            },
-            success: function(response) {
-                // Manejar la respuesta, si es necesario
-                console.log(response);
-                alertify.success(response);
-                // Recargar la tabla después de 1.5 segundos
-                setTimeout(function() {
-                    $("#tablaCursos").load("tablaCursos.php")
-                }, 1500);
-            },
-            error: function(error) {
-                alertify.error(response);
-                // Manejar errores si es necesario
-                console.error(error);
+                if (enviarCambio) {
+                    ActualizarInscripcion(idEvento, estado);
+                } else {
+                    // No hacer nada
+                }
             }
-        });
-    }
-</script>
+
+            function ActualizarInscripcion(idEvento, estado) {
+                $.ajax({
+                    type: "POST",
+                    url: "inscripcionesCurso.php",
+                    data: {
+                        id: idEvento,
+                        tipo: estado
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta, si es necesario
+                        console.log(response);
+                        alertify.success(response);
+                        // Recargar la tabla después de 1.5 segundos
+                        $("#tablaCursos").load("tablaCursos.php");
+
+                    },
+                    error: function(error) {
+                        alertify.error(response);
+                        // Manejar errores si es necesario
+                        console.error(error);
+                    }
+                });
+            }
+        </script>
         <script>
             function confirmarEliminacion(idEvento) {
                 var confirmacion = confirm("¿Está seguro que desea eliminar este vacacional?");
@@ -312,14 +311,9 @@ try {
             function handleResponse(response) {
                 if (response.success) {
                     alertify.success(response.message);
-                     // Recetear el formulario de evento
+                    // Recetear el formulario de evento
                     $('#formEvento')[0].reset();
-                    // Recargar la tabla después de 1.5 segundos
-                    setTimeout(function() {
-                        $('#tablaCursos').load('tablaCursos.php', function() {
-                                                      
-                        });
-                    }, 1500);
+                    $("#tablaCursos").load("tablaCursos.php");
                 } else {
                     alertify.error(response.message);
                 }

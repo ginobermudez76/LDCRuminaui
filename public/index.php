@@ -85,7 +85,7 @@ try {
 
     </div>
     <div class="contenedor-logros">
-        <?php include '../public/logros.php'; ?>
+        <?php include '../otros/logros.php'; ?>
     </div>
 
 
@@ -101,11 +101,11 @@ try {
     </div>
     <div class="contenedor-deportistas">
         <!-- Carrusel izquierdo -->
-        <?php include '../public/deportistas1.php'; ?>
+        <?php include '../otros/deportistas1.php'; ?>
         <!-- Espacio vacío entre carruseles -->
         <img src="../img/logoX_LDCR.png" alt="Imagen del medio" class="medioDestacados">
         <!-- Carrusel derecho -->
-        <?php include '../public/deportistas2.php'; ?>
+        <?php include '../otros/deportistas2.php'; ?>
     </div>
 
 
@@ -189,12 +189,9 @@ try {
         ?>
     </div>
 
-    <div class="modal mdCondolencia" id="modalCondolencias">
+    <div class="modal mdCondolencia" id="modalCondolencias" >
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Carta de condolencias</h5>
-                </div>
+            <div class="modal-content contenido-condolencia">
                 <div class="modal-body">
                     <div id="carruselCondolencias" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -206,7 +203,7 @@ try {
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mensaje">
-                                                <?php echo $condolencia['mensaje']; ?>
+                                                <p class="txt-condolencias"><?php echo $condolencia['mensaje']; ?></p>
                                             </div>
                                         </div>
                                     </div>

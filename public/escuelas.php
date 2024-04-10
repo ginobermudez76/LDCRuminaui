@@ -75,7 +75,7 @@ try {
             var deporte_id = $(this).data("deporte-id");
             // Hacer una petición AJAX para obtener las imágenes del carrusel
             $.ajax({
-                url: "obtener_imagenes.php",
+                url: "../otros/obtener_imagenes.php",
                 method: "GET",
                 data: {
                     deporte_id: deporte_id

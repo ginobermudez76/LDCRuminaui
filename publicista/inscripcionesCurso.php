@@ -22,12 +22,12 @@ try {
         $inscripcion = $_POST['tipo'];
         $eventoId = $_POST['id'];
         if ($inscripcion == 'Abiertas') {
-            $stmt = $conn->prepare("UPDATE eventos SET inscripciones = 'Abiertas' WHERE id = :id");
+            $stmt = $conn->prepare("UPDATE cursos SET inscripciones = 'Abiertas' WHERE id = :id");
             $stmt->bindParam(':id', $eventoId, PDO::PARAM_INT);
             $stmt->execute();
             echo "Las inscripciones ahora están abiertas";
         } elseif($inscripcion == 'Cerradas'){
-            $stmt = $conn->prepare("UPDATE eventos SET inscripciones = 'Cerradas' WHERE id = :id");
+            $stmt = $conn->prepare("UPDATE cursos SET inscripciones = 'Cerradas' WHERE id = :id");
             $stmt->bindParam(':id', $eventoId, PDO::PARAM_INT);
             $stmt->execute();
             echo "Las inscripciones ahora están cerradas";

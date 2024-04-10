@@ -90,7 +90,7 @@ try {
             }
 
             try {
-                $stmt = $conn->prepare("INSERT INTO eventos (nombre, descripcion, fecha_inicio, fecha_fin, deporte_id, imagen) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO eventos (nombre, descripcion, fecha_inicio, fecha_fin, deporte_id, imagen, inscripciones) VALUES (?, ?, ?, ?, ?, ?, 'Abiertas')");
                 $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte_id, $archivoImagen]);
 
                 // Redirigir después de agregar

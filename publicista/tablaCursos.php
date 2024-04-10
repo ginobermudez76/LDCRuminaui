@@ -73,11 +73,34 @@ try {
                                 <td><?php echo htmlspecialchars($evento['fecha_fin']); ?></td>
                                 <td>
                                     <?php if ($evento['inscripciones'] == 'Abiertas') { ?>
-                                        <button class="btn btn-secondary btn-sm" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Cerradas')">Abiertas</button>
-                                    <?php } else { ?>
-                                        <button class="btn btn-danger btn-sm" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Abiertas')">Cerradas</button>
+                                        <button id="btn_<?php echo $evento['id']; ?>" class="btn btn-secondary btn-sm inscripcion-abierta" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Cerradas')" onmouseover="cambiarTextoBoton(<?php echo $evento['id']; ?>)" onmouseout="restaurarTextoBoton(<?php echo $evento['id']; ?>)">Abiertas</button>
+                                    <?php } elseif ($evento['inscripciones'] == 'Cerradas') { ?>
+                                        <button id="btn_<?php echo $evento['id']; ?>" class="btn btn-danger btn-sm inscripcion-cerrada" onclick="ConfirmarInscripcion(<?php echo $evento['id']; ?>, 'Abiertas')" onmouseover="cambiarTextoBoton(<?php echo $evento['id']; ?>)" onmouseout="restaurarTextoBoton(<?php echo $evento['id']; ?>)">Cerradas</button>
                                     <?php } ?>
                                 </td>
+
+                                <script>
+                                    // Función para cambiar el texto del botón al pasar el mouse sobre él
+                                    function cambiarTextoBoton(id) {
+                                        var boton = document.getElementById('btn_' + id);
+                                        if (boton.classList.contains('inscripcion-abierta')) {
+                                            boton.innerText = 'Cerrar';
+                                        } else if (boton.classList.contains('inscripcion-cerrada')) {
+                                            boton.innerText = 'Abrir';
+                                        }
+                                    }
+
+                                    // Función para restaurar el texto original del botón al quitar el mouse
+                                    function restaurarTextoBoton(id) {
+                                        var boton = document.getElementById('btn_' + id);
+                                        if (boton.classList.contains('inscripcion-abierta')) {
+                                            boton.innerText = 'Abiertas';
+                                        } else if (boton.classList.contains('inscripcion-cerrada')) {
+                                            boton.innerText = 'Cerradas';
+                                        }
+                                    }
+                                </script>
+
                                 <td>
                                     <a href="galeria_de_imagenes.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Curso" class="btn btn-secondary btn-sm">Agregar</a>
                                     <a href="eliminar_selecciones.php?id=<?php echo $evento['id']; ?>&nombre=<?php echo urlencode($evento['nombre']); ?>&tipo=Curso" class="btn btn-danger btn-sm">Borrar</a>
@@ -102,40 +125,61 @@ try {
             </div>
         </div>
         <script>
-            // Función para abrir el modal
-            function openModal() {
-                var modal = document.getElementById("modalEditCurso");
-                modal.style.display = "block";
-            }
+    // Función para abrir el modal
+    function openModal() {
+        var modal = document.getElementById("modalEditCurso");
+        modal.style.display = "block";
+    }
 
-            // Función para cerrar el modal
-            function closeModal() {
-                var modal = document.getElementById("modalEditCurso");
-                modal.style.display = "none";
-            }
+    // Función para cerrar el modal
+    function closeModal() {
+        var modal = document.getElementById("modalEditCurso");
+        modal.style.display = "none";
+    }
 
-            // Cierra el modal si se hace clic fuera de él
-            window.onclick = function(event) {
-                var modal = document.getElementById("modalEditCurso");
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
+    // Cierra el modal si se hace clic fuera de él
+    window.onclick = function(event) {
+        var modal = document.getElementById("modalEditCurso");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 
-            // Carga el formulario desde el otro script PHP cuando se abre el modal
-            function loadForm(idEvento) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("formContent").innerHTML = this.responseText;
-                        document.getElementById("idEventoEdit").value = idEvento; // Establecer el ID del deportita en el formulario
-                        openModal(); // Abre el modal después de cargar el contenido
+    // Carga el formulario desde el otro script PHP cuando se abre el modal
+    function loadForm(idEvento) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("formContent").innerHTML = this.responseText;
+                document.getElementById("idEventoEdit").value = idEvento; // Establecer el ID del deportita en el formulario
+                openModal(); // Abre el modal después de cargar el contenido
+                
+                // Aplica las funciones de límite de caracteres
+                document.getElementById('nombreEdit').addEventListener('input', function() {
+                    // Obtener el valor actual del campo de celular
+                    var deporteNombre = this.value;
+                    // Limitar el valor a 100 caracteres
+                    if (deporteNombre.length > 100) {
+                        this.value = deporteNombre.slice(0, 100);
                     }
-                };
-                xhttp.open("GET", "formEditCurso.php?id=" + idEvento, true); // Pasar el ID del deporte en la URL
-                xhttp.send();
+                });
+
+                // Función para limitar la cantidad de dígitos en el campo de descripcion
+                document.getElementById('descripcionEdit').addEventListener('input', function() {
+                    // Obtener el valor actual del campo de celular
+                    var deporteDescripcion = this.value;
+                    // Limitar el valor a 300 caracteres
+                    if (deporteDescripcion.length > 300) {
+                        this.value = deporteDescripcion.slice(0, 300);
+                    }
+                });
             }
-        </script>
+        };
+        xhttp.open("GET", "formEditCurso.php?id=" + idEvento, true); // Pasar el ID del deporte en la URL
+        xhttp.send();
+    }
+</script>
+
         <script>
             function trim(str) {
                 return str.replace(/^\s+|\s+$/g, '');
@@ -242,24 +286,8 @@ try {
 
                 return true;
             }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombreEdit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcionEdit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
+
+
         </script>
 <?php
     } else {

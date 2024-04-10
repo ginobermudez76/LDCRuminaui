@@ -18,7 +18,7 @@
 
 .btn-secondary.btn-sm{
     border-radius: 10px;
-    background-color: #0ed425;
+    background-color: #a98416;
 }
 
 
@@ -27,5 +27,25 @@
     color: #fff;
     border-color: #0fc3c6;
 }
+/* Estilos por defecto para los botones de inscripción */
+.inscripcion-abierta {
+    background-color: #0ba300 !important; /* Color gris para el estado abierto */
+    color: #fff; /* Color de texto blanco */
+}
 
+.inscripcion-cerrada {
+    background-color: #dc3545 !important; /* Color rojo para el estado cerrado */
+    color: #fff; /* Color de texto blanco */
+}
+
+/* Estilos para el efecto hover */
+.inscripcion-abierta:hover {
+    background-color: #a90011 !important; /* Cambia a rojo cuando el mouse pasa sobre el botón */
+/* Cambia el texto al pasar el mouse */
+}
+
+.inscripcion-cerrada:hover {
+    background-color: #28a745 !important; /* Cambia a verde cuando el mouse pasa sobre el botón */
+
+}
 
