@@ -170,7 +170,7 @@ try {
                         console.log(response);
                         alert(response);
                         // Puedes recargar la página o actualizar la lista de escenarios de alguna manera
-                        location.reload();
+                        $("#tablaEscenarios").load("tablaEscenarios.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

@@ -146,8 +146,8 @@ try {
                         // Manejar la respuesta, si es necesario
                         console.log(response);
                         alert(response);
-                        // Puedes recargar la página o actualizar la lista de deportes de alguna manera
-                        location.reload();
+                        // Puedes recargar la tabla o actualizar la lista de deportes de alguna manera
+                        $("#tablaDeportes").load("tablaDeportes.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

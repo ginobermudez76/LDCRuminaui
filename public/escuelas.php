@@ -16,44 +16,45 @@ try {
 }
 
 ?>
-
 <div class="contenedor-galeria">
     <div class="deportes container">
         <div class="deportes-descripcion">
-            <h2>Escuelas disponibles de forma permanente</h2>
+            <h2 class="estatica">Escuelas deportivas</h2><h2 class="movible">PERMANENTES</h2>
             <div class="linea"></div>
             <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
         </div>
     </div>
-
-    <?php
-    if (empty($deportes)) {
-        echo '<p>Aun no se ha agregado nada</p>';
-    } else {
-        // Dividir el array de imágenes en grupos de dos
-        $chunks = array_chunk($deportes, 2);
-
-        // Iterar sobre cada grupo de imágenes
-        foreach ($chunks as $grupo) {
-            echo '<div class="column-grupo">';
-            // Iterar sobre las imágenes en el grupo
-            foreach ($grupo as $depor) {
+    <div class="row">
+        <?php
+        if (empty($deportes)) {
+            echo '<p>Aun no se ha agregado nada</p>';
+        } else {
+            // Dividir el array de imágenes en grupos
+            $chunks = array_chunk($deportes, 4);
+            // Iterar sobre cada grupo de imágenes
+            foreach ($chunks as $grupo) {
                 echo '<div class="column">';
-                echo '<div class="card-img-top">';
-                echo '<img src="../uploads/deportes/' . htmlspecialchars(basename($depor['imagen'])) . '" class="card-img" alt="' . htmlspecialchars($depor['nombre']) . '">';
-                echo '<div class="overlay">';
-                echo '<div class="deporte-nombre" data-deporte-id="' . htmlspecialchars($depor['id']) . '">' . htmlspecialchars($depor['nombre']) . '</div>';
-                echo '</div>';
-                echo '</div>';
+                // Iterar sobre las imágenes en el grupo
+                foreach ($grupo as $depor) {
+                    echo '<div class="contenedor-imagen">';
+                    echo '<img src="../uploads/deportes/' . htmlspecialchars(basename($depor['imagen'])) . '">';
+                    echo '<div class="overlay">';
+                    echo '<div class="deporte-nombre" data-deporte-id="' . htmlspecialchars($depor['id']) . '">' . htmlspecialchars($depor['nombre']) . '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
                 echo '</div>';
             }
-            echo '</div>';
         }
-    }
-    ?>
+        ?>
+    </div>
+
+
 </div>
 
-<div class="modal" id="myModal">
+
+
+<div class="modal mdDeporte" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <span class="close">&times;</span>

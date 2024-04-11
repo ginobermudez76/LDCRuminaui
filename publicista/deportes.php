@@ -44,7 +44,7 @@ try {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formDeporte" method="post" enctype="multipart/form-data" onsubmit="return validarCamposDeporte()">
+            <form id="formDeporte" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposDeporte()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Deporte</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="100">
@@ -193,10 +193,9 @@ try {
             function handleResponse(response) {
                 if (response.success) {
                     alertify.success(response.message);
-                    // Recargar la página después de 1.5 segundos
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1500);
+                    // Recargar la tabla
+                    $('#formDeporte')[0].reset();
+                    $("#tablaDeportes").load("tablaDeportes.php");
                 } else {
                     alertify.error(response.message);
                 }

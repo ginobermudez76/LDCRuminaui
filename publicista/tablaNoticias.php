@@ -150,7 +150,7 @@ try {
                         console.log(response);
 
                         // Puedes recargar la página o actualizar la lista de noticias de alguna manera
-                        location.reload();
+                        $("#tablaNoticias").load("tablaNoticias.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

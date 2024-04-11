@@ -118,16 +118,21 @@ width: 100%;
  .deporte-nombre p{
     font-size: 12px;
 }
-.contenedor-galeria .column-grupo{
+.column-grupo .column{
     flex: 100%;
 }
+
+.contenedor-galeria .column{
+    flex: 100%;
+}/*
 .contenedor-galeria .card-img-top img{
     margin-bottom: 20px;
     height: 250px;
   }
   .overlay{
     height: 250px;
-  }
+  }*/
+  /*fin seccion escuelas*/
   /*seccion nosotros*/
   .vision-info h5{
     font-size: 15px;
@@ -261,5 +266,12 @@ h2{
 }
 p{
     font-size: 12px;
+}
+.mdDeporte .modal-content{
+    margin-left: 4%;
+
+}
+.mdCondolencia .modal-content {
+margin-left: 10%;
 }
 }

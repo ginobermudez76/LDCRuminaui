@@ -129,7 +129,7 @@ try {
                         console.log(response);
 
                         // Puedes recargar la página o actualizar la lista de deportes de alguna manera
-                        location.reload();
+                        $("#tablaDeportista").load("tablaDeportistas.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

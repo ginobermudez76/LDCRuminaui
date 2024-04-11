@@ -142,7 +142,7 @@ try {
                         console.log(response);
                         alert(response);
                         // Puedes recargar la página o actualizar la lista de documentos de alguna manera
-                        location.reload();
+                        $("#tablaDocumentos").load("tablaDocumento.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

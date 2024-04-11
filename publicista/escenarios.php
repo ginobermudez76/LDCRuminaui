@@ -243,9 +243,8 @@ try {
                 if (response.success) {
                     alertify.success(response.message);
                     // Recargar la página después de 1.5 segundos
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1500);
+                    $('#formEscenario')[0].reset();
+                    $("#tablaEscenarios").load("tablaEscenarios.php");
                 } else {
                     alertify.error(response.message);
                 }

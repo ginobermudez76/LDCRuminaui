@@ -1,17 +1,17 @@
 /*estilos para modal del deporte clickeado*/
 .mdDeporte {
-    
+    background-color: rgba(0, 0, 0, 0.9);
     width: 100%;
     margin-bottom: 0;
+
 }
 
 .mdDeporte .modal-content {
     margin: 0;
     padding: 20px;
     width: 100%;
-    max-width: 100%;
     position: relative;
-
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .mdDeporte .modal-body {

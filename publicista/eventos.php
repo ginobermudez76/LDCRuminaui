@@ -140,9 +140,8 @@ try {
                 console.log(response);
                 alertify.success(response);
                 // Recargar la tabla después de 1.5 segundos
-                setTimeout(function() {
                     $("#tablaEventos").load("tablaEventos.php")
-                }, 1500);
+
             },
             error: function(error) {
                 alertify.error(response);
@@ -315,11 +314,7 @@ try {
                      // Recetear el formulario de evento
                     $('#formEvento')[0].reset();
                     // Recargar la tabla después de 1.5 segundos
-                    setTimeout(function() {
-                        $('#tablaEventos').load('tablaEventos.php', function() {
-                                                      
-                        });
-                    }, 1500);
+                    $("#tablaEventos").load("tablaEventos.php");
                 } else {
                     alertify.error(response.message);
                 }

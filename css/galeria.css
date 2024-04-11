@@ -74,58 +74,80 @@
     height: 300px;
 }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparente */
-    opacity: 0; /* Inicialmente oculto */
-    transition: opacity 0.5s; /* Transición suave */
+/*inicio de la seccion escuelas*/
+.contenedor-galeria .row{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 0px;
-    color: white;
-}
-
-.contenedor-galeria .card-img-top {
-    position: relative;
-}
-
-.contenedor-galeria .card-img-top:hover .overlay {
-    opacity: 1; /* Mostrar la superposición al pasar el mouse sobre la imagen */
-}
-
-.contenedor-galeria .deporte-nombre {
-    color: white;
-    font-size: 24px;
-    text-align: center;
-}
-
-.contenedor-galeria {
-    display: flex;
-    padding: 0px;
+    padding: 5px;
     flex-wrap: wrap;
-    justify-content: center;
-    width: 90%;
-    margin: 0 auto;
-    text-align: center;
-  }
+    width: 100%;
+    margin: auto;
+    }
+    .contenedor-galeria .column{
+        padding: 5px;
+        flex: 25%;
+    }
+    .contenedor-galeria .column img{
+        width: 100%;
+    }
 
-.contenedor-galeria .column-grupo{
-    flex: 25%;
-    padding: 0px;
-  }
-  .contenedor-galeria .img {
-    width: 50%;
-  } 
 
-  
-  .contenedor-galeria .column-grupo img{
-    margin: 0;
-  }
+    
+    .contenedor-galeria .contenedor-imagen {
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5); 
+        opacity: 0; 
+        transition: opacity 0.5s; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        color: white;
+    }
+    .contenedor-galeria .contenedor-imagen:hover .overlay {
+        opacity: 1; 
+    }
+    .contenedor-galeria .deporte-nombre {
+        color: white;
+        font-size: 18px;
+        text-align: center;
+    }
+    /*
+    
+    .contenedor-galeria {
+        display: flex;
+        padding: 0px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+      }
+    
+    .contenedor-galeria .column-grupo{
+        flex: 25%;
+        padding: 0px;
+      }
+      .contenedor-galeria .img {
+        width: 50%;
+      } 
+    
+      
+      .contenedor-galeria .column-grupo img{
+        margin: 0;
+      }
+      */
+    
+  /* fin seccion escuelas*/
+
   .overlay2 {
     position: absolute;
     bottom: 0;
@@ -148,9 +170,91 @@
     height: 5px;
 }
 
-.deportes-descripcion h2{
-    font-size: 80px;
+.deportes-descripcion .estatica {
+    background: linear-gradient( #383dd0c0, #0fc3c697);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    animation: text 20s linear infinite;
 }
+.contenedor-galeria .deportes-descripcion .movible{
+    margin-left: 60%;
+    position: relative;
+    overflow: hidden;
+    animation: anim 15s linear infinite;
+    background: linear-gradient( #d0c8387e, #58c60f);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+.contenedor-galeria .deportes-descripcion .estatica{
+    margin-left: 4%;
+    position: absolute;
+    overflow: hidden;
+
+}
+.contenedor-galeria .deportes-descripcion {
+    text-align: center;
+
+}
+.contenedor-galeria .deportes-descripcion {
+    text-align: center;
+
+}
+/*.deportes-descripcion h2{
+    font-size: 10vw;
+    color: #ffffff;
+}*/
+
+    @keyframes anim {
+        0% {
+            width: 0vw;
+        }
+        10% {
+            width: 6.2vw;
+        }
+        20% {
+            width: 12.4vw;
+        }
+        30% {
+            width: 18.6vw;
+        }
+        40% {
+            width: 24.8vw;
+        }
+        50% {
+            width: 31vw;
+        }
+        60% {
+            width: 24.8vw; 
+        }
+        70% {
+            width: 18.6vw;   
+        }
+        80% {
+            width: 12.4vw;
+        }
+        90% {
+            width: 6.2vw;
+        }
+        100% {
+            width: 0vw;
+        }
+    }
+    
+
+@keyframes text {
+    0% {filter: hue-rotate(360deg);}
+
+    100% {
+        filter: hue-rotate(60deg);
+    }
+}
+
+
 .deportes-descripcion p{
     font-size: 40px;
 }
+

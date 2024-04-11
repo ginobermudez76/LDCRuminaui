@@ -156,7 +156,7 @@ try {
                         console.log(response);
 
                         // Puedes recargar la página o actualizar la lista de logros de alguna manera
-                        location.reload();
+                        $("#tablaLogros").load("tablaLogros.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario

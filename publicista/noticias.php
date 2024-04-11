@@ -33,7 +33,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formNoticias" method="post" enctype="multipart/form-data" onsubmit="return validarCamposNoticias()">
+                        <form id="formNoticias" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposNoticias()">
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Titulo</label>
                                 <input type="text" class="form-control" id="titulo" name="titulo" required maxlength="100"></input>
@@ -105,9 +105,8 @@ try {
                 if (response.success) {
                     alertify.success(response.message);
                     // Recargar la página después de 1.5 segundos
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1500);
+                    $('#formNoticias')[0].reset();
+                    $("#tablaNoticias").load("tablaNoticias.php");
                 } else {
                     alertify.error(response.message);
                 }

@@ -42,7 +42,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formLogros" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
+                        <form id="formLogros" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
                             <div class="mb-3">
                                 <label for="Nombre" class="form-label">Nombre del logro</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100"></input>
@@ -122,9 +122,8 @@ try {
                 if (response.success) {
                     alertify.success(response.message);
                     // Recargar la página después de 1.5 segundos
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1500);
+                    $('#formLogros')[0].reset();
+                    $("#tablaLogros").load("tablaLogros.php");
                 } else {
                     alertify.error(response.message);
                 }
