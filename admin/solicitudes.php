@@ -17,7 +17,7 @@ try {
 
 ?>
 <div class="container mt-5 mr-5">
-<h2 class="gestionar">Solicitudes</h2>
+    <h2 class="gestionar">Solicitudes</h2>
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarSolicitudModal">Agregar +</button>
 </div>
 <div class="container">
@@ -49,7 +49,7 @@ try {
                     </div>
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                        <textarea class="form-control" id="descripcion" name="descripcion" maxlength="5000" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="valor" class="form-label">Valor solicitado</label>
@@ -108,6 +108,15 @@ try {
         }
         return true;
     }
+    // Función para limitar la cantidad de dígitos en el campo de descripcion
+    document.getElementById('descripcion').addEventListener('input', function() {
+        // Obtener el valor actual del campo de celular
+        var deporteDescripcion = this.value;
+        // Limitar el valor a 10 caracteres
+        if (deporteDescripcion.length > 5000) {
+            this.value = deporteDescripcion.slice(0, 5000);
+        }
+    });
 
     function confirmarEliminacion(idSolicitud) {
         var confirmacion = confirm("¿Está seguro que desea eliminar esta solicitud?");

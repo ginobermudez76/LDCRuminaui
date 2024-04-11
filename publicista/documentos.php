@@ -44,7 +44,7 @@ try {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formDocumento" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <form id="formDocumento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Documento</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="200">
@@ -100,14 +100,7 @@ try {
                 return true;
             }
             // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombreEdit').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var documentoNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (documentoNombre.length > 100) {
-                    this.value = documentoNombre.slice(0, 200);
-                }
-            });
+
         </script>
         <script>
             function deshabilitarInputDocumento() {
@@ -168,7 +161,7 @@ try {
                 // Obtener el valor actual del campo de celular
                 var documentoDescripcion = this.value;
                 // Limitar el valor a 10 caracteres
-                if (documentoDescripcion.length > 300) {
+                if (documentoDescripcion.length > 2000) {
                     this.value = documentoDescripcion.slice(0, 2000);
                 }
             });
@@ -179,9 +172,8 @@ try {
                 if (response.success) {
                     alertify.success(response.message);
                     // Recargar la página después de 1.5 segundos
-                    setTimeout(function() {
-                        location.reload();
-                    }, 1500);
+                    $('#formDocumento')[0].reset();
+                    $("#tablaDocumentos").load("tablaDocumento.php");
                 } else {
                     alertify.error(response.message);
                 }

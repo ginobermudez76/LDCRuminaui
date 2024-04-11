@@ -203,6 +203,36 @@
     text-align: center;
 
 }
+.vacionales .deportes-descripcion .estatica {
+    background: linear-gradient( #383dd0c0, #0fc3c697);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    animation: text 20s linear infinite;
+}
+.vacionales .deportes-descripcion .movible{
+    margin-left: 50%;
+    position: relative;
+    overflow: hidden;
+    animation: anim 15s linear infinite;
+    background: linear-gradient( #d0c8387e, #58c60f);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+.vacionales .deportes-descripcion .estatica{
+    margin-left: 29%;
+    position: absolute;
+    overflow: hidden;
+
+}
+.vacionales .deportes-descripcion {
+    text-align: center;
+
+}
+
 /*.deportes-descripcion h2{
     font-size: 10vw;
     color: #ffffff;

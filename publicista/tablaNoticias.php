@@ -96,6 +96,23 @@ try {
             document.getElementById("formContent").innerHTML = this.responseText;
             document.getElementById("idNoticiaEdit").value = idNoticia; // Establecer el ID de la noticia en el formulario
             openModal(); // Abre el modal después de cargar el contenido
+                            // Función para limitar la cantidad de dígitos en el campo de celular
+    document.getElementById('tituloEdit').addEventListener('input', function() {
+        // Obtener el valor actual del campo de celular
+        var titulo = this.value;
+        // Limitar el valor a 100 caracteres
+        if (titulo.length > 100) {
+            this.value = titulo.slice(0, 100);
+        }
+    });
+    document.getElementById('cuerpoEdit').addEventListener('input', function() {
+        // Obtener el valor actual del campo de celular
+        var cuerpo = this.value;
+        // Limitar el valor a 100 caracteres
+        if (cuerpo.length > 5000) {
+            this.value = cuerpo.slice(0, 5000);
+        }
+    });
         }
     };
     xhttp.open("GET", "formEditNoticia.php?id=" + idNoticia, true); // Pasar el ID de la noticia en la URL

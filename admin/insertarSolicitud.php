@@ -87,8 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->commit(); // Commit la transacción si todo es correcto
 
         // Redirigir después de agregar
-        echo "<script>window.location.href='../public/solicitudes.php';</script>";
-        header("Location: solicitudes.php");
+        echo "<script>window.location.href='../admin/solicitudes.php';</script>";
         exit();
     } catch (PDOException $e) {
         $conn->rollBack(); // Hace rollback en caso de error

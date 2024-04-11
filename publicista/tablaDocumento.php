@@ -32,43 +32,43 @@ try {
 ?>
         <div class="container mt-4">
             <div class="table-responsive">
-            <table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Documento</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($documentos as $documento) : ?>
-            <tr>
-                <td><?php echo htmlspecialchars($documento['id']); ?></td>
-                <td>
-                    <?php if (isset($documento['documento']) && $documento['documento']) : ?>
-                        <a href="<?php echo htmlspecialchars($documento['documento']); ?>" target="_blank">Ver documento</a>
-                    <?php else : ?>
-                        <p>No hay documento</p>
-                    <?php endif; ?>
-                </td>
-                <td><?php echo empty($documento['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($documento['nombre']); ?></td>
-                <td>
-                    <?php if (empty($documento['descripcion'])) : ?>
-                        <p>No hay descripción</p>
-                    <?php else : ?>
-                        <?php echo htmlspecialchars($documento['descripcion']); ?>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $documento['id']; ?>)">Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $documento['id']; ?>)">Eliminar</button>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Documento</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($documentos as $documento) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($documento['id']); ?></td>
+                                <td>
+                                    <?php if (isset($documento['documento']) && $documento['documento']) : ?>
+                                        <a href="<?php echo htmlspecialchars($documento['documento']); ?>" target="_blank">Ver documento</a>
+                                    <?php else : ?>
+                                        <p>No hay documento</p>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo empty($documento['nombre']) ? 'No se proporcionó nombre' : htmlspecialchars($documento['nombre']); ?></td>
+                                <td>
+                                    <?php if (empty($documento['descripcion'])) : ?>
+                                        <p>No hay descripción</p>
+                                    <?php else : ?>
+                                        <?php echo htmlspecialchars($documento['descripcion']); ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="loadForm(<?php echo $documento['id']; ?>)">Editar</button>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(<?php echo $documento['id']; ?>)">Eliminar</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
             </div>
         </div>
@@ -110,6 +110,23 @@ try {
                         document.getElementById("formContent").innerHTML = this.responseText;
                         document.getElementById("idDocumentoEdit").value = idDocumento; // Establecer el ID del documentita en el formulario
                         openModal(); // Abre el modal después de cargar el contenido
+                        document.getElementById('nombreEdit').addEventListener('input', function() {
+                            // Obtener el valor actual del campo de celular
+                            var documentoNombre = this.value;
+                            // Limitar el valor a 100 caracteres
+                            if (documentoNombre.length > 200) {
+                                this.value = documentoNombre.slice(0, 200);
+                            }
+                        });
+                        // Función para limitar la cantidad de dígitos en el campo de descripcion
+                        document.getElementById('descripcionEdit').addEventListener('input', function() {
+                            // Obtener el valor actual del campo de celular
+                            var documentoDescripcion = this.value;
+                            // Limitar el valor a 10 caracteres
+                            if (documentoDescripcion.length > 2000) {
+                                this.value = documentoDescripcion.slice(0, 2000);
+                            }
+                        });
                     }
                 };
                 xhttp.open("GET", "formEditDocumento.php?id=" + idDocumento, true); // Pasar el ID del documento en la URL

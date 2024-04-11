@@ -98,6 +98,14 @@ try {
             document.getElementById("formContent").innerHTML = this.responseText;
             document.getElementById("idLogroEdit").value = idLogro; // Establecer el ID del logro en el formulario
             openModal(); // Abre el modal después de cargar el contenido
+            document.getElementById('nombreEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var nombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (nombre.length > 100) {
+                    this.value = nombre.slice(0, 100);
+                }
+            });
         }
     };
     xhttp.open("GET", "formEditLogro.php?id=" + idLogro, true); // Pasar el ID del logro en la URL

@@ -30,60 +30,60 @@ try {
             if (trim($nombre) == '') {
                 $response['success'] = false;
                 $response['message'] = "El nombre no puede estar vacío.";
-            }elseif($extension != 'pdf'){
+            } elseif ($extension != 'pdf') {
                 $response['success'] = false;
                 $response['message'] = "El archivo debe ser un PDF.";
             } else {
 
-            if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
+                if (isset($_FILES['documento']) && $_FILES['documento']['error'] == 0) {
 
-                $directorioDestino = "../uploads/documentos/";
-                $archivoDocumento = $directorioDestino . basename($_FILES['documento']['name']);
+                    $directorioDestino = "../uploads/documentos/";
+                    $archivoDocumento = $directorioDestino . basename($_FILES['documento']['name']);
 
-                // Verificar si el archivo ya existe y renombrarlo si es necesario
-                $contador = 1;
-                $nombreArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_FILENAME);
-                $extensionArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_EXTENSION);
-                $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-
-                while (file_exists($archivo)) {
-                    $nombreArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_FILENAME) . '_' . $contador;
+                    // Verificar si el archivo ya existe y renombrarlo si es necesario
+                    $contador = 1;
+                    $nombreArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_FILENAME);
+                    $extensionArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_EXTENSION);
                     $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-                    $contador++;
-                }
 
-                $archivoDocumento = $archivo;
+                    while (file_exists($archivo)) {
+                        $nombreArchivo = pathinfo($_FILES['documento']['name'], PATHINFO_FILENAME) . '_' . $contador;
+                        $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+                        $contador++;
+                    }
 
-                if (move_uploaded_file($_FILES["documento"]["tmp_name"], $archivoDocumento)) {
-                    // el documento se cargó correctamente
+                    $archivoDocumento = $archivo;
+
+                    if (move_uploaded_file($_FILES["documento"]["tmp_name"], $archivoDocumento)) {
+                        // el documento se cargó correctamente
+                    } else {
+                        $response['success'] = false;
+                        $response['message'] = "Hubo un error al cargar lel documento.";
+                        $archivoDocumento = "";
+                    }
                 } else {
-                    $response['success'] = false;
-                    $response['message'] = "Hubo un error al cargar lel documento.";
+                    // manejo en el caso de que el documento no se cargue
+
                     $archivoDocumento = "";
                 }
-            } else {
-                // manejo en el caso de que el documento no se cargue
 
-                $archivoDocumento = "";
+                //insertar en la base de datos (con o sin documento)
+
+                try {
+                    $stmt = $conn->prepare("INSERT INTO documentos (nombre, descripcion, documento) VALUES (?, ?, ?)");
+                    $stmt->execute([$nombre, $descripcion, $archivoDocumento]);
+
+                    //redirigir despues de agregar
+
+                    $response['success'] = true;
+                    $response['message'] = "El documento se publico correctamente";
+                } catch (PDOException $e) {
+                    $response['success'] = false;
+                    $response['message'] = "Ocurrio un error: " . $e->getMessage();
+                }
             }
-
-            //insertar en la base de datos (con o sin documento)
-
-            try {
-                $stmt = $conn->prepare("INSERT INTO documentos (nombre, descripcion, documento) VALUES (?, ?, ?)");
-                $stmt->execute([$nombre, $descripcion, $archivoDocumento]);
-
-                //redirigir despues de agregar
-
-                $response['success'] = true;
-                $response['message'] = "El documento se publico correctamente";
-            } catch (PDOException $e) {
-                $response['success'] = false;
-                $response['message'] = "Ocurrio un error: " . $e->getMessage();
-            }
-        }
-        echo json_encode($response);
-        exit();     
+            echo json_encode($response);
+            exit();
         }
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";
@@ -92,4 +92,3 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-?>

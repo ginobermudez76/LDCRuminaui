@@ -33,14 +33,17 @@ if (isset($_GET['id'])) {
 
 <div class="container mt-4" id="detalleNoticia">
     <!-- Contenido del Producto -->
-    <div class="row">
-        <!-- Carrusel en la columna izquierda -->
+    <div class="row detalles-noticia">
+        
+        <div class="detalles-noticia">
+
+        </div>
         <div class="col-md-6">
 
             <img src="../uploads/noticias/<?php echo htmlspecialchars(basename($imagen)); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($titulo); ?>">
 
         </div>
-        <div class="col-md-6 detalles-producto">
+        <div class="col-md-6">
             <?php
             if (empty($titulo)) {
                 echo 'No se ha insertado titulo';
@@ -55,21 +58,19 @@ if (isset($_GET['id'])) {
                 echo 'No se ha insertado titulo';
             } else {
             ?>
-                <h><?php echo htmlspecialchars($fecha); ?></h>
+                <p><?php echo htmlspecialchars($fecha); ?></p>
             <?php
-            }
-            ?> <?php
-                if (empty($cuerpo)) {
-                    echo 'No se ha insertado titulo';
-                } else {
-                ?>
-                <p><?php echo htmlspecialchars($cuerpo); ?></p>
-            <?php
-                }
-            ?>
-
-
+            }?>
         </div>
+         <?php
+        if (empty($cuerpo)) {
+            echo 'No se ha insertado titulo';
+        } else {
+        ?>
+        <p class="noticia-cuerpo"><?php echo htmlspecialchars($cuerpo); ?></p>
+    <?php
+        }
+    ?>
     </div>
 </div>
 <?php

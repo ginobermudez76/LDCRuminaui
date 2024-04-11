@@ -104,24 +104,7 @@ try {
         return true;
     }
 
-    // Función para limitar la cantidad de dígitos en el campo de celular
-    document.getElementById('nombreEdit').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var deporteNombre = this.value;
-        // Limitar el valor a 100 caracteres
-        if (deporteNombre.length > 100) {
-            this.value = deporteNombre.slice(0, 100);
-        }
-    });
-    // Función para limitar la cantidad de dígitos en el campo de descripcion
-    document.getElementById('descripcionedit').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var deporteDescripcion = this.value;
-        // Limitar el valor a 10 caracteres
-        if (deporteDescripcion.length > 300) {
-            this.value = deporteDescripcion.slice(0, 300);
-        }
-    });
+
 </script>
 
         <script>

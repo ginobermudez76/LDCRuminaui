@@ -300,6 +300,10 @@ font-size: 20px;
     .card:hover .overlayN {
         display: flex !important;
     }
+
+    .noticia-cuerpo{
+        text-align: justify;
+    }
 /*fin estilos de noticias*/
 
 
@@ -505,7 +509,10 @@ font-size: 18px;
     background: linear-gradient(to left, #f00000, #c49e36);
     border-radius: 15%;
 }
-
+.finalizado:hover {
+    background: linear-gradient(to right, #f00000, #c49e36);
+    border-radius: 15%;
+}
 /* Colores de fondo para las inscripciones abiertas y cerradas */
 .abiertas:hover {
     background: linear-gradient(to left, #f0000067, #c49e3654);
@@ -517,6 +524,10 @@ font-size: 18px;
 }
 
 .cerradas {
+    background: linear-gradient(to right, #00b8f0, #c4bd365f);
+    border-radius: 15%;
+}
+.cerradas:hover {
     background: linear-gradient(to left, #00b8f0, #c4bd365f);
     border-radius: 15%;
 }
@@ -572,7 +583,7 @@ font-size: 18px;
 
 }
 .fechas{
-    background: linear-gradient(to left, #04b6ca1c, #1da22c3d); 
+    background: linear-gradient(to right, #04b6ca1c, #1da22c3d); 
     width: 100%;
     display: flex;
     gap: 10%;
@@ -580,10 +591,10 @@ font-size: 18px;
     border-radius: 3%;
 }
 .fechas:hover{
-    background: linear-gradient(to right, #04b6ca1c, #1da22c3d); 
+    background: linear-gradient(to left, #04b6ca1c, #1da22c3d); 
 }
 .info-estado{
-    background: linear-gradient(to right, #04b6ca1c, #1da22c3d);
+    background: linear-gradient(to left, #04b6ca1c, #1da22c3d);
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -592,7 +603,7 @@ font-size: 18px;
     border-radius: 3%;
 }
 .info-estado:hover{
-    background: linear-gradient(to left, #04b6ca1c, #1da22c3d);
+    background: linear-gradient(to right, #04b6ca1c, #1da22c3d);
 }
 
 .imagen-boton {

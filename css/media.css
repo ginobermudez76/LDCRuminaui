@@ -274,4 +274,17 @@ p{
 .mdCondolencia .modal-content {
 margin-left: 10%;
 }
+.vacionales .deportes-descripcion .estatica{
+    margin-left: 15% !important;
+}
+.vacionales .deportes-descripcion .movible{
+    margin-left: 40%;
+}
+.contenedor-galeria .deportes-descripcion .movible{
+    margin-left: 59%;
+
+}
+.contenedor-galeria .deportes-descripcion .estatica{
+    margin-left: 5%;
+}
 }

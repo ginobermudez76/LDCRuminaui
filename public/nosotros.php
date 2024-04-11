@@ -47,7 +47,7 @@ if (isset($_GET['tipo'])) {
         <div class="directorio-container">
             <div class="dirigencia">
                 <h5>DIRIGENCIA</h5>
-                <img src="../img/medalla.jpg" alt="dirigencia">
+                <img src="" alt="dirigencia">
                 <p>PRESIDENTE:</p>
 
                 <p>VICEPRESIDENTE:</p>
@@ -59,7 +59,7 @@ if (isset($_GET['tipo'])) {
             </div>
             <div class="presidente">
                 <h5>PRESIDENTE</h5>
-                <img src="../img/medalla.jpg" alt="Presidente">
+                <img src="" alt="Presidente">
                 <p></p>
             </div>
         </div>
