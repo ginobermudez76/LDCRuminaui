@@ -31,38 +31,38 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-<div class="container mt-5 mr-5">
-<h2 class="gestionar">Deportes ofertados</h2>
-    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDeporteModal">Agregar deporte +</button>
-</div>
-<!-- Modal para agregar dporte -->
-<div class="modal fade" id="agregarDeporteModal" tabindex="-1" aria-labelledby="agregarDeporteModalLabel" aria-hidden="true"">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregarDeporteModalLabel">Agregar deporte</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <form id="formDeporte" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposDeporte()">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Deporte</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="100">
+        <div class="container mt-5 mr-5">
+            <h2 class="gestionar">Deportes ofertados</h2>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDeporteModal">Agregar deporte +</button>
+        </div>
+        <!-- Modal para agregar dporte -->
+        <div class="modal fade" id="agregarDeporteModal" tabindex="-1" aria-labelledby="agregarDeporteModalLabel" aria-hidden="true">
+            <div class=" modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarDeporteModalLabel">Agregar deporte</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formDeporte" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre del Deporte</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="300"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="300"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="imagen" class="form-label">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar nuevo deporte</button>
-            </form>
             </div>
         </div>
-    </div>
-</div>
         <div class="container">
             <div class="row" id="tablaDeportes">
             </div>
@@ -73,39 +73,41 @@ try {
 
             });
         </script>
-<script>
-    // Función trim similar a la de PHP en JavaScript
-    function trim(str) {
-        return str.replace(/^\s+|\s+$/g, '');
-    }
+        <?php
+        include 'validar.php';
+        include 'limitar.php';
+        ?>
+        <script>
+            // Función trim similar a la de PHP en JavaScript
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            }
 
-    function validarCamposEdit() {
-        var nombreDeporte = document.getElementById("nombreEdit").value;
-        
-        // Utilizamos la función trim para eliminar espacios en blanco al principio y al final
-        nombreDeporte1 = trim(nombreDeporte);
+            function validarCamposEdit() {
+                var nombreDeporte = document.getElementById("nombreEdit").value;
 
-        if (nombreDeporte1 === "") {
-            alert("El deporte debe tener un nombre");
-            return false;
-        }
-        var archivoInput = document.getElementById("imagenEdit");
+                // Utilizamos la función trim para eliminar espacios en blanco al principio y al final
+                nombreDeporte1 = trim(nombreDeporte);
 
-
-        var archivo = archivoInput.files[0];
-        var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
-        var extension = archivo.name.split('.').pop().toLowerCase();
-
-        if (!extensionesPermitidas.includes(extension)) {
-            alert("Formato no soportado");
-            return false;
-        }
-
-        return true;
-    }
+                if (nombreDeporte1 === "") {
+                    alert("El deporte debe tener un nombre");
+                    return false;
+                }
+                var archivoInput = document.getElementById("imagenEdit");
 
 
-</script>
+                var archivo = archivoInput.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
+                var extension = archivo.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
 
         <script>
             function deshabilitarInputImagen() {
@@ -130,48 +132,8 @@ try {
                 }
             }
         </script>
-            <script>
-            function validarCamposDeporte() {
-                var nombreDeporte = document.getElementById("nombre").value;
-                if (nombreDeporte === "") {
-                    alert("El deporte debe tener un nombre");
-                    return false;
-                }
-                var archivoInput = document.getElementById("imagen");
 
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg' , 'svg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
-        </script>
-                <script>
+        <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {
                 if (response.success) {

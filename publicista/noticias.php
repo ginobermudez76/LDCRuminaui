@@ -33,10 +33,10 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formNoticias" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposNoticias()">
+                        <form id="formNoticias" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Titulo</label>
-                                <input type="text" class="form-control" id="titulo" name="titulo" required maxlength="100"></input>
+                                <input type="text" class="form-control" id="titulo" name="titulo"></input>
                             </div>
                             <div class="mb-3">
                                 <label for="imagen" class="form-label">Imagen</label>
@@ -60,44 +60,12 @@ try {
             <div class="row" id="tablaNoticias">
             </div>
         </div>
-        <script>
-            function validarCamposNoticias() {
-
-                var tituloNoticia = document.getElementById("titulo").value;
-                if (tituloNoticia === "") {
-                    alert("El titulo no puede quedar vacio.");
-                    return false;
-                }
-                var cuerpoNoticia = document.getElementById("cuerpo").value;
-                if (cuerpoNoticia === "") {
-                    alert("La noticia debe tener un cuerpo.");
-                    return false;
-                }
-                return true;
-            }
-                // Función para limitar la cantidad de dígitos en el campo de celular
-    document.getElementById('titulo').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var titulo = this.value;
-        // Limitar el valor a 100 caracteres
-        if (titulo.length > 100) {
-            this.value = titulo.slice(0, 100);
-        }
-    });
-    document.getElementById('cuerpo').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var cuerpo = this.value;
-        // Limitar el valor a 100 caracteres
-        if (cuerpo.length > 5000) {
-            this.value = cuerpo.slice(0, 5000);
-        }
-    });
-        </script>
+        <?php include 'validar.php';
+        include 'limitar.php';
+        ?>
         <script>
             $("#tablaNoticias").load("tablaNoticias.php"); //load es una funcion de Jquery
-            $(document).ready(function() {
-
-            });
+            $(document).ready(function() {});
         </script>
         <script>
             // Función para manejar la respuesta del servidor

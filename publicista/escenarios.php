@@ -44,7 +44,7 @@ try {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formEscenario" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEscenario()">
+                    <form id="formEscenario" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre del Escenario</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100">
@@ -114,129 +114,9 @@ try {
             }
         </script>
 
-        <script>
-            function trim(str) {
-                return str.replace(/^\s+|\s+$/g, '');
-            }
-
-            function validarCamposEscenario() {
-                var nombreEscenario = document.getElementById("nombre").value;
-                nombreEscenario1 = trim(nombreEscenario);
-                if (nombreEscenario1 === "") {
-                    alert("El escenario debe tener un nombre");
-                    return false;
-                }
-                var ubicacion = document.getElementById("ubicacion").value;
-                ubicacion1 = trim(ubicacion);
-                if (ubicacion1 === "") {
-                    alert("El escenario debe tener un enlace de ubicación");
-                    return false;
-                }
-                var direccion = document.getElementById("direccion").value;
-                direccion1 = trim(direccion);
-                if (direccion1 === "") {
-                    alert("El escenario debe tener la dirección");
-                    return false;
-                }
-                var telefono = document.getElementById("telefono").value;
-                telefono1 = trim(telefono);
-                if (telefono1 === "") {
-                    alert("Debe proporcionar un numero de contacto");
-                    return false;
-                }
-                var supervisor = document.getElementById("supervisor").value;
-                supervisor1 = trim(supervisor);
-                if (supervisor1 === "") {
-                    alert("Debe asignar un encargado para este escenario");
-                    return false;
-                }
-                var celular = document.getElementById("celular").value;
-                celular1 = trim(celular);
-                if (celular1 === "") {
-                    alert("Debe proporcionar el numero de contacto del servidor");
-                    return false;
-                }
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var escenarioNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (escenarioNombre.length > 100) {
-                    this.value = escenarioNombre.slice(0, 100);
-                }
-            });
-            document.getElementById('ubicacion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var ubicacion = this.value;
-                // Limitar el valor a 100 caracteres
-                if (ubicacion.length > 5000) {
-                    this.value = ubicacion.slice(0, 5000);
-                }
-            });
-            document.getElementById('direccion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var direccion = this.value;
-                // Limitar el valor a 100 caracteres
-                if (direccion.length > 500) {
-                    this.value = direccion.slice(0, 500);
-                }
-            });
-            document.getElementById('telefono').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var telefono = this.value;
-                // Limitar el valor a 100 caracteres
-                if (telefono.length > 10) {
-                    this.value = telefono.slice(0, 10);
-                }
-            });
-            document.getElementById('celular').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var celular = this.value;
-                // Limitar el valor a 100 caracteres
-                if (celular.length > 10) {
-                    this.value = celular.slice(0, 10);
-                }
-            });
-            document.getElementById('supervisor').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var supervisor = this.value;
-                // Limitar el valor a 100 caracteres
-                if (supervisor.length > 250) {
-                    this.value = supervisor.slice(0, 250);
-                }
-            });
-            document.getElementById('telefono').addEventListener('input', function() {
-                // Obtener el valor actual del campo de teléfono
-                var telefono = this.value;
-                // Quitar todos los caracteres que no sean números
-                var numerosTelefono = telefono.replace(/\D/g, '');
-                // Actualizar el valor del campo con solo los números
-                this.value = numerosTelefono;
-            });
-
-            document.getElementById('celular').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var celular = this.value;
-                // Quitar todos los caracteres que no sean números
-                var numerosCelular = celular.replace(/\D/g, '');
-                // Actualizar el valor del campo con solo los números
-                this.value = numerosCelular;
-            });
-        </script>
+<?php include 'validar.php';
+include 'limitar.php';
+?>
         <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {

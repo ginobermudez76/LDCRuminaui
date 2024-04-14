@@ -28,6 +28,7 @@ try {
             $telefono = $_POST['telefono'];
             $supervisor = $_POST['supervisor'];
             $celular = $_POST['celular'];
+            $extension = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
             $response = array();
             if (trim($nombre) == '') {
                 $response['success'] = false;
@@ -47,7 +48,11 @@ try {
             }elseif(trim($celular) == ''){
                 $response['success'] = false;
                 $response['message'] = "Debe proporcionar el numero de contacto del servidor";
-            } 
+            }elseif ($extension != 'jpeg'|| $extension != 'png' || $extension != 'jpg' || $extension != 'gif' || $extension != 'webp') {
+                $response['success'] = false;
+                $response['message'] = "Formato no soportado";
+            }
+
             else {
 
             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {

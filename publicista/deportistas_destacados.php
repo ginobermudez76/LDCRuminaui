@@ -40,7 +40,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formDeportistas" enctype="multipart/form-data" method="post" onsubmit="return validarCampos()">
+                        <form id="formDeportistas" enctype="multipart/form-data" method="post" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="Nombre" class="form-label">Nombre del deportista</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="200"></input>
@@ -69,7 +69,10 @@ try {
         <script>
             $("#tablaDeportista").load("tablaDeportistas.php");
         </script>
-
+        <?php
+        include 'validar.php';
+        include 'limitar.php';
+        ?>
         <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {
@@ -105,47 +108,6 @@ try {
             });
         </script>
 
-
-
-        <script>
-            function validarCampos() {
-
-                var nombreEvento = document.getElementById("nombre").value;
-                if (nombreEvento === "") {
-                    alert("El nombre no puede quedar vacio");
-                    return false;
-                }
-                var nombredeporte = document.getElementById("deporte_id").value;
-                if (nombredeporte === "") {
-                    alert("El deporte no puede quedar vacio");
-                    return false;
-                }
-                var imagenin = document.getElementById("imagen").value;
-                if (imagenin === "") {
-                    alert("La imagen es obligatoria");
-                    return false;
-                }
-
-                var archivoInput = document.getElementById("imagen");
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg', 'svg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-                return true;
-            }
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var Nombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (Nombre.length > 100) {
-                    this.value = Nombre.slice(0, 100);
-                }
-            });
-        </script>
         <script>
             function deshabilitarInputImagen() {
                 var checkbox = document.getElementById("checkDImagen");

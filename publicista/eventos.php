@@ -190,16 +190,7 @@ try {
         <script>
             function validarCamposEvento() {
                 // Validación de selección de tipo
-                var deporteSeleccionado = document.getElementById("deporte_id").value;
-                if (deporteSeleccionado === "") {
-                    alert("Por favor, seleccione un deporte");
-                    return false;
-                }
-                var nombreEvento = document.getElementById("nombre").value;
-                if (nombreEvento === "") {
-                    alert("El curso debe tener un nombre");
-                    return false;
-                }
+
 
                 // Validación de la fecha de inicio
                 var fechaInicio = document.getElementById("fecha_ini").value;
@@ -271,31 +262,8 @@ try {
                     return false;
                 }
 
-
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
                 return true;
             }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
             // Función para limitar la cantidad de dígitos en el campo de descripcion
             document.getElementById('descripcion').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular

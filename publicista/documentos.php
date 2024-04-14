@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario_admin'])) {
     echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
-
+$main =  'Documento';
 $usuario_id = $_SESSION['usuario_id'];
 
 try {
@@ -36,15 +36,15 @@ try {
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDocumentoModal">Agregar documento +</button>
 </div>
 <!-- Modal para agregar documento -->
-<div class="modal fade" id="agregarDocumentoModal" tabindex="-1" aria-labelledby="agregarDocumentoModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
+<div class="modal fade" id="agregar<?php echo htmlspecialchars($main) ?>Modal" tabindex="-1" aria-labelledby="agregarDocumentoModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarDocumentoModalLabel">Agregar documento</h5>
+                <h5 class="modal-title" id="agregar<?php echo htmlspecialchars($main) ?>ModalLabel">Agregar documento</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form id="formDocumento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <form id="form<?php echo htmlspecialchars($main) ?>" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del Documento</label>
                     <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="200">
@@ -65,14 +65,22 @@ try {
 </div>
         <div class="container">
             <div class="row" id="tablaDocumentos">
-            </div>
+            </div> 
         </div>
         <script>
-            $("#tablaDocumentos").load("tablaDocumento.php");
+            var main = "<?php echo $main ?>";
+            $("#tabla"+ main + "s").load("tabla" + main + "s.php");
             $(document).ready(function() {
-
+                var main = "<?php echo $main ?>";
+                <?php $main ?>
+                $("#tabla"+ main + "s").load("tabla" + main + "s.php");
+                
             });
         </script>
+        <?php
+        include 'validar.php';
+        include 'limitar.php';
+        ?>
         <script>
                 function trim(str) {
         return str.replace(/^\s+|\s+$/g, '');
@@ -125,47 +133,6 @@ try {
                 }
             }
         </script>
-            <script>
-            function validarCamposEvento() {
-                var nombreDocumento = document.getElementById("nombre").value;
-                if (nombreDocumento === "") {
-                    alert("El documento debe tener un nombre");
-                    return false;
-                }
-                var archivoInput = document.getElementById("documento");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['pdf', 'doc', 'docx', 'txt', 'ppt', 'pptx'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var documentoNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (documentoNombre.length > 100) {
-                    this.value = documentoNombre.slice(0, 200);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var documentoDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (documentoDescripcion.length > 2000) {
-                    this.value = documentoDescripcion.slice(0, 2000);
-                }
-            });
-        </script>
                 <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {
@@ -173,7 +140,7 @@ try {
                     alertify.success(response.message);
                     // Recargar la página después de 1.5 segundos
                     $('#formDocumento')[0].reset();
-                    $("#tablaDocumentos").load("tablaDocumento.php");
+                    $("#tablaDocumentos").load("tablaDocumentos.php");
                 } else {
                     alertify.error(response.message);
                 }

@@ -32,7 +32,7 @@ try {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="formCartas" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+            <form id="formCartas" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
               <div class="mb-3">
                 <label for="descripcion" class="form-label">Mensaje</label>
                 <textarea type="text" class="form-control" id="mensaje" name="mensaje" required maxlength="5000"></textarea>
@@ -162,7 +162,7 @@ try {
         xhttp.send();
       }
     </script>
-    <script src="validar.js"></script>
+    <?php include 'validar.php' ?> 
 <?php
   } else {
     echo "<script>window.location.href='../public/index.php';</script>";

@@ -45,7 +45,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formEvento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEvento()">
+                        <form id="formEvento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100">
@@ -93,6 +93,10 @@ try {
 
             });
         </script>
+        <?php 
+        include 'validar.php';
+        include 'limitar.php';
+        ?>
         <script>
             function deshabilitarInputImagen() {
                 var checkbox = document.getElementById("checkDImagen");
@@ -187,125 +191,6 @@ try {
             }
         </script>
 
-        <script>
-            function validarCamposEvento() {
-                // Validación de selección de tipo
-                var deporteSeleccionado = document.getElementById("deporte_id").value;
-                if (deporteSeleccionado === "") {
-                    alert("Por favor, seleccione un deporte");
-                    return false;
-                }
-                var nombreEvento = document.getElementById("nombre").value;
-                if (nombreEvento === "") {
-                    alert("El curso debe tener un nombre");
-                    return false;
-                }
-
-                // Validación de la fecha de inicio
-                var fechaInicio = document.getElementById("fecha_ini").value;
-                var fechaInicioArray = fechaInicio.split("-");
-                if (fechaInicioArray.length !== 3) {
-                    alert("Por favor, introduzca una fecha de inicio válida.");
-                    return false;
-                }
-                var yearInicio = fechaInicioArray[0];
-                var monthInicio = fechaInicioArray[1];
-                var dayInicio = fechaInicioArray[2];
-
-                // Verificar si el año tiene 4 dígitos
-                if (yearInicio.length !== 4 || isNaN(yearInicio)) {
-                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de inicio.");
-                    return false;
-                }
-
-                // Crear objeto de fecha de inicio y verificar si es válida
-                var fechaInicioObjeto = new Date(yearInicio, monthInicio - 1, dayInicio);
-                if (isNaN(fechaInicioObjeto.getTime())) {
-                    alert("Por favor, introduzca una fecha de inicio válida.");
-                    return false;
-                }
-
-                // Validación de la fecha de finalización
-                var fechaFin = document.getElementById("fecha_f").value;
-                var fechaFinArray = fechaFin.split("-");
-                if (fechaFinArray.length !== 3) {
-                    alert("Por favor, introduzca una fecha de finalización válida.");
-                    return false;
-                }
-                var yearFin = fechaFinArray[0];
-                var monthFin = fechaFinArray[1];
-                var dayFin = fechaFinArray[2];
-
-                // Verificar si el año tiene 4 dígitos
-                if (yearFin.length !== 4 || isNaN(yearFin)) {
-                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de finalización.");
-                    return false;
-                }
-
-                // Crear objeto de fecha de finalización y verificar si es válida
-                var fechaFinObjeto = new Date(yearFin, monthFin - 1, dayFin);
-                if (isNaN(fechaFinObjeto.getTime())) {
-                    alert("Por favor, introduzca una fecha de finalización válida.");
-                    return false;
-                }
-
-                // Validación de la fecha de inicio
-                var fechaInicio = document.getElementById("fecha_ini").value;
-                var fechaInicioObjeto = new Date(fechaInicio);
-                if (isNaN(fechaInicioObjeto.getTime())) {
-                    alert("Por favor, introduzca una fecha de inicio válida.");
-                    return false;
-                }
-
-                // Validación de la fecha de finalización
-                var fechaFin = document.getElementById("fecha_f").value;
-                var fechaFinObjeto = new Date(fechaFin);
-                if (isNaN(fechaFinObjeto.getTime())) {
-                    alert("Por favor, introduzca una fecha de finalización válida.");
-                    return false;
-                }
-
-                // Verificar que la fecha de finalización no sea menor que la fecha de inicio
-                if (fechaFinObjeto < fechaInicioObjeto) {
-                    alert("La fecha de finalización no puede ser menor que la fecha de inicio.");
-                    return false;
-                }
-
-
-                var archivoInput = document.getElementById("imagen");
-
-
-                var archivo = archivoInput.files[0];
-                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
-                var extension = archivo.name.split('.').pop().toLowerCase();
-
-                if (!extensionesPermitidas.includes(extension)) {
-                    alert("Formato no soportado");
-                    return false;
-                }
-
-
-                return true;
-            }
-            // Función para limitar la cantidad de dígitos en el campo de celular
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteNombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (deporteNombre.length > 100) {
-                    this.value = deporteNombre.slice(0, 100);
-                }
-            });
-            // Función para limitar la cantidad de dígitos en el campo de descripcion
-            document.getElementById('descripcion').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var deporteDescripcion = this.value;
-                // Limitar el valor a 10 caracteres
-                if (deporteDescripcion.length > 300) {
-                    this.value = deporteDescripcion.slice(0, 300);
-                }
-            });
-        </script>
         <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {

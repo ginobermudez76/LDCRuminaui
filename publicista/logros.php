@@ -42,7 +42,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formLogros" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCampos()">
+                        <form id="formLogros" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="Nombre" class="form-label">Nombre del logro</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100"></input>
@@ -83,37 +83,15 @@ try {
             <div class="row" id="tablaLogros">
             </div>
         </div>
+        <?php
+        include 'validar.php';
+        include 'limitar.php';
+        ?>        
         <script>
             $("#tablaLogros").load("tablaLogros.php");
-        </script>
-        <script>
-            function validarCampos() {
+            $(document).ready(function() {
 
-                var nombreEvento = document.getElementById("nombre").value;
-                if (nombreEvento === "") {
-                    alert("El nombre no puede quedar vacio");
-                    return false;
-                }
-                var nombreEvento = document.getElementById("tipoLogro").value;
-                if (nombreEvento === "") {
-                    alert("Seleccione un tipo de logro");
-                    return false;
-                }
-                var nombredeporte = document.getElementById("deporte_id").value;
-                if (nombredeporte === "") {
-                    alert("El deporte no puede quedar vacio");
-                    return false;
-                }
-                return true;
-            }
-            document.getElementById('nombre').addEventListener('input', function() {
-                // Obtener el valor actual del campo de celular
-                var nombre = this.value;
-                // Limitar el valor a 100 caracteres
-                if (nombre.length > 100) {
-                    this.value = nombre.slice(0, 100);
-                }
-            });
+});
         </script>
 
         <script>
