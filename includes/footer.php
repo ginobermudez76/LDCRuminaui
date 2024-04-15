@@ -94,16 +94,16 @@
           Daniel Vizcaíno Chanataxi
         </p>
         <div class="info-desarrollador"">
-          <a href="#">
+          <a href="https://api.whatsapp.com/send?phone=593978822207">
             <img src="../img/whatsapp.png" alt="Facebook">
           </a>
-          <a href="#">
+          <a href="https://www.facebook.com/DaniElFox55/">
             <img src="../img/facebook.png" alt="Facebook">
           </a>
-          <a href="#">
+          <a href="https://www.linkedin.com/in/daniel-vizca%C3%ADno-195153175/">
             <img src="../img/linkedin.png" alt="Linkedin">
           </a>
-          <a href="#">
+          <a href="https://github.com/DanielVizcainoISTER">
             <img src="../img/github.png" alt="GitHub">
           </a>
         </div>
