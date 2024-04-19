@@ -128,7 +128,110 @@ try {
                 });
             });
         </script>
+        <script>
+    // Función para abrir el modal
+    function openModal() {
+        var modal = document.getElementById("modalEditLogros");
+        modal.style.display = "block";
+    }
 
+    // Función para cerrar el modal
+    function closeModal() {
+        var modal = document.getElementById("modalEditLogros");
+        modal.style.display = "none";
+    }
+
+    // Cierra el modal si se hace clic fuera de él
+    window.onclick = function(event) {
+        var modal = document.getElementById("modalEditLogros");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Carga el formulario desde el otro script PHP cuando se abre el modal
+    function loadForm(idLogro) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("formContent").innerHTML = this.responseText;
+            document.getElementById("idLogroEdit").value = idLogro; // Establecer el ID del logro en el formulario
+            openModal(); // Abre el modal después de cargar el contenido
+            document.getElementById('nombreEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var nombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (nombre.length > 100) {
+                    this.value = nombre.slice(0, 100);
+                }
+            });
+        }
+    };
+    xhttp.open("GET", "formEditLogro.php?id=" + idLogro, true); // Pasar el ID del logro en la URL
+    xhttp.send();
+}
+
+</script>
+<script>
+      function trim(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+    }  
+            function validarCamposEdit() {
+
+                var nombreLogro = document.getElementById("tituloEdit").value;
+                nombreLogro1 = trim(nombreLogro);
+                if (nombreLogro1 === "") {
+                    alert("El titulo no puede quedar vacio");
+                    return false;
+                }
+                var tipoLogro = document.getElementById("tipoLogroEdit").value;
+                if (tipoLogro === "") {
+                    alert("Seleccione un tipo de logro");
+                    return false;
+                }
+                var nombredeporte = document.getElementById("deporte_idEdit").value;
+                if (nombredeporte === "") {
+                    alert("El deporte no puede quedar vacio");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <script>
+            function confirmarEliminacion(idLogro) {
+                var confirmacion = confirm("¿Está seguro que desea eliminar. Esta acción no se puede deshacer.?");
+
+                if (confirmacion) {
+                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminarLogro.php
+                    eliminarLogro(idLogro);
+                } else {
+                    // Usuario hizo clic en "Cancelar", no hacer nada
+                }
+            }
+
+            function eliminarLogro(idLogro) {
+                // Utiliza jQuery para enviar una solicitud AJAX a eliminarLogro.php
+                $.ajax({
+                    type: "POST",
+                    url: "eliminarLogro.php",
+                    data: {
+                        id: idLogro
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta, si es necesario
+                        console.log(response);
+
+                        // Puedes recargar la página o actualizar la lista de logros de alguna manera
+                        $("#tablaLogros").load("tablaLogros.php");
+                    },
+                    error: function(error) {
+                        // Manejar errores si es necesario
+                        console.error(error);
+                    }
+                });
+            }
+        </script>
+        
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

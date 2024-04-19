@@ -38,7 +38,7 @@ try {
             exit();
         }
 ?>
-        <form id="formDeporteEdit" action="editar_deporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
+        <form id="formDeporteEdit" action="editarDeporte.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Deporte</label>
                 <input type="text" class="form-control" id="nombreEdit" maxlength="100" name="nombreEdit" required value="<?php echo htmlspecialchars($deporte['nombre']); ?>">

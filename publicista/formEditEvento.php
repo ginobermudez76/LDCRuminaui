@@ -38,7 +38,7 @@ try {
             exit();
         }
 ?>
-        <form id="formEventoEdit" action="editar_evento.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
+        <form id="formEventoEdit" action="editarEvento.php" method="post" enctype="multipart/form-data" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del Evento</label>
                 <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required value="<?php echo htmlspecialchars($evento['nombre']); ?>" maxlength="100">

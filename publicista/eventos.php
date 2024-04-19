@@ -167,7 +167,7 @@ try {
                 // Utiliza jQuery para enviar una solicitud AJAX a eliminar_evento.php
                 $.ajax({
                     type: "POST",
-                    url: "eliminar_evento.php",
+                    url: "eliminarEvento.php",
                     data: {
                         id: idEvento
                     },

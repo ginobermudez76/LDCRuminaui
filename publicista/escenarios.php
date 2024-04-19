@@ -151,6 +151,172 @@ include 'limitar.php';
                 });
             });
         </script>
+
+<script>
+                    function trim(str) {
+                        return str.replace(/^\s+|\s+$/g, '');
+                    }
+
+                    function validarCamposEdit() {
+                        var nombreEscenario = trim(document.getElementById("nombreEdit").value);
+                        var ubicacionEscenario = trim(document.getElementById("ubicacionEdit").value);
+                        var direccionEscenario = trim(document.getElementById("direccionEdit").value);
+                        var telefonoEscenario = trim(document.getElementById("telefonoEdit").value);
+                        var supervisorEscenario = trim(document.getElementById("supervisorEdit").value);
+                        var celularEscenario = trim(document.getElementById("celularEdit").value);
+
+                        if (nombreEscenario === "" || ubicacionEscenario === "" || direccionEscenario === "" || telefonoEscenario === "" || supervisorEscenario === "" || celularEscenario === "") {
+                            alert("Todos los campos son obligatorios");
+                            return false;
+                        }
+
+                        var archivoInput = document.getElementById("imagenEdit");
+                        var archivo = archivoInput.files[0];
+                        if (archivo && !(/\.(jpg|jpeg|png|gif)$/i).test(archivo.name)) {
+                            alert("Formato de imagen no válido");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+            </div>
+        </div>
+        <script>
+            // Función para abrir el modal
+            function openModal() {
+                var modal = document.getElementById("modalEditEscenarios");
+                modal.style.display = "block";
+            }
+
+            // Función para cerrar el modal
+            function closeModal() {
+                var modal = document.getElementById("modalEditEscenarios");
+                modal.style.display = "none";
+            }
+
+            // Cierra el modal si se hace clic fuera de él
+            window.onclick = function(event) {
+                var modal = document.getElementById("modalEditEscenarios");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Carga el formulario desde el otro script PHP cuando se abre el modal
+            function loadForm(idEscenario) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("formContent").innerHTML = this.responseText;
+                        document.getElementById("idEscenarioEdit").value = idEscenario; // Establecer el ID del escenario en el formulario
+                        openModal(); // Abre el modal después de cargar el contenido
+                                    // Función para limitar la cantidad de dígitos en el campo de celular
+            document.getElementById('nombreEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var escenarioNombre = this.value;
+                // Limitar el valor a 100 caracteres
+                if (escenarioNombre.length > 100) {
+                    this.value = escenarioNombre.slice(0, 100);
+                }
+            });
+            document.getElementById('ubicacionEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var ubicacion = this.value;
+                // Limitar el valor a 100 caracteres
+                if (ubicacion.length > 5000) {
+                    this.value = ubicacion.slice(0, 5000);
+                }
+            });
+            document.getElementById('direccionEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var direccion = this.value;
+                // Limitar el valor a 100 caracteres
+                if (direccion.length > 500) {
+                    this.value = direccion.slice(0, 500);
+                }
+            });
+            document.getElementById('telefonoEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var telefono = this.value;
+                // Limitar el valor a 100 caracteres
+                if (telefono.length > 10) {
+                    this.value = telefono.slice(0, 10);
+                }
+            });
+            document.getElementById('celularEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var celular = this.value;
+                // Limitar el valor a 100 caracteres
+                if (celular.length > 10) {
+                    this.value = celular.slice(0, 10);
+                }
+            });
+            document.getElementById('supervisorEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var supervisor = this.value;
+                // Limitar el valor a 100 caracteres
+                if (supervisor.length > 250) {
+                    this.value = supervisor.slice(0, 250);
+                }
+            });
+            document.getElementById('telefonoEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de teléfono
+                var telefono = this.value;
+                // Quitar todos los caracteres que no sean números
+                var numerosTelefono = telefono.replace(/\D/g, '');
+                // Actualizar el valor del campo con solo los números
+                this.value = numerosTelefono;
+            });
+
+            document.getElementById('celularEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var celular = this.value;
+                // Quitar todos los caracteres que no sean números
+                var numerosCelular = celular.replace(/\D/g, '');
+                // Actualizar el valor del campo con solo los números
+                this.value = numerosCelular;
+            });
+                    }
+                };
+                xhttp.open("GET", "formEditEscenario.php?id=" + idEscenario, true); // Pasar el ID del escenario en la URL
+                xhttp.send();
+            }
+        </script>
+        <script>
+            function confirmarEliminacion(idEscenario) {
+                var confirmacion = confirm("¿Está seguro que desea eliminar este escenario?");
+
+                if (confirmacion) {
+                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_escenario.php
+                    eliminarEscenario(idEscenario);
+                } else {
+                    // Usuario hizo clic en "Cancelar", no hacer nada
+                }
+            }
+
+            function eliminarEscenario(idEscenario) {
+                // Utiliza jQuery para enviar una solicitud AJAX a eliminar_escenario.php
+                $.ajax({
+                    type: "POST",
+                    url: "eliminarEscenario.php",
+                    data: {
+                        id: idEscenario
+                    },
+                    success: function(response) {
+                        // Manejar la respuesta, si es necesario
+                        console.log(response);
+                        alert(response);
+                        // Puedes recargar la página o actualizar la lista de escenarios de alguna manera
+                        $("#tablaEscenarios").load("tablaEscenarios.php");
+                    },
+                    error: function(error) {
+                        // Manejar errores si es necesario
+                        alert(response);
+                        console.error(error);
+                    }
+                });
+            }
+        </script>
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

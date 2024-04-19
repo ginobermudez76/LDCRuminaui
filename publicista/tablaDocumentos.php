@@ -72,7 +72,6 @@ try {
 
             </div>
         </div>
-
         <div id="modalEditDocumentos" class="modal edit">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,94 +80,6 @@ try {
                 <div id="formContent"></div>
             </div>
         </div>
-        <script>
-            // Función para abrir el modal
-            function openModal() {
-                var modal = document.getElementById("modalEditDocumentos");
-                modal.style.display = "block";
-            }
-
-            // Función para cerrar el modal
-            function closeModal() {
-                var modal = document.getElementById("modalEditDocumentos");
-                modal.style.display = "none";
-            }
-
-            // Cierra el modal si se hace clic fuera de él
-            window.onclick = function(event) {
-                var modal = document.getElementById("modalEditDocumentos");
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            // Carga el formulario desde el otro script PHP cuando se abre el modal
-            function loadForm(idDocumento) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("formContent").innerHTML = this.responseText;
-                        document.getElementById("idDocumentoEdit").value = idDocumento; // Establecer el ID del documentita en el formulario
-                        openModal(); // Abre el modal después de cargar el contenido
-                        document.getElementById('nombreEdit').addEventListener('input', function() {
-                            // Obtener el valor actual del campo de celular
-                            var documentoNombre = this.value;
-                            // Limitar el valor a 100 caracteres
-                            if (documentoNombre.length > 200) {
-                                this.value = documentoNombre.slice(0, 200);
-                            }
-                        });
-                        // Función para limitar la cantidad de dígitos en el campo de descripcion
-                        document.getElementById('descripcionEdit').addEventListener('input', function() {
-                            // Obtener el valor actual del campo de celular
-                            var documentoDescripcion = this.value;
-                            // Limitar el valor a 10 caracteres
-                            if (documentoDescripcion.length > 2000) {
-                                this.value = documentoDescripcion.slice(0, 2000);
-                            }
-                        });
-                    }
-                };
-                xhttp.open("GET", "formEditDocumento.php?id=" + idDocumento, true); // Pasar el ID del documento en la URL
-                xhttp.send();
-            }
-        </script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-            function confirmarEliminacion(idDocumento) {
-                var confirmacion = confirm("¿Está seguro que desea eliminar este documento?");
-
-                if (confirmacion) {
-                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_documento.php
-                    eliminarDocumento(idDocumento);
-                } else {
-                    // Usuario hizo clic en "Cancelar", no hacer nada
-                }
-            }
-
-            function eliminarDocumento(idDocumento) {
-                // Utiliza jQuery para enviar una solicitud AJAX a eliminar_documento.php
-                $.ajax({
-                    type: "POST",
-                    url: "eliminarDocumento.php",
-                    data: {
-                        id: idDocumento
-                    },
-                    success: function(response) {
-                        // Manejar la respuesta, si es necesario
-                        console.log(response);
-                        alert(response);
-                        // Puedes recargar la página o actualizar la lista de documentos de alguna manera
-                        $("#tablaDocumentos").load("tablaDocumentos.php");
-                    },
-                    error: function(error) {
-                        // Manejar errores si es necesario
-                        alert(response);
-                        console.error(error);
-                    }
-                });
-            }
-        </script>
 
 <?php
     } else {
