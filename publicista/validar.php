@@ -1,5 +1,4 @@
 <script>
-  $("#tablaCartas").load("tablaCartas.php");
 
   /* variables compartidas a las funciones de este archivo y al archivo limitar.php*/
   var archivoInput = document.getElementById("imagen");
@@ -23,6 +22,14 @@
   }
   /*funcion para validar que los campos no esten vacios*/
   function validarCamposInsert() {
+    if (nombreInput) {
+      var nombreInsert = nombreInput.value;
+      if (nombreInsert.trim() === "") {
+        alert("El nombre no puede quedar vacío.");
+        return false;
+      }
+
+    }
 
     if (archivoInput) {
       /*Se comprueba que el input este presente en el script caso contrario se sigue con las demas validaciones*/
@@ -107,7 +114,6 @@
       }
 
       // Validación de la fecha de inicio
-      var fechaInicio = document.getElementById("fecha_ini").value;
       var fechaInicioObjeto = new Date(fechaInicio);
       if (isNaN(fechaInicioObjeto.getTime())) {
         alert("Por favor, introduzca una fecha de inicio válida.");
@@ -115,7 +121,6 @@
       }
 
       // Validación de la fecha de finalización
-      var fechaFin = document.getElementById("fecha_f").value;
       var fechaFinObjeto = new Date(fechaFin);
       if (isNaN(fechaFinObjeto.getTime())) {
         alert("Por favor, introduzca una fecha de finalización válida.");
@@ -146,16 +151,6 @@
         return false;
       }
     }
-
-    if (nombreInput) {
-      var nombreInsert = nombreInput.value;
-      if (nombreInsert.trim() === "") {
-        alert("El nombre no puede quedar vacío.");
-        return false;
-      }
-
-    }
-
 
     if (cuerpoInput) {
       var cuerpoNoticia = cuerpoInput.value;

@@ -31,60 +31,62 @@ try {
             echo "Error: " . $e->getMessage();
         }
 ?>
-<div class="container mt-5 mr-5">
-<h2 class="gestionar">Formatos de documentos</h2>
-    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDocumentoModal">Agregar documento +</button>
-</div>
-<!-- Modal para agregar documento -->
-<div class="modal fade" id="agregar<?php echo htmlspecialchars($main) ?>Modal" tabindex="-1" aria-labelledby="agregarDocumentoModalLabel" aria-hidden="true" onsubmit="return validarTipo()">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregar<?php echo htmlspecialchars($main) ?>ModalLabel">Agregar documento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <form id="form<?php echo htmlspecialchars($main) ?>" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre del Documento</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="200">
+        <div class="container mt-5 mr-5">
+            <h2 class="gestionar">Formatos de documentos</h2>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarDocumentoModal">Agregar documento +</button>
+        </div>
+        <!-- Modal para agregar documento -->
+        <div class="modal fade" id="agregar<?php echo htmlspecialchars($main) ?>Modal" tabindex="-1" aria-labelledby="agregarDocumentoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregar<?php echo htmlspecialchars($main) ?>ModalLabel">Agregar documento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form<?php echo htmlspecialchars($main) ?>" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre del Documento</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" requerid maxlength="200">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción (la descripción no se muestra al publico)</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="2000"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="documento" class="form-label">Documento</label>
+                                <input type="file" class="form-control" id="documento" name="documento" requerid></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Agregar nuevo documento</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción (la descripción no se muestra al publico)</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="2000"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="documento" class="form-label">Documento</label>
-                    <input type="file" class="form-control" id="documento" name="documento" requerid></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar nuevo documento</button>
-            </form>
             </div>
         </div>
-    </div>
-</div>
         <div class="container">
             <div class="row" id="tablaDocumentos">
-            </div> 
+            </div>
         </div>
-        <script>
-            var main = "<?php echo $main ?>";
-            $("#tabla"+ main + "s").load("tabla" + main + "s.php");
-            $(document).ready(function() {
-                var main = "<?php echo $main ?>";
-                <?php $main ?>
-                $("#tabla"+ main + "s").load("tabla" + main + "s.php");
-                
-            });
-        </script>
+
         <?php
         include 'validar.php';
         include 'limitar.php';
         ?>
         <script>
-                function trim(str) {
-        return str.replace(/^\s+|\s+$/g, '');
-    }
+            var main = "<?php echo $main ?>";
+            $("#tabla" + main + "s").load("tabla" + main + "s.php");
+            $(document).ready(function() {
+                var main = "<?php echo $main ?>";
+                <?php $main ?>
+                $("#tabla" + main + "s").load("tabla" + main + "s.php");
+
+            });
+        </script>
+        <script>
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            }
+
             function validarCamposEdit() {
                 var nombreDocumento = document.getElementById("nombreEdit").value;
                 nombreDocumento1 = trim(nombreDocumento);
@@ -108,7 +110,6 @@ try {
                 return true;
             }
             // Función para limitar la cantidad de dígitos en el campo de celular
-
         </script>
         <script>
             function deshabilitarInputDocumento() {
@@ -133,7 +134,7 @@ try {
                 }
             }
         </script>
-                <script>
+        <script>
             // Función para manejar la respuesta del servidor
             function handleResponse(response) {
                 if (response.success) {

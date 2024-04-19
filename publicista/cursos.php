@@ -48,7 +48,7 @@ try {
                         <form id="formEvento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required maxlength="100">
+                                <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Descripción</label>

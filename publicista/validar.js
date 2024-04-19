@@ -1,5 +1,5 @@
 /*script para la validacion de los campos obligatorios no estén vacios*/
-$("#tablaCartas").load("tablaCartas.php");
+
 
 function trim(str) {
   /*funcion para quitar espacios vacios 

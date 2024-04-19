@@ -52,7 +52,9 @@ try {
       <div class="row" id="tablaCartas">
       </div>
     </div>
+
     <script>
+      $("#tablaCartas").load("tablaCartas.php");
       function handleResponse(response) {
         if (response.success) {
           alertify.success(response.message);
@@ -162,7 +164,8 @@ try {
         xhttp.send();
       }
     </script>
-    <?php include 'validar.php' ?> 
+    <?php include 'validar.php' ;
+    include 'limitar.php';?> 
 <?php
   } else {
     echo "<script>window.location.href='../public/index.php';</script>";

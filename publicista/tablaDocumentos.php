@@ -159,7 +159,7 @@ try {
                         console.log(response);
                         alert(response);
                         // Puedes recargar la página o actualizar la lista de documentos de alguna manera
-                        $("#tablaDocumentos").load("tablaDocumento.php");
+                        $("#tablaDocumentos").load("tablaDocumentos.php");
                     },
                     error: function(error) {
                         // Manejar errores si es necesario
