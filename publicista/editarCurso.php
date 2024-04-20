@@ -22,7 +22,7 @@ try {
         // Procesar el formulario si se envió
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
-                $idEvento = $_POST['idEventoEdit'];
+                $idCurso = $_POST['idCursoEdit'];
                 $nombre = $_POST['nombreEdit'];
                 $descripcion = $_POST['descripcionEdit'];
                 $fecha_ini = $_POST['fecha_iniEdit'];
@@ -38,22 +38,22 @@ try {
                     $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagenEdit']['name'], $directorioDestino);
 
                     // Eliminar el archivo antiguo del sistema de archivos
-                    eliminarArchivoAntiguo($idEvento, $directorioDestino);
+                    eliminarArchivoAntiguo($idCurso, $directorioDestino);
 
                     // Mover el archivo al directorio de destino
                     if (!move_uploaded_file($_FILES["imagenEdit"]["tmp_name"], $archivoNuevo)) {
                         throw new Exception("Hubo un error al cargar el nuevo documento");
                     }
                     $stmt = $conn->prepare("UPDATE cursos SET imagen =? WHERE id = ?");
-                    $stmt->execute([$archivoNuevo, $idEvento]);
+                    $stmt->execute([$archivoNuevo, $idCurso]);
                 }
 
                 // Verificar si el checkbox está marcado
                 if (isset($_POST['checkDImagen'])) {
-                    eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
+                    eliminarArchivoYActualizarBD($idCurso, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
                 } else {
                     // Actualizar la solicitud en la base de datos sin cambiar el archivo
-                    actualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
+                    actualizarBD($idCurso, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte);
                 }
 
 
@@ -90,12 +90,12 @@ function obtenerNombreArchivoNuevo($nombreArchivo, $directorioDestino)
     return $archivoNuevo;
 }
 
-function eliminarArchivoAntiguo($idEvento, $directorioDestino)
+function eliminarArchivoAntiguo($idCurso, $directorioDestino)
 {
     global $conn;
 
     $stmt = $conn->prepare("SELECT imagen FROM cursos WHERE id = :id");
-    $stmt->bindParam(':id', $idEvento);
+    $stmt->bindParam(':id', $idCurso);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
 
@@ -107,12 +107,12 @@ function eliminarArchivoAntiguo($idEvento, $directorioDestino)
 }
 
 
-function eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
+function eliminarArchivoYActualizarBD($idCurso, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
 {
     global $conn;
 
     $stmt = $conn->prepare("SELECT imagen FROM cursos WHERE id = :id");
-    $stmt->bindParam(':id', $idEvento);
+    $stmt->bindParam(':id', $idCurso);
     $stmt->execute();
     $nombreArchivoEliminar = basename($stmt->fetch(PDO::FETCH_ASSOC)['imagen']);
 
@@ -123,13 +123,13 @@ function eliminarArchivoYActualizarBD($idEvento, $nombre, $descripcion, $fecha_i
     }
 
     $stmt = $conn->prepare("UPDATE cursos SET imagen = NULL, nombre = ?,  descripcion = ?, fecha_inicio =?, fecha_fin = ?, deporte_id = ? WHERE id = ?");
-    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idEvento]);
+    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idCurso]);
 }
 
-function actualizarBD($idEvento, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
+function actualizarBD($idCurso, $nombre, $descripcion, $fecha_ini, $fecha_f, $deporte)
 {
     global $conn;
 
     $stmt = $conn->prepare("UPDATE cursos SET  nombre = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, deporte_id = ? WHERE id = ?");
-    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idEvento]);
+    $stmt->execute([$nombre, $descripcion, $fecha_ini, $fecha_f, $deporte, $idCurso]);
 }

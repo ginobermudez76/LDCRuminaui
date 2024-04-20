@@ -109,29 +109,6 @@ try {
         </script>
 
         <script>
-            function deshabilitarInputImagen() {
-                var checkbox = document.getElementById("checkDImagen");
-                var inputImagen = document.getElementById("imagenEdit");
-
-                if (checkbox.checked) {
-                    inputImagen.disabled = true;
-                } else {
-                    inputImagen.disabled = false;
-                }
-            }
-
-            function deshabilitarCheckbox() {
-                var checkbox = document.getElementById("checkDImagen");
-                var inputImagen = document.getElementById("imagenEdit");
-
-                if (inputImagen.value) {
-                    checkbox.disabled = true;
-                } else {
-                    checkbox.disabled = false;
-                }
-            }
-        </script>
-        <script>
             function trim(str) {
                 return str.replace(/^\s+|\s+$/g, '');
             }

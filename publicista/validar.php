@@ -1,5 +1,4 @@
 <script>
-
   /* variables compartidas a las funciones de este archivo y al archivo limitar.php*/
   var archivoInput = document.getElementById("imagen");
   var mensajeInput = document.getElementById("mensaje");
@@ -224,5 +223,49 @@
     }
 
     return true;
+  }
+
+  function deshabilitarInputDocumento() {
+    var checkbox = document.getElementById("checkDDocumento");
+    var inputDocumento = document.getElementById("documentoEdit");
+
+    if (checkbox.checked) {
+      inputDocumento.disabled = true;
+    } else {
+      inputDocumento.disabled = false;
+    }
+  }
+
+  function deshabilitarCheckbox() {
+    var checkbox = document.getElementById("checkDDocumento");
+    var inputDocumento = document.getElementById("documentoEdit");
+
+    if (inputDocumento.value) {
+      checkbox.disabled = true;
+    } else {
+      checkbox.disabled = false;
+    }
+  }
+
+  function deshabilitarInputImagen() {
+    var checkbox = document.getElementById("checkDImagen");
+    var inputImagen = document.getElementById("imagenEdit");
+
+    if (checkbox.checked) {
+      inputImagen.disabled = true;
+    } else {
+      inputImagen.disabled = false;
+    }
+  }
+
+  function deshabilitarCheckbox() {
+    var checkbox = document.getElementById("checkDImagen");
+    var inputImagen = document.getElementById("imagenEdit");
+
+    if (inputImagen.value) {
+      checkbox.disabled = true;
+    } else {
+      checkbox.disabled = false;
+    }
   }
 </script>

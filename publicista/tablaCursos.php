@@ -116,10 +116,10 @@ try {
                 </table>
             </div>
         </div>
-        <div id="modalEditCurso" class="modal edit">
+        <div id="modalEditCursos" class="modal edit">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editarEventoModalLabel">Editar curso</h5>
+                    <h5 class="modal-title" id="editarCursoModalLabel">Editar curso</h5>
                 </div>
                 <div id="formContent"></div>
             </div>

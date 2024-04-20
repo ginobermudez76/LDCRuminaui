@@ -9,6 +9,7 @@ if (!isset($_SESSION['usuario_admin'])) {
 
 
 $usuario_id = $_SESSION['usuario_id'];
+$main = 'Curso';
 
 try {
     // Consultar el rol del usuario en la base de datos
@@ -34,18 +35,18 @@ try {
 ?>
         <div class="container mt-5 mr-5">
             <h2 class="gestionar">Cursos vacionales</h2>
-            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarEventoModal">Agregar curso +</button>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarCursoModal">Agregar curso +</button>
         </div>
         <!-- Modal para agregar dporte -->
-        <div class="modal fade" id="agregarEventoModal" tabindex="-1" aria-labelledby="agregarEventoModalLabel" aria-hidden="true">
+        <div class="modal fade" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarCursoModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="agregarEventoModalLabel">Agregar curso</h5>
+                        <h5 class="modal-title" id="agregarCursoModalLabel">Agregar curso</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formEvento" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
+                        <form id="formCurso" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100">
@@ -77,7 +78,7 @@ try {
                                 <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Publicar evento</button>
+                            <button type="submit" class="btn btn-primary">Publicar curso</button>
                         </form>
                     </div>
                 </div>
@@ -96,192 +97,9 @@ try {
         <?php 
         include 'validar.php';
         include 'limitar.php';
+        include 'cargar.php';
         ?>
-        <script>
-            function deshabilitarInputImagen() {
-                var checkbox = document.getElementById("checkDImagen");
-                var inputImagen = document.getElementById("imagenEdit");
-
-                if (checkbox.checked) {
-                    inputImagen.disabled = true;
-                } else {
-                    inputImagen.disabled = false;
-                }
-            }
-
-            function deshabilitarCheckbox() {
-                var checkbox = document.getElementById("checkDImagen");
-                var inputImagen = document.getElementById("imagenEdit");
-
-                if (inputImagen.value) {
-                    checkbox.disabled = true;
-                } else {
-                    checkbox.disabled = false;
-                }
-            }
-        </script>
-        <script>
-            function ConfirmarInscripcion(idEvento, estado) {
-                var enviarCambio = confirm("Haga click en aceptar para enviar el cambio");
-
-                if (enviarCambio) {
-                    ActualizarInscripcion(idEvento, estado);
-                } else {
-                    // No hacer nada
-                }
-            }
-
-            function ActualizarInscripcion(idEvento, estado) {
-                $.ajax({
-                    type: "POST",
-                    url: "inscripcionesCurso.php",
-                    data: {
-                        id: idEvento,
-                        tipo: estado
-                    },
-                    success: function(response) {
-                        // Manejar la respuesta, si es necesario
-                        console.log(response);
-                        alertify.success(response);
-                        // Recargar la tabla después de 1.5 segundos
-                        $("#tablaCursos").load("tablaCursos.php");
-
-                    },
-                    error: function(error) {
-                        alertify.error(response);
-                        // Manejar errores si es necesario
-                        console.error(error);
-                    }
-                });
-            }
-        </script>
-        <script>
-            function confirmarEliminacion(idEvento) {
-                var confirmacion = confirm("¿Está seguro que desea eliminar este vacacional?");
-
-                if (confirmacion) {
-                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_evento.php
-                    eliminarEvento(idEvento);
-                } else {
-                    // Usuario hizo clic en "Cancelar", no hacer nada
-                }
-            }
-
-            function eliminarEvento(idEvento) {
-                // Utiliza jQuery para enviar una solicitud AJAX a eliminar_evento.php
-                $.ajax({
-                    type: "POST",
-                    url: "eliminarCurso.php",
-                    data: {
-                        id: idEvento
-                    },
-                    success: function(response) {
-                        // Manejar la respuesta, si es necesario
-                        console.log(response);
-                        alert(response);
-                        // Puedes recargar la página o actualizar la lista de productos de alguna manera
-                        $("#tablaCursos").load("tablaCursos.php")
-                    },
-                    error: function(error) {
-                        alert(response);
-                        // Manejar errores si es necesario
-                        console.error(error);
-                    }
-                });
-            }
-        </script>
-
-        <script>
-            // Función para manejar la respuesta del servidor
-            function handleResponse(response) {
-                if (response.success) {
-                    alertify.success(response.message);
-                    // Recetear el formulario de evento
-                    $('#formEvento')[0].reset();
-                    $("#tablaCursos").load("tablaCursos.php");
-                } else {
-                    alertify.error(response.message);
-                }
-            }
-
-            $(document).ready(function() {
-                // Manejar el envío del formulario
-                $('#formEvento').submit(function(event) {
-                    event.preventDefault(); // Evitar el envío del formulario por defecto
-                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
-                    $.ajax({
-                        url: 'insertarCurso.php',
-                        type: 'POST',
-                        data: formData,
-                        async: false,
-                        success: function(response) {
-                            handleResponse(JSON.parse(response));
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
-                    return false;
-                });
-            });
-        </script>
-                <script>
-    // Función para abrir el modal
-    function openModal() {
-        var modal = document.getElementById("modalEditCurso");
-        modal.style.display = "block";
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-        var modal = document.getElementById("modalEditCurso");
-        modal.style.display = "none";
-    }
-
-    // Cierra el modal si se hace clic fuera de él
-    window.onclick = function(event) {
-        var modal = document.getElementById("modalEditCurso");
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    // Carga el formulario desde el otro script PHP cuando se abre el modal
-    function loadForm(idEvento) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("formContent").innerHTML = this.responseText;
-                document.getElementById("idEventoEdit").value = idEvento; // Establecer el ID del deportita en el formulario
-                openModal(); // Abre el modal después de cargar el contenido
-                
-                // Aplica las funciones de límite de caracteres
-                document.getElementById('nombreEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var deporteNombre = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (deporteNombre.length > 100) {
-                        this.value = deporteNombre.slice(0, 100);
-                    }
-                });
-
-                // Función para limitar la cantidad de dígitos en el campo de descripcion
-                document.getElementById('descripcionEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var deporteDescripcion = this.value;
-                    // Limitar el valor a 300 caracteres
-                    if (deporteDescripcion.length > 300) {
-                        this.value = deporteDescripcion.slice(0, 300);
-                    }
-                });
-            }
-        };
-        xhttp.open("GET", "formEditCurso.php?id=" + idEvento, true); // Pasar el ID del deporte en la URL
-        xhttp.send();
-    }
-</script>
-
-        <script>
+<script>
             function trim(str) {
                 return str.replace(/^\s+|\s+$/g, '');
             }
@@ -294,10 +112,10 @@ try {
                     alert("Por favor, seleccione un deporte");
                     return false;
                 }
-                var nombreEvento = document.getElementById("nombreEdit").value;
-                nombreEvento1 = trim(nombreEvento);
-                if (nombreEvento1 === "") {
-                    alert("El evento debe tener un nombre");
+                var nombreCurso = document.getElementById("nombreEdit").value;
+                nombreCurso1 = trim(nombre);
+                if (nombreCurso1 === "") {
+                    alert("El Curso debe tener un nombre");
                     return false;
                 }
 

@@ -8,7 +8,7 @@ if (!isset($_SESSION['usuario_admin'])) {
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
-
+$main = 'Noticia';
 try {
     // Consultar el rol del usuario en la base de datos
     $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
@@ -33,7 +33,7 @@ try {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formNoticias" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
+                        <form id="formNoticia" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Titulo</label>
                                 <input type="text" class="form-control" id="titulo" name="titulo"></input>
@@ -62,98 +62,8 @@ try {
         </div>
         <?php include 'validar.php';
         include 'limitar.php';
+        include 'cargar.php';
         ?>
-        <script>
-            $("#tablaNoticias").load("tablaNoticias.php"); //load es una funcion de Jquery
-            $(document).ready(function() {});
-        </script>
-        <script>
-            // Función para manejar la respuesta del servidor
-            function handleResponse(response) {
-                if (response.success) {
-                    alertify.success(response.message);
-                    // Recargar la página después de 1.5 segundos
-                    $('#formNoticias')[0].reset();
-                    $("#tablaNoticias").load("tablaNoticias.php");
-                } else {
-                    alertify.error(response.message);
-                }
-            }
-
-            $(document).ready(function() {
-                // Manejar el envío del formulario
-                $('#formNoticias').submit(function(event) {
-                    event.preventDefault(); // Evitar el envío del formulario por defecto
-                    var formData = new FormData($(this)[0]); // Obtener los datos del formulario
-                    $.ajax({
-                        url: 'insertarNoticia.php',
-                        type: 'POST',
-                        data: formData,
-                        async: false,
-                        success: function(response) {
-                            handleResponse(JSON.parse(response));
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
-                    return false;
-                });
-            });
-        </script>
-                <script>
-    // Función para abrir el modal
-    function openModal() {
-        var modal = document.getElementById("modalEditNoticias");
-        modal.style.display = "block";
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-        var modal = document.getElementById("modalEditNoticias");
-        modal.style.display = "none";
-    }
-
-    // Cierra el modal si se hace clic fuera de él
-    window.onclick = function(event) {
-        var modal = document.getElementById("modalEditNoticias");
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    // Carga el formulario desde el otro script PHP cuando se abre el modal
-    function loadForm(idNoticia) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("formContent").innerHTML = this.responseText;
-            document.getElementById("idNoticiaEdit").value = idNoticia; // Establecer el ID de la noticia en el formulario
-            openModal(); // Abre el modal después de cargar el contenido
-                            // Función para limitar la cantidad de dígitos en el campo de celular
-    document.getElementById('tituloEdit').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var titulo = this.value;
-        // Limitar el valor a 100 caracteres
-        if (titulo.length > 100) {
-            this.value = titulo.slice(0, 100);
-        }
-    });
-    document.getElementById('cuerpoEdit').addEventListener('input', function() {
-        // Obtener el valor actual del campo de celular
-        var cuerpo = this.value;
-        // Limitar el valor a 100 caracteres
-        if (cuerpo.length > 5000) {
-            this.value = cuerpo.slice(0, 5000);
-        }
-    });
-        }
-    };
-    xhttp.open("GET", "formEditNoticia.php?id=" + idNoticia, true); // Pasar el ID de la noticia en la URL
-    xhttp.send();
-}
-
-</script>
 <script>
         function trim(str) {
         return str.replace(/^\s+|\s+$/g, '');
@@ -175,40 +85,7 @@ try {
                 return true;
             }
         </script>
-        <script>
-            function confirmarEliminacion(idNoticia) {
-                var confirmacion = confirm("¿Está seguro que desea eliminar. Esta acción no se puede deshacer.?");
 
-                if (confirmacion) {
-                    // Usuario hizo clic en "Aceptar", enviar solicitud a eliminarNoticia.php
-                    eliminarNoticia(idNoticia);
-                } else {
-                    // Usuario hizo clic en "Cancelar", no hacer nada
-                }
-            }
-
-            function eliminarNoticia(idNoticia) {
-                // Utiliza jQuery para enviar una solicitud AJAX a eliminarNoticia.php
-                $.ajax({
-                    type: "POST",
-                    url: "eliminarNoticia.php",
-                    data: {
-                        id: idNoticia
-                    },
-                    success: function(response) {
-                        // Manejar la respuesta, si es necesario
-                        console.log(response);
-
-                        // Puedes recargar la página o actualizar la lista de noticias de alguna manera
-                        $("#tablaNoticias").load("tablaNoticias.php");
-                    },
-                    error: function(error) {
-                        // Manejar errores si es necesario
-                        console.error(error);
-                    }
-                });
-            }
-        </script>
 <?php
     } else {
         echo "<script>window.location.href='../public/index.php';</script>";

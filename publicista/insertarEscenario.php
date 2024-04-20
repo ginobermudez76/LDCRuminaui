@@ -48,10 +48,11 @@ try {
             }elseif(trim($celular) == ''){
                 $response['success'] = false;
                 $response['message'] = "Debe proporcionar el numero de contacto del servidor";
-            }elseif ($extension != 'jpeg'|| $extension != 'png' || $extension != 'jpg' || $extension != 'gif' || $extension != 'webp') {
+            }elseif ($extension != 'jpeg' && $extension != 'png' && $extension != 'jpg' && $extension != 'gif' && $extension != 'webp') {
                 $response['success'] = false;
                 $response['message'] = "Formato no soportado";
             }
+            
 
             else {
 
