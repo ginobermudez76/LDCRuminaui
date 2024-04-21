@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -44,11 +44,11 @@ try {
         <?php else : ?>
             <a>No hay imagen</a>
         <?php endif; ?>
-        <input type="file" class="form-control" id="imagenEdit" name="imagen" value="<?php echo htmlspecialchars($carta['imagen']); ?>" onchange="deshabilitarCheckbox()">
+        <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($carta['imagen']); ?>" onchange="deshabilitarCheckbox()">
     </div>
     <div class="mb-3">
         <label for="Mensaje" class="form-label">Mensaje</label>
-        <textarea type="text" class="form-control" id="mensajeEdit" name="mensajeEdit"><?php echo htmlspecialchars($carta['mensaje']); ?></textarea>
+        <textarea type="text" class="form-control" id="mensajeEdit" name="mensajeEdit" required maxlength="5000"><?php echo htmlspecialchars($carta['mensaje']); ?></textarea>
     </div>
     <input type="hidden" id="idCartaEdit" name="idCarta" value="<?php echo $idCarta; ?>">
     <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
@@ -57,7 +57,7 @@ try {
 
 <?php
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

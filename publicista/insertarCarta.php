@@ -1,8 +1,9 @@
 <?php
+session_start();
 include '../includes/config.php'; // Incluyendo la conexión a la base de datos
-include '../includes/header.php';
+
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -20,44 +21,51 @@ try {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Obtener los datos del formulario
             $mensaje = $_POST['mensaje'];
+
+            $response = array();
+
             if (trim($mensaje) == '') {
-                $error = "El mensaje no debe estar vacío";
+                $response['success'] = false;
+                $response['message'] = "El mensaje no puede estar vacio";
+            } elseif (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] != 0) {
+                $response['success'] = false;
+                $response['message'] = "La imagen es obligatoria.";
             } else {
-                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
-                    $directorioDestino = "../uploads/cartaCondolencia/";
 
-                    $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
+                $directorioDestino = "../uploads/cartaCondolencia/";
 
-                    $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
+                $archivoImagen = $directorioDestino . basename($_FILES['imagen']['name']);
 
-                    $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+                $tipoArchivo = strtolower(pathinfo($archivoImagen, PATHINFO_EXTENSION));
 
-                    if ($check != false) {
-                        // Verificar si el archivo ya existe y renombrarlo si es necesario
-                        $contador = 1;
-                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
-                        $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+                $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+
+                if ($check != false) {
+                    // Verificar si el archivo ya existe y renombrarlo si es necesario
+                    $contador = 1;
+                    $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME);
+                    $extensionArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+                    $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+
+                    while (file_exists($archivo)) {
+                        $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
                         $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
+                        $contador++;
+                    }
 
-                        while (file_exists($archivo)) {
-                            $nombreArchivo = pathinfo($_FILES['imagen']['name'], PATHINFO_FILENAME) . '_' . $contador;
-                            $archivo = $directorioDestino . $nombreArchivo . '.' . $extensionArchivo;
-                            $contador++;
-                        }
+                    $archivoImagen = $archivo;
 
-                        $archivoImagen = $archivo;
+                    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
+                        //la imagen se cargo correctamente
 
-                        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoImagen)) {
-                            //la imagen se cargo correctamente
-
-                        } else {
-                            $error = "Hubo un error al cargar la imagen";
-                        }
                     } else {
-                        $error = "El archivo no es una imagen";
+                        $response['success'] = false;
+                        $response['message'] = "Hubo un error al cargar la imagen.";
+                        $archivoImagen = "";
                     }
                 } else {
-                    // Manejo en el caso de que la imagen no se cargue
+                    $response['success'] = false;
+                    $response['message'] = "Hubo un error al cargar la imagen.";
                     $archivoImagen = "";
                 }
 
@@ -67,19 +75,24 @@ try {
                     $stmt->execute([$archivoImagen, $mensaje, $fecha_eliminar]);
 
                     // Redirigir después de agregar
-                    header("Location: carta_de_condolencias.php");
-                    exit();
+                    $response['success'] = true;
+                    $response['message'] = "Su mensaje se publicó correctamente";
                 } catch (PDOException $e) {
-                    echo "Error: " . $e->getMessage();
+                    $response['success'] = false;
+                    $response['message'] = "Hubo un error al mostrar la carta de condolencias " . $e->getMessage();
                 }
             }
+            // Enviar la respuesta en formato JSON
+            echo json_encode($response);
+            exit();
         }
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    $response['success'] = false;
+    $response['message'] = "Error: " . $e->getMessage();
+    echo json_encode($response);
 }
-include '../includes/footer.php'
 ?>

@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -19,7 +19,7 @@ try {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 // Obtener los datos del formulario de edición
-                $idDeportista = $_POST['idDeportista']; // Corrección aquí
+                $idDeportista = $_POST['idDeportistaEdit']; // Corrección aquí
                 $nombre = $_POST['nombreEdit'];
                 $deporte = $_POST['deporte_idEdit'];
         
@@ -51,18 +51,20 @@ try {
                 }
         
                 // Redirigir después de editar
-                header("Location: deportistas_destacados.php");
+                echo "<script>window.location.href='../publicista/deportistas_destacados.php';</script>";
+
                 exit();
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         } else {
             // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-            header("Location: deportistas_destacados.php");
+            echo "<script>window.location.href='../publicista/deportistas_destacados.php';</script>";
+
             exit();
         }
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {
@@ -95,7 +97,7 @@ function eliminarArchivoAntiguo($idDeportista, $directorioDestino) {
 
     $rutaArchivoEliminar = $directorioDestino . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 }
@@ -110,7 +112,7 @@ function eliminarArchivoYActualizarBD($idDeportista, $nombre, $deporte) {
 
     $rutaArchivoEliminar = "../uploads/deportes/deportistas/" . $nombreArchivoEliminar;
 
-    if (file_exists($rutaArchivoEliminar)) {
+    if (file_exists($rutaArchivoEliminar) && is_file($rutaArchivoEliminar)) {
         unlink($rutaArchivoEliminar);
     }
 

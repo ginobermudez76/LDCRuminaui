@@ -4,7 +4,7 @@ include '../includes/config.php';
 
 // Verificar si el usuario está autenticado como administrador
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuarioId = $_SESSION['usuario_id'];
@@ -15,7 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pass = $_POST['pass'];
         $newpass = $_POST['newpass'];
         $response = array();
-
+        if (trim($newpass) == '') {
+            $response['success'] = false;
+            $response['message'] = "Nueva contraseña no valida";
+        }else{
         // Obtener la contraseña almacenada en la base de datos
         $stmt = $conn->prepare("SELECT contrasena FROM usuarios WHERE id = :usuario_id");
         $stmt->bindParam(':usuario_id', $usuarioId, PDO::PARAM_INT);
@@ -34,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $response['success'] = false;
             $response['message'] = "Contraseña anterior incorrecta";
+        }   
         }
+
     } catch (Exception $e) {
         $response['success'] = false;
         $response['message'] = "Error: " . $e->getMessage();

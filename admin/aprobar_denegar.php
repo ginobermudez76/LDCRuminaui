@@ -4,7 +4,7 @@ include '../includes/config.php'; //incluyendo la conexión de la base de datos
 
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -61,7 +61,7 @@ try {
                                 // Llamar al procedimiento almacenado para actualizar el departamento y otros campos relacionados
                                 $stmt = $conn->prepare("CALL procesarAccionSP(?, ?, ?)");
                                 $stmt->execute([$nuevo_estado, $tipoId['id_tipo'], $solicitud_id]);
-                                header("Location: ../admin/vsolicitudencargado.php");
+                                echo "<script>window.location.href='../admin/vsolicitudencargado.php';</script>";
                                 exit();
                             } catch (PDOException $e) {
                                 echo "Error: " . $e->getMessage();
@@ -80,7 +80,7 @@ try {
                             $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo)
                         VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
                             $stmt->execute([$solicitud_id, $nuevo_estado, $usuario_id, $usuario['rol'], $tipoId['id_tipo'],]);
-                            header("Location: ../admin/vsolicitudencargado.php");
+                            echo "<script>window.location.href='../admin/vsolicitudencargado.php';</script>";
                             exit();
                         } catch (PDOException $e) {
                             echo "Error: " . $e->getMessage();
@@ -99,7 +99,7 @@ try {
                         $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo)
                     VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
                         $stmt->execute([$solicitud_id, $nuevo_estado, $usuario_id, $usuario['rol'], $tipoId['id_tipo'],]);
-                        header("Location: ../admin/vsolicitudencargado.php");
+                        echo "<script>window.location.href='../admin/vsolicitudencargado.php';</script>";
                         exit();
                     } catch (PDOException $e) {
                         echo "Error: " . $e->getMessage();
@@ -118,7 +118,7 @@ try {
                     $stmt = $conn->prepare("INSERT INTO historial_solicitud (solicitud_id, fecha_asignacion, estado, responsable, departamento, tipo)
                     VALUES (?, CURRENT_TIMESTAMP(), ?, ?, ?, ?)");
                     $stmt->execute([$solicitud_id, $nuevo_estado, $usuario_id, $usuario['rol'], $tipoId['id_tipo'],]);
-                    header("Location: ../admin/vsolicitudencargado.php");
+                    echo "<script>window.location.href='../admin/vsolicitudencargado.php';</script>";
                     exit();
                 } catch (PDOException $e) {
                     echo "Error: " . $e->getMessage();
@@ -126,7 +126,7 @@ try {
             }
         }
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

@@ -4,7 +4,7 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -21,93 +21,77 @@ try {
     if ($usuario['rol'] == 7) {
         // Mostrar el elemento del menú Administrar
 
+        if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['tipo'])) {
+            $idEvento = $_GET['id'];
+            $nombreEvento = urldecode($_GET['nombre']);
+            $tipo = $_GET['tipo'];
 
-if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['tipo'])) {
-    $idEvento = $_GET['id'];
-    $nombreEvento = urldecode($_GET['nombre']);
-    $tipo = $_GET['tipo'];
-}
-
-// Obtener las imágenes existentes
-$imagenes = [];
-
-$carpetaImagenes = ($tipo == "Evento")
-    ? "../uploads/eventos/" . $nombreEvento . "_" . $idEvento
-    : "../uploads/deportes/" . $nombreEvento . "_" . $idEvento;
-
-if (file_exists($carpetaImagenes) && is_dir($carpetaImagenes)) {
-    $archivos = scandir($carpetaImagenes);
-    $imagenes = array_diff($archivos, array('..', '.'));
-}
-
-// Eliminación de imágenes seleccionadas
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar'])) {
-    // Obtener las imágenes seleccionadas
-    $imagenesAEliminar = $_POST['eliminar'];
-
-    // Ruta de la carpeta de imágenes
-    $carpetaImagenes = ($tipo == "Evento")
-        ? "../uploads/eventos/" . $nombreEvento . "_" . $idEvento
-        : "../uploads/deportes/" . $nombreEvento . "_" . $idEvento;
-
-    foreach ($imagenesAEliminar as $imagen) {
-        // Construir la ruta completa de la imagen
-        $rutaImagen = $carpetaImagenes . "/" . $imagen;
-
-        // Eliminar la imagen si existe
-        if (file_exists($rutaImagen)) {
-            unlink($rutaImagen);
+            // Verificar el tipo y asignar la carpeta correspondiente
+            switch ($tipo) {
+                case "Evento":
+                    $carpetaImagenes = "../uploads/eventos/" . $nombreEvento . "_" . $idEvento;
+                    break;
+                case "Deporte":
+                    $carpetaImagenes = "../uploads/deportes/" . $nombreEvento . "_" . $idEvento;
+                    break;
+                case "Curso":
+                    $carpetaImagenes = "../uploads/cursos/" . $nombreEvento . "_" . $idEvento;
+                    break;
+                default:
+                    echo "Tipo de evento no válido";
+                    exit();
+            }
         }
 
-        // Eliminar la entrada de la base de datos
-        $stmtEliminarImagen = $conn->prepare("DELETE FROM galeria_imagenes WHERE tipo = ? AND id_tipo = ? AND nombre = ? AND ruta_imagenes = ?");
-        $stmtEliminarImagen->execute([$tipo, $idEvento, $nombreEvento, $rutaImagen]);
-    }
-    if ($tipo == "Evento") {
-        header("Location: gestionar_eventos.php");
-    } elseif ($tipo == "Deporte") {
-        header("Location: gestionar_deportes.php"); // Corregir el nombre del archivo
-    }
-}
+        // Obtener las imágenes existentes
+        $imagenes = [];
 
+        if (file_exists($carpetaImagenes) && is_dir($carpetaImagenes)) {
+            $archivos = scandir($carpetaImagenes);
+            $imagenes = array_diff($archivos, array('..', '.'));
+        }
 ?>
 
-<div class="container mt-4">
-    <h2>Galería de Imágenes</h2>
+        <div class="container mt-4">
+            <h2>Galería de Imágenes</h2>
 
-    <form action="eliminar_selecciones.php?id=<?php echo $idEvento; ?>&nombre=<?php echo urlencode($nombreEvento); ?>&tipo=<?php echo $tipo; ?>" method="post">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($imagenes as $imagen) : ?>
-                    <tr>
-                        <td>
-                            <img src="<?php echo htmlspecialchars($carpetaImagenes . '/' . $imagen); ?>" alt="<?php echo htmlspecialchars($imagen); ?>" style="width: 100px; height: auto;">
-                        </td>
-                        <td>
-                            <input type="checkbox" name="eliminar[]" value="<?php echo htmlspecialchars($imagen); ?>">
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <form action="eliminarGaleria.php?id=<?php echo $idEvento; ?>&nombre=<?php echo urlencode($nombreEvento); ?>&tipo=<?php echo $tipo; ?>" method="post">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($imagenes as $imagen) : ?>
+                            <tr>
+                                <td>
+                                    <img src="<?php echo htmlspecialchars($carpetaImagenes . '/' . $imagen); ?>" alt="<?php echo htmlspecialchars($imagen); ?>" style="width: 100px; height: auto;">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="eliminar[]" value="<?php echo htmlspecialchars($imagen); ?>">
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <input type="hidden" id="tipo" name="tipo" value="<?php echo $tipo; ?>">
+                <input type="hidden" id="idEvento" name="idEvento" value="<?php echo $idEvento; ?>">
+                <input type="hidden" id="nombreEvento" name="nombreEvento" value="<?php echo $nombreEvento; ?>">
+                <button type="submit" class="btn btn-danger">Eliminar selección</button>
 
-        <button type="submit" class="btn btn-danger">Eliminar selección</button>
-    </form>
-</div>
+            </form>
+        </div>
 
-
-<?php 
-}else{
-    header("Location: ../public/index.php");
-    exit();
-}
+<?php
+    } else {
+        echo "<script>window.location.href='../public/index.php';</script>";
+        exit();
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-include '../includes/footer.php'; ?>
+include '../includes/footer.php'; 
+?>
+

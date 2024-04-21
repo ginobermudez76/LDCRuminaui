@@ -10,8 +10,12 @@ try{
 }catch(PDOException $e){
     echo "Error: " . $e ->getMessage();
 }
+if(empty($noticias)){
+    echo '<p>No hay noticias para mostrar</p>';
+}else{
 ?>
-<div class="container mt-4">
+
+<div class="container mt-4 noticias">
     <h2>NOTICIAS</h2>
     <div class="row">
         <?php foreach ($noticias as $noticia) : ?>
@@ -32,5 +36,6 @@ try{
     </div>
 </div>
 <?php
+}
 include '../includes/footer.php'
 ?>

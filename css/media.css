@@ -1,0 +1,290 @@
+@media (max-width: 720px){
+/*deportes*/
+.imagenes-deportes img{
+    height: 149px;
+    width: 100%;
+}
+.overlayDeportes {
+    width: 30%;
+}
+.overlayDeportes .overlay-content {
+    height: 149px !important;
+    font-size: 10px;
+}
+.contenedor-logros{
+    height: 80px;
+}
+/*deportistas*/
+.overlayDeportistas h5{
+    font-size: 8px !important;
+}
+.contenedor-deportistas .carousel-item{
+    height: 200px;    
+    border: 2px solid #34a5c8; /* Color del borde y ancho del borde */
+    padding: 1px; /* Espacio alrededor del carrusel */
+}
+.carrusel-destacados {
+    width: 40%;
+    }
+.titulo-containerdd{
+    height: 100px;
+ } 
+ .title-deportistas{
+    font-size: 25px;
+ }
+ .contenedor-deportistas .medioDestacados{
+    height: 0;
+    width: 0; 
+ }
+ .titulo-containerdd .horizontal{
+    height: 0;
+    width: 0; 
+}
+.titulo-containerdd .vertical{
+    height: 0;
+    width: 0; 
+}
+.titulo-containerdd .horizontal2{
+    height: 0;
+    width: 0; 
+}
+/*logros*/
+.titulo-containerl{
+    height: 100px;
+ }
+ .grupo-logros{
+    width: 100%;
+ }
+.grupo-logros img{
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ .contenedor-infoLogros {
+    height: 60px;
+
+}
+.logro-txt h5{
+    font-size: 12px;
+}
+.logro-txt p{
+    font-size: 6px;
+}
+.titulo-containerl .vertical{
+    width: 0;
+    height: 0;
+    top: 0;
+}
+.titulo-containerl .horizontal{
+    height: 00; 
+    top: 0;
+    width: 0;
+}
+.titulo-containerl .horizontal2{
+    height: 0px; 
+    width: 0;
+}
+.title-logros{
+    font-size: 25px;
+ }
+ /*ESCUELAS*/
+ .titulo-containere .horizontal{
+    margin: 0;
+    height: 0;
+    width: 0;
+
+}
+.carrusel-deportes .carousel-inner .row{
+width: 100%;
+  }
+/*titulo principal*/
+ .title-escuela{
+    font-size: 25px;
+ }
+ .titulo-inicio {
+    margin-top: 15px;
+}
+.banner-inicio h5{
+    font-size: 10px;
+}
+/*seccion escuelas*/
+.deportes-descripcion h2{
+    font-size: 35px;
+}
+.deportes-descripcion p{
+    font-size: 15px;
+}
+ .deporte-nombre p{
+    font-size: 12px;
+}
+.column-grupo .column{
+    flex: 100%;
+}
+
+.contenedor-galeria .column{
+    flex: 100%;
+}/*
+.contenedor-galeria .card-img-top img{
+    margin-bottom: 20px;
+    height: 250px;
+  }
+  .overlay{
+    height: 250px;
+  }*/
+  /*fin seccion escuelas*/
+  /*seccion nosotros*/
+  .vision-info h5{
+    font-size: 15px;
+  }
+  .vision-info p{
+    font-size: 10px;
+  }
+  .mision-info h5{
+    font-size: 15px;
+  }
+  .mision-info p{
+    font-size: 10px;
+  }
+  .directorio-container .presidente img{
+    height: 40%;
+    width: 80%;
+    border: 2px;
+    padding: 2px;
+}
+.directorio-container .dirigencia img{
+    height: 35%;
+    width: 70%;
+    border: 2px;
+    padding: 2px;
+}
+.directorio-container .dirigencia h5{
+font-size: 15px;
+}
+.directorio-container .dirigencia p{
+font-size: 10px;
+}
+.directorio-container .presidente h5{
+    font-size: 15px;
+    }
+    .directorio-container .presidente p{
+    font-size: 10px;
+    }
+    /*footer*/
+.footer-container h3{
+    font-size: 18px;
+}
+.footer-container .contacto p{
+    font-size: 12px;
+}
+footer h3{
+    font-size: 18px;
+}
+.desarrollador-container p{
+    font-size: 12px;
+}
+/*navbar*/
+.nav-item .nav-link{
+    color: #FFFFFF !important;
+}
+.dropdown-toggle{
+    color: #FFFFFF !important;
+}
+.dropdown .active{
+    color: #000000 !important;
+}
+.navbar-collapse{
+    color: #FFFFFF !important;
+}
+.navbar-expand-lg .logo{
+    width: 70px;
+    height: 70px;
+}
+.navbar-toggler-icon{
+    background-color: #ffffff68 !important;
+}
+.login{
+    width: 100px;
+    height: 40px;
+}
+.icon{
+    width: 30px;
+    height: 15px;
+}
+/*documentos*/
+.descarga-documentos{
+    font-size: 45px;
+    text-align: center;
+}
+.contenedor-sesion{
+    width: 90%;
+}
+/*vacacionales*/
+.info-vacacional {
+    width: 100%;
+    height: 25px;
+    height: 400px;
+}
+.container-vacacional{
+    height: 810px;
+    margin-bottom: 40px;
+}
+.imagen-boton {
+    width: 100%;
+    margin-top: 20px; /* Puedes ajustar este valor según sea necesario */
+    height: 300px;
+    background: linear-gradient(to left, #043cca42, #401da246);
+}
+.fechas{
+height: 25px;
+background: linear-gradient(to left, #043cca42, #401da246);
+}
+.fechas p{
+margin-left: 0;
+}
+
+.info-estado{
+height: 25px;
+background: linear-gradient(to left, #043cca42, #401da246);
+}
+.container-vacacional h5{
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.container-vacacional p{
+    font-size: 14px;
+}
+.container-vacacional .imagen-boton img{
+    height: 250px;
+}
+.mas-info{
+    height: 250px;
+    background: linear-gradient(to top, #043cca42, #401da246) !important;
+}
+h2{
+    font-size: 45px;
+}
+p{
+    font-size: 12px;
+}
+.mdDeporte .modal-content{
+    margin-left: 4%;
+
+}
+.mdCondolencia .modal-content {
+margin-left: 10%;
+}
+.vacionales .deportes-descripcion .estatica{
+    margin-left: 15% !important;
+}
+.vacionales .deportes-descripcion .movible{
+    margin-left: 40%;
+}
+.contenedor-galeria .deportes-descripcion .movible{
+    margin-left: 59%;
+
+}
+.contenedor-galeria .deportes-descripcion .estatica{
+    margin-left: 5%;
+}
+}

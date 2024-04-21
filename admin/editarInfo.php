@@ -3,7 +3,7 @@ session_start();
 include '../includes/config.php';
 
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("UPDATE usuarios SET primer_nombre=?, segundo_nombre=?, primer_apellido=?, segundo_apellido=?, cedula=?, celular=?, correo=?, fecha_nac=? WHERE id=$usuario_id");
     $stmt->execute([$nombre, $snombre, $apellido, $sapellido, $cedula, $celular, $email, $cumple]);
 
-    header("refresh:2;url=cuenta.php");
+    echo "<script>window.location.href='../admin/cuenta.php';</script>";
     exit();
 }
 ?>

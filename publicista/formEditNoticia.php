@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -35,7 +35,7 @@ try {
 <form id="formNoticiaEdit" action="editarNoticia.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
     <div class="mb-3">
         <label for="Titulo" class="form-label">Titulo</label>
-        <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($noticia['titulo']); ?>"></input>
+        <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($noticia['titulo']); ?>" required maxlength="100"></input>
     </div>
     <div class="mb-3">
         <label for="imagenEdit" class="form-label">imagen</label><br>
@@ -47,11 +47,11 @@ try {
         <?php else : ?>
             <a>No hay imagen</a>
         <?php endif; ?>
-        <input type="file" class="form-control" id="imagenEdit" name="imagen" value="<?php echo htmlspecialchars($noticia['imagen']); ?>" onchange="deshabilitarCheckbox()">
+        <input type="file" class="form-control" id="imagenEdit" name="imagenEdit" value="<?php echo htmlspecialchars($noticia['imagen']); ?>" onchange="deshabilitarCheckbox()">
     </div>
     <div class="mb-3">
                     <label for="cuerpo" class="form-label">Cuerpo de la noticia</label>
-                    <textarea class="form-control" id="cuerpo" name="cuerpo" rows="3" required><?php echo htmlspecialchars($noticia['cuerpo']); ?></textarea>
+                    <textarea class="form-control" id="cuerpoEdit" name="cuerpoEdit" rows="3" required maxlength="5000"><?php echo htmlspecialchars($noticia['cuerpo']); ?></textarea>
                 </div>
     <input type="hidden" id="idNoticiaEdit" name="idNoticia" value="<?php echo $idNoticia; ?>">
     <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
@@ -60,7 +60,7 @@ try {
 
 <?php
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

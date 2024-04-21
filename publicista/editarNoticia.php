@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; //incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -21,21 +21,21 @@ try {
                 // Obtener los datos del formulario de edición
                 $idNoticia = $_POST['idNoticia'];
                 $titulo = $_POST['tituloEdit'];
-                $cuerpo = $_POST['cuerpo'];
+                $cuerpo = $_POST['cuerpoEdit'];
         
                 // Directorio de destino para laimagen
                 $directorioDestino = "../uploads/noticias/";
         
                 // Verificar si se proporcionó un nuevo archivo y moverlo al directorio de destino
-                if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) { 
+                if (isset($_FILES['imagenEdit']) && $_FILES['imagenEdit']['error'] == 0) { 
         
-                    $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagen']['name'], $directorioDestino);
+                    $archivoNuevo = obtenerNombreArchivoNuevo($_FILES['imagenEdit']['name'], $directorioDestino);
         
                     // Eliminar el archivo antiguo del sistema de archivos
                     eliminarArchivoAntiguo($idNoticia, $directorioDestino);
         
                     // Mover el archivo al directorio de destino
-                    if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $archivoNuevo)) {
+                    if (!move_uploaded_file($_FILES["imagenEdit"]["tmp_name"], $archivoNuevo)) {
                         throw new Exception("Hubo un error al cargar la nueva imagen");
                     }
                     $stmt = $conn->prepare("UPDATE noticias SET imagen = ? WHERE id = ?"); // Corrección aquí
@@ -51,17 +51,18 @@ try {
                 }
         
                 // Redirigir después de editar
-                header("Location: noticias.php");
+                echo "<script>window.location.href='../publicista/noticias.php';</script>";
                 exit();
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         } else {
             // Si no se recibieron datos por POST, redirigir a la página de lista de solicitudes
-            header("Location: noticias.php");
+            echo "<script>window.location.href='../publicista/noticias.php';</script>";
             exit();
         }
     } else {
+        echo "<script>window.location.href='../public/index.php';</script>";
         header("Location: ../public/index.php");
         exit();
     }

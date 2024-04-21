@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -41,11 +41,11 @@ try {
         <form id="formLogroEdit" action="editarLogro.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
             <div class="mb-3">
                 <label for="Titulo" class="form-label">Nombre del logro</label>
-                <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($logro['titulo']); ?>"></input>
+                <input type="text" class="form-control" id="tituloEdit" name="tituloEdit" value="<?php echo htmlspecialchars($logro['titulo']); ?>" required maxlength="100"></input>
             </div>
             <div class="mb-3">
                 <label for="Tipo" class="form-label">Tipo</label>
-                <select class="form-control" id="tipoLogro" name="tipoLogro">
+                <select class="form-control" id="tipoLogroEdit" name="tipoLogroEdit" required>
                     <option value="">Seleccione un tipo</option>
                     <option value="Medalla" <?php echo ($logro['tipologro'] == 'Medalla') ? 'selected' : ''; ?>>Medalla</option>
                     <option value="Copa" <?php echo ($logro['tipologro'] == 'Copa') ? 'selected' : ''; ?>>Copa</option>
@@ -66,7 +66,7 @@ try {
                 <input type="file" class="form-control" id="imagenEdit" name="imagen" value="<?php echo htmlspecialchars($logro['imagen']); ?>" onchange="deshabilitarCheckbox()">
             </div>
             <select class="form-control" id="deporte_idEdit" name="deporte_idEdit" required>
-                <option value="">Seleccione un logro</option>
+                <option value="">Seleccione un deporte</option>
                 <?php foreach ($deportes as $deporte) : ?>
                     <?php
                     // Compara el ID del logro actual con el ID del logro en el bucle
@@ -84,7 +84,7 @@ try {
 
 <?php
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

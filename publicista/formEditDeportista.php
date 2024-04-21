@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -41,7 +41,7 @@ try {
 <form id="formDeportistaEdit" action="editarDeportista.php" enctype="multipart/form-data" method="post" onsubmit="return validarCamposEdit()">
     <div class="mb-3">
         <label for="Nombre" class="form-label">Nombre del deportista</label>
-        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" value="<?php echo htmlspecialchars($deportista['nombre_deportista']); ?>"></input>
+        <input type="text" class="form-control" id="nombreEdit" name="nombreEdit" required maxlength="200" value="<?php echo htmlspecialchars($deportista['nombre_deportista']); ?>"></input>
     </div>
     <div class="mb-3">
         <label for="imagenEdit" class="form-label">imagen</label><br>
@@ -67,14 +67,14 @@ try {
             </option>
         <?php endforeach; ?>
     </select>
-    <input type="hidden" id="idDeportistaEdit" name="idDeportista" value="<?php echo $idDeportista; ?>">
-    <button type="submit" class="btn btn-primary" id="btnEnviar">Publicar</button>
+    <input type="hidden" id="idDeportistaEdit" name="idDeportistaEdit" value="<?php echo $idDeportista; ?>">
+    <button type="submit" class="btn btn-primary" id="btnEnviarEdit">Publicar</button>
 </form>
 
 
 <?php
     } else {
-        header("Location: ../public/index.php");
+        echo "<script>window.location.href='../public/index.php';</script>";
         exit();
     }
 } catch (PDOException $e) {

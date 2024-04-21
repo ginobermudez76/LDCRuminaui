@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -140,6 +140,15 @@ try {
                 document.getElementById("formContent").innerHTML = this.responseText;
                 document.getElementById("idSolicitudEdit").value = idSolicitud; // Establecer el ID de la solicitud en el formulario
                 openModal(); // Abre el modal después de cargar el contenido
+                            // Función para limitar la cantidad de dígitos en el campo de descripcion
+            document.getElementById('descripcionEdit').addEventListener('input', function() {
+                // Obtener el valor actual del campo de celular
+                var deporteDescripcion = this.value;
+                // Limitar el valor a 10 caracteres
+                if (deporteDescripcion.length > 5000) {
+                    this.value = deporteDescripcion.slice(0, 5000);
+                }
+            });
             }
         };
         xhttp.open("GET", "formEditSoli.php?id=" + idSolicitud, true); // Pasar el ID de la solicitud en la URL

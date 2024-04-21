@@ -1,0 +1,219 @@
+<?php
+
+include '../includes/config.php'; //incluyendo la conexión de la base de datos
+include '../includes/header.php'; //incluyendo la cabecera común
+if (!isset($_SESSION['usuario_admin'])) {
+    echo "<script>window.location.href='../admin/login.php';</script>";
+    exit();
+}
+
+
+$usuario_id = $_SESSION['usuario_id'];
+$main = 'Curso';
+
+try {
+    // Consultar el rol del usuario en la base de datos
+    $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+    $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verificar si el usuario tiene el rol de Publicista
+    if ($usuario['rol'] == 7) {
+        $stmt = $conn->prepare("SELECT rol FROM usuarios WHERE id = :usuario_id");
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->execute();
+        // Obtener la lista de tipo de deportes
+        try {
+            $stmt = $conn->prepare("SELECT id, nombre FROM deportes");
+            $stmt->execute();
+            $deportes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+?>
+        <div class="container mt-5 mr-5">
+            <h2 class="gestionar">Cursos vacionales</h2>
+            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#agregarCursoModal">Agregar curso +</button>
+        </div>
+        <!-- Modal para agregar dporte -->
+        <div class="modal fade" id="agregarCursoModal" tabindex="-1" aria-labelledby="agregarCursoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarCursoModalLabel">Agregar curso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formCurso" autocomplete="off" method="post" enctype="multipart/form-data" onsubmit="return validarCamposInsert()">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="300"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="deporte_id" class="form-label">Deporte</label>
+
+                                <select class="form-control" id="deporte_id" name="deporte_id" required>
+                                    <option value="">Seleccione un deporte</option>
+                                    <?php foreach ($deportes as $deporte) : ?>
+                                        <option value="<?php echo $deporte['id']; ?>"><?php echo htmlspecialchars($deporte['nombre']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Inicio</label>
+                                <input type="date" class="form-control" id="fecha_ini" name="fecha_ini" requerid>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Fin</label>
+                                <input type="date" class="form-control" id="fecha_f" name="fecha_f" requerid>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Imagen principal</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen" requerid></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Publicar curso</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" id="tablaCursos">
+            </div>
+        </div>
+        <script>
+            $("#tablaCursos").load("tablaCursos.php");
+            $(document).ready(function() {
+
+            });
+        </script>
+        <?php 
+        include 'validar.php';
+        include 'limitar.php';
+        include 'cargar.php';
+        ?>
+<script>
+            function trim(str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            }
+
+            function validarCamposEdit() {
+
+                // Validación de selección de tipo
+                var deporteSeleccionado = document.getElementById("deporte_idEdit").value;
+                if (deporteSeleccionado === "") {
+                    alert("Por favor, seleccione un deporte");
+                    return false;
+                }
+                var nombreCurso = document.getElementById("nombreEdit").value;
+                nombreCurso1 = trim(nombre);
+                if (nombreCurso1 === "") {
+                    alert("El Curso debe tener un nombre");
+                    return false;
+                }
+
+                // Validación de la fecha de inicio
+                var fechaInicio = document.getElementById("fecha_iniEdit").value;
+                var fechaInicioArray = fechaInicio.split("-");
+                if (fechaInicioArray.length !== 3) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
+                var yearInicio = fechaInicioArray[0];
+                var monthInicio = fechaInicioArray[1];
+                var dayInicio = fechaInicioArray[2];
+
+                // Verificar si el año tiene 4 dígitos
+                if (yearInicio.length !== 4 || isNaN(yearInicio)) {
+                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de inicio.");
+                    return false;
+                }
+
+                // Crear objeto de fecha de inicio y verificar si es válida
+                var fechaInicioObjeto = new Date(yearInicio, monthInicio - 1, dayInicio);
+                if (isNaN(fechaInicioObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
+
+                // Validación de la fecha de finalización
+                var fechaFin = document.getElementById("fecha_fEdit").value;
+                var fechaFinArray = fechaFin.split("-");
+                if (fechaFinArray.length !== 3) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
+                var yearFin = fechaFinArray[0];
+                var monthFin = fechaFinArray[1];
+                var dayFin = fechaFinArray[2];
+
+                // Verificar si el año tiene 4 dígitos
+                if (yearFin.length !== 4 || isNaN(yearFin)) {
+                    alert("Por favor, introduzca un año entre 0001 y 9999 en la fecha de finalización.");
+                    return false;
+                }
+
+                // Crear objeto de fecha de finalización y verificar si es válida
+                var fechaFinObjeto = new Date(yearFin, monthFin - 1, dayFin);
+                if (isNaN(fechaFinObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
+
+                // Validación de la fecha de inicio
+                var fechaInicio = document.getElementById("fecha_iniEdit").value;
+                var fechaInicioObjeto = new Date(fechaInicio);
+                if (isNaN(fechaInicioObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de inicio válida.");
+                    return false;
+                }
+
+                // Validación de la fecha de finalización
+                var fechaFin = document.getElementById("fecha_fEdit").value;
+                var fechaFinObjeto = new Date(fechaFin);
+                if (isNaN(fechaFinObjeto.getTime())) {
+                    alert("Por favor, introduzca una fecha de finalización válida.");
+                    return false;
+                }
+
+                // Verificar que la fecha de finalización no sea menor que la fecha de inicio
+                if (fechaFinObjeto < fechaInicioObjeto) {
+                    alert("La fecha de finalización no puede ser menor que la fecha de inicio.");
+                    return false;
+                }
+
+
+                var archivoInput = document.getElementById("imagenEdit");
+
+
+                var archivo = archivoInput.files[0];
+                var extensionesPermitidas = ['gif', 'png', 'jpg', 'webp', 'jpeg'];
+                var extension = archivo.name.split('.').pop().toLowerCase();
+
+                if (!extensionesPermitidas.includes(extension)) {
+                    alert("Formato no soportado");
+                    return false;
+                }
+
+
+                return true;
+            }
+
+
+        </script>
+<?php
+    } else {
+        echo "<script>window.location.href='../public/index.php';</script>";
+        exit();
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+include '../includes/footer.php'; ?>

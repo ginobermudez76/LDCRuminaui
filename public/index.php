@@ -35,6 +35,7 @@ try {
 }
 
 ?>
+
 <div class="container-fluid">
     <div class="container">
         <img class="inicio-img" src="../img/portada.png" alt="¿Quienes somos?">
@@ -74,43 +75,46 @@ try {
         </div>
     </div>
 
-    <div class="row">
-        <?php include '../public/logros.php'; ?>
+
+
+    <div class="titulo-containerl">
+        <h1 class="title-logros">Logros</h1>
+        <div class="horizontal2"></div>
+        <div class="horizontal"></div>
+        <div class="vertical"></div>
+
     </div>
+    <div class="contenedor-logros">
+        <?php include '../otros/logros.php'; ?>
+    </div>
+
+
+
 
 
     <!-- DEPORTISTAS DESTACADOS -->
-    <div class="contenedorDeportistas">
+    <div class="titulo-containerdd">
+        <h1 class="title-deportistas">Deportistas destacados</h1>
+        <div class="horizontal"></div>
+        <div class="vertical"></div>
+        <div class="horizontal2"></div>
+    </div>
+    <div class="contenedor-deportistas">
         <!-- Carrusel izquierdo -->
-
-        <?php include '../public/deportistas1.php'; ?>
-
-
+        <?php include '../otros/deportistas1.php'; ?>
         <!-- Espacio vacío entre carruseles -->
-
-        <img src="../img/logo.png" alt="Imagen del medio" class="medioDestacados">
-
-
+        <img src="../img/logoX_LDCR.png" alt="Imagen del medio" class="medioDestacados">
         <!-- Carrusel derecho -->
-
-        <?php include '../public/deportistas2.php'; ?>
-
+        <?php include '../otros/deportistas2.php'; ?>
     </div>
 
 
-
-
-
     <!-- -->
-    <div class="row">
-        <div class="deportes container">
-            <div class="deportes-descripcion">
-                <h2>Nuestras escuelas deportivas</h2>
-                <p>Nuestra liga deportiva cuenta con las siguientes escuelas deportivas</p>
-            </div>
-        </div>
-        <?php
-        /*
+
+
+
+    <?php
+    /*
         <div class="imagenes-deportes">
             <?php
             $fuente = "../img/v1.jpg";
@@ -123,73 +127,71 @@ try {
 
         </div>
         */
+    ?>
+    <div class="titulo-containere">
+        <h1 class="title-escuela">Escuelas deportivas</h1>
+        <div class="horizontal"></div>
+    </div>
+    <div class="escuelas">
+        <?php
+        if (empty($deportes)) {
+            echo '<h1>No se han agregado las escuelas deportivas</h1>';
+        } else {
         ?>
+            <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <?php
+                    // Dividir el array $deportes en grupos de tres
+                    $grupos = array_chunk($deportes, 4);
 
-        <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <?php
-                // Dividir el array $deportes en grupos de tres
-                $grupos = array_chunk($deportes, 4);
+                    // Iterar sobre los grupos de imágenes
+                    foreach ($grupos as $grupo_index => $grupo) {
+                    ?>
+                        <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
+                            <div class="row justify-content-center"> <!-- Alinea las columnas al centro -->
+                                <?php
+                                // Calcular el tamaño de las columnas
+                                $column_width = 12 / count($grupo);
 
-                // Iterar sobre los grupos de imágenes
-                foreach ($grupos as $grupo_index => $grupo) {
-                ?>
-                    <div class="carousel-item <?php echo ($grupo_index === 0) ? 'active' : ''; ?>">
-                        <div class="row">
-                            <?php
-                            // Iterar sobre las imágenes dentro de cada grupo
-                            foreach ($grupo as $deporte) {
-                                $rutaImagen = $deporte['imagen'];
-                                $titulo = $deporte['nombre'];
-                            ?>
-                                <div class="col imagenes-deportes overlayDeportes">
-                                    <img src="<?php echo htmlspecialchars($rutaImagen); ?>"  alt="Imagen del deporte">
-                                    <div class="overlay-content">
-                                        <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
+                                // Iterar sobre las imágenes dentro de cada grupo
+                                foreach ($grupo as $deporte) {
+                                    $rutaImagen = $deporte['imagen'];
+                                    $titulo = $deporte['nombre'];
+                                ?>
+                                    <div class="col-<?php echo $column_width; ?> overlayDeportes">
+                                        <div class="imagenes-deportes">
+                                            <img src="<?php echo htmlspecialchars($rutaImagen); ?>" alt="Imagen del deporte">
+                                            <div class="overlay-content">
+                                                <div class="overlay-text"><?php echo htmlspecialchars($titulo); ?></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
-                    </div>
-                <?php
-                }
-                ?>
+                    <?php
+                    }
+                    ?>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDeporte" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselDeporte" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div>
-
+        <?php
+        }
+        ?>
     </div>
 
-    <div class="modal mdDeporte" id="modalDeportes">
+    <div class="modal mdCondolencia" id="modalCondolencias" >
         <div class="modal-dialog">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-body">
-                    <div id="carousel" class="carousel"></div>
-                    <!-- Corregir la clase del contenedor de la superposición -->
-                    <div class="overlay2">
-                        <div class="col-md-6" id="descripcionDeporte"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal mdCondolencia" id="modalCondolencias">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Carta de condolencias</h5>
-                </div>
+            <div class="modal-content contenido-condolencia">
                 <div class="modal-body">
                     <div id="carruselCondolencias" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -201,7 +203,7 @@ try {
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mensaje">
-                                                <?php echo $condolencia['mensaje']; ?>
+                                                <p class="txt-condolencias"><?php echo $condolencia['mensaje']; ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -222,72 +224,7 @@ try {
         </div>
     </div>
 
-
-
-    <div class="deportes container">
-        <div class="deportes-descripcion">
-            <h2>Eventos deportivos</h2>
-        </div>
-
-    </div>
-    <div class="contenedor-imagenes">
-        <?php foreach ($eventos as $index => $evento) : ?>
-            <div class="container1">
-                <img onclick="toggleTexto(<?php echo $index; ?>)" class="imagen1" src="<?php echo $evento['imagen']; ?>" alt="<?php echo $evento['descripcion']; ?>">
-                <div class="texto-desplegable" id="texto-desplegable-<?php echo $index; ?>">
-                    <p><?php echo htmlspecialchars($evento['nombre_evento']); ?></p>
-                    <p>Inicio: <?php echo htmlspecialchars($evento['fecha_inicio']); ?></p>
-                    <p>Fin: <?php echo htmlspecialchars($evento['fecha_fin']); ?></p>
-                    <?php echo htmlspecialchars($evento['inscripciones']); ?></p>
-                    <p><?php echo htmlspecialchars($evento['estado']); ?></p>
-                    <p><?php echo htmlspecialchars($evento['descripcion']); ?></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</div>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Cuando se hace clic en el nombre de deporte
-        $(".deporte-nombre").click(function() {
-            var deporte_id = $(this).data("deporte-id");
-            // Hacer una petición AJAX para obtener las imágenes del carrusel
-            $.ajax({
-                url: "obtener_imagenes.php",
-                method: "GET",
-                data: {
-                    deporte_id: deporte_id
-                },
-                success: function(response) {
-                    // Agregar las imágenes al carrusel
-                    $("#carousel").html(response);
-                    // Mostrar el modal
-                    $("#modalDeportes").css("display", "block");
-                }
-            });
-
-            // Hacer una petición AJAX para obtener la descripción del deporte
-            $.ajax({
-                url: "obtener_descripcion_deporte.php",
-                method: "GET",
-                data: {
-                    deporte_id: deporte_id
-                },
-                success: function(response) {
-                    // Agregar la descripción del deporte
-                    $("#descripcionDeporte").html(response);
-                }
-            });
-        });
-
-        // Cuando se hace clic en el botón de cerrar del modal
-        $(".close").click(function() {
-            $("#modalDeportes").css("display", "none");
-        });
-    });
-</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         <?php if (!empty($condolencias)) : ?>

@@ -1,0 +1,290 @@
+.galeria .modal-content {
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+
+}
+
+ .galeria .modal-body {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0;
+}
+
+.galeria .close {
+    color: #ffffff;
+    position: absolute;
+    top: -50px;
+    right: 5px;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.galeria .modal-dialog {
+    height: 100%;
+    max-width: 90%; 
+    max-height: 90%;
+
+}
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Color de fondo oscuro semi-transparente */
+    z-index: 999; /* Asegúrate de que esté encima de todo */
+    display: none; /* Inicialmente oculto */
+}
+
+.galeria .modal-dialog img {
+    max-width: 100%; 
+    height: 100%;
+}
+.galeria .modal-body img {
+    height: 100%;
+    max-width: 100%; 
+    max-height: 100%;
+
+}
+
+
+.galeria .carousel-item img {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+.galeria .carousel-inner h5{
+    font-size: 80px !important;
+}
+
+
+.galeria .carousel-container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.galeria .carousel-item .imagen {
+    width: 100%;
+    height: 300px;
+}
+
+/*inicio de la seccion escuelas*/
+.contenedor-galeria .row{
+    display: flex;
+    padding: 5px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: auto;
+    }
+    .contenedor-galeria .column{
+        padding: 5px;
+        flex: 25%;
+    }
+    .contenedor-galeria .column img{
+        width: 100%;
+    }
+
+
+    
+    .contenedor-galeria .contenedor-imagen {
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5); 
+        opacity: 0; 
+        transition: opacity 0.5s; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+        color: white;
+    }
+    .contenedor-galeria .contenedor-imagen:hover .overlay {
+        opacity: 1; 
+    }
+    .contenedor-galeria .deporte-nombre {
+        color: white;
+        font-size: 18px;
+        text-align: center;
+    }
+    /*
+    
+    .contenedor-galeria {
+        display: flex;
+        padding: 0px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+      }
+    
+    .contenedor-galeria .column-grupo{
+        flex: 25%;
+        padding: 0px;
+      }
+      .contenedor-galeria .img {
+        width: 50%;
+      } 
+    
+      
+      .contenedor-galeria .column-grupo img{
+        margin: 0;
+      }
+      */
+    
+  /* fin seccion escuelas*/
+
+  .overlay2 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: .5s ease;
+}
+
+.carousel:hover .overlay2 {
+    height: 100%;
+}
+
+.linea {
+    background-color: #0fc3c6;
+    width: 100%;
+    height: 5px;
+}
+
+.deportes-descripcion .estatica {
+    background: linear-gradient( #383dd0c0, #0fc3c697);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    animation: text 20s linear infinite;
+}
+.contenedor-galeria .deportes-descripcion .movible{
+    margin-left: 60%;
+    position: relative;
+    overflow: hidden;
+    animation: anim 15s linear infinite;
+    background: linear-gradient( #d0c8387e, #58c60f);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+.contenedor-galeria .deportes-descripcion .estatica{
+    margin-left: 4%;
+    position: absolute;
+    overflow: hidden;
+
+}
+.contenedor-galeria .deportes-descripcion {
+    text-align: center;
+
+}
+.contenedor-galeria .deportes-descripcion {
+    text-align: center;
+
+}
+.vacionales .deportes-descripcion .estatica {
+    background: linear-gradient( #383dd0c0, #0fc3c697);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    animation: text 20s linear infinite;
+}
+.vacionales .deportes-descripcion .movible{
+    margin-left: 50%;
+    position: relative;
+    overflow: hidden;
+    animation: anim 15s linear infinite;
+    background: linear-gradient( #d0c8387e, #58c60f);
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+.vacionales .deportes-descripcion .estatica{
+    margin-left: 29%;
+    position: absolute;
+    overflow: hidden;
+
+}
+.vacionales .deportes-descripcion {
+    text-align: center;
+
+}
+
+/*.deportes-descripcion h2{
+    font-size: 10vw;
+    color: #ffffff;
+}*/
+
+    @keyframes anim {
+        0% {
+            width: 0vw;
+        }
+        10% {
+            width: 6.2vw;
+        }
+        20% {
+            width: 12.4vw;
+        }
+        30% {
+            width: 18.6vw;
+        }
+        40% {
+            width: 24.8vw;
+        }
+        50% {
+            width: 31vw;
+        }
+        60% {
+            width: 24.8vw; 
+        }
+        70% {
+            width: 18.6vw;   
+        }
+        80% {
+            width: 12.4vw;
+        }
+        90% {
+            width: 6.2vw;
+        }
+        100% {
+            width: 0vw;
+        }
+    }
+    
+
+@keyframes text {
+    0% {filter: hue-rotate(360deg);}
+
+    100% {
+        filter: hue-rotate(60deg);
+    }
+}
+
+
+.deportes-descripcion p{
+    font-size: 40px;
+}
+

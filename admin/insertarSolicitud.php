@@ -2,7 +2,7 @@
 session_start();
 include '../includes/config.php'; // incluyendo la conexión de la base de datos
 if (!isset($_SESSION['usuario_admin'])) {
-    header("Location: ../admin/login.php");
+    echo "<script>window.location.href='../admin/login.php';</script>";
     exit();
 }
 $usuario_id = $_SESSION['usuario_id'];
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->commit(); // Commit la transacción si todo es correcto
 
         // Redirigir después de agregar
-        header("Location: solicitudes.php");
+        echo "<script>window.location.href='../admin/solicitudes.php';</script>";
         exit();
     } catch (PDOException $e) {
         $conn->rollBack(); // Hace rollback en caso de error
