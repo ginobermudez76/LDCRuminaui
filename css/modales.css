@@ -7,7 +7,7 @@
 
 }
 .mensaje-banner{
-    background: linear-gradient(135deg, #32a68566, #2f9d7e);
+    background: linear-gradient(135deg, #32a68566, #2f9d7ed6);
     border-top-right-radius: 22px;
     border-bottom-right-radius: 22px;
 }
@@ -123,7 +123,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(136deg, #ECEBE2, #8b6432);
+    background: linear-gradient(136deg, #ECEBE2, rgba(139, 100, 50, 0.312));
     text-align: center;
     border-top-left-radius: 28px;
     border-bottom-left-radius: 28px;
