@@ -189,7 +189,7 @@ try {
         ?>
     </div>
 
-    <div class="modal mdCondolencia" id="modalCondolencias" >
+    <div class="modal mdCondolencia" id="modalCondolencias">
         <div class="modal-dialog">
             <div class="modal-content contenido-condolencia">
                 <div class="modal-body">
@@ -198,10 +198,11 @@ try {
                             <?php foreach ($condolencias as $key => $condolencia) : ?>
                                 <div class="carousel-item <?php echo ($key == 0) ? 'active' : ''; ?>">
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <img src="<?php echo $condolencia['imagen']; ?>" class="d-block w-100" alt="Imagen">
+                                        <div class="col-md-6 banner-img-condolencia">
+                                            <p class="titulo-condolencia merriweather-light" >EN MEMORIA DE NUESTRO CAMARADA</p>
+                                            <img src="<?php echo $condolencia['imagen']; ?>" class="d-block img-condolencia" alt="Imagen">
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mensaje-banner">
                                             <div class="mensaje">
                                                 <p class="txt-condolencias"><?php echo $condolencia['mensaje']; ?></p>
                                             </div>
