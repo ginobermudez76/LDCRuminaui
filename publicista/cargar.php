@@ -1,5 +1,7 @@
 <script>
     var main = "<?php echo $main ?>";
+    /* declarar la variable main que contiene 
+       el nombre de la clase con la que se trabajara*/
     $("#tabla" + main + "s").load("tabla" + main + "s.php");
     $(document).ready(function() {
         var main = "<?php echo $main ?>";
@@ -19,7 +21,7 @@
             alertify.error(response.message);
         }
     }
-
+    /* enviar el form al script de insersión */
     $(document).ready(function() {
         // Manejar el envío del formulario
         $('#form' + main).submit(function(event) {
@@ -41,19 +43,19 @@
         });
     });
 
-    // Función para abrir el modal
+    // Función para abrir el modal de edicion
     function openModal() {
         var modal = document.getElementById("modalEdit" + main + "s");
         modal.style.display = "block";
     }
 
-    // Función para cerrar el modal
+    // Función para cerrar el modal de edicion
     function closeModal() {
         var modal = document.getElementById("modalEdit" + main + "s");
         modal.style.display = "none";
     }
 
-    // Cierra el modal si se hace clic fuera de él
+    // Cierra el modal  de edicion si se hace clic fuera de él
     window.onclick = function(event) {
         var modal = document.getElementById("modalEdit" + main + "s");
         if (event.target == modal) {
@@ -61,120 +63,50 @@
         }
     }
 
-    // Carga el formulario desde el otro script PHP cuando se abre el modal
     function loadForm(idEditar) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("formContent").innerHTML = this.responseText;
-                document.getElementById("id" + main + "Edit").value = idEditar; // Establecer el ID del documentita en el formulario
-                openModal(); // Abre el modal después de cargar el contenido
-                document.getElementById('nombreEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var documentoNombre = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (documentoNombre.length > 200) {
-                        this.value = documentoNombre.slice(0, 200);
-                    }
-                });
-                // Función para limitar la cantidad de dígitos en el campo de descripcion
-                document.getElementById('descripcionEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var documentoDescripcion = this.value;
-                    // Limitar el valor a 10 caracteres
-                    if (documentoDescripcion.length > 2000) {
-                        this.value = documentoDescripcion.slice(0, 2000);
-                    }
-                });
-                document.getElementById("mensajeEdit").addEventListener("input", function() {
-                    // Obtener el valor actual del campo de mensaje
-                    var mensajeCondolencia = this.value;
-                    // Limitar el valor a 700 caracteres
-                    if (mensajeCondolencia.length > 5000) {
-                        this.value = mensajeCondolencia.slice(0, 5000);
-                    }
-                });
-                document.getElementById('ubicacionEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var ubicacion = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (ubicacion.length > 5000) {
-                        this.value = ubicacion.slice(0, 5000);
-                    }
-                });
-                document.getElementById('direccionEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var direccion = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (direccion.length > 500) {
-                        this.value = direccion.slice(0, 500);
-                    }
-                });
-                document.getElementById('telefonoEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var telefono = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (telefono.length > 10) {
-                        this.value = telefono.slice(0, 10);
-                    }
-                });
-                document.getElementById('celularEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var celular = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (celular.length > 10) {
-                        this.value = celular.slice(0, 10);
-                    }
-                });
-                document.getElementById('supervisorEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var supervisor = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (supervisor.length > 250) {
-                        this.value = supervisor.slice(0, 250);
-                    }
-                });
-                document.getElementById('telefonoEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de teléfono
-                    var telefono = this.value;
-                    // Quitar todos los caracteres que no sean números
-                    var numerosTelefono = telefono.replace(/\D/g, '');
-                    // Actualizar el valor del campo con solo los números
-                    this.value = numerosTelefono;
-                });
-
-                document.getElementById('celularEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var celular = this.value;
-                    // Quitar todos los caracteres que no sean números
-                    var numerosCelular = celular.replace(/\D/g, '');
-                    // Actualizar el valor del campo con solo los números
-                    this.value = numerosCelular;
-                });
-                document.getElementById('tituloEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var titulo = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (titulo.length > 100) {
-                        this.value = titulo.slice(0, 100);
-                    }
-                });
-                document.getElementById('cuerpoEdit').addEventListener('input', function() {
-                    // Obtener el valor actual del campo de celular
-                    var cuerpo = this.value;
-                    // Limitar el valor a 100 caracteres
-                    if (cuerpo.length > 5000) {
-                        this.value = cuerpo.slice(0, 5000);
-                    }
-                });
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("formContent").innerHTML = this.responseText;
+            document.getElementById("id" + main + "Edit").value = idEditar; // Establecer el ID del documentita en el formulario
+            openModal(); // Abre el modal después de cargar el contenido
+            
+            // Función para verificar la existencia del elemento y limitar la cantidad de caracteres
+            function setupElementListener(elementId, maxLength, numericOnly) {
+                var element = document.getElementById(elementId);
+                if (element) {
+                    element.addEventListener('input', function() {
+                        var value = this.value;
+                        if (value.length > maxLength) {
+                            this.value = value.slice(0, maxLength);
+                        }
+                        if (numericOnly) {
+                            this.value = this.value.replace(/\D/g, '');
+                        }
+                    });
+                }
             }
-        };
-        xhttp.open("GET", "formEdit" + main + ".php?id=" + idEditar, true); // Pasar el ID del documento en la URL
-        xhttp.send();
-    }
+            
+            // Configurar cada elemento con su respectiva función de limitación de caracteres y eliminación de caracteres no numéricos
+            setupElementListener('nombreEdit', 200);
+            setupElementListener('descripcionEdit', 2000);
+            setupElementListener('mensajeEdit', 5000);
+            setupElementListener('ubicacionEdit', 5000);
+            setupElementListener('direccionEdit', 500);
+            setupElementListener('telefonoEdit', 10, true);
+            setupElementListener('celularEdit', 10, true);
+            setupElementListener('supervisorEdit', 250);
+            setupElementListener('tituloEdit', 100);
+            setupElementListener('cuerpoEdit', 5000);
+
+        }
+    };
+    xhttp.open("GET", "formEdit" + main + ".php?id=" + idEditar, true);
+    xhttp.send();
+}
 
     function confirmarEliminacion(idEliminar) {
-        var confirmacion = confirm("¿Está seguro que desea eliminar este documento?");
+        var confirmacion = confirm("¿Está seguro que desea eliminar este elemento?");
 
         if (confirmacion) {
             // Usuario hizo clic en "Aceptar", enviar solicitud a eliminar_documento.php
