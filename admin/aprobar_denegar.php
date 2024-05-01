@@ -25,7 +25,7 @@ try {
             $tipo = $_POST['tipo_solicitud'];
 
             $stmt = $conn->prepare("SELECT id_tipo FROM solicitud_tipo WHERE name_tipo = :tipo_solicitud");
-            $stmt->bindParam(':tipo_solicitud', $tipo, PDO::PARAM_INT);
+            $stmt->bindParam(':tipo_solicitud', $tipo, PDO::PARAM_STR);
             $stmt->execute();
             $tipoId = $stmt->fetch(PDO::FETCH_ASSOC);
             // Determinar el nuevo estado de la solicitud
