@@ -100,6 +100,39 @@ try {
         include 'cargar.php';
         ?>
 <script>
+        function ConfirmarInscripcion(idEvento, estado) {
+        var enviarCambio = confirm("Haga click en aceptar para enviar el cambio");
+
+        if (enviarCambio) {
+            ActualizarInscripcion(idEvento, estado);
+        } else {
+            // No hacer nada
+        }
+    }
+
+    function ActualizarInscripcion(idEvento, estado) {
+        $.ajax({
+            type: "POST",
+            url: "inscripcionesCurso.php",
+            data: {
+                id: idEvento,
+                tipo: estado
+            },
+            success: function(response) {
+                // Manejar la respuesta, si es necesario
+                console.log(response);
+                alertify.success(response);
+                // Recargar la tabla después de 1.5 segundos
+                    $("#tablaCursos").load("tablaCursos.php")
+
+            },
+            error: function(error) {
+                alertify.error(response);
+                // Manejar errores si es necesario
+                console.error(error);
+            }
+        });
+    }
             function trim(str) {
                 return str.replace(/^\s+|\s+$/g, '');
             }
