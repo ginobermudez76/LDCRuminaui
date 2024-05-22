@@ -48,11 +48,14 @@
     }
     ?>
   </h3>
+  <a href="https://ister.edu.ec/">
+          <img src="../img/RU.webp" alt="Facebook">
+        </a>
   <div class="desarrollador-container">
     <?php
     if (!isset($_SESSION['usuario_admin'])) { ?>
       <p class="text-center mb-0">
-       Gino Bermúdez Santos
+       Gino Bermúdez
       </p>
       <div class="info-desarrollador">
         <a href="https://api.whatsapp.com/send?phone=593978678671">
@@ -72,7 +75,7 @@
     } else { ?>
       <div class="gino">
         <p class="text-center mb-0">
-          Gino Bermúdez Santos
+          Gino Bermúdez
         </p>
         <div class="info-desarrollador">
           <a href="https://api.whatsapp.com/send?phone=593978678671">

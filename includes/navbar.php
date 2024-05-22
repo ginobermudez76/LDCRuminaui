@@ -57,7 +57,9 @@ try {
             </ul>
             <ul class="navbar-nav ms-auto pattaya-regular">
 
-
+            <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="https://ldcruminahui.com/prueba/public">Gestión deportiva</a>
+                    </li>
                 <?php
 
                 // Verificar si el usuario está autenticado
