@@ -202,10 +202,12 @@ try {
             document.getElementById('celular').addEventListener('input', function() {
                 // Obtener el valor actual del campo de celular
                 var celular = this.value;
+                var numerosCelular = celular.replace(/\D/g, '');
                 // Limitar el valor a 10 caracteres
-                if (celular.length > 10) {
-                    this.value = celular.slice(0, 10);
-                }
+                this.value = numerosCelular;
+            if (numerosCelular.length > 10) {
+                this.value = numerosCelular.slice(0, 10);
+            }
             });
 
 
@@ -213,10 +215,12 @@ try {
             document.getElementById('cedula').addEventListener('input', function() {
                 // Obtener el valor actual del campo de cedula
                 var cedula = this.value;
+                var numerosCedula = cedula.replace(/\D/g, '');
                 // Limitar el valor a 10 caracteres
-                if (cedula.length > 10) {
-                    this.value = cedula.slice(0, 10);
-                }
+                this.value = numerosCedula;
+            if (numerosCedula.length > 10) {
+                this.value = numerosCedula.slice(0, 10);
+            }
             });
             document.getElementById('nombre').addEventListener('input', function() {
                 // Obtener el valor actual del campo de nombre

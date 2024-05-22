@@ -9,7 +9,15 @@ footer h3{
  width: 90%;
  position: relative;
 }
-
+footer .instituto img{
+    width: 70px;
+    height: 70px;
+}
+footer .instituto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .footer-container img{
     width: 40px;
     height: 40px;

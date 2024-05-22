@@ -29,33 +29,38 @@
         <div class="ubicacion">
           <h3>Ubicación</h3>
           <div class="map-container">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3989.7525841707093!2d-78.44837492503538!3d-0.3288999996678666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMMKwMTknNDQuMCJTIDc4wrAyNic0NC45Ilc!5e0!3m2!1ses-419!2sec!4v1712551709959!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3989.7525841707093!2d-78.44837492503538!3d-0.3288999996678666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMMKwMTknNDQuMCJTIDc4wrAyNic0NC45Ilc!5e0!3m2!1ses-419!2sec!4v1712551709959!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>
     </div>
   </div>
   <h3 class="text-center mb-0">
-    
+
     <?php
 
-    if(!isset($_SESSION['usuario_admin'])){ ?>
-    Pagina desarrollada por:
+    if (!isset($_SESSION['usuario_admin'])) { ?>
+      Pagina desarrollada por:
     <?php
-    }else{ ?>
+    } else { ?>
       Sistema de solicitudes desarrollado por:
     <?php
     }
     ?>
   </h3>
-  <a href="https://ister.edu.ec/">
-          <img src="../img/RU.webp" alt="Facebook">
-        </a>
+  <div class="instituto">
+    <a href="https://ister.edu.ec/">
+      <img src="../img/RU.webp" alt="ISTER">
+    </a>
+    <a href="https://ister.edu.ec/desarrollo-de-software/">
+      <img src="../img/s.png" alt="Desarrollo de software">
+    </a>
+  </div>
   <div class="desarrollador-container">
     <?php
     if (!isset($_SESSION['usuario_admin'])) { ?>
       <p class="text-center mb-0">
-       Gino Bermúdez
+        Gino Bermúdez
       </p>
       <div class="info-desarrollador">
         <a href="https://api.whatsapp.com/send?phone=593978678671">
@@ -97,8 +102,8 @@
           Daniel Vizcaíno Chanataxi
         </p>
         <div class="info-desarrollador"">
-          <a href="https://api.whatsapp.com/send?phone=593978822207">
-            <img src="../img/whatsapp.png" alt="Facebook">
+          <a href=" https://api.whatsapp.com/send?phone=593978822207">
+          <img src="../img/whatsapp.png" alt="Facebook">
           </a>
           <a href="https://www.facebook.com/DaniElFox55/">
             <img src="../img/facebook.png" alt="Facebook">

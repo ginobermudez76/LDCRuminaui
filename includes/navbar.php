@@ -57,9 +57,6 @@ try {
             </ul>
             <ul class="navbar-nav ms-auto pattaya-regular">
 
-            <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="https://ldcruminahui.com/prueba/public">Gestión deportiva</a>
-                    </li>
                 <?php
 
                 // Verificar si el usuario está autenticado
@@ -151,7 +148,8 @@ try {
 
             <?php if (!isset($_SESSION['usuario_admin'])) { ?>
                 <li class="nav-item">
-                    <a class="nav-link sesion login" href="../admin/login.php">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle sesion login" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg class="icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="510px" height="510px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">
                             <g>
                                 <g id="account-circle">
@@ -163,6 +161,11 @@ try {
                         </svg>
                         Login
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link active" aria-current="page" href="../admin/login.php">Pagina principal</a>
+                        <a class="nav-link" href="https://ldcruminahui.com/prueba/public">Gestión deportiva</a>
+                    </div>
+                </li>
                 </li>
             <?php } ?>
             </ul>
