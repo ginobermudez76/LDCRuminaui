@@ -87,7 +87,8 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Credenciales inválidas'], 401);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No se pudo crear el token'], 500);
+            \Log::error('Error generating token: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['error' => 'No se pudo crear el token: ' . $e->getMessage()], 500);
         }
 
         $user = auth('api')->user();

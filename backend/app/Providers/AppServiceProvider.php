@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Hashing\Sha256Hasher;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Hash::extend('sha256', function () {
+            return new Sha256Hasher();
+        });
     }
 }
+

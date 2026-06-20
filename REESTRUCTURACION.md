@@ -86,5 +86,5 @@ En otra terminal en la carpeta /frontend:
 bash
 
 # Iniciar el servidor local de Angular
-pnpm dev --open
+pnpm start --open
 El frontend se abrirá automáticamente en tu navegador en http://localhost:4200.
