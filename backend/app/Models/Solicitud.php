@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Auditable;
 
 class Solicitud extends Model
 {
+    use Auditable;
+
     protected $table = 'solicitud';
     protected $primaryKey = 's_id';
+    public $timestamps = false;
 
     protected $fillable = [
         's_fecha',
@@ -49,6 +53,6 @@ class Solicitud extends Model
 
     public function departamentoEncargadoRelation()
     {
-        return $this->belongsTo(Rol::class, 'departamento_encargado', 'id_rol');
+        return $this->belongsTo(Rol::class, 'departamento_encargado', 'id');
     }
 }

@@ -49,7 +49,7 @@ import { AuthService } from '../../core/services/auth.service';
             </a>
             
             <a 
-              *ngIf="isAdmin()" 
+              *ngIf="canPublish()" 
               routerLink="/dashboard/eventos" 
               routerLinkActive="active" 
               class="nav-item"
@@ -167,7 +167,8 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class DashboardComponent {
   user = computed(() => this.authService.currentUserSignal());
-  isAdmin = computed(() => this.user()?.rol === 1);
+  canPublish = computed(() => this.authService.hasOption('PUBLICAR_CONTENIDO'));
+  canRegister = computed(() => this.authService.hasOption('REGISTRAR_USUARIOS'));
   roleName = computed(() => this.user()?.rol_relation?.rol_name || 'Usuario');
 
   constructor(private authService: AuthService, private router: Router) {}

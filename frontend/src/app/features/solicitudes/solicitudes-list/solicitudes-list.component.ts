@@ -386,9 +386,7 @@ export class SolicitudesListComponent implements OnInit {
   }
 
   canViewAssigned(): boolean {
-    const user = this.currentUser();
-    // Roles: 1 = Admin, 2 = Dept 1 Agent, 4 = Dept 2 Agent, etc.
-    return user ? [1, 2, 4].includes(user.rol ?? 0) : false;
+    return this.authService.hasOption('G_SOLICITUDES_ASIGNADAS');
   }
 
   canApproveDeny(solicitud: Solicitud): boolean {
@@ -398,7 +396,7 @@ export class SolicitudesListComponent implements OnInit {
 
   canDelete(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? (solicitud.solicitante === user.id && solicitud.estado === 1) || user.rol === 1 : false;
+    return user ? (solicitud.solicitante === user.id && solicitud.estado === 1) || this.authService.hasOption('REGISTRAR_USUARIOS') : false;
   }
 
   getStatusSeverity(estado: number): "warn" | "success" | "danger" | "info" {

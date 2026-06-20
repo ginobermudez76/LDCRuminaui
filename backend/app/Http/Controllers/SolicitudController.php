@@ -12,13 +12,14 @@ class SolicitudController extends Controller
 {
     /**
      * Display a listing of requests created by the authenticated user.
-     * If the user is an admin (e.g. rol = 1), list all requests.
+     * If the user is an admin or president, list all requests.
      */
     public function index()
     {
         $user = auth('api')->user();
 
-        if ($user->rol == 1) { // Admin
+        // Admin (has REGISTRAR_USUARIOS option) or Presidente (rol 1) sees all
+        if ($user->rol == 1 || $user->hasOption('REGISTRAR_USUARIOS')) {
             $solicitudes = Solicitud::with(['tipoRelation', 'solicitanteRelation', 'encargadoRelation', 'solicitantextRelation', 'estadoRelation', 'departamentoEncargadoRelation'])
                 ->orderBy('s_id', 'desc')
                 ->get();
@@ -69,23 +70,25 @@ class SolicitudController extends Controller
 
         // Replicate logic from procedure: actualizar_departamento_encargado_proc
         if ($tipo == 1) {
-            $departamentoId = 2; // Rol ID for Dept 1
+            $departamentoId = 2; // Rol ID for Metodologo
         } elseif (in_array($tipo, [2, 3, 4])) {
-            $departamentoId = 4; // Rol ID for Dept 2
+            $departamentoId = 4; // Rol ID for Coordinador general
         }
 
         $encargadoId = null;
         if ($departamentoId) {
             // Find the agent with the specified role having the lowest amount of active requests (estado = 1)
-            $encargado = Usuario::where('rol', $departamentoId)
+            $encargado = Usuario::whereHas('roles', function ($query) use ($departamentoId) {
+                    $query->where('rol.id', $departamentoId);
+                })
                 ->leftJoin('solicitud', function ($join) {
-                    $join->on('usuarios.id', '=', 'solicitud.encargado')
+                    $join->on('usuario.id', '=', 'solicitud.encargado')
                          ->where('solicitud.estado', '=', 1);
                 })
-                ->select('usuarios.id', DB::raw('count(solicitud.s_id) as active_count'))
-                ->groupBy('usuarios.id')
+                ->select('usuario.id', DB::raw('count(solicitud.s_id) as active_count'))
+                ->groupBy('usuario.id')
                 ->orderBy('active_count', 'asc')
-                ->orderBy('usuarios.id', 'asc')
+                ->orderBy('usuario.id', 'asc')
                 ->first();
 
             if ($encargado) {
@@ -185,8 +188,8 @@ class SolicitudController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'encargado' => 'nullable|integer|exists:usuarios,id',
-            'departamento_encargado' => 'nullable|integer|exists:roles,id_rol',
+            'encargado' => 'nullable|integer|exists:usuario,id',
+            'departamento_encargado' => 'nullable|integer|exists:rol,id',
             'tipo' => 'nullable|integer|exists:solicitud_tipo,id_tipo',
         ]);
 

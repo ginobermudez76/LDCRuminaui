@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Auditable;
 
 class Deporte extends Model
 {
+    use Auditable;
+
     protected $table = 'deportes';
+    public $timestamps = false;
 
     protected $fillable = [
         'nombre',

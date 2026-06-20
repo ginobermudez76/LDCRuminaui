@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -20,10 +21,10 @@ class AuthController extends Controller
             'segundo_nombre' => 'nullable|string|max:45',
             'primer_apellido' => 'required|string|max:45',
             'segundo_apellido' => 'nullable|string|max:45',
-            'cedula' => 'required|string|max:10|unique:usuarios,cedula',
+            'cedula' => 'required|string|max:10|unique:usuario,cedula',
             'celular' => 'nullable|string|max:10',
-            'correo' => 'required|string|email|max:100|unique:usuarios,correo',
-            'nombre_usuario' => 'required|string|max:150|unique:usuarios,nombre_usuario',
+            'correo' => 'required|string|email|max:100', // Unique check removed from email to support legacy duplicate example@gmail.com
+            'nombre_usuario' => 'required|string|max:150|unique:usuario,nombre_usuario',
             'contrasena' => 'required|string|min:6',
             'rol' => 'nullable|integer',
             'fecha_nac' => 'nullable|date',
@@ -33,25 +34,33 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        // Map frontend inputs to new DB structure
+        $nombres = trim(($request->primer_nombre ?? '') . ' ' . ($request->segundo_nombre ?? ''));
+        $apellidos = trim(($request->primer_apellido ?? '') . ' ' . ($request->segundo_apellido ?? ''));
+
         $usuario = Usuario::create([
-            'primer_nombre' => $request->primer_nombre,
-            'segundo_nombre' => $request->segundo_nombre,
-            'primer_apellido' => $request->primer_apellido,
-            'segundo_apellido' => $request->segundo_apellido,
+            'uuid' => (string) Str::uuid(),
+            'nombre_usuario' => $request->nombre_usuario,
+            'correo_electronico' => $request->correo,
+            'password_hash' => Hash::make($request->contrasena),
+            'nombres' => $nombres !== '' ? $nombres : null,
+            'apellidos' => $apellidos !== '' ? $apellidos : null,
             'cedula' => $request->cedula,
             'celular' => $request->celular,
-            'correo' => $request->correo,
-            'nombre_usuario' => $request->nombre_usuario,
-            'contrasena' => Hash::make($request->contrasena),
-            'rol' => $request->rol ?? 8, // Default role (e.g. general user)
             'fecha_nac' => $request->fecha_nac,
+            'activo' => true,
+            'deleted' => false,
         ]);
+
+        // Attach role to the many-to-many relationship
+        $rolId = $request->rol ?? 8; // Default to Administrador or custom role
+        $usuario->roles()->attach($rolId, ['uuid' => (string) Str::uuid()]);
 
         $token = JWTAuth::fromUser($usuario);
 
         return response()->json([
             'message' => 'Usuario registrado exitosamente',
-            'user' => $usuario,
+            'user' => $usuario->load('roles'),
             'token' => $token,
         ], 201);
     }
@@ -72,11 +81,6 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        // We override the credentials to check against the custom password column "contrasena"
-        // tymon/jwt-auth / Laravel guard maps the credentials. Since we overrode getAuthPassword() in Usuario model,
-        // we can authenticate by passing standard credentials where password is mapped to the internal field.
-        // Wait, standard guard expects 'password' key to check the password.
-        // So we must pass the contrasena credential as 'password' to the attempt method:
         $authCredentials = [
             'nombre_usuario' => $credentials['nombre_usuario'],
             'password' => $credentials['contrasena']
@@ -97,7 +101,7 @@ class AuthController extends Controller
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => $user->load('rolRelation'),
+            'user' => $user->load('roles'),
         ]);
     }
 
@@ -106,7 +110,7 @@ class AuthController extends Controller
      */
     public function profile()
     {
-        return response()->json(auth('api')->user()->load('rolRelation'));
+        return response()->json(auth('api')->user()->load('roles'));
     }
 
     /**

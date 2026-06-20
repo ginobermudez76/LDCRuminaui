@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Traits\Auditable;
 
 class Evento extends Model
 {
+    use Auditable;
+
     protected $table = 'eventos';
+    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
@@ -42,6 +46,9 @@ class Evento extends Model
      */
     protected static function booted()
     {
+        // Call parent boot logic for traits like Auditable
+        parent::booted();
+
         static::saving(function ($evento) {
             // Update fecha_eliminar based on fecha_fin + 3 days
             if ($evento->fecha_fin) {

@@ -18,6 +18,7 @@ export interface Usuario {
     id_rol: number;
     rol_name: string;
   };
+  opciones?: string[];
 }
 
 interface LoginResponse {
@@ -39,6 +40,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     this.loadStoredUser();
+  }
+
+  hasOption(optionCode: string): boolean {
+    const user = this.currentUserSignal();
+    return user?.opciones ? user.opciones.includes(optionCode) : false;
   }
 
   private loadStoredUser() {

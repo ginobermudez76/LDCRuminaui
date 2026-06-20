@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Auditable;
 
 class External extends Model
 {
+    use Auditable;
+
     protected $table = 'external';
     protected $primaryKey = 'id_ext';
+    public $timestamps = false;
 
     protected $fillable = [
         'ext_nombre',

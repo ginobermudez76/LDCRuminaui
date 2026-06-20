@@ -18,12 +18,14 @@ Route::get('eventos', [EventoController::class, 'index']);
 Route::get('noticias', [NoticiaController::class, 'index']);
 Route::get('logros', [LogroController::class, 'index']);
 
-// Protected routes (requires JWT)
+// Protected routes (requires JWT but bypasses RBAC)
 Route::group(['middleware' => 'auth:api'], function () {
-    // Auth profile & logout
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/logout', [AuthController::class, 'logout']);
+});
 
+// Protected routes (requires JWT and RBAC checks)
+Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     // Solicitudes CRUD
     Route::get('solicitudes', [SolicitudController::class, 'index']);
     Route::get('solicitudes/asignadas', [SolicitudController::class, 'asignadas']);
@@ -33,7 +35,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::delete('solicitudes/{id}', [SolicitudController::class, 'destroy']);
     Route::patch('solicitudes/{id}/reassign', [SolicitudController::class, 'reassign']);
 
-    // Admin-only management routes
+    // Admin/Publicist management routes
     Route::apiResource('deportes', DeporteController::class)->except(['index', 'show']);
     Route::apiResource('eventos', EventoController::class)->except(['index', 'show']);
     Route::apiResource('noticias', NoticiaController::class)->except(['index', 'show']);
