@@ -10,15 +10,24 @@ use App\Http\Controllers\LogroController;
 use App\Http\Controllers\SolicitudTipoController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AprobarDenegarController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\DeportistaDestacadoController;
+use App\Http\Controllers\CartaCondolenciaController;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
 
 // Public read routes
 Route::get('deportes', [DeporteController::class, 'index']);
+Route::get('deportes/{id}', [DeporteController::class, 'show']);
 Route::get('eventos', [EventoController::class, 'index']);
 Route::get('noticias', [NoticiaController::class, 'index']);
 Route::get('logros', [LogroController::class, 'index']);
+Route::get('cartas', [CartaCondolenciaController::class, 'index']);
+Route::get('cursos', [CursoController::class, 'index']);
+Route::get('documentos', [DocumentoController::class, 'index']);
+Route::get('deportistas', [DeportistaDestacadoController::class, 'index']);
 
 // Protected routes (requires JWT but bypasses RBAC)
 Route::group(['middleware' => 'auth:api'], function () {
@@ -49,9 +58,43 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     // Solicitud Tipos CRUD (Dynamic Workflows)
     Route::apiResource('solicitud-tipos', SolicitudTipoController::class);
 
-    // Admin/Publicist management routes
-    Route::apiResource('deportes', DeporteController::class)->except(['index', 'show']);
-    Route::apiResource('eventos', EventoController::class)->except(['index', 'show']);
-    Route::apiResource('noticias', NoticiaController::class)->except(['index', 'show']);
-    Route::apiResource('logros', LogroController::class)->except(['index', 'show']);
+    // Publicista - Deportes
+    Route::post('deportes', [DeporteController::class, 'store']);
+    Route::put('deportes/{id}', [DeporteController::class, 'update']);
+    Route::delete('deportes/{id}', [DeporteController::class, 'destroy']);
+
+    // Publicista - Eventos
+    Route::post('eventos', [EventoController::class, 'store']);
+    Route::put('eventos/{id}', [EventoController::class, 'update']);
+    Route::delete('eventos/{id}', [EventoController::class, 'destroy']);
+
+    // Publicista - Noticias
+    Route::post('noticias', [NoticiaController::class, 'store']);
+    Route::put('noticias/{id}', [NoticiaController::class, 'update']);
+    Route::delete('noticias/{id}', [NoticiaController::class, 'destroy']);
+
+    // Publicista - Logros
+    Route::post('logros', [LogroController::class, 'store']);
+    Route::put('logros/{id}', [LogroController::class, 'update']);
+    Route::delete('logros/{id}', [LogroController::class, 'destroy']);
+
+    // Publicista - Cursos
+    Route::post('cursos', [CursoController::class, 'store']);
+    Route::put('cursos/{id}', [CursoController::class, 'update']);
+    Route::delete('cursos/{id}', [CursoController::class, 'destroy']);
+
+    // Publicista - Documentos
+    Route::post('documentos', [DocumentoController::class, 'store']);
+    Route::put('documentos/{id}', [DocumentoController::class, 'update']);
+    Route::delete('documentos/{id}', [DocumentoController::class, 'destroy']);
+
+    // Publicista - Deportistas Destacados
+    Route::post('deportistas', [DeportistaDestacadoController::class, 'store']);
+    Route::put('deportistas/{id}', [DeportistaDestacadoController::class, 'update']);
+    Route::delete('deportistas/{id}', [DeportistaDestacadoController::class, 'destroy']);
+
+    // Publicista - Cartas de Condolencia
+    Route::post('cartas', [CartaCondolenciaController::class, 'store']);
+    Route::put('cartas/{id}', [CartaCondolenciaController::class, 'update']);
+    Route::delete('cartas/{id}', [CartaCondolenciaController::class, 'destroy']);
 });

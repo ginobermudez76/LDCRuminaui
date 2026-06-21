@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class EventoController extends Controller
 {
     public function index()
     {
-        // Replaces ObtenerInfoEventos procedure by loading the relation
         return response()->json(Evento::with('deporte')->orderBy('fecha_inicio', 'desc')->get());
     }
 
@@ -20,7 +20,7 @@ class EventoController extends Controller
             'nombre' => 'required|string|max:100',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
-            'imagen' => 'nullable|string|max:1000',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'nullable|string|max:300',
             'deporte_id' => 'required|integer|exists:deportes,id',
             'inscripciones' => 'nullable|string|max:20',
@@ -30,8 +30,14 @@ class EventoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        // Note: The 'estado' and 'fecha_eliminar' are automatically set in the Evento model's booted saving event!
-        $evento = Evento::create($request->all());
+        $data = $request->except('imagen');
+
+        if ($request->hasFile('imagen')) {
+            $path = $request->file('imagen')->store('eventos', 'public');
+            $data['imagen'] = '/storage/' . $path;
+        }
+
+        $evento = Evento::create($data);
 
         return response()->json($evento, 201);
     }
@@ -59,7 +65,7 @@ class EventoController extends Controller
             'nombre' => 'sometimes|required|string|max:100',
             'fecha_inicio' => 'sometimes|required|date',
             'fecha_fin' => 'sometimes|required|date|after_or_equal:fecha_inicio',
-            'imagen' => 'nullable|string|max:1000',
+            'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'nullable|string|max:300',
             'deporte_id' => 'sometimes|required|integer|exists:deportes,id',
             'inscripciones' => 'nullable|string|max:20',
@@ -69,7 +75,18 @@ class EventoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $evento->update($request->all());
+        $data = $request->except('imagen');
+
+        if ($request->hasFile('imagen')) {
+            if ($evento->imagen) {
+                $oldPath = str_replace('/storage/', '', $evento->imagen);
+                Storage::disk('public')->delete($oldPath);
+            }
+            $path = $request->file('imagen')->store('eventos', 'public');
+            $data['imagen'] = '/storage/' . $path;
+        }
+
+        $evento->update($data);
 
         return response()->json($evento);
     }
@@ -80,6 +97,11 @@ class EventoController extends Controller
 
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
+        }
+
+        if ($evento->imagen) {
+            $oldPath = str_replace('/storage/', '', $evento->imagen);
+            Storage::disk('public')->delete($oldPath);
         }
 
         $evento->delete();
