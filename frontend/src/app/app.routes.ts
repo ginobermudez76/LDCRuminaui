@@ -6,6 +6,7 @@ import { SolicitudFormComponent } from './features/solicitudes/solicitud-form/so
 import { RegisterPlaceholderComponent } from './features/auth/register-placeholder.component';
 import { AsignadasPlaceholderComponent } from './features/solicitudes/asignadas-placeholder.component';
 import { EventosPlaceholderComponent } from './features/publicista/eventos-placeholder.component';
+import { WorkflowAdminComponent } from './features/admin/workflow-admin/workflow-admin.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -21,7 +22,8 @@ export const routes: Routes = [
       { path: 'solicitudes/nueva', component: SolicitudFormComponent },
       { path: 'register', component: RegisterPlaceholderComponent },
       { path: 'asignadas', component: AsignadasPlaceholderComponent },
-      { path: 'eventos', component: EventosPlaceholderComponent }
+      { path: 'eventos', component: EventosPlaceholderComponent },
+      { path: 'workflow', component: WorkflowAdminComponent }
     ]
   },
   { path: '**', redirectTo: 'login' }

@@ -173,6 +173,7 @@ export class DashboardComponent {
     }
     if (this.authService.hasOption('REGISTRAR_USUARIOS')) {
       items.push({ label: 'Registrar Usuarios', link: '/dashboard/register', icon: 'pi pi-user-plus' });
+      items.push({ label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' });
     }
     if (this.authService.hasOption('PUBLICAR_CONTENIDO')) {
       items.push({ label: 'Eventos y Deportes', link: '/dashboard/eventos', icon: 'pi pi-calendar' });

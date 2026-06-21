@@ -1,0 +1,3 @@
+Documento de prueba para soporte de solicitud Beca de Deportes.
+Monto solicitado: $500.00
+Fecha: 2026-06-21

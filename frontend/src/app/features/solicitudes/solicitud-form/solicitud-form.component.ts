@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { SolicitudService } from '../../../core/services/solicitud.service';
+import { SolicitudTipoService, SolicitudTipo, WorkflowStep } from '../../../core/services/solicitud-tipo.service';
 
 @Component({
   selector: 'app-solicitud-form',
@@ -34,11 +35,13 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
         <form [formGroup]="solicitudForm" (ngSubmit)="onSubmit()" class="solicitud-form">
           <div class="form-grid">
             <!-- Tipo de Solicitud -->
-            <div class="form-field">
+            <div class="form-field full-width">
               <label for="tipo">Tipo de Solicitud *</label>
               <p-select 
                 id="tipo" 
-                [options]="tipos" 
+                [options]="tipos()" 
+                optionLabel="name_tipo"
+                optionValue="id_tipo"
                 formControlName="tipo" 
                 placeholder="Seleccione el tipo"
                 [style]="{width: '100%'}"
@@ -48,8 +51,24 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
               </small>
             </div>
 
-            <!-- Valor / Costo -->
-            <div class="form-field">
+            <!-- Vista previa del flujo -->
+            <div class="form-field full-width workflow-preview-card" *ngIf="selectedWorkflowSteps().length > 0">
+              <span class="preview-title"><i class="pi pi-directions"></i> Ruta de evaluación obligatoria:</span>
+              <div class="steps-flow">
+                <div *ngFor="let s of selectedWorkflowSteps(); let last = last" class="flow-step">
+                  <span class="step-lbl">{{ s.rol?.nombre_rol }}</span>
+                  <i class="pi pi-chevron-right step-arrow" *ngIf="!last"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-field full-width workflow-preview-card no-steps" *ngIf="hasSelectedType() && selectedWorkflowSteps().length === 0">
+              <span class="preview-title"><i class="pi pi-check-circle"></i> Aprobación Directa:</span>
+              <p class="preview-desc">Esta solicitud no requiere pasos intermedios y se enviará directamente para aprobación final.</p>
+            </div>
+
+            <!-- Valor / Costo (Condicional) -->
+            <div class="form-field" *ngIf="requiereValor()">
               <label for="valor">Valor Solicitado ($) *</label>
               <p-inputNumber 
                 id="valor" 
@@ -65,9 +84,9 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
               </small>
             </div>
 
-            <!-- Documento Adjunto (Ruta o Nombre) -->
-            <div class="form-field full-width">
-              <label for="doc">Ruta/Enlace del Documento Soporte (Opcional)</label>
+            <!-- Documento Adjunto (Ruta o Nombre) (Condicional) -->
+            <div class="form-field full-width" *ngIf="requiereDocumento()">
+              <label for="doc">Ruta/Enlace del Documento Soporte *</label>
               <input 
                 id="doc" 
                 type="text" 
@@ -76,11 +95,14 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
                 placeholder="Ej. https://drive.google.com/..."
                 class="w-full"
               />
+              <small class="error-text" *ngIf="solicitudForm.get('s_doc')?.invalid && solicitudForm.get('s_doc')?.touched">
+                El documento soporte es requerido.
+              </small>
             </div>
 
-            <!-- Descripción -->
-            <div class="form-field full-width">
-              <label for="descripcion">Detalle de la Solicitud</label>
+            <!-- Descripción (Condicional) -->
+            <div class="form-field full-width" *ngIf="requiereDescripcion()">
+              <label for="descripcion">Detalle de la Solicitud *</label>
               <textarea 
                 id="descripcion" 
                 rows="4" 
@@ -90,7 +112,7 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
                 class="w-full text-area"
               ></textarea>
               <small class="error-text" *ngIf="solicitudForm.get('descripcion')?.invalid && solicitudForm.get('descripcion')?.touched">
-                La descripción no puede exceder los 255 caracteres.
+                La descripción es requerida (máximo 255 caracteres).
               </small>
             </div>
           </div>
@@ -147,8 +169,8 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
       gap: 20px;
     }
     .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 20px;
     }
     .form-field {
@@ -162,7 +184,7 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
       font-size: 14px;
     }
     .form-field.full-width {
-      grid-column: span 2;
+      width: 100%;
     }
     .w-full {
       width: 100%;
@@ -188,39 +210,151 @@ import { SolicitudService } from '../../../core/services/solicitud.service';
       border-top: 1px solid #eee;
       padding-top: 20px;
     }
-    @media (max-width: 600px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      .form-field.full-width {
-        grid-column: span 1;
-      }
+    .workflow-preview-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 14px;
+      border-radius: 8px;
+    }
+    .workflow-preview-card.no-steps {
+      border-left: 4px solid #16a34a;
+      background: #f0fdf4;
+    }
+    .preview-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: #1e3c72;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .preview-desc {
+      margin: 0;
+      font-size: 12px;
+      color: #166534;
+    }
+    .steps-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-lbl {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+    .step-arrow {
+      color: #64748b;
+      font-size: 11px;
     }
   `]
 })
-export class SolicitudFormComponent {
+export class SolicitudFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private solicitudService = inject(SolicitudService);
+  private tipoService = inject(SolicitudTipoService);
   private router = inject(Router);
 
-  solicitudForm: FormGroup;
+  solicitudForm!: FormGroup;
   isLoading = signal(false);
   errorMessage = signal<string | undefined>(undefined);
 
-  tipos = [
-    { label: 'Ayudantía Económica', value: 1 },
-    { label: 'Inscripción a Evento', value: 2 },
-    { label: 'Permiso de Deporte', value: 3 },
-    { label: 'Otros', value: 4 }
-  ];
+  tipos = signal<SolicitudTipo[]>([]);
+  selectedWorkflowSteps = signal<WorkflowStep[]>([]);
+  hasSelectedType = signal(false);
 
-  constructor() {
+  // Field display signals
+  requiereValor = signal(false);
+  requiereDocumento = signal(false);
+  requiereDescripcion = signal(true);
+
+  ngOnInit() {
+    this.initForm();
+    this.loadTipos();
+    
+    // Subscribe to type changes
+    this.solicitudForm.get('tipo')?.valueChanges.subscribe(tipoId => {
+      const selectedType = this.tipos().find(t => t.id_tipo === tipoId);
+      this.hasSelectedType.set(!!selectedType);
+      this.updateValidators(selectedType);
+    });
+  }
+
+  private initForm() {
     this.solicitudForm = this.fb.group({
       tipo: [null, Validators.required],
-      s_valor: [0, [Validators.required, Validators.min(0)]],
+      s_valor: [0],
       s_doc: [''],
-      descripcion: ['', [Validators.maxLength(255)]]
+      descripcion: ['']
     });
+  }
+
+  loadTipos() {
+    this.tipoService.getSolicitudTipos().subscribe({
+      next: (data) => {
+        // Only show active types to the users creating requests
+        this.tipos.set(data.filter(t => t.activo));
+      },
+      error: () => this.errorMessage.set('Error al cargar los tipos de solicitudes.')
+    });
+  }
+
+  updateValidators(type: SolicitudTipo | undefined) {
+    if (!type) {
+      this.requiereValor.set(false);
+      this.requiereDocumento.set(false);
+      this.requiereDescripcion.set(true);
+      this.selectedWorkflowSteps.set([]);
+      return;
+    }
+
+    const valorControl = this.solicitudForm.get('s_valor');
+    const docControl = this.solicitudForm.get('s_doc');
+    const descControl = this.solicitudForm.get('descripcion');
+
+    // Reset controls values first
+    valorControl?.setValue(0);
+    docControl?.setValue('');
+    descControl?.setValue('');
+
+    // Valor validation
+    if (type.requiere_valor) {
+      valorControl?.setValidators([Validators.required, Validators.min(0)]);
+    } else {
+      valorControl?.clearValidators();
+    }
+    valorControl?.updateValueAndValidity();
+
+    // Document validation
+    if (type.requiere_documento) {
+      docControl?.setValidators([Validators.required]);
+    } else {
+      docControl?.clearValidators();
+    }
+    docControl?.updateValueAndValidity();
+
+    // Description validation
+    if (type.requiere_descripcion) {
+      descControl?.setValidators([Validators.required, Validators.maxLength(255)]);
+    } else {
+      descControl?.clearValidators();
+    }
+    descControl?.updateValueAndValidity();
+
+    // Set UI indicators
+    this.requiereValor.set(type.requiere_valor);
+    this.requiereDocumento.set(type.requiere_documento);
+    this.requiereDescripcion.set(type.requiere_descripcion);
+    this.selectedWorkflowSteps.set(type.steps || []);
   }
 
   onSubmit() {
@@ -229,7 +363,14 @@ export class SolicitudFormComponent {
     this.isLoading.set(true);
     this.errorMessage.set(undefined);
 
-    this.solicitudService.createSolicitud(this.solicitudForm.value).subscribe({
+    const payload = { ...this.solicitudForm.value };
+    
+    // Clean up payloads fields if they are not required
+    if (!this.requiereValor()) delete payload.s_valor;
+    if (!this.requiereDocumento()) delete payload.s_doc;
+    if (!this.requiereDescripcion()) delete payload.descripcion;
+
+    this.solicitudService.createSolicitud(payload).subscribe({
       next: () => {
         this.isLoading.set(false);
         this.router.navigate(['/dashboard/solicitudes']);

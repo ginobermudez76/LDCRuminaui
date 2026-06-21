@@ -391,7 +391,7 @@ export class SolicitudesListComponent implements OnInit {
 
   canApproveDeny(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? solicitud.encargado === user.id && solicitud.estado === 1 : false;
+    return user ? solicitud.encargado === user.id && [1, 2, 3].includes(solicitud.estado) : false;
   }
 
   canDelete(solicitud: Solicitud): boolean {
@@ -415,7 +415,8 @@ export class SolicitudesListComponent implements OnInit {
 
   updateStatus(solicitud: Solicitud, newStatus: number) {
     this.loading.set(true);
-    this.solicitudService.updateSolicitud(solicitud.s_id, { estado: newStatus }).subscribe({
+    const accion = newStatus === 2 ? 'Aprobar' : 'Denegar';
+    this.solicitudService.procesarSolicitud(solicitud.s_id, accion).subscribe({
       next: () => {
         this.fetchData();
       },

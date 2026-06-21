@@ -17,7 +17,7 @@ class AprobarDenegarController extends Controller
             'accion' => 'required|in:Aprobar,Denegar',
         ]);
 
-        $solicitud = Solicitud::with('tipoRelation')->findOrFail($id);
+        $solicitud = Solicitud::findOrFail($id);
         $usuario = JWTAuth::user();
         
         $rol = $usuario->roles->first();
@@ -27,94 +27,133 @@ class AprobarDenegarController extends Controller
 
         $rolId = $rol->id;
         $accion = $request->accion;
-        $tipoNombre = $solicitud->tipoRelation ? $solicitud->tipoRelation->name_tipo : '';
         $tipoId = $solicitud->tipo;
 
-        $nuevo_estado = null;
-
-        if ($accion !== 'Denegar') {
-            if ($tipoNombre !== 'Otro tipo') {
-                if ($rolId != 8) { // 8 is Administrador
-                    switch ($rolId) {
-                        case 9: // Secretaría
-                            $nuevo_estado = 2;
-                            break;
-                        case 2: // Metodólogo
-                        case 4: // Coordinador general
-                            $nuevo_estado = 3;
-                            break;
-                        case 3: // Tesorería
-                            $nuevo_estado = 5;
-                            break;
-                    }
-
-                    if ($nuevo_estado !== null) {
-                        try {
-                            DB::beginTransaction();
-                            $solicitud->estado = $nuevo_estado;
-                            $solicitud->save();
-
-                            // Call stored procedure
-                            DB::statement("CALL procesarAccionSP(?, ?, ?)", [$nuevo_estado, $tipoId, $id]);
-
-                            // Historial implementation (applied to all as planned)
-                            HistorialSolicitud::create([
-                                'solicitud_id' => $id,
-                                'estado' => $nuevo_estado,
-                                'responsable' => $usuario->id,
-                                'departamento' => $rolId,
-                                'tipo' => $tipoId,
-                            ]);
-
-                            DB::commit();
-                            return response()->json(['message' => 'Solicitud procesada', 'estado' => $nuevo_estado]);
-                        } catch (\Exception $e) {
-                            DB::rollBack();
-                            return response()->json(['error' => $e->getMessage()], 500);
-                        }
-                    } else {
-                        return response()->json(['error' => 'El rol no tiene permisos para aprobar esta solicitud'], 403);
-                    }
-                } else {
-                    // Admin
-                    $nuevo_estado = 5;
-                    $this->updateEstadoAndHistorial($solicitud, $nuevo_estado, $usuario->id, $rolId, $tipoId);
-                    return response()->json(['message' => 'Solicitud aprobada por Administrador', 'estado' => $nuevo_estado]);
-                }
-            } else {
-                // Otro tipo
-                $nuevo_estado = 5;
-                $this->updateEstadoAndHistorial($solicitud, $nuevo_estado, $usuario->id, $rolId, $tipoId);
-                return response()->json(['message' => 'Solicitud de Otro tipo aprobada', 'estado' => $nuevo_estado]);
-            }
-        } else {
-            // Denegar
-            $nuevo_estado = 4;
-            $this->updateEstadoAndHistorial($solicitud, $nuevo_estado, $usuario->id, $rolId, $tipoId);
-            return response()->json(['message' => 'Solicitud denegada', 'estado' => $nuevo_estado]);
+        // Verify if user is current encargado OR if they are Admin (8)
+        if ($solicitud->encargado !== $usuario->id && $rolId !== 8) {
+            return response()->json(['error' => 'No está asignado como encargado de esta solicitud'], 403);
         }
-    }
 
-    private function updateEstadoAndHistorial($solicitud, $estado, $usuarioId, $rolId, $tipoId)
-    {
+        if ($accion === 'Denegar') {
+            $nuevo_estado = 4; // State 4 = Rechazada
+            
+            DB::beginTransaction();
+            try {
+                $solicitud->estado = $nuevo_estado;
+                $solicitud->encargado = null;
+                $solicitud->departamento_encargado = null;
+                $solicitud->current_step_id = null;
+                $solicitud->save();
+
+                HistorialSolicitud::create([
+                    'solicitud_id' => $id,
+                    'estado' => $nuevo_estado,
+                    'responsable' => $usuario->id,
+                    'departamento' => $rolId,
+                    'tipo' => $tipoId,
+                ]);
+
+                DB::commit();
+                return response()->json(['message' => 'Solicitud denegada', 'estado' => $nuevo_estado]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+
+        // If action is Approve:
+        
+        // Admin (role 8) approves directly to state 5 (Fully Approved)
+        if ($rolId === 8) {
+            DB::beginTransaction();
+            try {
+                $solicitud->estado = 5; // Aprobada
+                $solicitud->departamento_encargado = null;
+                $solicitud->encargado = null;
+                $solicitud->current_step_id = null;
+                $solicitud->save();
+
+                HistorialSolicitud::create([
+                    'solicitud_id' => $id,
+                    'estado' => 5,
+                    'responsable' => $usuario->id,
+                    'departamento' => $rolId,
+                    'tipo' => $tipoId,
+                ]);
+
+                DB::commit();
+                return response()->json(['message' => 'Solicitud aprobada por Administrador', 'estado' => 5]);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
+
+        $currentStep = \App\Models\WorkflowStep::find($solicitud->current_step_id);
+        
+        // Find the next step in order
+        $nextStep = \App\Models\WorkflowStep::where('solicitud_tipo_id', $tipoId)
+            ->where('orden', '>', $currentStep ? $currentStep->orden : 0)
+            ->orderBy('orden', 'asc')
+            ->first();
+
         DB::beginTransaction();
         try {
-            $solicitud->estado = $estado;
-            $solicitud->encargado = $usuarioId;
-            $solicitud->departamento_encargado = $rolId;
-            $solicitud->save();
+            if ($nextStep) {
+                // Determine state based on order: step 1 = 1, step 2 = 2, step 3+ = 3
+                $nuevo_estado = ($nextStep->orden == 1) ? 1 : (($nextStep->orden == 2) ? 2 : 3);
+                $nextDepartamentoId = $nextStep->rol_id;
+                $nextEncargadoId = null;
 
+                // Find user with lowest workload for the next role
+                $encargado = \App\Models\Usuario::whereHas('roles', function ($query) use ($nextDepartamentoId) {
+                        $query->where('rol.id', $nextDepartamentoId);
+                    })
+                    ->leftJoin('solicitud', function ($join) {
+                        $join->on('usuario.id', '=', 'solicitud.encargado')
+                             ->whereIn('solicitud.estado', [1, 2, 3]);
+                    })
+                    ->select('usuario.id', DB::raw('count(solicitud.s_id) as active_count'))
+                    ->groupBy('usuario.id')
+                    ->orderBy('active_count', 'asc')
+                    ->orderBy('usuario.id', 'asc')
+                    ->first();
+
+                if ($encargado) {
+                    $nextEncargadoId = $encargado->id;
+                }
+
+                $solicitud->estado = $nuevo_estado;
+                $solicitud->departamento_encargado = $nextDepartamentoId;
+                $solicitud->encargado = $nextEncargadoId;
+                $solicitud->current_step_id = $nextStep->id;
+                $solicitud->save();
+
+            } else {
+                // No more steps: Fully Approved
+                $nuevo_estado = 5; // Aprobada
+                $solicitud->estado = $nuevo_estado;
+                $solicitud->departamento_encargado = null;
+                $solicitud->encargado = null;
+                $solicitud->current_step_id = null;
+                $solicitud->save();
+            }
+
+            // Create history record
             HistorialSolicitud::create([
-                'solicitud_id' => $solicitud->s_id,
-                'estado' => $estado,
-                'responsable' => $usuarioId,
+                'solicitud_id' => $id,
+                'estado' => $nuevo_estado,
+                'responsable' => $usuario->id,
                 'departamento' => $rolId,
                 'tipo' => $tipoId,
             ]);
+
             DB::commit();
+            return response()->json(['message' => 'Solicitud procesada con éxito', 'estado' => $nuevo_estado]);
+
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

@@ -7,6 +7,9 @@ use App\Http\Controllers\DeporteController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\LogroController;
+use App\Http\Controllers\SolicitudTipoController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AprobarDenegarController;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
@@ -21,6 +24,7 @@ Route::get('logros', [LogroController::class, 'index']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/profile', [AuthController::class, 'profile']);
     Route::post('auth/logout', [AuthController::class, 'logout']);
+    Route::get('roles', [RoleController::class, 'index']);
 });
 
 // Protected routes (requires JWT and RBAC checks)
@@ -36,6 +40,10 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     Route::put('solicitudes/{id}', [SolicitudController::class, 'update']);
     Route::delete('solicitudes/{id}', [SolicitudController::class, 'destroy']);
     Route::patch('solicitudes/{id}/reassign', [SolicitudController::class, 'reassign']);
+    Route::post('solicitudes/{id}/procesar', [AprobarDenegarController::class, 'procesar']);
+
+    // Solicitud Tipos CRUD (Dynamic Workflows)
+    Route::apiResource('solicitud-tipos', SolicitudTipoController::class);
 
     // Admin/Publicist management routes
     Route::apiResource('deportes', DeporteController::class)->except(['index', 'show']);

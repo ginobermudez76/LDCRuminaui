@@ -81,4 +81,8 @@ export class SolicitudService {
   reassignSolicitud(id: number, data: { encargado?: number; departamento_encargado?: number; tipo?: number }): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${id}/reassign`, data);
   }
+
+  procesarSolicitud(id: number, accion: 'Aprobar' | 'Denegar'): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/procesar`, { accion });
+  }
 }

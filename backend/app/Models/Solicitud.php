@@ -24,6 +24,7 @@ class Solicitud extends Model
         'descripcion',
         'estado',
         'departamento_encargado',
+        'current_step_id',
     ];
 
     public function solicitanteRelation()
@@ -54,5 +55,10 @@ class Solicitud extends Model
     public function departamentoEncargadoRelation()
     {
         return $this->belongsTo(Rol::class, 'departamento_encargado', 'id');
+    }
+
+    public function currentStep()
+    {
+        return $this->belongsTo(WorkflowStep::class, 'current_step_id', 'id');
     }
 }
