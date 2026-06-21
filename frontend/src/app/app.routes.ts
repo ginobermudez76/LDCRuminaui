@@ -3,7 +3,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { SolicitudesListComponent } from './features/solicitudes/solicitudes-list/solicitudes-list.component';
 import { SolicitudFormComponent } from './features/solicitudes/solicitud-form/solicitud-form.component';
-import { RegisterPlaceholderComponent } from './features/auth/register-placeholder.component';
+import { UserAdminComponent } from './features/admin/user-admin/user-admin.component';
 import { AsignadasPlaceholderComponent } from './features/solicitudes/asignadas-placeholder.component';
 import { EventosPlaceholderComponent } from './features/publicista/eventos-placeholder.component';
 import { WorkflowAdminComponent } from './features/admin/workflow-admin/workflow-admin.component';
@@ -20,7 +20,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'solicitudes', pathMatch: 'full' },
       { path: 'solicitudes', component: SolicitudesListComponent },
       { path: 'solicitudes/nueva', component: SolicitudFormComponent },
-      { path: 'register', component: RegisterPlaceholderComponent },
+      { path: 'register', component: UserAdminComponent },
       { path: 'asignadas', component: AsignadasPlaceholderComponent },
       { path: 'eventos', component: EventosPlaceholderComponent },
       { path: 'workflow', component: WorkflowAdminComponent }

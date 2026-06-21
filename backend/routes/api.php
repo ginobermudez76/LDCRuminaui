@@ -42,6 +42,10 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     Route::patch('solicitudes/{id}/reassign', [SolicitudController::class, 'reassign']);
     Route::post('solicitudes/{id}/procesar', [AprobarDenegarController::class, 'procesar']);
 
+    // Rutas de Usuarios
+    Route::get('/usuarios', [App\Http\Controllers\UsuarioController::class, 'index']);
+    Route::post('/usuarios', [App\Http\Controllers\UsuarioController::class, 'store']);
+
     // Solicitud Tipos CRUD (Dynamic Workflows)
     Route::apiResource('solicitud-tipos', SolicitudTipoController::class);
 
