@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `liga` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `liga`;
+CREATE DATABASE  IF NOT EXISTS `liga_legacy` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `liga_legacy`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: liga
+-- Host: localhost    Database: liga_legacy
 -- ------------------------------------------------------
 -- Server version	8.0.37
 

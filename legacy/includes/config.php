@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password ="ghil3412";
-$dbname ="liga";
+$dbname ="liga_legacy";
 
 try {
 

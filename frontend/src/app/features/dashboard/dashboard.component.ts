@@ -40,22 +40,13 @@ import { AuthService } from '../../core/services/auth.service';
         <aside class="sidebar">
           <nav class="nav-menu">
             <a 
-              routerLink="/dashboard/solicitudes" 
+              *ngFor="let item of menuItems()"
+              [routerLink]="item.link" 
               routerLinkActive="active" 
               class="nav-item"
             >
-              <i class="pi pi-file-edit nav-icon"></i>
-              <span>Solicitudes</span>
-            </a>
-            
-            <a 
-              *ngIf="canPublish()" 
-              routerLink="/dashboard/eventos" 
-              routerLinkActive="active" 
-              class="nav-item"
-            >
-              <i class="pi pi-calendar nav-icon"></i>
-              <span>Eventos y Deportes</span>
+              <i [class]="item.icon + ' nav-icon'"></i>
+              <span>{{ item.label }}</span>
             </a>
           </nav>
         </aside>
@@ -167,9 +158,27 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class DashboardComponent {
   user = computed(() => this.authService.currentUserSignal());
-  canPublish = computed(() => this.authService.hasOption('PUBLICAR_CONTENIDO'));
-  canRegister = computed(() => this.authService.hasOption('REGISTRAR_USUARIOS'));
   roleName = computed(() => this.user()?.rol_relation?.rol_name || 'Usuario');
+
+  menuItems = computed(() => {
+    const user = this.user();
+    if (!user) return [];
+    
+    const items = [];
+    if (this.authService.hasOption('G_SOLICITUDES_PROPIAS')) {
+      items.push({ label: 'Mis Solicitudes', link: '/dashboard/solicitudes', icon: 'pi pi-file-edit' });
+    }
+    if (this.authService.hasOption('G_SOLICITUDES_ASIGNADAS')) {
+      items.push({ label: 'Solicitudes Asignadas', link: '/dashboard/asignadas', icon: 'pi pi-list' });
+    }
+    if (this.authService.hasOption('REGISTRAR_USUARIOS')) {
+      items.push({ label: 'Registrar Usuarios', link: '/dashboard/register', icon: 'pi pi-user-plus' });
+    }
+    if (this.authService.hasOption('PUBLICAR_CONTENIDO')) {
+      items.push({ label: 'Eventos y Deportes', link: '/dashboard/eventos', icon: 'pi pi-calendar' });
+    }
+    return items;
+  });
 
   constructor(private authService: AuthService, private router: Router) {}
 

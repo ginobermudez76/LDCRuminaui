@@ -3,6 +3,9 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { SolicitudesListComponent } from './features/solicitudes/solicitudes-list/solicitudes-list.component';
 import { SolicitudFormComponent } from './features/solicitudes/solicitud-form/solicitud-form.component';
+import { RegisterPlaceholderComponent } from './features/auth/register-placeholder.component';
+import { AsignadasPlaceholderComponent } from './features/solicitudes/asignadas-placeholder.component';
+import { EventosPlaceholderComponent } from './features/publicista/eventos-placeholder.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -15,7 +18,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'solicitudes', pathMatch: 'full' },
       { path: 'solicitudes', component: SolicitudesListComponent },
-      { path: 'solicitudes/nueva', component: SolicitudFormComponent }
+      { path: 'solicitudes/nueva', component: SolicitudFormComponent },
+      { path: 'register', component: RegisterPlaceholderComponent },
+      { path: 'asignadas', component: AsignadasPlaceholderComponent },
+      { path: 'eventos', component: EventosPlaceholderComponent }
     ]
   },
   { path: '**', redirectTo: 'login' }
