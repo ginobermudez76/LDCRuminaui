@@ -15,14 +15,9 @@ return new class extends Migration
     {
         // 1. Drop foreign keys on existing tables referencing roles/usuarios
         Schema::table('solicitud', function (Blueprint $table) {
-            $table->dropForeign('fk_solicitante');
-            $table->dropForeign('fk_encargado');
-            $table->dropForeign('fk_departamento_encargado');
-        });
-
-        Schema::table('historial_solicitud', function (Blueprint $table) {
-            $table->dropForeign('historial_solicitud_ibfk_4');
-            $table->dropForeign('historial_solicitud_ibfk_5');
+            $table->dropForeign(['solicitante']);
+            $table->dropForeign(['encargado']);
+            $table->dropForeign(['departamento_encargado']);
         });
 
         // 2. Create the new tables
@@ -168,38 +163,61 @@ return new class extends Migration
 
         // Migrate users data
         $users = DB::table('usuarios')->get();
-        foreach ($users as $user) {
-            // Concatenate names/surnames
-            $nombres = trim(($user->primer_nombre ?? '') . ' ' . ($user->segundo_nombre ?? ''));
-            $apellidos = trim(($user->primer_apellido ?? '') . ' ' . ($user->segundo_apellido ?? ''));
-
-            DB::table('usuario')->insert([
-                'id' => $user->id,
+        if ($users->isEmpty()) {
+            // Seed a default admin
+            $userId = DB::table('usuario')->insertGetId([
                 'uuid' => (string) Str::uuid(),
-                'nombre_usuario' => $user->nombre_usuario ?? ('user_' . $user->id),
-                'correo_electronico' => $user->correo ?? ('user_' . $user->id . '@example.com'),
-                'password_hash' => $user->contrasena ?? '',
-                'nombres' => $nombres !== '' ? $nombres : null,
-                'apellidos' => $apellidos !== '' ? $apellidos : null,
-                'cedula' => $user->cedula,
-                'celular' => $user->celular,
-                'fecha_nac' => $user->fecha_nac,
+                'nombre_usuario' => 'admin',
+                'correo_electronico' => 'admin@admin.com',
+                'password_hash' => \Illuminate\Support\Facades\Hash::make('admin123'),
+                'nombres' => 'Administrador',
                 'activo' => true,
                 'deleted' => false,
-                'created_at' => $user->created_at ?? now(),
-                'updated_at' => $user->updated_at ?? now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
+            DB::table('rol_usuario')->insert([
+                'uuid' => (string) Str::uuid(),
+                'id_rol' => 8, // Administrador
+                'id_usuario' => $userId,
+                'deleted' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        } else {
+            foreach ($users as $user) {
+                // Concatenate names/surnames
+                $nombres = trim(($user->primer_nombre ?? '') . ' ' . ($user->segundo_nombre ?? ''));
+                $apellidos = trim(($user->primer_apellido ?? '') . ' ' . ($user->segundo_apellido ?? ''));
 
-            // Assign role in the pivot table
-            if ($user->rol) {
-                DB::table('rol_usuario')->insert([
+                DB::table('usuario')->insert([
+                    'id' => $user->id,
                     'uuid' => (string) Str::uuid(),
-                    'id_rol' => $user->rol,
-                    'id_usuario' => $user->id,
+                    'nombre_usuario' => $user->nombre_usuario ?? ('user_' . $user->id),
+                    'correo_electronico' => $user->correo ?? ('user_' . $user->id . '@example.com'),
+                    'password_hash' => $user->contrasena ?? '',
+                    'nombres' => $nombres !== '' ? $nombres : null,
+                    'apellidos' => $apellidos !== '' ? $apellidos : null,
+                    'cedula' => $user->cedula,
+                    'celular' => $user->celular,
+                    'fecha_nac' => $user->fecha_nac,
+                    'activo' => true,
                     'deleted' => false,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $user->created_at ?? now(),
+                    'updated_at' => $user->updated_at ?? now(),
                 ]);
+
+                // Assign role in the pivot table
+                if ($user->rol) {
+                    DB::table('rol_usuario')->insert([
+                        'uuid' => (string) Str::uuid(),
+                        'id_rol' => $user->rol,
+                        'id_usuario' => $user->id,
+                        'deleted' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             }
         }
 
@@ -214,17 +232,13 @@ return new class extends Migration
             $table->foreign('departamento_encargado')->references('id')->on('rol')->onDelete('set null');
         });
 
-        Schema::table('historial_solicitud', function (Blueprint $table) {
-            $table->foreign('departamento')->references('id')->on('rol')->onDelete('set null');
-            $table->foreign('responsable')->references('id')->on('usuario')->onDelete('set null');
-        });
-
         // 6. Populate default options and endpoints (Seed)
         $optionsList = [
             'G_SOLICITUDES_PROPIAS' => 'Permite ver, crear y consultar detalles de sus propias solicitudes.',
             'REGISTRAR_USUARIOS' => 'Permite registrar nuevos usuarios.',
             'G_SOLICITUDES_ASIGNADAS' => 'Permite ver, reasignar y actualizar solicitudes asignadas.',
             'PUBLICAR_CONTENIDO' => 'Permite a los publicistas gestionar deportes, eventos, logros y noticias.',
+            'APROBAR_SOLICITUDES' => 'Permite aprobar o denegar solicitudes (cambio de estado de flujo).',
         ];
 
         $insertedOptions = [];
@@ -254,6 +268,9 @@ return new class extends Migration
             // G_SOLICITUDES_ASIGNADAS
             ['name' => 'Listar solicitudes asignadas', 'method' => 'GET', 'url' => 'api/solicitudes/asignadas', 'opt' => 'G_SOLICITUDES_ASIGNADAS'],
             ['name' => 'Reasignar solicitud', 'method' => 'PATCH', 'url' => 'api/solicitudes/{id}/reassign', 'opt' => 'G_SOLICITUDES_ASIGNADAS'],
+
+            // APROBAR_SOLICITUDES
+            ['name' => 'Aprobar o denegar solicitud', 'method' => 'POST', 'url' => 'api/solicitudes/{id}/procesar', 'opt' => 'APROBAR_SOLICITUDES'],
 
             // PUBLICAR_CONTENIDO (Write endpoints)
             ['name' => 'Crear deporte', 'method' => 'POST', 'url' => 'api/deportes', 'opt' => 'PUBLICAR_CONTENIDO'],
@@ -343,6 +360,19 @@ return new class extends Migration
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        // APROBAR_SOLICITUDES to staff roles: 1, 2, 3, 4, 8, 9
+        $approvalRoles = [1, 2, 3, 4, 8, 9];
+        foreach ($approvalRoles as $roleId) {
+            DB::table('rol_opcion')->insert([
+                'uuid' => (string) Str::uuid(),
+                'id_rol' => $roleId,
+                'id_opcion' => $insertedOptions['APROBAR_SOLICITUDES'],
+                'deleted' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 
     /**
@@ -351,6 +381,12 @@ return new class extends Migration
     public function down(): void
     {
         // Reversal logic if needed
+        Schema::table('solicitud', function (Blueprint $table) {
+            $table->dropForeign(['solicitante']);
+            $table->dropForeign(['encargado']);
+            $table->dropForeign(['departamento_encargado']);
+        });
+
         Schema::dropIfExists('auditoria');
         Schema::dropIfExists('configuracion');
         Schema::dropIfExists('opcion_endpoint');

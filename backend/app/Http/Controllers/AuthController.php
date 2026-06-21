@@ -24,8 +24,8 @@ class AuthController extends Controller
             'cedula' => 'required|string|max:10|unique:usuario,cedula',
             'celular' => 'nullable|string|max:10',
             'correo' => 'required|string|email|max:100', // Unique check removed from email to support legacy duplicate example@gmail.com
-            'nombre_usuario' => 'required|string|max:150|unique:usuario,nombre_usuario',
-            'contrasena' => 'required|string|min:6',
+            'nombre_usuario' => 'nullable|string|max:150|unique:usuario,nombre_usuario',
+            'contrasena' => 'nullable|string|min:6',
             'rol' => 'nullable|integer',
             'fecha_nac' => 'nullable|date',
         ]);
@@ -38,11 +38,19 @@ class AuthController extends Controller
         $nombres = trim(($request->primer_nombre ?? '') . ' ' . ($request->segundo_nombre ?? ''));
         $apellidos = trim(($request->primer_apellido ?? '') . ' ' . ($request->segundo_apellido ?? ''));
 
+        $nombreLimpio = strtolower(preg_replace('/[^a-zA-Z]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $request->primer_nombre)));
+        $apellidoLimpio = strtolower(preg_replace('/[^a-zA-Z]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $request->primer_apellido)));
+        $cedulaSuffix = substr($request->cedula, -4);
+        $year = $request->fecha_nac ? date('Y', strtotime($request->fecha_nac)) : date('Y');
+
+        $username = $request->nombre_usuario ?? ($nombreLimpio . "." . $apellidoLimpio . $cedulaSuffix . "@ldcruminahui.com");
+        $rawPassword = $request->contrasena ?? (ucfirst($apellidoLimpio) . $cedulaSuffix . "@" . $year);
+
         $usuario = Usuario::create([
             'uuid' => (string) Str::uuid(),
-            'nombre_usuario' => $request->nombre_usuario,
+            'nombre_usuario' => $username,
             'correo_electronico' => $request->correo,
-            'password_hash' => Hash::make($request->contrasena),
+            'password_hash' => Hash::make($rawPassword),
             'nombres' => $nombres !== '' ? $nombres : null,
             'apellidos' => $apellidos !== '' ? $apellidos : null,
             'cedula' => $request->cedula,

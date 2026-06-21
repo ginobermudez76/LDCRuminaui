@@ -10,7 +10,6 @@ use App\Http\Controllers\LogroController;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
-Route::post('auth/register', [AuthController::class, 'register']);
 
 // Public read routes
 Route::get('deportes', [DeporteController::class, 'index']);
@@ -26,6 +25,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 // Protected routes (requires JWT and RBAC checks)
 Route::group(['middleware' => ['auth:api', 'rbac']], function () {
+    // Admin registration
+    Route::post('auth/register', [AuthController::class, 'register']);
+
     // Solicitudes CRUD
     Route::get('solicitudes', [SolicitudController::class, 'index']);
     Route::get('solicitudes/asignadas', [SolicitudController::class, 'asignadas']);
