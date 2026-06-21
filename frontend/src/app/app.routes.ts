@@ -13,10 +13,12 @@ import { CursosComponent } from './features/publicista/cursos/cursos.component';
 import { DocumentosComponent } from './features/publicista/documentos/documentos.component';
 import { DeportistasComponent } from './features/publicista/deportistas/deportistas.component';
 import { CartasCondolenciaComponent } from './features/publicista/cartas-condolencia/cartas-condolencia.component';
+import { LandingComponent } from './features/landing/landing.component';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // Public landing page
+  { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   {
     path: 'dashboard',
@@ -39,5 +41,5 @@ export const routes: Routes = [
       { path: 'cartas', component: CartasCondolenciaComponent },
     ]
   },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: '' }
 ];
