@@ -97,9 +97,9 @@ interface Noticia {
               <span class="logro-deporte" *ngIf="logro.deporte">{{ logro.deporte.nombre }}</span>
             </div>
             <div class="logro-icon">
-              <i *ngIf="logro.tipologro === 'Copa'" class="pi pi-trophy"></i>
-              <i *ngIf="logro.tipologro === 'Medalla'" class="pi pi-verified"></i>
-              <i *ngIf="logro.tipologro === 'Reconocimiento'" class="pi pi-file"></i>
+              <span *ngIf="logro.tipologro === 'Copa'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">trophy</span>
+              <span *ngIf="logro.tipologro === 'Medalla'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">social_leaderboard</span>
+              <span *ngIf="logro.tipologro === 'Reconocimiento'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">history_edu</span>
               <i *ngIf="!logro.tipologro" class="pi pi-star"></i>
             </div>
           </div>
