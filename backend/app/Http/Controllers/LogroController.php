@@ -20,6 +20,7 @@ class LogroController extends Controller
             'titulo' => 'required|string|max:200',
             'deporte_id' => 'nullable|integer|exists:deportes,id',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'tipologro' => 'nullable|string|in:Medalla,Copa,Reconocimiento',
         ]);
 
         if ($validator->fails()) {
@@ -61,6 +62,7 @@ class LogroController extends Controller
             'titulo' => 'sometimes|required|string|max:200',
             'deporte_id' => 'nullable|integer|exists:deportes,id',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'tipologro' => 'nullable|string|in:Medalla,Copa,Reconocimiento',
         ]);
 
         if ($validator->fails()) {

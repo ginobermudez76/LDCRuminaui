@@ -89,14 +89,19 @@ interface Noticia {
         <div class="section-line"></div>
       </div>
       <div class="logros-grid" *ngIf="logros().length > 0; else noLogros">
-        <div class="logro-card" *ngFor="let logro of logros()">
-          <div class="logro-img-wrap">
-            <img *ngIf="logro.imagen" [src]="'http://localhost:8000' + logro.imagen" [alt]="logro.titulo" class="logro-img" />
-            <div *ngIf="!logro.imagen" class="logro-placeholder">🏆</div>
-          </div>
-          <div class="logro-info">
-            <h3>{{ logro.titulo }}</h3>
-            <span class="logro-deporte" *ngIf="logro.deporte">{{ logro.deporte.nombre }}</span>
+        <div class="logro-card-legacy" *ngFor="let logro of logros()">
+          <div class="logro-bg" *ngIf="logro.imagen" [style.backgroundImage]="'url(http://localhost:8000' + logro.imagen + ')'"></div>
+          <div class="logro-content">
+            <div class="logro-text">
+              <h3>{{ logro.titulo }}</h3>
+              <span class="logro-deporte" *ngIf="logro.deporte">{{ logro.deporte.nombre }}</span>
+            </div>
+            <div class="logro-icon">
+              <i *ngIf="logro.tipologro === 'Copa'" class="pi pi-trophy"></i>
+              <i *ngIf="logro.tipologro === 'Medalla'" class="pi pi-verified"></i>
+              <i *ngIf="logro.tipologro === 'Reconocimiento'" class="pi pi-file"></i>
+              <i *ngIf="!logro.tipologro" class="pi pi-star"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -109,42 +114,71 @@ interface Noticia {
         <h2 class="section-title white">Deportistas Destacados</h2>
         <div class="section-line white"></div>
       </div>
-      <div class="deportistas-carousel" *ngIf="deportistas().length > 0; else noDeportistas">
-        <button class="car-btn" (click)="prevDeportista()">‹</button>
-        <div class="deportistas-track">
-          <div class="deportista-card" *ngFor="let d of visibleDeportistas()">
+      <div class="deportistas-split" *ngIf="deportistas().length > 0; else noDeportistas">
+        
+        <!-- Left Carousel (Odds) -->
+        <div class="dep-carousel">
+          <div class="dep-slide" *ngIf="deportistasIzq().length > 0">
+            <button class="dep-nav left" (click)="prevIzq()">‹</button>
             <div class="deportista-img-wrap">
-              <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre_deportista" />
-              <div *ngIf="!d.imagen" class="deportista-placeholder">🌟</div>
+              <img *ngIf="deportistasIzq()[idxIzq()].imagen" [src]="'http://localhost:8000' + deportistasIzq()[idxIzq()].imagen" [alt]="deportistasIzq()[idxIzq()].nombre_deportista" />
+              <div *ngIf="!deportistasIzq()[idxIzq()].imagen" class="deportista-placeholder">🌟</div>
+              <div class="deportista-overlay">
+                <div class="deportista-name">{{ deportistasIzq()[idxIzq()].nombre_deportista }}</div>
+                <div class="deportista-sport" *ngIf="deportistasIzq()[idxIzq()].deporte">{{ deportistasIzq()[idxIzq()].deporte?.nombre }}</div>
+              </div>
             </div>
-            <div class="deportista-name">{{ d.nombre_deportista }}</div>
-            <div class="deportista-sport" *ngIf="d.deporte">{{ d.deporte.nombre }}</div>
+            <button class="dep-nav right" (click)="nextIzq()">›</button>
           </div>
         </div>
-        <button class="car-btn" (click)="nextDeportista()">›</button>
+
+        <!-- Center Logo -->
+        <div class="dep-logo">
+          <img src="assets/images/logoX_LDCR.png" alt="LDCR Logo" onerror="this.src='http://localhost:8080/img/logoX_LDCR.png'" />
+        </div>
+
+        <!-- Right Carousel (Evens) -->
+        <div class="dep-carousel">
+          <div class="dep-slide" *ngIf="deportistasDer().length > 0">
+            <button class="dep-nav left" (click)="prevDer()">‹</button>
+            <div class="deportista-img-wrap">
+              <img *ngIf="deportistasDer()[idxDer()].imagen" [src]="'http://localhost:8000' + deportistasDer()[idxDer()].imagen" [alt]="deportistasDer()[idxDer()].nombre_deportista" />
+              <div *ngIf="!deportistasDer()[idxDer()].imagen" class="deportista-placeholder">🌟</div>
+              <div class="deportista-overlay">
+                <div class="deportista-name">{{ deportistasDer()[idxDer()].nombre_deportista }}</div>
+                <div class="deportista-sport" *ngIf="deportistasDer()[idxDer()].deporte">{{ deportistasDer()[idxDer()].deporte?.nombre }}</div>
+              </div>
+            </div>
+            <button class="dep-nav right" (click)="nextDer()">›</button>
+          </div>
+        </div>
+
       </div>
       <ng-template #noDeportistas><p class="empty-section white">No hay deportistas para mostrar.</p></ng-template>
     </section>
 
     <!-- ESCUELAS DEPORTIVAS -->
-    <section id="escuelas" class="section-container">
+    <section id="escuelas" class="section-gradient">
       <div class="section-header">
-        <h2 class="section-title blue">Escuelas Deportivas</h2>
-        <div class="section-line blue"></div>
+        <h2 class="section-title white">Escuelas Deportivas</h2>
+        <div class="section-line white"></div>
       </div>
-      <div class="escuelas-grid" *ngIf="deportes().length > 0; else noEscuelas">
-        <div class="escuela-card" *ngFor="let d of deportes()">
-          <div class="escuela-img-wrap">
-            <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
-            <div *ngIf="!d.imagen" class="escuela-placeholder">⚽</div>
-            <div class="escuela-overlay">
-              <span>{{ d.nombre }}</span>
+      <div class="escuelas-carousel" *ngIf="deportes().length > 0; else noEscuelas">
+        <button class="car-btn-out left" (click)="prevEscuela()">‹</button>
+        <div class="escuelas-track">
+          <div class="escuela-card" *ngFor="let d of visibleEscuelas()">
+            <div class="escuela-img-wrap">
+              <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
+              <div *ngIf="!d.imagen" class="escuela-placeholder">⚽</div>
+              <div class="escuela-overlay">
+                <span>{{ d.nombre }}</span>
+              </div>
             </div>
           </div>
-          <p *ngIf="d.descripcion">{{ d.descripcion }}</p>
         </div>
+        <button class="car-btn-out right" (click)="nextEscuela()">›</button>
       </div>
-      <ng-template #noEscuelas><p class="empty-section">No hay escuelas deportivas para mostrar.</p></ng-template>
+      <ng-template #noEscuelas><p class="empty-section white">No hay escuelas deportivas para mostrar.</p></ng-template>
     </section>
 
     <!-- EVENTOS -->
@@ -260,38 +294,52 @@ interface Noticia {
     .empty-section.white { color: rgba(255,255,255,0.6); }
 
     /* ─── LOGROS ─── */
-    .logros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
-    .logro-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 0.3s; }
-    .logro-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-    .logro-img-wrap { height: 160px; overflow: hidden; }
-    .logro-img { width: 100%; height: 100%; object-fit: cover; }
-    .logro-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #fef3c7, #fde68a); display: flex; align-items: center; justify-content: center; font-size: 48px; }
-    .logro-info { padding: 16px; }
-    .logro-info h3 { margin: 0 0 6px 0; font-size: 15px; color: #1e293b; font-weight: 700; }
-    .logro-deporte { font-size: 12px; color: #64748b; background: #f1f5f9; padding: 3px 8px; border-radius: 10px; }
+    .logros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .logro-card-legacy { position: relative; background: #3b4252; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s; height: 100px; display: flex; cursor: pointer; border-left: 4px solid #38bdf8; }
+    .logro-card-legacy:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+    .logro-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.3s; z-index: 1; }
+    .logro-card-legacy:hover .logro-bg { opacity: 0.4; }
+    .logro-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 24px; }
+    .logro-text { display: flex; flex-direction: column; gap: 4px; }
+    .logro-text h3 { margin: 0; font-size: 18px; color: #fff; font-weight: 700; }
+    .logro-deporte { font-size: 13px; color: #e2e8f0; }
+    .logro-icon { font-size: 48px; color: rgba(255,255,255,0.7); transition: opacity 0.3s; }
+    .logro-card-legacy:hover .logro-icon { opacity: 0; }
 
     /* ─── DEPORTISTAS ─── */
-    .deportistas-carousel { display: flex; align-items: center; gap: 20px; }
-    .deportistas-track { display: flex; gap: 24px; flex: 1; overflow: hidden; justify-content: center; }
-    .deportista-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; text-align: center; min-width: 180px; transition: all 0.3s; }
-    .deportista-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
-    .deportista-img-wrap { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 12px; border: 3px solid #ffd700; }
-    .deportista-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .deportista-placeholder { width: 100%; height: 100%; background: #334155; display: flex; align-items: center; justify-content: center; font-size: 36px; }
-    .deportista-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .deportista-sport { font-size: 12px; color: #ffd700; }
-    .car-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
-    .car-btn:hover { background: rgba(255,215,0,0.2); border-color: #ffd700; color: #ffd700; }
+    .deportistas-split { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
+    .dep-carousel { position: relative; width: 300px; height: 350px; }
+    .dep-slide { position: relative; width: 100%; height: 100%; }
+    .deportista-img-wrap { width: 100%; height: 100%; overflow: hidden; border: 4px solid #38bdf8; position: relative; cursor: pointer; }
+    .deportista-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .deportista-placeholder { width: 100%; height: 100%; background: #334155; display: flex; align-items: center; justify-content: center; font-size: 64px; }
+    .deportista-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; padding: 20px; text-align: center; }
+    .deportista-img-wrap:hover .deportista-overlay { opacity: 1; }
+    .deportista-img-wrap:hover img { transform: scale(1.1); }
+    .deportista-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .deportista-sport { font-size: 14px; color: #ffd700; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .dep-nav { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(255,255,255,0.7); font-size: 40px; cursor: pointer; z-index: 10; transition: color 0.2s; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .dep-nav:hover { color: #fff; }
+    .dep-nav.left { left: 10px; }
+    .dep-nav.right { right: 10px; }
+    .dep-logo { width: 220px; flex-shrink: 0; display: flex; justify-content: center; }
+    .dep-logo img { max-width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
 
     /* ─── ESCUELAS ─── */
-    .escuelas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
-    .escuela-card { border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); background: #fff; }
-    .escuela-card p { padding: 12px 16px; font-size: 13px; color: #64748b; margin: 0; }
-    .escuela-img-wrap { position: relative; height: 180px; }
-    .escuela-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .escuela-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #dbeafe, #bfdbfe); display: flex; align-items: center; justify-content: center; font-size: 56px; }
-    .escuela-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(30,60,114,0.85) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 16px; }
-    .escuela-overlay span { color: #fff; font-size: 16px; font-weight: 700; }
+    .escuelas-carousel { display: flex; align-items: center; justify-content: center; position: relative; padding: 0 60px; max-width: 1100px; margin: 0 auto; }
+    .escuelas-track { display: flex; gap: 10px; overflow: hidden; justify-content: center; flex: 1; }
+    .escuela-card { flex-shrink: 0; width: 220px; }
+    .escuela-img-wrap { position: relative; height: 350px; cursor: pointer; transform: skewX(-15deg); overflow: hidden; }
+    .escuela-img-wrap img { width: 140%; height: 100%; object-fit: cover; transform: skewX(15deg) translateX(-15%); transition: transform 0.4s; }
+    .escuela-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #dbeafe, #bfdbfe); display: flex; align-items: center; justify-content: center; font-size: 56px; transform: skewX(15deg); }
+    .escuela-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; transform: skewX(15deg); text-align: center; padding: 10px; }
+    .escuela-img-wrap:hover .escuela-overlay { opacity: 1; }
+    .escuela-img-wrap:hover img { transform: skewX(15deg) translateX(-15%) scale(1.1); }
+    .escuela-overlay span { color: #fff; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .car-btn-out { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 48px; cursor: pointer; transition: color 0.2s; }
+    .car-btn-out:hover { color: #fff; }
+    .car-btn-out.left { left: 0; }
+    .car-btn-out.right { right: 0; }
 
     /* ─── EVENTOS ─── */
     .eventos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -332,34 +380,77 @@ export class LandingComponent implements OnInit, OnDestroy {
   cartaIdx = signal(0);
   deportistaIdx = signal(0);
 
+  deportistasIzq = signal<DeportistaDestacado[]>([]);
+  deportistasDer = signal<DeportistaDestacado[]>([]);
+
+  idxIzq = signal(0);
+  idxDer = signal(0);
+  idxEscuela = signal(0);
+  private intervals: any[] = [];
+
   ngOnInit() {
     this.svc.getLogros().subscribe(d => this.logros.set(d));
-    this.svc.getDeportistas().subscribe(d => this.deportistas.set(d));
+    this.svc.getDeportistas().subscribe(d => {
+      this.deportistas.set(d);
+      // Split items alternating (odds and evens)
+      this.deportistasIzq.set(d.filter((_, i) => i % 2 !== 0));
+      this.deportistasDer.set(d.filter((_, i) => i % 2 === 0));
+    });
     this.svc.getDeportes().subscribe(d => this.deportes.set(d));
     this.svc.getEventos().subscribe(d => this.eventos.set(d.slice(0, 6)));
     this.svc.getCartas().subscribe(d => {
       this.cartas.set(d);
       if (d.length > 0) this.showCondolencias.set(true);
     });
+
+    if (typeof window !== 'undefined') {
+      this.intervals.push(setInterval(() => this.nextIzq(), 4000));
+      this.intervals.push(setInterval(() => this.nextDer(), 4500));
+      this.intervals.push(setInterval(() => this.nextEscuela(), 5000));
+    }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.intervals.forEach(i => clearInterval(i));
+  }
 
   closeCondolencias() { this.showCondolencias.set(false); }
   prevCarta() { this.cartaIdx.update(i => (i - 1 + this.cartas().length) % this.cartas().length); }
   nextCarta() { this.cartaIdx.update(i => (i + 1) % this.cartas().length); }
 
-  visibleDeportistas(): DeportistaDestacado[] {
-    const all = this.deportistas();
+  prevIzq() { this.idxIzq.update(i => (i - 1 + this.deportistasIzq().length) % this.deportistasIzq().length); }
+  nextIzq() { this.idxIzq.update(i => (i + 1) % this.deportistasIzq().length); }
+  
+  prevDer() { this.idxDer.update(i => (i - 1 + this.deportistasDer().length) % this.deportistasDer().length); }
+  nextDer() { this.idxDer.update(i => (i + 1) % this.deportistasDer().length); }
+
+  visibleEscuelas(): Deporte[] {
+    const all = this.deportes();
     if (all.length === 0) return [];
-    const size = Math.min(4, all.length);
-    const result = [];
-    for (let i = 0; i < size; i++) {
-      result.push(all[(this.deportistaIdx() + i) % all.length]);
-    }
-    return result;
+    const start = this.idxEscuela();
+    return all.slice(start, start + 4);
   }
 
-  prevDeportista() { this.deportistaIdx.update(i => (i - 1 + this.deportistas().length) % this.deportistas().length); }
-  nextDeportista() { this.deportistaIdx.update(i => (i + 1) % this.deportistas().length); }
+  prevEscuela() {
+    this.idxEscuela.update(i => {
+      const allLen = this.deportes().length;
+      if (allLen === 0) return 0;
+      let newIdx = i - 4;
+      if (newIdx < 0) {
+        const rem = allLen % 4;
+        newIdx = allLen - (rem === 0 ? 4 : rem);
+      }
+      return newIdx;
+    });
+  }
+
+  nextEscuela() {
+    this.idxEscuela.update(i => {
+      const allLen = this.deportes().length;
+      if (allLen === 0) return 0;
+      let newIdx = i + 4;
+      if (newIdx >= allLen) newIdx = 0;
+      return newIdx;
+    });
+  }
 }

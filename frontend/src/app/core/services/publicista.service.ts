@@ -27,6 +27,7 @@ export interface Evento {
 export interface Logro {
   id: number;
   titulo: string;
+  tipologro?: string;
   deporte_id?: number;
   imagen?: string;
   deporte?: Deporte;

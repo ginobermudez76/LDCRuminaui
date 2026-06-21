@@ -31,13 +31,14 @@ import { PublicistaService, Logro, Deporte } from '../../../core/services/public
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr><th>ID</th><th>Imagen</th><th>Título</th><th>Deporte</th><th>Acciones</th></tr>
+            <tr><th>ID</th><th>Imagen</th><th>Título</th><th>Tipo</th><th>Deporte</th><th>Acciones</th></tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr>
               <td>{{ item.id }}</td>
               <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" /></td>
               <td><strong>{{ item.titulo }}</strong></td>
+              <td>{{ item.tipologro }}</td>
               <td>{{ item.deporte?.nombre }}</td>
               <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.id)"></button></td>
             </tr>
@@ -48,8 +49,11 @@ import { PublicistaService, Logro, Deporte } from '../../../core/services/public
       <p-dialog [(visible)]="showDialog" header="Nuevo Logro" [modal]="true" [style]="{width:'480px'}">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
           <div class="field"><label>Título *</label><input pInputText formControlName="titulo" /></div>
+          <div class="field"><label>Tipo de Logro</label>
+            <p-select [options]="['Medalla', 'Copa', 'Reconocimiento']" formControlName="tipologro" placeholder="Seleccione un tipo" [style]="{width:'100%'}"></p-select>
+          </div>
           <div class="field"><label>Deporte</label>
-            <p-select [options]="deportes()" optionLabel="nombre" optionValue="id" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
+            <p-select [options]="deportes()" optionLabel="nombre" optionValue="id" formControlName="deporte_id" placeholder="Seleccione un deporte" [style]="{width:'100%'}"></p-select>
           </div>
           <div class="field"><label>Imagen</label><input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" /></div>
           <div class="error-wrap" *ngIf="error()"><p-message severity="error" [text]="error()!"></p-message></div>
@@ -93,7 +97,7 @@ export class LogrosComponent implements OnInit {
   private selectedFile: File | null = null;
 
   ngOnInit() {
-    this.form = this.fb.group({ titulo: ['', Validators.required], deporte_id: [null] });
+    this.form = this.fb.group({ titulo: ['', Validators.required], tipologro: [null], deporte_id: [null] });
     this.load();
     this.svc.getDeportes().subscribe(d => this.deportes.set(d));
   }
@@ -107,6 +111,7 @@ export class LogrosComponent implements OnInit {
     this.saving.set(true);
     const fd = new FormData();
     fd.append('titulo', this.form.value.titulo);
+    if (this.form.value.tipologro) fd.append('tipologro', this.form.value.tipologro);
     if (this.form.value.deporte_id) fd.append('deporte_id', String(this.form.value.deporte_id));
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
     this.svc.createLogro(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
