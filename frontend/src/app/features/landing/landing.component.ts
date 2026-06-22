@@ -1,8 +1,8 @@
 import { Component, OnInit, signal, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
 import { PublicistaService, Logro, DeportistaDestacado, Deporte, Evento, CartaCondolencia } from '../../core/services/publicista.service';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 interface Noticia {
   id: number;
@@ -14,7 +14,7 @@ interface Noticia {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   template: `
     <!-- CONDOLENCIAS MODAL -->
     <div class="modal-overlay" *ngIf="showCondolencias()" (click)="closeCondolencias()">
@@ -198,29 +198,7 @@ interface Noticia {
     </section>
 
     <!-- FOOTER -->
-    <footer class="landing-footer">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <span class="brand-shield">⚔</span>
-          <span>Liga Cantonal Rumiñahui</span>
-        </div>
-        <div class="footer-links">
-          <div class="footer-col">
-            <h4>Nosotros</h4>
-            <a href="#">Historia</a>
-            <a href="#">Misión y Visión</a>
-            <a href="#">Directorio</a>
-          </div>
-          <div class="footer-col">
-            <h4>Sistema</h4>
-            <a [routerLink]="['/login']">Iniciar Sesión</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2024 Liga Cantonal Rumiñahui · Sangolquí, Ecuador</p>
-      </div>
-    </footer>
+    <app-footer></app-footer>
   `,
   styles: [`
     /* ─── Reset ─── */
@@ -378,7 +356,6 @@ export class LandingComponent implements OnInit, OnDestroy {
   idxDer = signal(0);
   idxEscuela = signal(0);
   private intervals: any[] = [];
-
   ngOnInit() {
     this.svc.getLogros().subscribe(d => this.logros.set(d));
     this.svc.getDeportistas().subscribe(d => {
@@ -398,6 +375,7 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.intervals.push(setInterval(() => this.nextIzq(), 4000));
       this.intervals.push(setInterval(() => this.nextDer(), 4500));
       this.intervals.push(setInterval(() => this.nextEscuela(), 5000));
+      this.intervals.push(setInterval(() => this.nextCarta(), 6000));
     }
   }
 
@@ -406,14 +384,33 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   closeCondolencias() { this.showCondolencias.set(false); }
-  prevCarta() { this.cartaIdx.update(i => (i - 1 + this.cartas().length) % this.cartas().length); }
-  nextCarta() { this.cartaIdx.update(i => (i + 1) % this.cartas().length); }
 
-  prevIzq() { this.idxIzq.update(i => (i - 1 + this.deportistasIzq().length) % this.deportistasIzq().length); }
-  nextIzq() { this.idxIzq.update(i => (i + 1) % this.deportistasIzq().length); }
-  
-  prevDer() { this.idxDer.update(i => (i - 1 + this.deportistasDer().length) % this.deportistasDer().length); }
-  nextDer() { this.idxDer.update(i => (i + 1) % this.deportistasDer().length); }
+  prevCarta() {
+    const len = this.cartas().length;
+    if (len > 0) this.cartaIdx.update(i => (i - 1 + len) % len);
+  }
+  nextCarta() {
+    const len = this.cartas().length;
+    if (len > 0) this.cartaIdx.update(i => (i + 1) % len);
+  }
+
+  prevIzq() {
+    const len = this.deportistasIzq().length;
+    if (len > 0) this.idxIzq.update(i => (i - 1 + len) % len);
+  }
+  nextIzq() {
+    const len = this.deportistasIzq().length;
+    if (len > 0) this.idxIzq.update(i => (i + 1) % len);
+  }
+
+  prevDer() {
+    const len = this.deportistasDer().length;
+    if (len > 0) this.idxDer.update(i => (i - 1 + len) % len);
+  }
+  nextDer() {
+    const len = this.deportistasDer().length;
+    if (len > 0) this.idxDer.update(i => (i + 1) % len);
+  }
 
   visibleEscuelas(): Deporte[] {
     const all = this.deportes();

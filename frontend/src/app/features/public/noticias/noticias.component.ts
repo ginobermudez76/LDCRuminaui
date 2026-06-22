@@ -2,13 +2,14 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 const API = 'http://localhost:8000/api';
 
 @Component({
   selector: 'app-noticias',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="noticias-page">
@@ -43,6 +44,7 @@ const API = 'http://localhost:8000/api';
         <ng-template #empty><p class="empty-msg">No hay noticias para mostrar.</p></ng-template>
       </div>
     </div>
+    <app-footer></app-footer>
   `,
   styles: [`
     .noticias-page { min-height: 100vh; background: linear-gradient(to bottom, #030022, #11637c); color: #fff; }

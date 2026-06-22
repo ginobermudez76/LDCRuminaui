@@ -2,11 +2,12 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-nosotros',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="nosotros-page">
@@ -127,6 +128,7 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
 
       </div>
     </div>
+    <app-footer></app-footer>
   `,
   styles: [`
     .nosotros-page {

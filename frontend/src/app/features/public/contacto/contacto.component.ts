@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-contacto',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   template: `
     <app-navbar></app-navbar>
     <div class="contacto-page">
@@ -64,6 +65,7 @@ import { NavbarComponent } from '../../../shared/components/navbar/navbar.compon
         </div>
       </div>
     </div>
+    <app-footer></app-footer>
   `,
   styles: [`
     .contacto-page { min-height: 100vh; background: linear-gradient(to bottom, #030022, #11637c); color: #fff; }
