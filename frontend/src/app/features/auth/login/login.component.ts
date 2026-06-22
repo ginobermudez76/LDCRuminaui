@@ -1,8 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
@@ -13,167 +12,163 @@ import { AuthService } from '../../../core/services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule,
-    CardModule,
     InputTextModule,
     ButtonModule,
     MessageModule
   ],
   template: `
-    <div class="login-container">
-      <div class="login-card-wrapper">
-        <p-card header="Liga Cantonal Rumiñahui" subheader="Panel de Administración e Historial" styleClass="p-card-shadow custom-card">
+    <div class="login-page">
+      <a [routerLink]="['/']" class="back-btn">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Volver al inicio
+      </a>
+
+      <div class="login-container">
+        <div class="login-logo-wrap">
+          <img src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR"
+               class="login-logo" onerror="this.style.display='none'" />
+          <h2 class="login-brand">Liga Cantonal Rumiñahui</h2>
+          <p class="login-sub">Panel de Gestión Deportiva</p>
+        </div>
+
+        <div class="login-card">
+          <h3 class="card-title">
+            <span class="material-symbols-outlined">lock</span>
+            Iniciar Sesión
+          </h3>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
             <div class="p-field">
-              <label for="username">Nombre de Usuario</label>
-              <div class="input-icon-wrapper">
-                <i class="pi pi-user input-icon"></i>
-                <input 
-                  id="username" 
-                  type="text" 
-                  pInputText 
-                  formControlName="nombre_usuario" 
-                  placeholder="Ingrese su usuario"
-                  class="w-full"
-                />
-              </div>
+              <label for="username">
+                <span class="material-symbols-outlined">person</span>
+                Nombre de Usuario
+              </label>
+              <input
+                id="username"
+                type="text"
+                pInputText
+                formControlName="nombre_usuario"
+                placeholder="Ingrese su usuario"
+                class="ldcr-input"
+              />
               <small class="error-text" *ngIf="loginForm.get('nombre_usuario')?.invalid && loginForm.get('nombre_usuario')?.touched">
                 El usuario es requerido.
               </small>
             </div>
 
             <div class="p-field">
-              <label for="password">Contraseña</label>
-              <div class="input-icon-wrapper">
-                <i class="pi pi-lock input-icon"></i>
-                <input 
-                  id="password" 
-                  type="password" 
-                  pInputText 
-                  formControlName="contrasena" 
-                  placeholder="Ingrese su contraseña"
-                  class="w-full"
-                />
-              </div>
+              <label for="password">
+                <span class="material-symbols-outlined">key</span>
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                pInputText
+                formControlName="contrasena"
+                placeholder="Ingrese su contraseña"
+                class="ldcr-input"
+              />
               <small class="error-text" *ngIf="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched">
                 La contraseña es requerida (mínimo 6 caracteres).
               </small>
             </div>
 
             <div class="error-container" *ngIf="errorMessage()">
-              <p-message severity="error" [text]="errorMessage()"></p-message>
+              <p-message severity="error" [text]="errorMessage()!"></p-message>
             </div>
 
-            <div class="button-wrapper">
-              <button 
-                pButton 
-                type="submit" 
-                label="Iniciar Sesión" 
-                icon="pi pi-sign-in" 
-                [loading]="isLoading()"
-                [disabled]="loginForm.invalid"
-                class="w-full p-button-primary"
-              ></button>
-            </div>
+            <button
+              pButton
+              type="submit"
+              [loading]="isLoading()"
+              [disabled]="loginForm.invalid"
+              class="ldcr-btn w-full"
+            >
+              <span class="material-symbols-outlined" *ngIf="!isLoading()">login</span>
+              Iniciar Sesión
+            </button>
           </form>
-        </p-card>
+        </div>
       </div>
     </div>
   `,
   styles: [`
-    .login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .login-page {
       min-height: 100vh;
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-      padding: 20px;
-    }
-    .login-card-wrapper {
-      width: 100%;
-      max-width: 450px;
-    }
-    ::ng-deep .custom-card {
-      background: rgba(255, 255, 255, 0.9) !important;
-      backdrop-filter: blur(10px);
-      border-radius: 12px !important;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    }
-    ::ng-deep .custom-card .p-card-title {
-      font-size: 24px;
-      color: #1e3c72;
-      text-align: center;
-      font-weight: 700;
-    }
-    ::ng-deep .custom-card .p-card-subtitle {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #666;
-    }
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .p-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .p-field label {
-      font-weight: 600;
-      color: #333;
-      font-size: 14px;
-    }
-    .input-icon-wrapper {
-      position: relative;
+      background: linear-gradient(to bottom, #030022, #11637c);
       display: flex;
       align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
     }
-    .input-icon {
-      position: absolute;
-      left: 12px;
-      color: #888;
+    .back-btn {
+      position: fixed;
+      top: 20px; left: 24px;
+      display: flex; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.8);
+      font-size: 14px; font-weight: 600;
+      text-decoration: none;
+      padding: 8px 16px; border-radius: 8px;
+      border: 1px solid rgba(15,195,198,0.3);
+      background: rgba(15,195,198,0.08);
+      transition: all 0.2s; z-index: 10;
     }
-    .input-icon-wrapper input {
-      padding-left: 36px;
+    .back-btn .material-symbols-outlined { font-size: 18px; color: #0fc3c6; }
+    .back-btn:hover { background: rgba(15,195,198,0.18); border-color: #0fc3c6; color: #fff; }
+    .login-container {
+      width: 100%; max-width: 420px;
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+    }
+    .login-logo-wrap { text-align: center; }
+    .login-logo { width: 90px; height: 90px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); margin-bottom: 12px; }
+    .login-brand { font-family: 'Pattaya', 'Lobster', cursive; font-size: 20px; color: #fff; margin: 0 0 4px; }
+    .login-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; }
+    .login-card {
       width: 100%;
-      height: 45px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      transition: border-color 0.2s;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(15,195,198,0.3);
+      border-top: 3px solid #0fc3c6;
+      border-radius: 12px;
+      padding: 32px 36px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-    .input-icon-wrapper input:focus {
-      border-color: #1e3c72;
-      outline: none;
-      box-shadow: 0 0 0 0.2rem rgba(30, 60, 114, 0.25);
+    .card-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 20px; font-weight: 700; color: #0fc3c6;
+      margin: 0 0 28px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px;
     }
-    .error-text {
-      color: #d32f2f;
-      font-size: 12px;
+    .card-title .material-symbols-outlined { font-size: 22px; }
+    .login-form { display: flex; flex-direction: column; gap: 20px; }
+    .p-field { display: flex; flex-direction: column; gap: 8px; }
+    .p-field label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85);
     }
-    .error-container {
-      margin-top: 10px;
+    .p-field label .material-symbols-outlined { font-size: 16px; color: #0fc3c6; }
+    .ldcr-input {
+      width: 100%; height: 46px; padding: 0 14px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(15,195,198,0.3);
+      border-radius: 8px; color: #fff; font-size: 14px;
+      transition: border-color 0.2s, background 0.2s;
     }
-    .button-wrapper {
-      margin-top: 15px;
+    .ldcr-input::placeholder { color: rgba(255,255,255,0.35); }
+    .ldcr-input:focus { border-color: #0fc3c6; background: rgba(15,195,198,0.08); outline: none; box-shadow: 0 0 0 3px rgba(15,195,198,0.15); }
+    .error-text { color: #ff6b6b; font-size: 12px; }
+    .error-container { margin-top: 4px; }
+    .ldcr-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #0fc3c6 !important; border: none !important; border-radius: 8px !important;
+      color: #030022 !important; font-weight: 700 !important; font-size: 15px !important;
+      height: 48px; cursor: pointer; transition: all 0.2s; margin-top: 4px;
     }
-    ::ng-deep .p-button {
-      background: #1e3c72 !important;
-      border-color: #1e3c72 !important;
-      height: 45px;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    ::ng-deep .p-button:hover {
-      background: #2a5298 !important;
-      border-color: #2a5298 !important;
-    }
-    .w-full {
-      width: 100%;
-    }
+    .ldcr-btn .material-symbols-outlined { font-size: 18px; }
+    .ldcr-btn:hover:not(:disabled) { background: #0aa8ab !important; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(15,195,198,0.4) !important; }
+    .ldcr-btn:disabled { opacity: 0.6; }
+    .w-full { width: 100%; }
   `]
 })
 export class LoginComponent {
@@ -194,22 +189,17 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-
     this.isLoading.set(true);
     this.errorMessage.set(undefined);
-
     const { nombre_usuario, contrasena } = this.loginForm.value;
-
     this.authService.login(nombre_usuario, contrasena).subscribe({
-      next: (response) => {
+      next: () => {
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(
-          err.error?.error || 'Usuario o contraseña incorrectos.'
-        );
+        this.errorMessage.set(err.error?.error || 'Usuario o contraseña incorrectos.');
       }
     });
   }

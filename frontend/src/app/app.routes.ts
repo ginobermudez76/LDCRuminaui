@@ -15,11 +15,27 @@ import { DeportistasComponent } from './features/publicista/deportistas/deportis
 import { CartasCondolenciaComponent } from './features/publicista/cartas-condolencia/cartas-condolencia.component';
 import { LandingComponent } from './features/landing/landing.component';
 import { authGuard } from './core/guards/auth.guard';
+// Public pages
+import { NosotrosComponent } from './features/public/nosotros/nosotros.component';
+import { NoticiasComponent } from './features/public/noticias/noticias.component';
+import { ContactoComponent } from './features/public/contacto/contacto.component';
+import { ServiciosEscuelasComponent } from './features/public/servicios/escuelas.component';
+import { VacacionalesComponent } from './features/public/servicios/vacacionales.component';
+import { DocumentosPublicosComponent } from './features/public/servicios/documentos.component';
+import { EscenariosComponent } from './features/public/servicios/escenarios.component';
 
 export const routes: Routes = [
   // Public landing page
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
+  // Public info pages
+  { path: 'nosotros', component: NosotrosComponent },
+  { path: 'noticias', component: NoticiasComponent },
+  { path: 'contacto', component: ContactoComponent },
+  { path: 'servicios/escuelas', component: ServiciosEscuelasComponent },
+  { path: 'servicios/vacacionales', component: VacacionalesComponent },
+  { path: 'servicios/documentos', component: DocumentosPublicosComponent },
+  { path: 'servicios/escenarios', component: EscenariosComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -43,3 +59,4 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' }
 ];
+

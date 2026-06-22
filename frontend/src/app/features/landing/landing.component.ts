@@ -2,6 +2,7 @@ import { Component, OnInit, signal, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { PublicistaService, Logro, DeportistaDestacado, Deporte, Evento, CartaCondolencia } from '../../core/services/publicista.service';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 interface Noticia {
   id: number;
@@ -13,12 +14,14 @@ interface Noticia {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NavbarComponent],
   template: `
     <!-- CONDOLENCIAS MODAL -->
     <div class="modal-overlay" *ngIf="showCondolencias()" (click)="closeCondolencias()">
       <div class="modal-box" (click)="$event.stopPropagation()">
-        <button class="modal-close" (click)="closeCondolencias()">✕</button>
+        <button class="modal-close" (click)="closeCondolencias()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
         <div class="condolencia-slide" *ngIf="cartas().length > 0">
           <div class="condolencia-img-wrap">
             <p class="condolencia-title">EN MEMORIA DE NUESTRO CAMARADA</p>
@@ -37,20 +40,8 @@ interface Noticia {
     </div>
 
     <!-- NAVBAR -->
-    <nav class="landing-nav">
-      <div class="nav-brand">
-        <span class="brand-shield">⚔</span>
-        <span class="brand-text">Liga Cantonal Rumiñahui</span>
-      </div>
-      <div class="nav-links">
-        <a href="#inicio" class="nav-link">Inicio</a>
-        <a href="#logros" class="nav-link">Logros</a>
-        <a href="#deportistas" class="nav-link">Deportistas</a>
-        <a href="#escuelas" class="nav-link">Escuelas</a>
-        <a href="#eventos" class="nav-link">Eventos</a>
-        <a [routerLink]="['/login']" class="nav-btn">Ingresar</a>
-      </div>
-    </nav>
+    <app-navbar></app-navbar>
+
 
     <!-- HERO SECTION -->
     <section id="inicio" class="hero-section">
@@ -100,7 +91,7 @@ interface Noticia {
               <span *ngIf="logro.tipologro === 'Copa'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">trophy</span>
               <span *ngIf="logro.tipologro === 'Medalla'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">social_leaderboard</span>
               <span *ngIf="logro.tipologro === 'Reconocimiento'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">history_edu</span>
-              <i *ngIf="!logro.tipologro" class="pi pi-star"></i>
+              <span *ngIf="!logro.tipologro" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">star</span>
             </div>
           </div>
         </div>
