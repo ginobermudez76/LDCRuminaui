@@ -550,9 +550,9 @@ interface Noticia {
     .dep-carousel:first-of-type::after {
       content: '';
       position: absolute;
-      top: 40px;
+      top: 0px;
       left: 100%;
-      width: 140px;
+      width: 240px;
       height: 90px;
       background-color: #38bdf8;
       z-index: -1;
@@ -562,9 +562,9 @@ interface Noticia {
     .dep-carousel:last-of-type::after {
       content: '';
       position: absolute;
-      bottom: 40px;
+      bottom: 0px;
       right: 100%;
-      width: 140px;
+      width: 240px;
       height: 90px;
       background-color: #38bdf8;
       z-index: -1;
