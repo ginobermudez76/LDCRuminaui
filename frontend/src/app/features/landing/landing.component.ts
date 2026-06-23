@@ -99,8 +99,9 @@ interface Noticia {
       </div>
     </section>
 
-    <!-- LOGROS SECTION -->
-    <section id="logros" class="logros-section-legacy">
+    <div class="secciones-container-legacy">
+      <!-- LOGROS SECTION -->
+      <section id="logros" class="logros-section-legacy">
       <div class="titulo-containerl">
         <svg class="logros-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
           <path d="M -3000,157.5 L 0,157.5 L 0,80 L 450,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
@@ -233,6 +234,7 @@ interface Noticia {
       </div>
       <ng-template #noEventos><p class="empty-section white">No hay eventos para mostrar.</p></ng-template>
     </section>
+    </div>
 
     <!-- FOOTER -->
     <app-footer></app-footer>
@@ -277,6 +279,7 @@ interface Noticia {
       padding: 60px 40px;
       position: relative;
       overflow: hidden;
+      background-color: #030022;
     }
     .hero-section::before {
       content: '';
@@ -352,6 +355,24 @@ interface Noticia {
     /* ─── SECTION COMMONS ─── */
     .section-container { padding: 80px 60px; background: #f8fafc; }
     .section-dark { padding: 80px 60px; background: #1e293b; }
+    .secciones-container-legacy {
+      background: linear-gradient(to bottom, #030022, #4BBBEC);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+    .secciones-container-legacy::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('/img/fondo imagen.svg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      z-index: 0;
+      pointer-events: none;
+    }
     .eventos-section-legacy {
       min-height: 100vh;
       color: #fff;
@@ -361,6 +382,7 @@ interface Noticia {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      z-index: 1;
     }
     .section-header { text-align: center; margin-bottom: 48px; }
     .section-title { font-size: 36px; font-weight: 800; margin: 0 0 12px 0; }
@@ -382,6 +404,7 @@ interface Noticia {
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      z-index: 1;
     }
 
     .titulo-containerl {
@@ -459,7 +482,7 @@ interface Noticia {
     }
 
     .logro-card-legacy:hover .logro-bg {
-      opacity: 0.6;
+      opacity: 1;
     }
 
     .logro-content {
@@ -516,6 +539,7 @@ interface Noticia {
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      z-index: 1;
     }
 
     .titulo-containerdd {
@@ -614,6 +638,7 @@ interface Noticia {
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      z-index: 1;
     }
 
     .titulo-containere {
