@@ -182,20 +182,24 @@ interface Noticia {
     </section>
 
     <!-- ESCUELAS DEPORTIVAS -->
-    <section id="escuelas" class="section-gradient">
-      <div class="section-header">
-        <h2 class="section-title white">Escuelas Deportivas</h2>
-        <div class="section-line white"></div>
+    <section id="escuelas" class="escuelas-section-legacy">
+      <div class="titulo-containere">
+        <svg class="escuelas-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M -3000,157.5 L 0,157.5 L 0,80 L 410,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
+          <text x="600" y="80" class="svg-title-text" dominant-baseline="central" text-anchor="middle">Escuelas Deportivas</text>
+        </svg>
       </div>
       <div class="escuelas-carousel" *ngIf="deportes().length > 0; else noEscuelas">
         <button class="car-btn-out left" (click)="prevEscuela()">‹</button>
         <div class="escuelas-track">
-          <div class="escuela-card" *ngFor="let d of visibleEscuelas()">
-            <div class="escuela-img-wrap">
-              <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
-              <div *ngIf="!d.imagen" class="escuela-placeholder">⚽</div>
-              <div class="escuela-overlay">
-                <span>{{ d.nombre }}</span>
+          <div class="escuelas-slider" [style.transform]="'translateX(-' + (idxEscuela() * 190) + 'px)'">
+            <div class="escuela-card" *ngFor="let d of deportes()">
+              <div class="escuela-img-wrap">
+                <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
+                <div *ngIf="!d.imagen" class="escuela-placeholder">⚽</div>
+                <div class="escuela-overlay">
+                  <span>{{ d.nombre }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -595,10 +599,81 @@ interface Noticia {
     .dep-logo img { max-width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
 
     /* ─── ESCUELAS ─── */
-    .escuelas-carousel { display: flex; align-items: center; justify-content: center; position: relative; padding: 0 60px; max-width: 1100px; margin: 0 auto; }
-    .escuelas-track { display: flex; gap: 10px; overflow: hidden; justify-content: center; flex: 1; }
-    .escuela-card { flex-shrink: 0; width: 220px; }
-    .escuela-img-wrap { position: relative; height: 350px; cursor: pointer; transform: skewX(-15deg); overflow: hidden; }
+    .escuelas-section-legacy {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #030022, #11637c);
+      color: #fff;
+      padding: 20px 0 60px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .titulo-containere {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 10px 0 0 0;
+    }
+
+    .escuelas-title-svg {
+      width: 100%;
+      height: auto;
+      max-width: 1200px;
+      display: block;
+      padding: 0 40px;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    .escuelas-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 0 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .escuelas-track {
+      overflow: hidden;
+      max-width: 790px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .escuelas-slider {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .escuela-card {
+      flex-shrink: 0;
+      width: 220px;
+      margin: 0 -15px;
+    }
+
+    .escuela-img-wrap {
+      position: relative;
+      height: 612px;
+      cursor: pointer;
+      transform: skewX(-15deg);
+      overflow: hidden;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.3s;
+    }
+
+    .escuela-img-wrap:hover {
+      border-color: #0fc3c6;
+    }
+
     .escuela-img-wrap img { width: 140%; height: 100%; object-fit: cover; transform: skewX(15deg) translateX(-15%); transition: transform 0.4s; }
     .escuela-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #dbeafe, #bfdbfe); display: flex; align-items: center; justify-content: center; font-size: 56px; transform: skewX(15deg); }
     .escuela-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; transform: skewX(15deg); text-align: center; padding: 10px; }
@@ -655,7 +730,11 @@ export class LandingComponent implements OnInit, OnDestroy {
   idxIzq = signal(0);
   idxDer = signal(0);
   idxEscuela = signal(0);
-  private intervals: any[] = [];
+  private izqInterval: any;
+  private derInterval: any;
+  private escuelaInterval: any;
+  private cartaInterval: any;
+
   ngOnInit() {
     this.svc.getLogros().subscribe(d => this.logros.set(d));
     this.svc.getDeportistas().subscribe(d => {
@@ -672,73 +751,114 @@ export class LandingComponent implements OnInit, OnDestroy {
     });
 
     if (typeof window !== 'undefined') {
-      this.intervals.push(setInterval(() => this.nextIzq(), 4000));
-      this.intervals.push(setInterval(() => this.nextDer(), 4500));
-      this.intervals.push(setInterval(() => this.nextEscuela(), 5000));
-      this.intervals.push(setInterval(() => this.nextCarta(), 6000));
+      this.startAutoplay();
     }
   }
 
   ngOnDestroy() {
-    this.intervals.forEach(i => clearInterval(i));
+    this.stopAutoplay();
+  }
+
+  private startAutoplay() {
+    this.startIzqAutoplay();
+    this.startDerAutoplay();
+    this.startEscuelaAutoplay();
+    this.startCartaAutoplay();
+  }
+
+  private stopAutoplay() {
+    if (this.izqInterval) clearInterval(this.izqInterval);
+    if (this.derInterval) clearInterval(this.derInterval);
+    if (this.escuelaInterval) clearInterval(this.escuelaInterval);
+    if (this.cartaInterval) clearInterval(this.cartaInterval);
+  }
+
+  private startIzqAutoplay() {
+    if (this.izqInterval) clearInterval(this.izqInterval);
+    this.izqInterval = setInterval(() => this.nextIzq(), 4000);
+  }
+
+  private startDerAutoplay() {
+    if (this.derInterval) clearInterval(this.derInterval);
+    this.derInterval = setInterval(() => this.nextDer(), 4500);
+  }
+
+  private startEscuelaAutoplay() {
+    if (this.escuelaInterval) clearInterval(this.escuelaInterval);
+    this.escuelaInterval = setInterval(() => this.nextEscuela(), 5000);
+  }
+
+  private startCartaAutoplay() {
+    if (this.cartaInterval) clearInterval(this.cartaInterval);
+    this.cartaInterval = setInterval(() => this.nextCarta(), 6000);
   }
 
   closeCondolencias() { this.showCondolencias.set(false); }
 
   prevCarta() {
     const len = this.cartas().length;
-    if (len > 0) this.cartaIdx.update(i => (i - 1 + len) % len);
+    if (len > 0) {
+      this.cartaIdx.update(i => (i - 1 + len) % len);
+      this.startCartaAutoplay();
+    }
   }
   nextCarta() {
     const len = this.cartas().length;
-    if (len > 0) this.cartaIdx.update(i => (i + 1) % len);
+    if (len > 0) {
+      this.cartaIdx.update(i => (i + 1) % len);
+      this.startCartaAutoplay();
+    }
   }
 
   prevIzq() {
     const len = this.deportistasIzq().length;
-    if (len > 0) this.idxIzq.update(i => (i - 1 + len) % len);
+    if (len > 0) {
+      this.idxIzq.update(i => (i - 1 + len) % len);
+      this.startIzqAutoplay();
+    }
   }
   nextIzq() {
     const len = this.deportistasIzq().length;
-    if (len > 0) this.idxIzq.update(i => (i + 1) % len);
+    if (len > 0) {
+      this.idxIzq.update(i => (i + 1) % len);
+      this.startIzqAutoplay();
+    }
   }
 
   prevDer() {
     const len = this.deportistasDer().length;
-    if (len > 0) this.idxDer.update(i => (i - 1 + len) % len);
+    if (len > 0) {
+      this.idxDer.update(i => (i - 1 + len) % len);
+      this.startDerAutoplay();
+    }
   }
   nextDer() {
     const len = this.deportistasDer().length;
-    if (len > 0) this.idxDer.update(i => (i + 1) % len);
-  }
-
-  visibleEscuelas(): Deporte[] {
-    const all = this.deportes();
-    if (all.length === 0) return [];
-    const start = this.idxEscuela();
-    return all.slice(start, start + 4);
+    if (len > 0) {
+      this.idxDer.update(i => (i + 1) % len);
+      this.startDerAutoplay();
+    }
   }
 
   prevEscuela() {
     this.idxEscuela.update(i => {
       const allLen = this.deportes().length;
-      if (allLen === 0) return 0;
-      let newIdx = i - 4;
-      if (newIdx < 0) {
-        const rem = allLen % 4;
-        newIdx = allLen - (rem === 0 ? 4 : rem);
-      }
+      if (allLen <= 4) return 0;
+      let newIdx = i - 1;
+      if (newIdx < 0) newIdx = allLen - 4;
       return newIdx;
     });
+    this.startEscuelaAutoplay();
   }
 
   nextEscuela() {
     this.idxEscuela.update(i => {
       const allLen = this.deportes().length;
-      if (allLen === 0) return 0;
-      let newIdx = i + 4;
-      if (newIdx >= allLen) newIdx = 0;
+      if (allLen <= 4) return 0;
+      let newIdx = i + 1;
+      if (newIdx > allLen - 4) newIdx = 0;
       return newIdx;
     });
+    this.startEscuelaAutoplay();
   }
 }
