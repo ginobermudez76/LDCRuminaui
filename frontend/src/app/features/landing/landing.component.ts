@@ -100,29 +100,34 @@ interface Noticia {
     </section>
 
     <!-- LOGROS SECTION -->
-    <section id="logros" class="section-container">
-      <div class="section-header">
-        <h2 class="section-title gold">Logros</h2>
-        <div class="section-line"></div>
+    <section id="logros" class="logros-section-legacy">
+      <div class="titulo-containerl">
+        <svg class="logros-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 0,130 L 108,130 L 108,80 L 480,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
+          <text x="600" y="80" class="svg-title-text" dominant-baseline="central" text-anchor="middle">Logros</text>
+        </svg>
       </div>
-      <div class="logros-grid" *ngIf="logros().length > 0; else noLogros">
-        <div class="logro-card-legacy" *ngFor="let logro of logros()">
-          <div class="logro-bg" *ngIf="logro.imagen" [style.backgroundImage]="'url(http://localhost:8000' + logro.imagen + ')'"></div>
-          <div class="logro-content">
-            <div class="logro-text">
-              <h3>{{ logro.titulo }}</h3>
-              <span class="logro-deporte" *ngIf="logro.deporte">{{ logro.deporte.nombre }}</span>
-            </div>
-            <div class="logro-icon">
-              <span *ngIf="logro.tipologro === 'Copa'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">trophy</span>
-              <span *ngIf="logro.tipologro === 'Medalla'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">social_leaderboard</span>
-              <span *ngIf="logro.tipologro === 'Reconocimiento'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">history_edu</span>
-              <span *ngIf="!logro.tipologro" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">star</span>
+      
+      <div class="contenedor-logros">
+        <div class="logros-grid" *ngIf="logros().length > 0; else noLogros">
+          <div class="logro-card-legacy" *ngFor="let logro of logros()">
+            <div class="logro-bg" *ngIf="logro.imagen" [style.backgroundImage]="'url(http://localhost:8000' + logro.imagen + ')'"></div>
+            <div class="logro-content">
+              <div class="logro-text">
+                <h3>{{ logro.titulo }}</h3>
+                <span class="logro-deporte" *ngIf="logro.deporte">{{ logro.deporte.nombre }}</span>
+              </div>
+              <div class="logro-icon">
+                <span *ngIf="logro.tipologro === 'Copa'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">trophy</span>
+                <span *ngIf="logro.tipologro === 'Medalla'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">social_leaderboard</span>
+                <span *ngIf="logro.tipologro === 'Reconocimiento'" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">history_edu</span>
+                <span *ngIf="!logro.tipologro" class="material-symbols-outlined" style="font-size: 48px; color: rgba(255,255,255,0.7);">star</span>
+              </div>
             </div>
           </div>
         </div>
+        <ng-template #noLogros><p class="empty-section white">No hay logros para mostrar.</p></ng-template>
       </div>
-      <ng-template #noLogros><p class="empty-section">No hay logros para mostrar.</p></ng-template>
     </section>
 
     <!-- DEPORTISTAS DESTACADOS -->
@@ -354,17 +359,136 @@ interface Noticia {
     .empty-section.white { color: rgba(255,255,255,0.6); }
 
     /* ─── LOGROS ─── */
-    .logros-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
-    .logro-card-legacy { position: relative; background: #3b4252; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s; height: 100px; display: flex; cursor: pointer; border-left: 4px solid #38bdf8; }
-    .logro-card-legacy:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
-    .logro-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.3s; z-index: 1; }
-    .logro-card-legacy:hover .logro-bg { opacity: 0.4; }
-    .logro-content { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 24px; }
-    .logro-text { display: flex; flex-direction: column; gap: 4px; }
-    .logro-text h3 { margin: 0; font-size: 18px; color: #fff; font-weight: 700; }
-    .logro-deporte { font-size: 13px; color: #e2e8f0; }
-    .logro-icon { font-size: 48px; color: rgba(255,255,255,0.7); transition: opacity 0.3s; }
-    .logro-card-legacy:hover .logro-icon { opacity: 0; }
+    .logros-section-legacy {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #030022, #11637c);
+      color: #fff;
+      padding: 40px 0 80px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .titulo-containerl {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 0;
+    }
+
+    .logros-title-svg {
+      width: 100%;
+      height: auto;
+      max-width: 1200px;
+      display: block;
+    }
+
+    .svg-title-text {
+      font-family: "Lobster", 'Pattaya', cursive;
+      font-size: 64px;
+      fill: #ffffff;
+      font-weight: 400;
+    }
+
+    .contenedor-logros {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logros-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+      width: 100%;
+    }
+
+    .logro-card-legacy {
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(15,195,198,0.2);
+      border-left: 5px solid #0fc3c6;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      height: 480px;
+      display: flex;
+      cursor: pointer;
+    }
+
+    .logro-card-legacy:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      border-color: rgba(15,195,198,0.5);
+      border-left-color: #abb51a;
+    }
+
+    .logro-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+    }
+
+    .logro-card-legacy:hover .logro-bg {
+      opacity: 0.6;
+    }
+
+    .logro-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 100%;
+      height: 100%;
+      padding: 32px 28px;
+      background: linear-gradient(to top, rgba(3,0,34,0.9) 0%, rgba(3,0,34,0.2) 65%, rgba(3,0,34,0) 100%);
+    }
+
+    .logro-text {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .logro-text h3 {
+      margin: 0;
+      font-size: 24px;
+      color: #fff;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .logro-deporte {
+      font-size: 16px;
+      color: #0fc3c6;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .logro-icon {
+      font-size: 64px;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.3s ease;
+    }
+
+    .logro-card-legacy:hover .logro-icon {
+      color: #ffd700;
+      transform: scale(1.1);
+    }
 
     /* ─── DEPORTISTAS ─── */
     .deportistas-split { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
