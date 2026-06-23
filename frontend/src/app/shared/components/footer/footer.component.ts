@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 
           <!-- Logo + info -->
           <div class="footer-brand">
-            <img src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR" class="footer-logo"
+            <img src="/img/logoX_LDCR.png" alt="Logo LDCR" class="footer-logo"
                  onerror="this.style.display='none'" />
             <h3 class="footer-name">Liga Cantonal Rumiñahui</h3>
             <p class="footer-slogan">Liderando, administrando y fomentando el deporte formativo desde 1940.</p>
@@ -121,10 +121,10 @@ import { CommonModule } from '@angular/common';
         <!-- Institución -->
         <div class="instituto-row">
           <a href="https://ister.edu.ec/" target="_blank" class="instituto-link" title="ISTER">
-            <img src="http://localhost:8080/img/RU.webp" alt="ISTER" onerror="this.style.display='none'" />
+            <img src="/img/RU.webp" alt="ISTER" onerror="this.style.display='none'" />
           </a>
           <a href="https://ister.edu.ec/desarrollo-de-software/" target="_blank" class="instituto-link" title="Desarrollo de Software">
-            <img src="http://localhost:8080/img/s.png" alt="Desarrollo de software" onerror="this.style.display='none'" />
+            <img src="/img/s.webp" onerror="this.src='/img/s.png'" alt="Desarrollo de software" />
           </a>
         </div>
       </div>

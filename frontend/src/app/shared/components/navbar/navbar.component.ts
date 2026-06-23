@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 
         <!-- Brand -->
         <a [routerLink]="['/']" class="nav-brand">
-          <img src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR"
+          <img src="/img/logoX_LDCR.png" alt="Logo LDCR"
                class="nav-logo" onerror="this.style.display='none'" />
           <span class="brand-name">Liga Cantonal Rumiñahui</span>
         </a>
