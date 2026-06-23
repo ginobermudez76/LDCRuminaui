@@ -103,7 +103,7 @@ interface Noticia {
     <section id="logros" class="logros-section-legacy">
       <div class="titulo-containerl">
         <svg class="logros-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 0,130 L 108,130 L 108,80 L 480,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
+          <path d="M -3000,157.5 L 0,157.5 L 0,80 L 450,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
           <text x="600" y="80" class="svg-title-text" dominant-baseline="central" text-anchor="middle">Logros</text>
         </svg>
       </div>
@@ -375,8 +375,8 @@ interface Noticia {
       width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 40px 0;
+      align-items: flex-end;
+      padding: 40px 0 0 0;
     }
 
     .logros-title-svg {
@@ -384,6 +384,9 @@ interface Noticia {
       height: auto;
       max-width: 1200px;
       display: block;
+      padding: 0 40px;
+      box-sizing: border-box;
+      overflow: visible;
     }
 
     .svg-title-text {
