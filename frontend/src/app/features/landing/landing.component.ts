@@ -131,10 +131,12 @@ interface Noticia {
     </section>
 
     <!-- DEPORTISTAS DESTACADOS -->
-    <section id="deportistas" class="section-dark">
-      <div class="section-header">
-        <h2 class="section-title white">Deportistas Destacados</h2>
-        <div class="section-line white"></div>
+    <section id="deportistas" class="deportistas-section-legacy">
+      <div class="titulo-containerdd">
+        <svg class="deportistas-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 3000,80 L 1200,80 L 1200,157.5 L 640,157.5" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
+          <text x="0" y="157.5" class="svg-title-text" dominant-baseline="central" text-anchor="start">Deportistas Destacados</text>
+        </svg>
       </div>
       <div class="deportistas-split" *ngIf="deportistas().length > 0; else noDeportistas">
         
@@ -494,8 +496,81 @@ interface Noticia {
     }
 
     /* ─── DEPORTISTAS ─── */
-    .deportistas-split { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
-    .dep-carousel { position: relative; width: 300px; height: 350px; }
+    .deportistas-section-legacy {
+      min-height: 100vh;
+      background: linear-gradient(to bottom, #030022, #11637c);
+      color: #fff;
+      padding: 20px 0 60px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .titulo-containerdd {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 10px 0 0 0;
+    }
+
+    .deportistas-title-svg {
+      width: 100%;
+      height: auto;
+      max-width: 1200px;
+      display: block;
+      padding: 0 40px;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    .deportistas-split {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .dep-carousel {
+      position: relative;
+      width: 390px;
+      height: 612px;
+    }
+
+    .dep-carousel:first-of-type::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 100%;
+      width: 140px;
+      height: 90px;
+      background-color: #38bdf8;
+      z-index: -1;
+      clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
+    }
+
+    .dep-carousel:last-of-type::after {
+      content: '';
+      position: absolute;
+      bottom: 40px;
+      right: 100%;
+      width: 140px;
+      height: 90px;
+      background-color: #38bdf8;
+      z-index: -1;
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
     .dep-slide { position: relative; width: 100%; height: 100%; }
     .deportista-img-wrap { width: 100%; height: 100%; overflow: hidden; border: 4px solid #38bdf8; position: relative; cursor: pointer; }
     .deportista-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
@@ -509,7 +584,14 @@ interface Noticia {
     .dep-nav:hover { color: #fff; }
     .dep-nav.left { left: 10px; }
     .dep-nav.right { right: 10px; }
-    .dep-logo { width: 220px; flex-shrink: 0; display: flex; justify-content: center; }
+    .dep-logo {
+      position: relative;
+      z-index: 2;
+      width: 220px;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+    }
     .dep-logo img { max-width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
 
     /* ─── ESCUELAS ─── */
