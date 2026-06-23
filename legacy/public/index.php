@@ -141,7 +141,7 @@ try {
             <div id="carouselDeporte" class="carousel slide carrusel-deportes" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php
-                    // Dividir el array $deportes en grupos de tres
+                    // Dividir el array $deportes en grupos de cuatro
                     $grupos = array_chunk($deportes, 4);
 
                     // Iterar sobre los grupos de imágenes

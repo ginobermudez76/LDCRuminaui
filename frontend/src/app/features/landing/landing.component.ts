@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, signal, inject, OnDestroy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PublicistaService, Logro, DeportistaDestacado, Deporte, Evento, CartaCondolencia } from '../../core/services/publicista.service';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
@@ -185,21 +185,23 @@ interface Noticia {
     <!-- ESCUELAS DEPORTIVAS -->
     <section id="escuelas" class="escuelas-section-legacy">
       <div class="titulo-containere">
-        <svg class="escuelas-title-svg" viewBox="0 0 1200 160" xmlns="http://www.w3.org/2000/svg">
-          <path d="M -3000,157.5 L 0,157.5 L 0,80 L 410,80" fill="none" stroke="#0fc3c6" stroke-width="5" stroke-linecap="square" />
-          <text x="600" y="80" class="svg-title-text" dominant-baseline="central" text-anchor="middle">Escuelas Deportivas</text>
-        </svg>
+        <h1 class="title-escuela">Escuelas deportivas</h1>
+        <div class="horizontal"></div>
       </div>
-      <div class="escuelas-carousel" *ngIf="deportes().length > 0; else noEscuelas">
+      <div class="escuelas-carousel-legacy" *ngIf="deportes().length > 0; else noEscuelas">
         <button class="car-btn-out left" (click)="prevEscuela()">‹</button>
-        <div class="escuelas-track">
-          <div class="escuelas-slider" [style.transform]="'translateX(-' + (idxEscuela() * 190) + 'px)'">
-            <div class="escuela-card" *ngFor="let d of deportes()">
-              <div class="escuela-img-wrap">
-                <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
-                <div *ngIf="!d.imagen" class="escuela-placeholder">⚽</div>
-                <div class="escuela-overlay">
-                  <span>{{ d.nombre }}</span>
+        <div class="escuelas-track-legacy">
+          <div class="escuelas-slider-legacy" [style.transform]="'translateX(-' + (idxEscuela() * 100) + '%)'">
+            <div class="carousel-item-legacy" *ngFor="let grupo of deportesGrupos()">
+              <div class="row-legacy">
+                <div class="overlayDeportes" *ngFor="let deporte of grupo">
+                  <div class="imagenes-deportes">
+                    <img *ngIf="deporte.imagen" [src]="'http://localhost:8000' + deporte.imagen" [alt]="deporte.nombre" />
+                    <div *ngIf="!deporte.imagen" class="escuela-placeholder">⚽</div>
+                    <div class="overlay-content">
+                      <div class="overlay-text">{{ deporte.nombre }}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -642,75 +644,111 @@ interface Noticia {
     }
 
     .titulo-containere {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 10px 0 0 0;
+      font-size: 40px;
+      padding: 50px 0 50px 0;
+      text-align: center;
+      color: white;
+      font-family: "Lobster", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+    .title-escuela {
+      font-size: 40px;
+      margin: 0;
+      color: white;
+      font-family: "Lobster", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+    .titulo-containere .horizontal {
+      width: 36%;
+      height: 5px;
+      margin: 15px auto 0 auto;
+      background-color: #0fc3c6;
     }
 
-    .escuelas-title-svg {
-      width: 100%;
-      height: auto;
-      max-width: 1200px;
-      display: block;
-      padding: 0 40px;
-      box-sizing: border-box;
-      overflow: visible;
-    }
-
-    .escuelas-carousel {
+    .escuelas-carousel-legacy {
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       padding: 0 60px;
-      max-width: 1100px;
+      max-width: 100%;
       margin: 0 auto;
       flex: 1;
     }
-
-    .escuelas-track {
+    .escuelas-track-legacy {
       overflow: hidden;
-      max-width: 790px;
       width: 100%;
       display: flex;
-      justify-content: flex-start;
     }
-
-    .escuelas-slider {
+    .escuelas-slider-legacy {
       display: flex;
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      width: 100%;
     }
-
-    .escuela-card {
+    .carousel-item-legacy {
       flex-shrink: 0;
-      width: 220px;
-      margin: 0 -15px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
-
-    .escuela-img-wrap {
+    .row-legacy {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+    .imagenes-deportes img {
+      width: 100%;
+      height: 700px;
+      object-fit: cover;
+      clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%);
+    }
+    .overlayDeportes {
       position: relative;
-      height: 612px;
-      cursor: pointer;
-      transform: skewX(-15deg);
-      overflow: hidden;
-      border: 4px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      transition: border-color 0.3s;
+      display: inline-block;
+      width: 25%;
+      margin: 0 -3%;
     }
-
-    .escuela-img-wrap:hover {
-      border-color: #0fc3c6;
+    .overlayDeportes .overlay-content {
+      position: absolute;
+      top: 0;
+      left: 3.7%;
+      width: 92.5% !important;
+      height: 700px !important;
+      clip-path: polygon(28.4% 0%, 100% 0%, 71.9% 100%, 0% 100%) !important;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .escuela-img-wrap img { width: 140%; height: 100%; object-fit: cover; transform: skewX(15deg) translateX(-15%); transition: transform 0.4s; }
-    .escuela-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #dbeafe, #bfdbfe); display: flex; align-items: center; justify-content: center; font-size: 56px; transform: skewX(15deg); }
-    .escuela-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; transform: skewX(15deg); text-align: center; padding: 10px; }
-    .escuela-img-wrap:hover .escuela-overlay { opacity: 1; }
-    .escuela-img-wrap:hover img { transform: skewX(15deg) translateX(-15%) scale(1.1); }
-    .escuela-overlay span { color: #fff; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .overlayDeportes:hover .overlay-content {
+      opacity: 1;
+    }
+    .overlay-text {
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      z-index: 1;
+    }
+    .escuela-placeholder {
+      width: 100%;
+      height: 480px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%);
+    }
     .car-btn-out { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 48px; cursor: pointer; transition: color 0.2s; }
     .car-btn-out:hover { color: #fff; }
     .car-btn-out.left { left: 0; }
@@ -744,6 +782,15 @@ interface Noticia {
 })
 export class LandingComponent implements OnInit, OnDestroy {
   private svc = inject(PublicistaService);
+
+  deportesGrupos = computed(() => {
+    const arr = this.deportes();
+    const chunked = [];
+    for (let i = 0; i < arr.length; i += 4) {
+      chunked.push(arr.slice(i, i + 4));
+    }
+    return chunked;
+  });
 
   logros = signal<Logro[]>([]);
   deportistas = signal<DeportistaDestacado[]>([]);
@@ -873,10 +920,10 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   prevEscuela() {
     this.idxEscuela.update(i => {
-      const allLen = this.deportes().length;
-      if (allLen <= 4) return 0;
+      const allLen = this.deportesGrupos().length;
+      if (allLen <= 1) return 0;
       let newIdx = i - 1;
-      if (newIdx < 0) newIdx = allLen - 4;
+      if (newIdx < 0) newIdx = allLen - 1;
       return newIdx;
     });
     this.startEscuelaAutoplay();
@@ -884,10 +931,10 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   nextEscuela() {
     this.idxEscuela.update(i => {
-      const allLen = this.deportes().length;
-      if (allLen <= 4) return 0;
+      const allLen = this.deportesGrupos().length;
+      if (allLen <= 1) return 0;
       let newIdx = i + 1;
-      if (newIdx > allLen - 4) newIdx = 0;
+      if (newIdx > allLen - 1) newIdx = 0;
       return newIdx;
     });
     this.startEscuelaAutoplay();
