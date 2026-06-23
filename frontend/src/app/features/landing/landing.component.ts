@@ -210,7 +210,7 @@ interface Noticia {
     </section>
 
     <!-- EVENTOS -->
-    <section id="eventos" class="section-gradient">
+    <section id="eventos" class="eventos-section-legacy">
       <div class="section-header">
         <h2 class="section-title white">Próximos Eventos</h2>
         <div class="section-line white"></div>
@@ -282,7 +282,7 @@ interface Noticia {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(3, 0, 34, 0.6) 0%, rgba(17, 99, 124, 0.4) 100%), url('/img/portada.png');
+      background: linear-gradient(135deg, rgba(3, 0, 34, 0.6) 0%, rgba(17, 99, 124, 0.4) 100%), url('/img/pelota.svg');
       background-size: cover;
       background-position: center;
       transform: scaleX(-1);
@@ -352,7 +352,16 @@ interface Noticia {
     /* ─── SECTION COMMONS ─── */
     .section-container { padding: 80px 60px; background: #f8fafc; }
     .section-dark { padding: 80px 60px; background: #1e293b; }
-    .section-gradient { padding: 80px 60px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+    .eventos-section-legacy {
+      min-height: 100vh;
+      color: #fff;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
     .section-header { text-align: center; margin-bottom: 48px; }
     .section-title { font-size: 36px; font-weight: 800; margin: 0 0 12px 0; }
     .section-title.gold { color: #b45309; }
@@ -367,7 +376,6 @@ interface Noticia {
     /* ─── LOGROS ─── */
     .logros-section-legacy {
       min-height: 100vh;
-      background: linear-gradient(to bottom, #030022, #11637c);
       color: #fff;
       padding: 40px 0 80px;
       position: relative;
@@ -502,7 +510,6 @@ interface Noticia {
     /* ─── DEPORTISTAS ─── */
     .deportistas-section-legacy {
       min-height: 100vh;
-      background: linear-gradient(to bottom, #030022, #11637c);
       color: #fff;
       padding: 20px 0 60px;
       position: relative;
@@ -601,7 +608,6 @@ interface Noticia {
     /* ─── ESCUELAS ─── */
     .escuelas-section-legacy {
       min-height: 100vh;
-      background: linear-gradient(to bottom, #030022, #11637c);
       color: #fff;
       padding: 20px 0 60px;
       position: relative;
