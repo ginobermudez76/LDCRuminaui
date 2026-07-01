@@ -720,11 +720,11 @@ interface Noticia {
       border-color: #0fc3c6;
     }
     .escuela-img-wrap img {
-      width: 140%;
+      width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: skewX(15deg) translateX(-15%);
-      transition: transform 0.4s;
+      transform: scale(1.7) skewX(15deg);
+      transition: transform 0.4s ease;
     }
     .escuela-placeholder {
       width: 100%;
@@ -755,7 +755,7 @@ interface Noticia {
       opacity: 1;
     }
     .escuela-img-wrap:hover img {
-      transform: skewX(15deg) translateX(-15%) scale(1.1);
+      transform: scale(1.85) skewX(15deg);
     }
     .escuela-overlay span {
       color: #fff;
