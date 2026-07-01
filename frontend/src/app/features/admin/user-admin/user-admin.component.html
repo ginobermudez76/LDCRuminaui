@@ -20,7 +20,9 @@
               <th>Correo</th>
               <th>Cédula</th>
               <th>Rol Principal</th>
-              <th>Estado</th>
+              <th>Acceso</th>
+              <th>Invitación</th>
+              <th style="width: 80px;">Acciones</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-user>
@@ -40,17 +42,24 @@
                   {{ user.activo ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
+              <td>
+                <p-tag [severity]="getInvitationSeverity(user.invitation_status)" [value]="getInvitationLabel(user.invitation_status)"></p-tag>
+              </td>
+              <td>
+                <button pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-secondary p-button-text" (click)="toggleMenu($event, user, userMenu)"></button>
+              </td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="7" class="text-center p-4 text-gray-500">No hay usuarios registrados.</td>
+              <td colspan="9" class="text-center p-4 text-gray-500">No hay usuarios registrados.</td>
             </tr>
           </ng-template>
         </p-table>
       </div>
 
-      <p-dialog [(visible)]="showDialog" [header]="'Registrar Nuevo Usuario'" [modal]="true" [style]="{width: '600px'}" styleClass="custom-dialog">
+      <!-- Add/Edit User Dialog -->
+      <p-dialog [(visible)]="showDialog" [header]="selectedUsuarioId() ? 'Editar Usuario' : 'Registrar Nuevo Usuario'" [modal]="true" [style]="{width: '600px'}" styleClass="custom-dialog">
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
           
           <div class="form-grid">
@@ -97,18 +106,14 @@
             </div>
           </div>
 
-          <div class="auto-generated-section">
+          <div class="auto-generated-section" *ngIf="selectedUsuarioId() === null">
             <h4 class="auto-title"><i class="pi pi-cog"></i> Credenciales Autogeneradas</h4>
-            <p class="auto-desc">Estas credenciales se generan automáticamente y serán guardadas de forma segura.</p>
+            <p class="auto-desc">El nombre de usuario se calcula automáticamente. El usuario establecerá su contraseña a través del enlace de invitación.</p>
             
             <div class="form-grid">
-              <div class="form-field">
+              <div class="form-field full-width">
                 <label for="username">Usuario Autogenerado</label>
                 <input pInputText id="username" formControlName="username" readonly class="readonly-input" />
-              </div>
-              <div class="form-field">
-                <label for="password">Contraseña Autogenerada</label>
-                <input pInputText id="password" formControlName="password" readonly class="readonly-input" />
               </div>
             </div>
           </div>
@@ -119,9 +124,37 @@
 
           <div class="dialog-footer">
             <button pButton type="button" label="Cancelar" class="p-button-text p-button-secondary" (click)="closeDialog()"></button>
-            <button pButton type="submit" label="Registrar Usuario" icon="pi pi-check" [disabled]="userForm.invalid" [loading]="isSaving()"></button>
+            <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="userForm.invalid" [loading]="isSaving()"></button>
           </div>
         </form>
       </p-dialog>
+
+      <!-- Invitation link dialog -->
+      <p-dialog [(visible)]="showInviteLinkDialog" header="Enlace de Invitación Generado" [modal]="true" [style]="{width: '500px'}">
+        <div class="text-center p-4">
+          <i class="pi pi-envelope text-5xl text-warn block mb-3"></i>
+          <p class="mb-4">Se ha enviado un enlace de invitación por correo electrónico al usuario. Si lo requiere, puede copiar manualmente este enlace de registro:</p>
+          <div class="copy-link-box p-3 border-round bg-gray-100 border-1 border-300 flex justify-between items-center mb-4">
+            <code class="text-xs break-all">{{ generatedInviteLink() }}</code>
+          </div>
+          <button pButton label="Entendido" icon="pi pi-check" (click)="showInviteLinkDialog.set(false)" class="w-full"></button>
+        </div>
+      </p-dialog>
+
+      <!-- Password reset dialog -->
+      <p-dialog [(visible)]="showResetPasswordDialog" header="Contraseña Reestablecida" [modal]="true" [style]="{width: '500px'}">
+        <div class="text-center p-4">
+          <i class="pi pi-refresh text-5xl text-success block mb-3"></i>
+          <p class="mb-4">La contraseña ha sido reestablecida correctamente y enviada al correo del usuario. Para su registro inmediato, la contraseña autogenerada es:</p>
+          <div class="copy-link-box p-3 border-round bg-gray-100 border-1 border-300 mb-4">
+            <h3 class="text-xl font-bold text-primary m-0">{{ generatedPassword() }}</h3>
+          </div>
+          <button pButton label="Cerrar" icon="pi pi-check" (click)="showResetPasswordDialog.set(false)" class="w-full"></button>
+        </div>
+      </p-dialog>
+
+      <!-- Actions Menu -->
+      <p-menu #userMenu [popup]="true" [model]="menuItemsForSelectedUser"></p-menu>
     </div>
+
   

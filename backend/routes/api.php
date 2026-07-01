@@ -18,6 +18,7 @@ use App\Http\Controllers\RbacAdminController;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('auth/accept-invitation', [AuthController::class, 'acceptInvitation']);
 
 // Public read routes
 Route::get('deportes', [DeporteController::class, 'index']);
@@ -55,6 +56,11 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     // Rutas de Usuarios
     Route::get('/usuarios', [App\Http\Controllers\UsuarioController::class, 'index']);
     Route::post('/usuarios', [App\Http\Controllers\UsuarioController::class, 'store']);
+    Route::put('/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'update']);
+    Route::delete('/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'destroy']);
+    Route::patch('/usuarios/{id}/toggle-active', [App\Http\Controllers\UsuarioController::class, 'toggleActive']);
+    Route::post('/usuarios/{id}/reset-password', [App\Http\Controllers\UsuarioController::class, 'resetPassword']);
+    Route::post('/usuarios/{id}/resend-invitation', [App\Http\Controllers\UsuarioController::class, 'resendInvitation']);
 
     // Solicitud Tipos CRUD (Dynamic Workflows)
     Route::apiResource('solicitud-tipos', SolicitudTipoController::class);

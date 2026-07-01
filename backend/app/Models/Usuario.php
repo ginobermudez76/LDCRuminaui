@@ -26,6 +26,9 @@ class Usuario extends Authenticatable implements JWTSubject
         'fecha_nac',
         'deleted',
         'deleted_at',
+        'invitation_token',
+        'invitation_expires_at',
+        'invitation_status',
     ];
 
     protected $hidden = [

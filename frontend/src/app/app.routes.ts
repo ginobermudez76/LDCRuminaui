@@ -25,10 +25,13 @@ import { VacacionalesComponent } from './features/public/servicios/vacacionales.
 import { DocumentosPublicosComponent } from './features/public/servicios/documentos.component';
 import { EscenariosComponent } from './features/public/servicios/escenarios.component';
 
+import { AcceptInvitationComponent } from './features/auth/accept-invitation/accept-invitation.component';
+
 export const routes: Routes = [
   // Public landing page
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'accept-invitation', component: AcceptInvitationComponent },
   // Public info pages
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'noticias', component: NoticiasComponent },

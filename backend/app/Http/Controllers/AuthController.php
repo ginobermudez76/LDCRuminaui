@@ -130,4 +130,40 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Sesión cerrada exitosamente']);
     }
+
+    /**
+     * Accept invitation and set password.
+     */
+    public function acceptInvitation(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required|string',
+            'contrasena' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $usuario = Usuario::where('invitation_token', $request->token)->first();
+
+        if (!$usuario) {
+            return response()->json(['error' => 'El token de invitación no es válido.'], 404);
+        }
+
+        if (now()->greaterThan($usuario->invitation_expires_at)) {
+            $usuario->invitation_status = 'expirada';
+            $usuario->save();
+            return response()->json(['error' => 'La invitación ha expirado. Solicite una nueva al administrador.'], 400);
+        }
+
+        $usuario->password_hash = Hash::make($request->contrasena);
+        $usuario->activo = 1;
+        $usuario->invitation_status = 'aceptada';
+        $usuario->invitation_token = null;
+        $usuario->invitation_expires_at = null;
+        $usuario->save();
+
+        return response()->json(['message' => 'Cuenta activada con éxito. Ya puede iniciar sesión.']);
+    }
 }

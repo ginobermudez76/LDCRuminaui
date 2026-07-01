@@ -13,6 +13,9 @@ export interface Usuario {
   celular: string;
   fecha_nac: string;
   activo: boolean;
+  invitation_token?: string;
+  invitation_expires_at?: string;
+  invitation_status?: string;
   rol_relation?: {
     id: number;
     id_rol: number;
@@ -32,7 +35,31 @@ export class UsuarioService {
     return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  createUsuario(usuario: any): Observable<Usuario> {
-    return this.http.post<Usuario>(this.apiUrl, usuario);
+  createUsuario(usuario: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, usuario);
+  }
+
+  updateUsuario(id: number, usuario: any): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario);
+  }
+
+  deleteUsuario(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  toggleActive(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/toggle-active`, {});
+  }
+
+  resetPassword(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/reset-password`, {});
+  }
+
+  resendInvitation(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/resend-invitation`, {});
+  }
+
+  acceptInvitation(token: string, contrasena: string): Observable<any> {
+    return this.http.post<any>(`http://localhost:8000/api/auth/accept-invitation`, { token, contrasena });
   }
 }
