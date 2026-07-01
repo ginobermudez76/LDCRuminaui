@@ -15,6 +15,7 @@ import { DeportistasComponent } from './features/publicista/deportistas/deportis
 import { CartasCondolenciaComponent } from './features/publicista/cartas-condolencia/cartas-condolencia.component';
 import { LandingComponent } from './features/landing/landing.component';
 import { authGuard } from './core/guards/auth.guard';
+import { RbacAdminComponent } from './features/admin/rbac-admin/rbac-admin.component';
 // Public pages
 import { NosotrosComponent } from './features/public/nosotros/nosotros.component';
 import { NoticiasComponent } from './features/public/noticias/noticias.component';
@@ -47,6 +48,7 @@ export const routes: Routes = [
       { path: 'register', component: UserAdminComponent },
       { path: 'asignadas', component: AsignadasPlaceholderComponent },
       { path: 'workflow', component: WorkflowAdminComponent },
+      { path: 'rbac', component: RbacAdminComponent },
       // Publicista routes
       { path: 'deportes', component: DeportesComponent },
       { path: 'eventos', component: EventosComponent },

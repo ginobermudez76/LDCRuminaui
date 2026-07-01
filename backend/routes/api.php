@@ -14,6 +14,7 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\DeportistaDestacadoController;
 use App\Http\Controllers\CartaCondolenciaController;
+use App\Http\Controllers\RbacAdminController;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
@@ -97,4 +98,22 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     Route::post('cartas', [CartaCondolenciaController::class, 'store']);
     Route::put('cartas/{id}', [CartaCondolenciaController::class, 'update']);
     Route::delete('cartas/{id}', [CartaCondolenciaController::class, 'destroy']);
+
+    // RBAC Configuration Management
+    Route::get('rbac/roles', [RbacAdminController::class, 'listRoles']);
+    Route::post('rbac/roles', [RbacAdminController::class, 'storeRole']);
+    Route::put('rbac/roles/{id}', [RbacAdminController::class, 'updateRole']);
+    Route::delete('rbac/roles/{id}', [RbacAdminController::class, 'destroyRole']);
+    Route::post('rbac/roles/{id}/opciones', [RbacAdminController::class, 'syncRoleOptions']);
+
+    Route::get('rbac/opciones', [RbacAdminController::class, 'listOptions']);
+    Route::post('rbac/opciones', [RbacAdminController::class, 'storeOption']);
+    Route::put('rbac/opciones/{id}', [RbacAdminController::class, 'updateOption']);
+    Route::delete('rbac/opciones/{id}', [RbacAdminController::class, 'destroyOption']);
+    Route::post('rbac/opciones/{id}/endpoints', [RbacAdminController::class, 'syncOptionEndpoints']);
+
+    Route::get('rbac/endpoints', [RbacAdminController::class, 'listEndpoints']);
+    Route::post('rbac/endpoints', [RbacAdminController::class, 'storeEndpoint']);
+    Route::put('rbac/endpoints/{id}', [RbacAdminController::class, 'updateEndpoint']);
+    Route::delete('rbac/endpoints/{id}', [RbacAdminController::class, 'destroyEndpoint']);
 });

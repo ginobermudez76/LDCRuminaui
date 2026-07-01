@@ -36,6 +36,9 @@ export class DashboardComponent {
       items.push({ label: 'Registrar Usuarios', link: '/dashboard/register', icon: 'pi pi-user-plus' });
       items.push({ label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' });
     }
+    if (this.authService.hasOption('CONFIGURAR_RBAC')) {
+      items.push({ label: 'Roles y Permisos', link: '/dashboard/rbac', icon: 'pi pi-shield' });
+    }
     if (this.authService.hasOption('PUBLICAR_CONTENIDO')) {
       items.push({ label: 'Deportes', link: '/dashboard/deportes', icon: 'pi pi-star' });
       items.push({ label: 'Eventos', link: '/dashboard/eventos', icon: 'pi pi-calendar' });

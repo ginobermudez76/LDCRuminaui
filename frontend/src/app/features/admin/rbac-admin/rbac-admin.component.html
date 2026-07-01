@@ -1,0 +1,325 @@
+<div class="rbac-container">
+  <!-- Header -->
+  <div class="rbac-header">
+    <h1>Roles y Permisos (RBAC)</h1>
+    <p>Crea roles, define menús de acceso y asocia endpoints de API para estructurar los permisos.</p>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage()" class="alert-message error">
+    <span class="material-symbols-outlined">error</span>
+    <p>{{ errorMessage() }}</p>
+  </div>
+
+  <div *ngIf="successMessage()" class="alert-message success">
+    <span class="material-symbols-outlined">check_circle</span>
+    <p>{{ successMessage() }}</p>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="rbac-tabs">
+    <button [class.active]="activeTab() === 'roles'" (click)="setTab('roles')">
+      <span class="material-symbols-outlined">shield</span>
+      Roles
+    </button>
+    <button [class.active]="activeTab() === 'opciones'" (click)="setTab('opciones')">
+      <span class="material-symbols-outlined">menu</span>
+      Menús / Opciones
+    </button>
+    <button [class.active]="activeTab() === 'endpoints'" (click)="setTab('endpoints')">
+      <span class="material-symbols-outlined">api</span>
+      Endpoints y Métodos
+    </button>
+  </div>
+
+  <!-- Main Card Container -->
+  <p-card class="rbac-card">
+    <!-- Spinner Loader -->
+    <div *ngIf="isLoading()" class="loader-overlay">
+      <div class="loader"></div>
+    </div>
+
+    <!-- TAB 1: ROLES -->
+    <div *ngIf="activeTab() === 'roles'" class="tab-content">
+      <div class="tab-actions">
+        <h2>Listado de Roles</h2>
+        <button pButton label="Nuevo Rol" icon="pi pi-plus" class="p-button-primary" (click)="openNewRole()"></button>
+      </div>
+
+      <p-table [value]="roles()" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="rbac-table">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Código</th>
+            <th>Nombre del Rol</th>
+            <th>Descripción</th>
+            <th>Menús Asignados</th>
+            <th style="width: 180px;">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-role>
+          <tr>
+            <td>
+              <span class="role-badge">{{ role.codigo }}</span>
+            </td>
+            <td class="font-bold">{{ role.nombre_rol }}</td>
+            <td class="text-secondary">{{ role.descripcion || 'Sin descripción' }}</td>
+            <td>
+              <div class="option-badges">
+                <span *ngFor="let opt of role.opciones" class="opt-badge">
+                  {{ opt.nombre_opcion }}
+                </span>
+                <span *ngIf="!role.opciones || role.opciones.length === 0" class="no-options">
+                  Sin accesos
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button pButton icon="pi pi-key" class="p-button-rounded p-button-success p-button-sm"
+                        title="Asociar Menús" (click)="openSyncRoleOptions(role)"></button>
+                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
+                        title="Editar Rol" (click)="openEditRole(role)"></button>
+                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                        title="Eliminar Rol" [disabled]="role.id <= 9" (click)="deleteRole(role.id)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- TAB 2: MENUS / OPCIONES -->
+    <div *ngIf="activeTab() === 'opciones'" class="tab-content">
+      <div class="tab-actions">
+        <h2>Listado de Menús de Acceso</h2>
+        <button pButton label="Nuevo Menú" icon="pi pi-plus" class="p-button-primary" (click)="openNewOption()"></button>
+      </div>
+
+      <p-table [value]="options()" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="rbac-table">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Código de Menú</th>
+            <th>Descripción</th>
+            <th>Rutas de API Vinculadas</th>
+            <th style="width: 180px;">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-opt>
+          <tr>
+            <td class="font-bold">{{ opt.nombre_opcion }}</td>
+            <td class="text-secondary">{{ opt.descripcion || 'Sin descripción' }}</td>
+            <td>
+              <div class="endpoint-badges">
+                <span *ngFor="let end of opt.endpoints" class="end-badge" [class]="end.metodo.toLowerCase()">
+                  {{ end.metodo }} {{ end.url }}
+                </span>
+                <span *ngIf="!opt.endpoints || opt.endpoints.length === 0" class="no-options">
+                  Sin endpoints asociados
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button pButton icon="pi pi-cog" class="p-button-rounded p-button-success p-button-sm"
+                        title="Asociar Endpoints" (click)="openSyncOptionEndpoints(opt)"></button>
+                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
+                        title="Editar Menú" (click)="openEditOption(opt)"></button>
+                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                        title="Eliminar Menú" [disabled]="['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'].includes(opt.nombre_opcion)"
+                        (click)="deleteOption(opt.id)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- TAB 3: ENDPOINTS Y METODOS -->
+    <div *ngIf="activeTab() === 'endpoints'" class="tab-content">
+      <div class="tab-actions">
+        <h2>Listado de Permisos de Endpoint</h2>
+        <button pButton label="Nuevo Endpoint" icon="pi pi-plus" class="p-button-primary" (click)="openNewEndpoint()"></button>
+      </div>
+
+      <p-table [value]="endpoints()" [paginator]="true" [rows]="15" responsiveLayout="scroll" class="rbac-table">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nombre del Permiso</th>
+            <th>Método HTTP</th>
+            <th>Ruta de API (URL)</th>
+            <th>Protección RBAC</th>
+            <th style="width: 120px;">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-end>
+          <tr>
+            <td class="font-bold">{{ end.nombre_endpoint }}</td>
+            <td>
+              <span class="method-tag" [class]="end.metodo.toLowerCase()">{{ end.metodo }}</span>
+            </td>
+            <td class="url-code"><code>{{ end.url }}</code></td>
+            <td>
+              <span class="rbac-badge" [class.enabled]="end.rbac_enabled">
+                {{ end.rbac_enabled ? 'Habilitado' : 'Bypass' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
+                        title="Editar Permiso" (click)="openEditEndpoint(end)"></button>
+                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                        title="Eliminar Permiso" [disabled]="end.url.includes('api/rbac')" (click)="deleteEndpoint(end.id)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-card>
+</div>
+
+<!-- ==========================================
+     DIALOGS (MODALS)
+     ========================================== -->
+
+<!-- ROLE DIALOG -->
+<p-dialog [header]="selectedRoleId() ? 'Editar Rol' : 'Nuevo Rol'" [(visible)]="roleDialogVisible"
+          [modal]="true" [style]="{width: '450px'}" class="rbac-dialog">
+  <form [formGroup]="roleForm" (ngSubmit)="saveRole()" class="dialog-form">
+    <div class="form-field">
+      <label for="codigo">Código del Rol</label>
+      <input id="codigo" type="text" pInputText formControlName="codigo" placeholder="Ej: PRESIDENTE_COMISION" />
+      <small class="error-text" *ngIf="roleForm.get('codigo')?.invalid && roleForm.get('codigo')?.touched">
+        El código es requerido (máx. 100).
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="nombre_rol">Nombre del Rol</label>
+      <input id="nombre_rol" type="text" pInputText formControlName="nombre_rol" placeholder="Ej: Presidente de Comisión" />
+      <small class="error-text" *ngIf="roleForm.get('nombre_rol')?.invalid && roleForm.get('nombre_rol')?.touched">
+        El nombre es requerido (máx. 100).
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="role-desc">Descripción</label>
+      <input id="role-desc" type="text" pInputText formControlName="descripcion" placeholder="Ej: Rol para firmar actas..." />
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" (click)="roleDialogVisible.set(false)"></button>
+      <button type="submit" pButton label="Guardar" class="p-button-success" [disabled]="roleForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- MENU OPTION DIALOG -->
+<p-dialog [header]="selectedOptionId() ? 'Editar Menú' : 'Nuevo Menú'" [(visible)]="optionDialogVisible"
+          [modal]="true" [style]="{width: '450px'}" class="rbac-dialog">
+  <form [formGroup]="optionForm" (ngSubmit)="saveOption()" class="dialog-form">
+    <div class="form-field">
+      <label for="nombre_opcion">Código/Nombre de Menú</label>
+      <input id="nombre_opcion" type="text" pInputText formControlName="nombre_opcion" placeholder="Ej: REGISTRAR_USUARIOS" />
+      <small class="error-text" *ngIf="optionForm.get('nombre_opcion')?.invalid && optionForm.get('nombre_opcion')?.touched">
+        El nombre de menú es requerido (máx. 150).
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="opt-desc">Descripción</label>
+      <input id="opt-desc" type="text" pInputText formControlName="descripcion" placeholder="Ej: Acceso para registrar nuevos deportistas" />
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" (click)="optionDialogVisible.set(false)"></button>
+      <button type="submit" pButton label="Guardar" class="p-button-success" [disabled]="optionForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- ENDPOINT DIALOG -->
+<p-dialog [header]="selectedEndpointId() ? 'Editar Endpoint' : 'Nuevo Endpoint'" [(visible)]="endpointDialogVisible"
+          [modal]="true" [style]="{width: '500px'}" class="rbac-dialog">
+  <form [formGroup]="endpointForm" (ngSubmit)="saveEndpoint()" class="dialog-form">
+    <div class="form-field">
+      <label for="nombre_endpoint">Nombre del Permiso</label>
+      <input id="nombre_endpoint" type="text" pInputText formControlName="nombre_endpoint" placeholder="Ej: Crear deporte" />
+      <small class="error-text" *ngIf="endpointForm.get('nombre_endpoint')?.invalid && endpointForm.get('nombre_endpoint')?.touched">
+        El nombre de permiso es requerido.
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="metodo">Método HTTP</label>
+      <p-select id="metodo" [options]="httpMethods" formControlName="metodo" optionLabel="label" optionValue="value" class="p-select-full"></p-select>
+    </div>
+
+    <div class="form-field">
+      <label for="url">Ruta de API (URL)</label>
+      <input id="url" type="text" pInputText formControlName="url" placeholder="Ej: api/deportes" />
+      <small class="error-text" *ngIf="endpointForm.get('url')?.invalid && endpointForm.get('url')?.touched">
+        La ruta URL es requerida (sin la barra inicial).
+      </small>
+    </div>
+
+    <div class="form-field-checkbox">
+      <p-checkbox formControlName="rbac_enabled" [binary]="true" id="rbac_enabled"></p-checkbox>
+      <label for="rbac_enabled">Habilitar protección RBAC (si se desmarca, será público)</label>
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" (click)="endpointDialogVisible.set(false)"></button>
+      <button type="submit" pButton label="Guardar" class="p-button-success" [disabled]="endpointForm.invalid"></button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- SYNC ROLE OPTIONS DIALOG -->
+<p-dialog header="Asociar Menús al Rol" [(visible)]="syncOptionsDialogVisible"
+          [modal]="true" [style]="{width: '500px'}" class="rbac-dialog">
+  <div class="sync-panel">
+    <p class="text-secondary mb-4">Selecciona las opciones de menú a las que tendrá acceso este rol:</p>
+    
+    <div class="sync-list">
+      <div *ngFor="let opt of options()" class="sync-item" (click)="toggleRoleOption(opt.id)">
+        <p-checkbox [binary]="true" [ngModel]="roleOptionsSelection().includes(opt.id)" (click)="$event.stopPropagation()"></p-checkbox>
+        <div class="sync-item-info">
+          <span class="sync-item-title">{{ opt.nombre_opcion }}</span>
+          <span class="sync-item-desc">{{ opt.descripcion || 'Sin descripción' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-actions mt-4">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" (click)="syncOptionsDialogVisible.set(false)"></button>
+      <button type="button" pButton label="Guardar Cambios" class="p-button-success" (click)="saveRoleOptions()"></button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- SYNC OPTION ENDPOINTS DIALOG -->
+<p-dialog header="Asociar Permisos al Menú" [(visible)]="syncEndpointsDialogVisible"
+          [modal]="true" [style]="{width: '600px'}" class="rbac-dialog">
+  <div class="sync-panel">
+    <p class="text-secondary mb-4">Selecciona los endpoints de API vinculados a este menú de acceso:</p>
+    
+    <div class="sync-list scrollable">
+      <div *ngFor="let end of endpoints()" class="sync-item" (click)="toggleOptionEndpoint(end.id)">
+        <p-checkbox [binary]="true" [ngModel]="optionEndpointsSelection().includes(end.id)" (click)="$event.stopPropagation()"></p-checkbox>
+        <div class="sync-item-info">
+          <div class="sync-item-header">
+            <span class="method-tag sm" [class]="end.metodo.toLowerCase()">{{ end.metodo }}</span>
+            <code class="ml-2">{{ end.url }}</code>
+          </div>
+          <span class="sync-item-desc">{{ end.nombre_endpoint }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-actions mt-4">
+      <button type="button" pButton label="Cancelar" class="p-button-secondary" (click)="syncEndpointsDialogVisible.set(false)"></button>
+      <button type="button" pButton label="Guardar Cambios" class="p-button-success" (click)="saveOptionEndpoints()"></button>
+    </div>
+  </div>
+</p-dialog>
