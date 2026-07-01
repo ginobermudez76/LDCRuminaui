@@ -44,6 +44,7 @@ export interface Solicitud {
     id_rol: number;
     rol_name: string;
   };
+  historiales?: any[];
 }
 
 @Injectable({

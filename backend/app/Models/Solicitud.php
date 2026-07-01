@@ -61,4 +61,9 @@ class Solicitud extends Model
     {
         return $this->belongsTo(WorkflowStep::class, 'current_step_id', 'id');
     }
+
+    public function historiales()
+    {
+        return $this->hasMany(HistorialSolicitud::class, 'solicitud_id', 's_id');
+    }
 }

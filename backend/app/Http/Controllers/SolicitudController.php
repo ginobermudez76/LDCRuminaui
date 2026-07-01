@@ -145,8 +145,17 @@ class SolicitudController extends Controller
      */
     public function show($id)
     {
-        $solicitud = Solicitud::with(['tipoRelation', 'solicitanteRelation', 'encargadoRelation', 'solicitantextRelation', 'estadoRelation', 'departamentoEncargadoRelation'])
-            ->find($id);
+        $solicitud = Solicitud::with([
+            'tipoRelation', 
+            'solicitanteRelation', 
+            'encargadoRelation', 
+            'solicitantextRelation', 
+            'estadoRelation', 
+            'departamentoEncargadoRelation',
+            'historiales.responsableUsuario',
+            'historiales.departamentoRol',
+            'historiales.estadoRelation'
+        ])->find($id);
 
         if (!$solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);

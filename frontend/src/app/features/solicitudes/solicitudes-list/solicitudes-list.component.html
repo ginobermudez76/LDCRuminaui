@@ -98,34 +98,10 @@
                 <div class="actions-wrapper">
                   <button 
                     pButton 
-                    icon="pi pi-eye" 
-                    class="p-button-rounded p-button-info p-button-text" 
-                    title="Ver detalles"
-                    (click)="showDetails(solicitud)"
-                  ></button>
-                  <button 
-                    *ngIf="canApproveDeny(solicitud)"
-                    pButton 
-                    icon="pi pi-check" 
-                    class="p-button-rounded p-button-success p-button-text" 
-                    title="Aprobar"
-                    (click)="updateStatus(solicitud, 2)"
-                  ></button>
-                  <button 
-                    *ngIf="canApproveDeny(solicitud)"
-                    pButton 
-                    icon="pi pi-times" 
-                    class="p-button-rounded p-button-danger p-button-text" 
-                    title="Rechazar"
-                    (click)="updateStatus(solicitud, 3)"
-                  ></button>
-                  <button 
-                    *ngIf="canDelete(solicitud)"
-                    pButton 
-                    icon="pi pi-trash" 
-                    class="p-button-rounded p-button-danger p-button-text" 
-                    title="Eliminar"
-                    (click)="deleteSolicitud(solicitud.s_id)"
+                    icon="pi pi-ellipsis-v" 
+                    class="p-button-rounded p-button-secondary p-button-text" 
+                    title="Acciones"
+                    (click)="toggleMenu($event, solicitud, rowMenu)"
                   ></button>
                 </div>
               </td>
@@ -186,13 +162,54 @@
           <strong>Descripción:</strong>
           <p class="description-text">{{ selectedSolicitud()?.descripcion || 'Sin descripción' }}</p>
         </div>
-        <div class="detail-row full-width" *ngIf="selectedSolicitud()?.s_doc">
+         <div class="detail-row full-width" *ngIf="selectedSolicitud()?.s_doc">
           <strong>Documento Adjunto:</strong>
           <span><a [href]="selectedSolicitud()?.s_doc" target="_blank" class="doc-link"><i class="pi pi-file"></i> Ver Documentación</a></span>
         </div>
       </div>
       <ng-template pTemplate="footer">
         <button pButton icon="pi pi-times" label="Cerrar" class="p-button-text" (click)="displayDetails = false"></button>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Actions Popup Menu -->
+    <p-menu #rowMenu [popup]="true" [model]="menuItemsForSelectedRow"></p-menu>
+
+    <!-- Request History Modal -->
+    <p-dialog 
+      header="Historial de Solicitud #{{ selectedSolicitud()?.s_id }}" 
+      [(visible)]="displayHistory" 
+      [modal]="true" 
+      [style]="{width: '500px'}" 
+      [draggable]="false" 
+      [resizable]="false"
+      class="rbac-dialog"
+    >
+      <div class="history-timeline" *ngIf="selectedSolicitud()?.historiales">
+        <div class="timeline-list">
+          <div *ngFor="let item of selectedSolicitud()?.historiales" class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-body">
+              <div class="timeline-meta">
+                <span class="timeline-date">{{ item.fecha_asignacion | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+                <p-tag 
+                  [value]="item.estado_relation?.estado_nombre || getStatusName(item.estado)" 
+                  [severity]="getStatusSeverity(item.estado)"
+                ></p-tag>
+              </div>
+              <div class="timeline-details">
+                <p><strong>Responsable:</strong> {{ item.responsable_usuario?.nombres || item.responsable_usuario?.nombre_usuario || 'Desconocido' }}</p>
+                <p><strong>Departamento:</strong> {{ item.departamento_rol?.nombre_rol || 'Desconocido' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!selectedSolicitud()?.historiales || selectedSolicitud()?.historiales?.length === 0" class="no-history">
+          No hay registros de historial de flujo para esta solicitud.
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-times" label="Cerrar" class="p-button-text" (click)="displayHistory.set(false)"></button>
       </ng-template>
     </p-dialog>
   

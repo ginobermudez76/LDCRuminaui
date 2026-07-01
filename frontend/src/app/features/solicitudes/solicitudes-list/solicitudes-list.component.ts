@@ -7,6 +7,8 @@ import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 import { SolicitudService, Solicitud } from '../../../core/services/solicitud.service';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -21,7 +23,8 @@ import { AuthService } from '../../../core/services/auth.service';
     DialogModule,
     TagModule,
     SelectModule,
-    InputTextModule
+    InputTextModule,
+    MenuModule
   ],
   templateUrl: './solicitudes-list.component.html',
   styleUrl: './solicitudes-list.component.css'
@@ -34,7 +37,9 @@ export class SolicitudesListComponent implements OnInit {
   loading = signal(false);
   activeTab = signal<'created' | 'assigned'>('created');
   displayDetails = false;
+  displayHistory = signal(false);
   selectedSolicitud = signal<Solicitud | null>(null);
+  menuItemsForSelectedRow: MenuItem[] = [];
 
   currentUser = computed(() => this.authService.currentUserSignal());
 
@@ -103,6 +108,70 @@ export class SolicitudesListComponent implements OnInit {
   showDetails(solicitud: Solicitud) {
     this.selectedSolicitud.set(solicitud);
     this.displayDetails = true;
+  }
+
+  showHistory(solicitud: Solicitud) {
+    this.loading.set(true);
+    this.solicitudService.getSolicitudById(solicitud.s_id).subscribe({
+      next: (data) => {
+        this.selectedSolicitud.set(data);
+        this.loading.set(false);
+        this.displayHistory.set(true);
+      },
+      error: () => this.loading.set(false)
+    });
+  }
+
+  toggleMenu(event: Event, solicitud: Solicitud, menu: any) {
+    this.selectedSolicitud.set(solicitud);
+
+    const items: MenuItem[] = [
+      {
+        label: 'Ver detalles',
+        icon: 'pi pi-eye',
+        command: () => this.showDetails(solicitud)
+      },
+      {
+        label: 'Ver Historial',
+        icon: 'pi pi-history',
+        command: () => this.showHistory(solicitud)
+      }
+    ];
+
+    if (this.canApproveDeny(solicitud)) {
+      items.push({
+        label: 'Aprobar',
+        icon: 'pi pi-check',
+        command: () => this.updateStatus(solicitud, 2)
+      });
+      items.push({
+        label: 'Rechazar',
+        icon: 'pi pi-times',
+        command: () => this.updateStatus(solicitud, 3)
+      });
+    }
+
+    if (this.canDelete(solicitud)) {
+      items.push({
+        label: 'Eliminar',
+        icon: 'pi pi-trash',
+        command: () => this.deleteSolicitud(solicitud.s_id)
+      });
+    }
+
+    this.menuItemsForSelectedRow = items;
+    menu.toggle(event);
+  }
+
+  getStatusName(estado: number): string {
+    switch (estado) {
+      case 1: return 'Pendiente / En Trámite';
+      case 2: return 'Aprobado Paso 1 / Segundo Paso';
+      case 3: return 'Aprobado Paso 2 / Tercer Paso';
+      case 4: return 'Rechazada';
+      case 5: return 'Aprobada Completa';
+      default: return 'Desconocido';
+    }
   }
 
   updateStatus(solicitud: Solicitud, newStatus: number) {

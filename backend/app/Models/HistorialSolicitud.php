@@ -36,4 +36,9 @@ class HistorialSolicitud extends Model
     {
         return $this->belongsTo(Rol::class, 'departamento', 'id');
     }
+
+    public function estadoRelation()
+    {
+        return $this->belongsTo(SolicitudEstado::class, 'estado', 'id_estado');
+    }
 }
