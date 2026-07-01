@@ -9,6 +9,8 @@ import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MessageModule } from 'primeng/message';
 import { SelectModule } from 'primeng/select';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
 import { RbacAdminService, RbacRole, RbacOption, RbacEndpoint } from '../../../core/services/rbac-admin.service';
 
 @Component({
@@ -25,7 +27,8 @@ import { RbacAdminService, RbacRole, RbacOption, RbacEndpoint } from '../../../c
     DialogModule,
     CheckboxModule,
     MessageModule,
-    SelectModule
+    SelectModule,
+    MenuModule
   ],
   templateUrl: './rbac-admin.component.html',
   styleUrl: './rbac-admin.component.css'
@@ -67,6 +70,73 @@ export class RbacAdminComponent implements OnInit {
   // Sync checkboxes state lists
   roleOptionsSelection = signal<number[]>([]);
   optionEndpointsSelection = signal<number[]>([]);
+
+  rbacMenuItems: MenuItem[] = [];
+
+  toggleRoleMenu(event: Event, role: RbacRole, menu: any) {
+    this.selectedRoleId.set(role.id);
+    this.rbacMenuItems = [
+      {
+        label: 'Asociar Menús',
+        icon: 'pi pi-key',
+        command: () => this.openSyncRoleOptions(role)
+      },
+      {
+        label: 'Editar Rol',
+        icon: 'pi pi-pencil',
+        command: () => this.openEditRole(role)
+      },
+      {
+        label: 'Eliminar Rol',
+        icon: 'pi pi-trash',
+        disabled: role.id <= 9,
+        command: () => this.deleteRole(role.id)
+      }
+    ];
+    menu.toggle(event);
+  }
+
+  toggleOptionMenu(event: Event, opt: RbacOption, menu: any) {
+    this.selectedOptionId.set(opt.id);
+    const essential = ['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'];
+    this.rbacMenuItems = [
+      {
+        label: 'Asociar Endpoints',
+        icon: 'pi pi-cog',
+        command: () => this.openSyncOptionEndpoints(opt)
+      },
+      {
+        label: 'Editar Menú',
+        icon: 'pi pi-pencil',
+        command: () => this.openEditOption(opt)
+      },
+      {
+        label: 'Eliminar Menú',
+        icon: 'pi pi-trash',
+        disabled: essential.includes(opt.nombre_opcion),
+        command: () => this.deleteOption(opt.id)
+      }
+    ];
+    menu.toggle(event);
+  }
+
+  toggleEndpointMenu(event: Event, end: RbacEndpoint, menu: any) {
+    this.selectedEndpointId.set(end.id);
+    this.rbacMenuItems = [
+      {
+        label: 'Editar Permiso',
+        icon: 'pi pi-pencil',
+        command: () => this.openEditEndpoint(end)
+      },
+      {
+        label: 'Eliminar Permiso',
+        icon: 'pi pi-trash',
+        disabled: end.url.includes('api/rbac'),
+        command: () => this.deleteEndpoint(end.id)
+      }
+    ];
+    menu.toggle(event);
+  }
 
   // Method list for endpoints drop down
   httpMethods = [

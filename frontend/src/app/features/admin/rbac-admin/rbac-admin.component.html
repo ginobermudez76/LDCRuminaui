@@ -75,12 +75,8 @@
             </td>
             <td>
               <div class="action-buttons">
-                <button pButton icon="pi pi-key" class="p-button-rounded p-button-success p-button-sm"
-                        title="Asociar Menús" (click)="openSyncRoleOptions(role)"></button>
-                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
-                        title="Editar Rol" (click)="openEditRole(role)"></button>
-                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
-                        title="Eliminar Rol" [disabled]="role.id <= 9" (click)="deleteRole(role.id)"></button>
+                <button pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-secondary p-button-text"
+                        title="Acciones" (click)="toggleRoleMenu($event, role, rbacMenu)"></button>
               </div>
             </td>
           </tr>
@@ -120,13 +116,8 @@
             </td>
             <td>
               <div class="action-buttons">
-                <button pButton icon="pi pi-cog" class="p-button-rounded p-button-success p-button-sm"
-                        title="Asociar Endpoints" (click)="openSyncOptionEndpoints(opt)"></button>
-                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
-                        title="Editar Menú" (click)="openEditOption(opt)"></button>
-                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
-                        title="Eliminar Menú" [disabled]="['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'].includes(opt.nombre_opcion)"
-                        (click)="deleteOption(opt.id)"></button>
+                <button pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-secondary p-button-text"
+                        title="Acciones" (click)="toggleOptionMenu($event, opt, rbacMenu)"></button>
               </div>
             </td>
           </tr>
@@ -165,10 +156,8 @@
             </td>
             <td>
               <div class="action-buttons">
-                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-warning p-button-sm"
-                        title="Editar Permiso" (click)="openEditEndpoint(end)"></button>
-                <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
-                        title="Eliminar Permiso" [disabled]="end.url.includes('api/rbac')" (click)="deleteEndpoint(end.id)"></button>
+                <button pButton icon="pi pi-ellipsis-v" class="p-button-rounded p-button-secondary p-button-text"
+                        title="Acciones" (click)="toggleEndpointMenu($event, end, rbacMenu)"></button>
               </div>
             </td>
           </tr>
@@ -323,3 +312,7 @@
     </div>
   </div>
 </p-dialog>
+
+<!-- Shared RBAC Action Popup Menu -->
+<p-menu #rbacMenu [popup]="true" [model]="rbacMenuItems"></p-menu>
+
