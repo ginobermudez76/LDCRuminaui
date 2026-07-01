@@ -1,0 +1,110 @@
+    .solicitudes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e3c72;
+      margin: 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-left: 5px solid;
+    }
+    .stat-card.pending { border-left-color: #fbc02d; }
+    .stat-card.approved { border-left-color: #4caf50; }
+    .stat-card.denied { border-left-color: #f44336; }
+    .stat-icon {
+      font-size: 30px;
+    }
+    .stat-card.pending .stat-icon { color: #fbc02d; }
+    .stat-card.approved .stat-icon { color: #4caf50; }
+    .stat-card.denied .stat-icon { color: #f44336; }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+      font-weight: 600;
+    }
+    .filter-bar {
+      margin-top: 10px;
+    }
+    .table-card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .text-truncate {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .actions-wrapper {
+      display: flex;
+      gap: 5px;
+    }
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 10px 0;
+    }
+    .detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .detail-row.full-width {
+      grid-column: span 2;
+    }
+    .description-text {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      margin: 0;
+      border: 1px solid #eee;
+    }
+    .doc-link {
+      color: #1e3c72;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-link:hover {
+      text-decoration: underline;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .p-4 {
+      padding: 1.5rem;
+    }
+  

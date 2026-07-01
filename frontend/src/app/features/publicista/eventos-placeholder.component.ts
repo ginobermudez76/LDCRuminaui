@@ -3,11 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-eventos-placeholder',
   standalone: true,
-  template: `
-    <div class="p-4">
-      <h2>Eventos y Deportes (Gestión Publicista)</h2>
-      <p>Módulo en construcción. Próximamente se migrarán los formularios de deportes y eventos aquí.</p>
-    </div>
-  `,
+  templateUrl: './eventos-placeholder.component.html',
 })
 export class EventosPlaceholderComponent {}

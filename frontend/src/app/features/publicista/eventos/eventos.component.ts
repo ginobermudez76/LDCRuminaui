@@ -16,63 +16,7 @@ import { PublicistaService, Evento, Deporte } from '../../../core/services/publi
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, SelectModule, MessageModule, ConfirmDialogModule],
   providers: [ConfirmationService],
-  template: `
-    <div class="pub-container">
-      <header class="page-header teal">
-        <h1>📅 Eventos</h1>
-        <p>Administra los eventos deportivos y sus detalles.</p>
-      </header>
-      <div class="table-card">
-        <p-table [value]="items()" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-striped" responsiveLayout="scroll">
-          <ng-template pTemplate="caption">
-            <div class="table-caption">
-              <span class="table-title">Lista de Eventos</span>
-              <button pButton type="button" icon="pi pi-plus" label="Nuevo Evento" class="p-button-sm" (click)="openDialog()"></button>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr><th>ID</th><th>Imagen</th><th>Nombre</th><th>Deporte</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Estado</th><th>Acciones</th></tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-item>
-            <tr>
-              <td>{{ item.id }}</td>
-              <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" /></td>
-              <td><strong>{{ item.nombre }}</strong></td>
-              <td>{{ item.deporte?.nombre }}</td>
-              <td>{{ item.fecha_inicio }}</td>
-              <td>{{ item.fecha_fin }}</td>
-              <td><span class="estado-badge" [class.activo]="item.estado === 'Activo'">{{ item.estado }}</span></td>
-              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.id)"></button></td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage"><tr><td colspan="8" class="empty-msg">No hay eventos registrados.</td></tr></ng-template>
-        </p-table>
-      </div>
-      <p-dialog [(visible)]="showDialog" header="Nuevo Evento" [modal]="true" [style]="{width:'540px'}">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-          <div class="form-grid">
-            <div class="field full"><label>Nombre *</label><input pInputText formControlName="nombre" /></div>
-            <div class="field"><label>Fecha Inicio *</label><input type="date" pInputText formControlName="fecha_inicio" /></div>
-            <div class="field"><label>Fecha Fin *</label><input type="date" pInputText formControlName="fecha_fin" /></div>
-            <div class="field full"><label>Deporte *</label>
-              <p-select [options]="deportes()" optionLabel="nombre" optionValue="id" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
-            </div>
-            <div class="field full"><label>Descripción</label><input pInputText formControlName="descripcion" /></div>
-            <div class="field"><label>Inscripciones</label>
-              <p-select [options]="['Activo','Inactivo']" formControlName="inscripciones" [style]="{width:'100%'}"></p-select>
-            </div>
-            <div class="field full"><label>Imagen</label><input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" /></div>
-          </div>
-          <div class="error-wrap" *ngIf="error()"><p-message severity="error" [text]="error()!"></p-message></div>
-          <div class="modal-footer">
-            <button pButton type="button" label="Cancelar" class="p-button-text" (click)="showDialog=false"></button>
-            <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="form.invalid" [loading]="saving()"></button>
-          </div>
-        </form>
-      </p-dialog>
-      <p-confirmDialog></p-confirmDialog>
-    </div>
-  `,
+  templateUrl: './eventos.component.html',
   styles: [pubStyles()]
 })
 export class EventosComponent implements OnInit {

@@ -1,0 +1,75 @@
+    <div class="login-page">
+      <a [routerLink]="['/']" class="back-btn">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Volver al inicio
+      </a>
+
+      <div class="login-container">
+        <div class="login-logo-wrap">
+          <img src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR"
+               class="login-logo" onerror="this.style.display='none'" />
+          <h2 class="login-brand">Liga Cantonal Rumiñahui</h2>
+          <p class="login-sub">Panel de Gestión Deportiva</p>
+        </div>
+
+        <div class="login-card">
+          <h3 class="card-title">
+            <span class="material-symbols-outlined">lock</span>
+            Iniciar Sesión
+          </h3>
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div class="p-field">
+              <label for="username">
+                <span class="material-symbols-outlined">person</span>
+                Nombre de Usuario
+              </label>
+              <input
+                id="username"
+                type="text"
+                pInputText
+                formControlName="nombre_usuario"
+                placeholder="Ingrese su usuario"
+                class="ldcr-input"
+              />
+              <small class="error-text" *ngIf="loginForm.get('nombre_usuario')?.invalid && loginForm.get('nombre_usuario')?.touched">
+                El usuario es requerido.
+              </small>
+            </div>
+
+            <div class="p-field">
+              <label for="password">
+                <span class="material-symbols-outlined">key</span>
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                pInputText
+                formControlName="contrasena"
+                placeholder="Ingrese su contraseña"
+                class="ldcr-input"
+              />
+              <small class="error-text" *ngIf="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched">
+                La contraseña es requerida (mínimo 6 caracteres).
+              </small>
+            </div>
+
+            <div class="error-container" *ngIf="errorMessage()">
+              <p-message severity="error" [text]="errorMessage()!"></p-message>
+            </div>
+
+            <button
+              pButton
+              type="submit"
+              [loading]="isLoading()"
+              [disabled]="loginForm.invalid"
+              class="ldcr-btn w-full"
+            >
+              <span class="material-symbols-outlined" *ngIf="!isLoading()">login</span>
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  

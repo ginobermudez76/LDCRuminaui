@@ -1,0 +1,32 @@
+    <app-navbar></app-navbar>
+    <div class="servicios-page">
+      <div class="page-hero">
+        <div class="hero-title-row">
+          <span class="material-symbols-outlined hero-icon">school</span>
+          <h1>Escuelas Permanentes</h1>
+        </div>
+        <div class="hero-line"></div>
+      </div>
+      <div class="content-wrap">
+        <div class="grid-cards" *ngIf="items().length > 0; else empty">
+          <div class="escuela-card" *ngFor="let d of items()">
+            <div class="card-img-wrap">
+              <img *ngIf="d.imagen" [src]="'http://localhost:8000' + d.imagen" [alt]="d.nombre" />
+              <div *ngIf="!d.imagen" class="card-placeholder">
+                <span class="material-symbols-outlined">sports</span>
+              </div>
+              <div class="card-overlay"><span>{{ d.nombre }}</span></div>
+            </div>
+            <div class="card-body">
+              <h3>{{ d.nombre }}</h3>
+              <p *ngIf="d.descripcion">{{ d.descripcion }}</p>
+            </div>
+          </div>
+        </div>
+        <ng-template #empty>
+          <p class="empty-msg">No hay escuelas deportivas disponibles.</p>
+        </ng-template>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  

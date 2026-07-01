@@ -1,0 +1,43 @@
+    <div class="dashboard-wrapper">
+      <!-- Top Navbar -->
+      <header class="navbar">
+        <div class="brand">
+          <i class="pi pi-shield brand-icon"></i>
+          <span>Liga Cantonal Rumiñahui</span>
+        </div>
+        <div class="user-info" *ngIf="user()">
+          <span class="user-name">Hola, {{ user()?.primer_nombre }} ({{ roleName() }})</span>
+          <button 
+            pButton 
+            icon="pi pi-power-off" 
+            label="Salir" 
+            class="p-button-danger p-button-text p-button-sm logout-btn"
+            (click)="logout()"
+          ></button>
+        </div>
+      </header>
+
+      <!-- Main Layout -->
+      <div class="main-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="nav-menu">
+            <a 
+              *ngFor="let item of menuItems()"
+              [routerLink]="item.link" 
+              routerLinkActive="active" 
+              class="nav-item"
+            >
+              <i [class]="item.icon + ' nav-icon'"></i>
+              <span>{{ item.label }}</span>
+            </a>
+          </nav>
+        </aside>
+
+        <!-- Page Content Area -->
+        <main class="content-area">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+  
