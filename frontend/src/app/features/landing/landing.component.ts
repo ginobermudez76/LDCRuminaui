@@ -704,7 +704,7 @@ interface Noticia {
     }
     .escuela-card {
       flex-shrink: 0;
-      width: 220px;
+      width: 320px;
     }
     .escuela-img-wrap {
       position: relative;
@@ -719,11 +719,15 @@ interface Noticia {
     .escuela-img-wrap:hover {
       border-color: #0fc3c6;
     }
-    .escuela-img-wrap img {
-      width: 100%;
+        .escuela-img-wrap img {
+      position: absolute;
+  
+      top: 0;
+      bottom: 0;
+      
+      width: 1000px;
       height: 100%;
       object-fit: cover;
-      transform: scale(1.7) skewX(15deg);
       transition: transform 0.4s ease;
     }
     .escuela-placeholder {
@@ -755,7 +759,7 @@ interface Noticia {
       opacity: 1;
     }
     .escuela-img-wrap:hover img {
-      transform: scale(1.85) skewX(15deg);
+      transform: translateX(-50%) skewX(15deg) scale(1.08);
     }
     .escuela-overlay span {
       color: #fff;
