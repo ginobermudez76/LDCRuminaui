@@ -197,12 +197,12 @@ interface Noticia {
                (transitionend)="onTransitionEnd()">
             <div class="carousel-item-legacy" *ngFor="let grupo of deportesGrupos()">
               <div class="row-legacy">
-                <div class="overlayDeportes" *ngFor="let deporte of grupo">
-                  <div class="imagenes-deportes">
+                <div class="escuela-card" *ngFor="let deporte of grupo">
+                  <div class="escuela-img-wrap">
                     <img *ngIf="deporte.imagen" [src]="'http://localhost:8000' + deporte.imagen" [alt]="deporte.nombre" />
-                    <div *ngIf="!deporte.imagen" class="escuela-placeholder">⚽</div>
-                    <div class="overlay-content">
-                      <div class="overlay-text">{{ deporte.nombre }}</div>
+                    <div *ngIf="!deporte.imagen" class="escuela-placeholder"><span>⚽</span></div>
+                    <div class="escuela-overlay">
+                      <span>{{ deporte.nombre }}</span>
                     </div>
                   </div>
                 </div>
@@ -700,57 +700,71 @@ interface Noticia {
       display: flex;
       width: 100%;
       justify-content: center;
-      flex-wrap: nowrap;
+      gap: 16px;
     }
-    .imagenes-deportes img {
-      width: 100%;
-      height: 700px;
-      object-fit: cover;
-      clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%);
+    .escuela-card {
+      flex-shrink: 0;
+      width: 220px;
     }
-    .overlayDeportes {
+    .escuela-img-wrap {
       position: relative;
-      display: inline-block;
-      width: 25%;
-      margin: 0 -3%;
+      height: 612px;
+      cursor: pointer;
+      transform: skewX(-15deg);
+      overflow: hidden;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.3s;
     }
-    .overlayDeportes .overlay-content {
-      position: absolute;
-      top: 0;
-      left: 3.7%;
-      width: 92.5% !important;
-      height: 700px !important;
-      clip-path: polygon(28.4% 0%, 100% 0%, 71.9% 100%, 0% 100%) !important;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .escuela-img-wrap:hover {
+      border-color: #0fc3c6;
     }
-    .overlayDeportes:hover .overlay-content {
-      opacity: 1;
-    }
-    .overlay-text {
-      font-size: 20px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-family: 'Poppins', sans-serif;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-      z-index: 1;
+    .escuela-img-wrap img {
+      width: 140%;
+      height: 100%;
+      object-fit: cover;
+      transform: skewX(15deg) translateX(-15%);
+      transition: transform 0.4s;
     }
     .escuela-placeholder {
       width: 100%;
-      height: 480px;
+      height: 100%;
       background: linear-gradient(135deg, #dbeafe, #bfdbfe);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 56px;
-      clip-path: polygon(30% 0%, 100% 0%, 70% 100%, 0% 100%);
+    }
+    .escuela-placeholder span {
+      display: inline-block;
+      transform: skewX(15deg);
+    }
+    .escuela-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      padding: 10px;
+    }
+    .escuela-img-wrap:hover .escuela-overlay {
+      opacity: 1;
+    }
+    .escuela-img-wrap:hover img {
+      transform: skewX(15deg) translateX(-15%) scale(1.1);
+    }
+    .escuela-overlay span {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-block;
+      transform: skewX(15deg);
     }
     .car-btn-out { position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 48px; cursor: pointer; transition: color 0.2s; }
     .car-btn-out:hover { color: #fff; }
