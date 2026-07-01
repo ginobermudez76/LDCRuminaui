@@ -673,7 +673,7 @@ interface Noticia {
       justify-content: center;
       position: relative;
       padding: 0 60px;
-      max-width: 100%;
+      max-width: 90%;
       margin: 0 auto;
       flex: 1;
     }
