@@ -191,7 +191,10 @@ interface Noticia {
       <div class="escuelas-carousel-legacy" *ngIf="deportes().length > 0; else noEscuelas">
         <button class="car-btn-out left" (click)="prevEscuela()">‹</button>
         <div class="escuelas-track-legacy">
-          <div class="escuelas-slider-legacy" [style.transform]="'translateX(-' + (idxEscuela() * 100) + '%)'">
+          <div class="escuelas-slider-legacy" 
+               [style.transform]="'translateX(-' + (idxEscuela() * 100) + '%)'"
+               [style.transition]="isTransitioning() ? 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)' : 'none'"
+               (transitionend)="onTransitionEnd()">
             <div class="carousel-item-legacy" *ngFor="let grupo of deportesGrupos()">
               <div class="row-legacy">
                 <div class="overlayDeportes" *ngFor="let deporte of grupo">
@@ -789,8 +792,13 @@ export class LandingComponent implements OnInit, OnDestroy {
     for (let i = 0; i < arr.length; i += 4) {
       chunked.push(arr.slice(i, i + 4));
     }
+    if (chunked.length > 1) {
+      chunked.push(chunked[0]);
+    }
     return chunked;
   });
+
+  isTransitioning = signal(true);
 
   logros = signal<Logro[]>([]);
   deportistas = signal<DeportistaDestacado[]>([]);
@@ -919,24 +927,51 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   prevEscuela() {
-    this.idxEscuela.update(i => {
-      const allLen = this.deportesGrupos().length;
-      if (allLen <= 1) return 0;
-      let newIdx = i - 1;
-      if (newIdx < 0) newIdx = allLen - 1;
-      return newIdx;
-    });
+    const allLen = this.deportesGrupos().length;
+    if (allLen <= 1) return;
+
+    if (this.idxEscuela() === 0) {
+      this.isTransitioning.set(false);
+      this.idxEscuela.set(allLen - 1);
+      setTimeout(() => {
+        this.isTransitioning.set(true);
+        this.idxEscuela.set(allLen - 2);
+      }, 50);
+    } else {
+      if (!this.isTransitioning()) {
+        this.isTransitioning.set(true);
+        setTimeout(() => {
+          this.idxEscuela.update(i => i - 1);
+        }, 50);
+      } else {
+        this.idxEscuela.update(i => i - 1);
+      }
+    }
     this.startEscuelaAutoplay();
   }
 
   nextEscuela() {
-    this.idxEscuela.update(i => {
-      const allLen = this.deportesGrupos().length;
-      if (allLen <= 1) return 0;
-      let newIdx = i + 1;
-      if (newIdx > allLen - 1) newIdx = 0;
-      return newIdx;
-    });
+    const allLen = this.deportesGrupos().length;
+    if (allLen <= 1) return;
+
+    if (!this.isTransitioning()) {
+      this.isTransitioning.set(true);
+      setTimeout(() => {
+        this.idxEscuela.update(i => i + 1);
+      }, 50);
+    } else {
+      this.idxEscuela.update(i => i + 1);
+    }
     this.startEscuelaAutoplay();
+  }
+
+  onTransitionEnd() {
+    const allLen = this.deportesGrupos().length;
+    if (this.idxEscuela() >= allLen - 1) {
+      this.isTransitioning.set(false);
+      setTimeout(() => {
+        this.idxEscuela.set(0);
+      }, 50);
+    }
   }
 }
