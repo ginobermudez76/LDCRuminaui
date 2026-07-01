@@ -112,7 +112,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   loadRoles() {
-    this.rolService.getRoles().subscribe({
+    this.rolService.getRoles(true).subscribe({
       next: (data) => this.roles.set(data),
       error: () => console.error('Error loading roles')
     });
@@ -140,7 +140,7 @@ export class UserAdminComponent implements OnInit {
       celular: user.celular || '',
       correo_electronico: user.correo_electronico || '',
       fecha_nac: user.fecha_nac ? user.fecha_nac.substring(0, 10) : '',
-      rol_id: user.rol_relation && user.rol_relation.length > 0 ? user.rol_relation[0].id_rol : null,
+      rol_id: user.rol || (user.roles && user.roles.length > 0 ? user.roles[0].id : null),
       username: user.nombre_usuario || ''
     });
 

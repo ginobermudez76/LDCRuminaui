@@ -16,6 +16,8 @@ export interface Usuario {
   invitation_token?: string;
   invitation_expires_at?: string;
   invitation_status?: string;
+  rol?: number;
+  roles?: any[];
   rol_relation?: {
     id: number;
     id_rol: number;

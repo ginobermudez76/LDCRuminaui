@@ -59,7 +59,8 @@ export class SolicitudTipoService {
     return this.http.delete(`${this.apiTipoUrl}/${id}`);
   }
 
-  getRoles(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(this.apiRolesUrl);
+  getRoles(all?: boolean): Observable<Rol[]> {
+    const url = all ? `${this.apiRolesUrl}?all=true` : this.apiRolesUrl;
+    return this.http.get<Rol[]>(url);
   }
 }

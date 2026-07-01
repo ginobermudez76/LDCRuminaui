@@ -33,8 +33,8 @@
               <td>{{ user.correo_electronico }}</td>
               <td>{{ user.cedula }}</td>
               <td>
-                <span class="role-badge" *ngIf="user.rol_relation && user.rol_relation.length > 0">
-                  {{ user.rol_relation[0].rol?.nombre_rol }}
+                <span class="role-badge" *ngIf="user.roles && user.roles.length > 0">
+                  {{ user.roles[0].nombre_rol }}
                 </span>
               </td>
               <td>
