@@ -52,6 +52,8 @@ export class UserAdminComponent implements OnInit {
   showResetPasswordDialog = signal(false);
   generatedPassword = signal<string | null>(null);
 
+  selectedFile: File | null = null;
+
   menuItemsForSelectedUser: MenuItem[] = [];
   userForm!: FormGroup;
 
@@ -120,6 +122,7 @@ export class UserAdminComponent implements OnInit {
 
   openNewDialog() {
     this.selectedUsuarioId.set(null);
+    this.selectedFile = null;
     this.userForm.reset();
     this.userForm.get('username')?.enable();
     this.errorMessage.set(undefined);
@@ -128,6 +131,7 @@ export class UserAdminComponent implements OnInit {
 
   openEditDialog(user: Usuario) {
     this.selectedUsuarioId.set(user.id);
+    this.selectedFile = null;
     this.errorMessage.set(undefined);
     
     // Autofill form using legacy model virtual attributes
@@ -147,6 +151,20 @@ export class UserAdminComponent implements OnInit {
     // Username should not be editable when updating
     this.userForm.get('username')?.disable();
     this.showDialog = true;
+  }
+
+  onFileChange(event: any) {
+    const file = event.target.files?.[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  getInitialsForUser(user: Usuario): string {
+    const first = user.nombres ? user.nombres.trim().charAt(0) : '';
+    const last = user.apellidos ? user.apellidos.trim().charAt(0) : '';
+    const initials = (first + last).toUpperCase();
+    return initials || user.nombre_usuario.charAt(0).toUpperCase() || 'U';
   }
 
   closeDialog() {
@@ -251,14 +269,28 @@ export class UserAdminComponent implements OnInit {
     this.isSaving.set(true);
     this.errorMessage.set(undefined);
 
-    const formData = this.userForm.getRawValue();
+    const formData = new FormData();
+    const rawValues = this.userForm.getRawValue();
+    Object.keys(rawValues).forEach(key => {
+      if (rawValues[key] !== null && rawValues[key] !== undefined) {
+        formData.append(key, rawValues[key]);
+      }
+    });
+
+    if (this.selectedFile) {
+      formData.append('foto_perfil', this.selectedFile);
+    }
+
     const id = this.selectedUsuarioId();
 
     if (id !== null) {
+      formData.append('_method', 'PUT');
+
       this.userService.updateUsuario(id, formData).subscribe({
         next: () => {
           this.isSaving.set(false);
           this.showDialog = false;
+          this.selectedFile = null;
           this.loadUsers();
         },
         error: (err) => {
@@ -271,6 +303,7 @@ export class UserAdminComponent implements OnInit {
         next: (res) => {
           this.isSaving.set(false);
           this.showDialog = false;
+          this.selectedFile = null;
           this.loadUsers();
           if (res.invitation_link) {
             this.generatedInviteLink.set(res.invitation_link);

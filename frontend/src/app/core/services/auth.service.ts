@@ -19,6 +19,7 @@ export interface Usuario {
     rol_name: string;
   };
   opciones?: string[];
+  foto_perfil?: string;
 }
 
 interface LoginResponse {

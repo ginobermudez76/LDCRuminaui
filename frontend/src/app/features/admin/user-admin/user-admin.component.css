@@ -170,4 +170,37 @@
       color: #d97706;
     }
 
+    .avatar-cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .list-avatar-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #cbd5e1;
+    }
+    .list-avatar-initials {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .file-input {
+      border: 1px dashed #cbd5e1;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      background-color: #f8fafc;
+    }
+
   

@@ -15,6 +15,7 @@
           <ng-template pTemplate="header">
             <tr>
               <th>ID</th>
+              <th>Foto</th>
               <th>Nombres Completos</th>
               <th>Usuario</th>
               <th>Correo</th>
@@ -28,6 +29,14 @@
           <ng-template pTemplate="body" let-user>
             <tr>
               <td>{{ user.id }}</td>
+              <td>
+                <div class="avatar-cell">
+                  <img *ngIf="user.foto_perfil; else listInitials" [src]="'http://localhost:8000' + user.foto_perfil" class="list-avatar-img" />
+                  <ng-template #listInitials>
+                    <div class="list-avatar-initials">{{ getInitialsForUser(user) }}</div>
+                  </ng-template>
+                </div>
+              </td>
               <td>{{ user.nombres }} {{ user.apellidos }}</td>
               <td><span class="user-badge">{{ user.nombre_usuario }}</span></td>
               <td>{{ user.correo_electronico }}</td>
@@ -103,6 +112,11 @@
             <div class="form-field full-width">
               <label for="correo_electronico">Correo Electrónico *</label>
               <input type="email" pInputText id="correo_electronico" formControlName="correo_electronico" />
+            </div>
+
+            <div class="form-field full-width">
+              <label>Foto de Perfil</label>
+              <input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
             </div>
           </div>
 

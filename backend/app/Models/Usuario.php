@@ -29,6 +29,7 @@ class Usuario extends Authenticatable implements JWTSubject
         'invitation_token',
         'invitation_expires_at',
         'invitation_status',
+        'foto_perfil',
     ];
 
     protected $hidden = [

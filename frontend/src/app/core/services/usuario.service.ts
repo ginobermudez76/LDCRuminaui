@@ -18,6 +18,7 @@ export interface Usuario {
   invitation_status?: string;
   rol?: number;
   roles?: any[];
+  foto_perfil?: string;
   rol_relation?: {
     id: number;
     id_rol: number;
@@ -42,7 +43,8 @@ export class UsuarioService {
   }
 
   updateUsuario(id: number, usuario: any): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.apiUrl}/${id}`, usuario);
+    // We send FormData with _method=PUT via POST to support files
+    return this.http.post<Usuario>(`${this.apiUrl}/${id}`, usuario);
   }
 
   deleteUsuario(id: number): Observable<any> {

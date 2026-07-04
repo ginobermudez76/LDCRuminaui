@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -18,8 +18,13 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   user = computed(() => this.authService.currentUserSignal());
   roleName = computed(() => this.user()?.rol_relation?.rol_name || 'Usuario');
+
+  showProfileDropdown = signal(false);
 
   menuItems = computed(() => {
     const user = this.user();
@@ -51,7 +56,43 @@ export class DashboardComponent {
     return items;
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  toggleProfileDropdown(event: Event) {
+    event.stopPropagation();
+    this.showProfileDropdown.update(val => !val);
+  }
+
+  getInitials(): string {
+    const u = this.user();
+    if (!u) return 'U';
+    
+    const first = u.primer_nombre ? u.primer_nombre.trim().charAt(0) : '';
+    const last = u.primer_apellido ? u.primer_apellido.trim().charAt(0) : '';
+    const initials = (first + last).toUpperCase();
+    return initials || u.nombre_usuario.charAt(0).toUpperCase() || 'U';
+  }
+
+  goToSettings() {
+    alert('Configuración del perfil: Funcionalidad en desarrollo.');
+    this.showProfileDropdown.set(false);
+  }
+
+  goToDocs() {
+    alert('Documentación del sistema: Funcionalidad en desarrollo.');
+    this.showProfileDropdown.set(false);
+  }
+
+  goToSupport() {
+    alert('Soporte técnico: Funcionalidad en desarrollo.');
+    this.showProfileDropdown.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.user-profile-menu-container')) {
+      this.showProfileDropdown.set(false);
+    }
+  }
 
   logout() {
     this.authService.logout().subscribe({

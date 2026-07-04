@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
@@ -42,6 +43,7 @@ class UsuarioController extends Controller
             'fecha_nac' => 'required|date',
             'rol_id' => 'required|integer|exists:rol,id',
             'username' => 'required|string|unique:usuario,nombre_usuario',
+            'foto_perfil' => 'nullable|file|image|max:2048',
         ]);
 
         try {
@@ -72,6 +74,12 @@ class UsuarioController extends Controller
             $usuario->invitation_token = $token;
             $usuario->invitation_expires_at = $expiresAt;
             $usuario->invitation_status = 'pendiente';
+
+            if ($request->hasFile('foto_perfil')) {
+                $path = $request->file('foto_perfil')->store('profiles', 'public');
+                $usuario->foto_perfil = '/storage/' . $path;
+            }
+
             $usuario->save();
 
             // Assign role
@@ -119,6 +127,7 @@ class UsuarioController extends Controller
             'correo_electronico' => 'required|email|max:100|unique:usuario,correo_electronico,' . $id,
             'fecha_nac' => 'required|date',
             'rol_id' => 'required|integer|exists:rol,id',
+            'foto_perfil' => 'nullable|file|image|max:2048',
         ]);
 
         try {
@@ -133,6 +142,16 @@ class UsuarioController extends Controller
             $usuario->cedula = $validatedData['cedula'];
             $usuario->celular = $validatedData['celular'];
             $usuario->fecha_nac = $validatedData['fecha_nac'];
+
+            if ($request->hasFile('foto_perfil')) {
+                if ($usuario->foto_perfil) {
+                    $oldPath = str_replace('/storage/', '', $usuario->foto_perfil);
+                    Storage::disk('public')->delete($oldPath);
+                }
+                $path = $request->file('foto_perfil')->store('profiles', 'public');
+                $usuario->foto_perfil = '/storage/' . $path;
+            }
+
             $usuario->save();
 
             // Update role assignment in rol_usuario table
