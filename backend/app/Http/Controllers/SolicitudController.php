@@ -53,8 +53,8 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        $tipoId = $request->tipo;
-        $solicitudTipo = \App\Models\SolicitudTipo::with('steps')->find($tipoId);
+        $tipoUuid = $request->tipo;
+        $solicitudTipo = \App\Models\SolicitudTipo::with('steps')->where('uuid', $tipoUuid)->first();
 
         if (!$solicitudTipo) {
             return response()->json(['tipo' => ['El tipo de solicitud especificado no existe o no está configurado.']], 400);
@@ -62,7 +62,7 @@ class SolicitudController extends Controller
 
         // Build dynamic validation rules
         $rules = [
-            'tipo' => 'required|integer|exists:solicitud_tipo,id_tipo',
+            'tipo' => 'required|string|exists:solicitud_tipo,uuid',
             'solicitantext' => 'nullable|integer',
         ];
 
@@ -124,7 +124,7 @@ class SolicitudController extends Controller
             's_fecha' => now(),
             's_doc' => $request->s_doc,
             's_valor' => $request->s_valor,
-            'tipo' => $tipoId,
+            'tipo' => $solicitudTipo->id_tipo,
             'solicitante' => auth('api')->id(),
             'encargado' => $encargadoId,
             'solicitantext' => $request->solicitantext,
@@ -143,7 +143,7 @@ class SolicitudController extends Controller
     /**
      * Display the specified request.
      */
-    public function show($id)
+    public function show($uuid)
     {
         $solicitud = Solicitud::with([
             'tipoRelation', 
@@ -155,7 +155,7 @@ class SolicitudController extends Controller
             'historiales.responsableUsuario',
             'historiales.departamentoRol',
             'historiales.estadoRelation'
-        ])->find($id);
+        ])->where('uuid', $uuid)->first();
 
         if (!$solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
@@ -165,11 +165,11 @@ class SolicitudController extends Controller
     }
 
     /**
-     * Update the specified request (edit details or change status like Approve/Deny).
+     * Update the specified request.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $solicitud = Solicitud::find($id);
+        $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (!$solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
@@ -179,7 +179,7 @@ class SolicitudController extends Controller
             's_doc' => 'nullable|string|max:255',
             's_valor' => 'nullable|numeric',
             'descripcion' => 'nullable|string|max:255',
-            'estado' => 'nullable|integer', // Can be updated to 2 (Aprobada), 3 (Denegada), etc.
+            'estado' => 'nullable|integer', 
         ]);
 
         if ($validator->fails()) {
@@ -197,9 +197,9 @@ class SolicitudController extends Controller
     /**
      * Delete a request.
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $solicitud = Solicitud::find($id);
+        $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (!$solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
@@ -211,36 +211,45 @@ class SolicitudController extends Controller
     }
 
     /**
-     * Reassign the request manually to a different agent or department (replacing reassign scripts).
+     * Reassign the request manually to a different agent or department.
      */
-    public function reassign(Request $request, $id)
+    public function reassign(Request $request, $uuid)
     {
-        $solicitud = Solicitud::find($id);
+        $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (!$solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'encargado' => 'nullable|integer|exists:usuario,id',
-            'departamento_encargado' => 'nullable|integer|exists:rol,id',
-            'tipo' => 'nullable|integer|exists:solicitud_tipo,id_tipo',
+            'encargado' => 'nullable|string|exists:usuario,uuid',
+            'departamento_encargado' => 'nullable|string|exists:rol,uuid',
+            'tipo' => 'nullable|string|exists:solicitud_tipo,uuid',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        if ($request->has('encargado')) {
-            $solicitud->encargado = $request->encargado;
+        if ($request->has('encargado') && !empty($request->encargado)) {
+            $encUser = Usuario::where('uuid', $request->encargado)->first();
+            if ($encUser) {
+                $solicitud->encargado = $encUser->id;
+            }
         }
 
-        if ($request->has('departamento_encargado')) {
-            $solicitud->departamento_encargado = $request->departamento_encargado;
+        if ($request->has('departamento_encargado') && !empty($request->departamento_encargado)) {
+            $encDept = \App\Models\Rol::where('uuid', $request->departamento_encargado)->first();
+            if ($encDept) {
+                $solicitud->departamento_encargado = $encDept->id;
+            }
         }
 
-        if ($request->has('tipo')) {
-            $solicitud->tipo = $request->tipo;
+        if ($request->has('tipo') && !empty($request->tipo)) {
+            $solType = \App\Models\SolicitudTipo::where('uuid', $request->tipo)->first();
+            if ($solType) {
+                $solicitud->tipo = $solType->id_tipo;
+            }
         }
 
         $solicitud->save();

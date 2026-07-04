@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\Deporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class CursoController extends Controller
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date',
-            'deporte_id' => 'nullable|exists:deportes,id',
+            'deporte_id' => 'nullable|string|exists:deportes,uuid',
             'estado' => 'nullable|string|max:50',
             'inscripciones' => 'nullable|string|max:20',
         ]);
@@ -31,7 +32,14 @@ class CursoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        if ($request->filled('deporte_id')) {
+            $deporte = Deporte::where('uuid', $request->deporte_id)->first();
+            if ($deporte) {
+                $data['deporte_id'] = $deporte->id;
+            }
+        }
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('cursos', 'public');
@@ -43,9 +51,9 @@ class CursoController extends Controller
         return response()->json($curso, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $curso = Curso::with('deporte')->find($id);
+        $curso = Curso::with('deporte')->where('uuid', $uuid)->first();
 
         if (!$curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
@@ -54,9 +62,9 @@ class CursoController extends Controller
         return response()->json($curso);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $curso = Curso::find($id);
+        $curso = Curso::where('uuid', $uuid)->first();
 
         if (!$curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
@@ -68,7 +76,7 @@ class CursoController extends Controller
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date',
-            'deporte_id' => 'nullable|exists:deportes,id',
+            'deporte_id' => 'nullable|string|exists:deportes,uuid',
             'estado' => 'nullable|string|max:50',
             'inscripciones' => 'nullable|string|max:20',
         ]);
@@ -77,7 +85,16 @@ class CursoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        if ($request->has('deporte_id')) {
+            if ($request->filled('deporte_id')) {
+                $deporte = Deporte::where('uuid', $request->deporte_id)->first();
+                $data['deporte_id'] = $deporte ? $deporte->id : null;
+            } else {
+                $data['deporte_id'] = null;
+            }
+        }
 
         if ($request->hasFile('imagen')) {
             if ($curso->imagen) {
@@ -93,9 +110,9 @@ class CursoController extends Controller
         return response()->json($curso);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $curso = Curso::find($id);
+        $curso = Curso::where('uuid', $uuid)->first();
 
         if (!$curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);

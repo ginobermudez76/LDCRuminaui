@@ -88,12 +88,12 @@ export class SolicitudesListComponent implements OnInit {
 
   canApproveDeny(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? solicitud.encargado === user.id && [1, 2, 3].includes(solicitud.estado) : false;
+    return user ? solicitud.encargado_relation?.uuid === user.uuid && [1, 2, 3].includes(solicitud.estado) : false;
   }
 
   canDelete(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? (solicitud.solicitante === user.id && solicitud.estado === 1) || this.authService.hasOption('REGISTRAR_USUARIOS') : false;
+    return user ? (solicitud.solicitante_relation?.uuid === user.uuid && solicitud.estado === 1) || this.authService.hasOption('REGISTRAR_USUARIOS') : false;
   }
 
   getStatusSeverity(estado: number): "warn" | "success" | "danger" | "info" {
@@ -112,7 +112,7 @@ export class SolicitudesListComponent implements OnInit {
 
   showHistory(solicitud: Solicitud) {
     this.loading.set(true);
-    this.solicitudService.getSolicitudById(solicitud.s_id).subscribe({
+    this.solicitudService.getSolicitudByUuid(solicitud.uuid).subscribe({
       next: (data) => {
         this.selectedSolicitud.set(data);
         this.loading.set(false);
@@ -155,7 +155,7 @@ export class SolicitudesListComponent implements OnInit {
       items.push({
         label: 'Eliminar',
         icon: 'pi pi-trash',
-        command: () => this.deleteSolicitud(solicitud.s_id)
+        command: () => this.deleteSolicitud(solicitud.uuid)
       });
     }
 
@@ -177,7 +177,7 @@ export class SolicitudesListComponent implements OnInit {
   updateStatus(solicitud: Solicitud, newStatus: number) {
     this.loading.set(true);
     const accion = newStatus === 2 ? 'Aprobar' : 'Denegar';
-    this.solicitudService.procesarSolicitud(solicitud.s_id, accion).subscribe({
+    this.solicitudService.procesarSolicitud(solicitud.uuid, accion).subscribe({
       next: () => {
         this.fetchData();
       },
@@ -185,10 +185,10 @@ export class SolicitudesListComponent implements OnInit {
     });
   }
 
-  deleteSolicitud(id: number) {
+  deleteSolicitud(uuid: string) {
     if (confirm('¿Está seguro de eliminar esta solicitud?')) {
       this.loading.set(true);
-      this.solicitudService.deleteSolicitud(id).subscribe({
+      this.solicitudService.deleteSolicitud(uuid).subscribe({
         next: () => {
           this.fetchData();
         },

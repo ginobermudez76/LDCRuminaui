@@ -5,15 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+use App\Traits\HasUuidAndCode;
+
 class Solicitud extends Model
 {
-    use Auditable;
+    use Auditable, HasUuidAndCode;
+
+    const CODE_PREFIX = 'SOL';
 
     protected $table = 'solicitud';
     protected $primaryKey = 's_id';
     public $timestamps = false;
 
     protected $fillable = [
+        'uuid',
+        'codigo',
         's_fecha',
         's_doc',
         's_valor',
@@ -25,6 +31,10 @@ class Solicitud extends Model
         'estado',
         'departamento_encargado',
         'current_step_id',
+    ];
+
+    protected $hidden = [
+        's_id',
     ];
 
     public function solicitanteRelation()

@@ -172,7 +172,7 @@
      ========================================== -->
 
 <!-- ROLE DIALOG -->
-<p-dialog [header]="selectedRoleId() ? 'Editar Rol' : 'Nuevo Rol'" [(visible)]="roleDialogVisible"
+<p-dialog [header]="selectedRoleUuid() ? 'Editar Rol' : 'Nuevo Rol'" [(visible)]="roleDialogVisible"
           [modal]="true" [style]="{width: '450px'}" class="rbac-dialog">
   <form [formGroup]="roleForm" (ngSubmit)="saveRole()" class="dialog-form">
     <div class="form-field">
@@ -204,7 +204,7 @@
 </p-dialog>
 
 <!-- MENU OPTION DIALOG -->
-<p-dialog [header]="selectedOptionId() ? 'Editar Menú' : 'Nuevo Menú'" [(visible)]="optionDialogVisible"
+<p-dialog [header]="selectedOptionUuid() ? 'Editar Menú' : 'Nuevo Menú'" [(visible)]="optionDialogVisible"
           [modal]="true" [style]="{width: '450px'}" class="rbac-dialog">
   <form [formGroup]="optionForm" (ngSubmit)="saveOption()" class="dialog-form">
     <div class="form-field">
@@ -228,7 +228,7 @@
 </p-dialog>
 
 <!-- ENDPOINT DIALOG -->
-<p-dialog [header]="selectedEndpointId() ? 'Editar Endpoint' : 'Nuevo Endpoint'" [(visible)]="endpointDialogVisible"
+<p-dialog [header]="selectedEndpointUuid() ? 'Editar Endpoint' : 'Nuevo Endpoint'" [(visible)]="endpointDialogVisible"
           [modal]="true" [style]="{width: '500px'}" class="rbac-dialog">
   <form [formGroup]="endpointForm" (ngSubmit)="saveEndpoint()" class="dialog-form">
     <div class="form-field">
@@ -271,8 +271,8 @@
     <p class="text-secondary mb-4">Selecciona las opciones de menú a las que tendrá acceso este rol:</p>
     
     <div class="sync-list">
-      <div *ngFor="let opt of options()" class="sync-item" (click)="toggleRoleOption(opt.id)">
-        <p-checkbox [binary]="true" [ngModel]="roleOptionsSelection().includes(opt.id)" (click)="$event.stopPropagation()"></p-checkbox>
+      <div *ngFor="let opt of options()" class="sync-item" (click)="toggleRoleOption(opt.uuid)">
+        <p-checkbox [binary]="true" [ngModel]="roleOptionsSelection().includes(opt.uuid)" (click)="$event.stopPropagation()"></p-checkbox>
         <div class="sync-item-info">
           <span class="sync-item-title">{{ opt.nombre_opcion }}</span>
           <span class="sync-item-desc">{{ opt.descripcion || 'Sin descripción' }}</span>
@@ -294,8 +294,8 @@
     <p class="text-secondary mb-4">Selecciona los endpoints de API vinculados a este menú de acceso:</p>
     
     <div class="sync-list scrollable">
-      <div *ngFor="let end of endpoints()" class="sync-item" (click)="toggleOptionEndpoint(end.id)">
-        <p-checkbox [binary]="true" [ngModel]="optionEndpointsSelection().includes(end.id)" (click)="$event.stopPropagation()"></p-checkbox>
+      <div *ngFor="let end of endpoints()" class="sync-item" (click)="toggleOptionEndpoint(end.uuid)">
+        <p-checkbox [binary]="true" [ngModel]="optionEndpointsSelection().includes(end.uuid)" (click)="$event.stopPropagation()"></p-checkbox>
         <div class="sync-item-info">
           <div class="sync-item-header">
             <span class="method-tag sm" [class]="end.metodo.toLowerCase()">{{ end.metodo }}</span>

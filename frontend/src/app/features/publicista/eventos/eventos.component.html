@@ -12,18 +12,18 @@
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr><th>ID</th><th>Imagen</th><th>Nombre</th><th>Deporte</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Estado</th><th>Acciones</th></tr>
+            <tr><th>Código</th><th>Imagen</th><th>Nombre</th><th>Deporte</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Estado</th><th>Acciones</th></tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr>
-              <td>{{ item.id }}</td>
+              <td>{{ item.codigo }}</td>
               <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" /></td>
               <td><strong>{{ item.nombre }}</strong></td>
               <td>{{ item.deporte?.nombre }}</td>
               <td>{{ item.fecha_inicio }}</td>
               <td>{{ item.fecha_fin }}</td>
               <td><span class="estado-badge" [class.activo]="item.estado === 'Activo'">{{ item.estado }}</span></td>
-              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.id)"></button></td>
+              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.uuid)"></button></td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage"><tr><td colspan="8" class="empty-msg">No hay eventos registrados.</td></tr></ng-template>
@@ -36,7 +36,7 @@
             <div class="field"><label>Fecha Inicio *</label><input type="date" pInputText formControlName="fecha_inicio" /></div>
             <div class="field"><label>Fecha Fin *</label><input type="date" pInputText formControlName="fecha_fin" /></div>
             <div class="field full"><label>Deporte *</label>
-              <p-select [options]="deportes()" optionLabel="nombre" optionValue="id" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
+              <p-select [options]="deportes()" optionLabel="nombre" optionValue="uuid" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
             </div>
             <div class="field full"><label>Descripción</label><input pInputText formControlName="descripcion" /></div>
             <div class="field"><label>Inscripciones</label>

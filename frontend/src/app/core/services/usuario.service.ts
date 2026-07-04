@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { Rol } from './solicitud-tipo.service';
 
 export interface Usuario {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre_usuario: string;
   correo_electronico: string;
   nombres: string;
@@ -42,25 +44,25 @@ export class UsuarioService {
     return this.http.post<any>(this.apiUrl, usuario);
   }
 
-  updateUsuario(id: number, usuario: any): Observable<Usuario> {
+  updateUsuario(uuid: string, usuario: any): Observable<Usuario> {
     // We send FormData with _method=PUT via POST to support files
-    return this.http.post<Usuario>(`${this.apiUrl}/${id}`, usuario);
+    return this.http.post<Usuario>(`${this.apiUrl}/${uuid}`, usuario);
   }
 
-  deleteUsuario(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  deleteUsuario(uuid: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${uuid}`);
   }
 
-  toggleActive(id: number): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/${id}/toggle-active`, {});
+  toggleActive(uuid: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${uuid}/toggle-active`, {});
   }
 
-  resetPassword(id: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/reset-password`, {});
+  resetPassword(uuid: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${uuid}/reset-password`, {});
   }
 
-  resendInvitation(id: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/resend-invitation`, {});
+  resendInvitation(uuid: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${uuid}/resend-invitation`, {});
   }
 
   acceptInvitation(token: string, contrasena: string): Observable<any> {

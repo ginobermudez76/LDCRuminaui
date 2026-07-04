@@ -14,7 +14,7 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th>ID</th>
+              <th>Código</th>
               <th>Foto</th>
               <th>Nombres Completos</th>
               <th>Usuario</th>
@@ -28,7 +28,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-user>
             <tr>
-              <td>{{ user.id }}</td>
+              <td>{{ user.codigo }}</td>
               <td>
                 <div class="avatar-cell">
                   <img *ngIf="user.foto_perfil; else listInitials" [src]="'http://localhost:8000' + user.foto_perfil" class="list-avatar-img" />
@@ -68,7 +68,7 @@
       </div>
 
       <!-- Add/Edit User Dialog -->
-      <p-dialog [(visible)]="showDialog" [header]="selectedUsuarioId() ? 'Editar Usuario' : 'Registrar Nuevo Usuario'" [modal]="true" [style]="{width: '600px'}" styleClass="custom-dialog">
+      <p-dialog [(visible)]="showDialog" [header]="selectedUsuarioUuid() ? 'Editar Usuario' : 'Registrar Nuevo Usuario'" [modal]="true" [style]="{width: '600px'}" styleClass="custom-dialog">
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
           
           <div class="form-grid">
@@ -106,7 +106,7 @@
             
             <div class="form-field">
               <label for="rol_id">Rol Asignado *</label>
-              <p-select [options]="roles()" optionLabel="nombre_rol" optionValue="id" formControlName="rol_id" [style]="{width:'100%'}"></p-select>
+              <p-select [options]="roles()" optionLabel="nombre_rol" optionValue="uuid" formControlName="rol_id" [style]="{width:'100%'}"></p-select>
             </div>
             
             <div class="form-field full-width">
@@ -120,7 +120,7 @@
             </div>
           </div>
 
-          <div class="auto-generated-section" *ngIf="selectedUsuarioId() === null">
+          <div class="auto-generated-section" *ngIf="selectedUsuarioUuid() === null">
             <h4 class="auto-title"><i class="pi pi-cog"></i> Credenciales Autogeneradas</h4>
             <p class="auto-desc">El nombre de usuario se calcula automáticamente. El usuario establecerá su contraseña a través del enlace de invitación.</p>
             

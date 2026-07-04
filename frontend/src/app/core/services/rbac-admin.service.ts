@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface RbacEndpoint {
-  id: number;
+  id?: number;
   uuid: string;
+  codigo?: string;
   nombre_endpoint: string;
   metodo: string;
   url: string;
@@ -12,15 +13,16 @@ export interface RbacEndpoint {
 }
 
 export interface RbacOption {
-  id: number;
+  id?: number;
   uuid: string;
+  codigo?: string;
   nombre_opcion: string;
   descripcion?: string;
   endpoints?: RbacEndpoint[];
 }
 
 export interface RbacRole {
-  id: number;
+  id?: number;
   uuid: string;
   codigo: string;
   nombre_rol: string;
@@ -48,16 +50,16 @@ export class RbacAdminService {
     return this.http.post<RbacRole>(`${this.baseApiUrl}/roles`, data);
   }
 
-  updateRole(id: number, data: any): Observable<RbacRole> {
-    return this.http.put<RbacRole>(`${this.baseApiUrl}/roles/${id}`, data);
+  updateRole(uuid: string, data: any): Observable<RbacRole> {
+    return this.http.put<RbacRole>(`${this.baseApiUrl}/roles/${uuid}`, data);
   }
 
-  deleteRole(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseApiUrl}/roles/${id}`);
+  deleteRole(uuid: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseApiUrl}/roles/${uuid}`);
   }
 
-  syncRoleOptions(roleId: number, optionIds: number[]): Observable<any> {
-    return this.http.post<any>(`${this.baseApiUrl}/roles/${roleId}/opciones`, { option_ids: optionIds });
+  syncRoleOptions(roleUuid: string, optionUuids: string[]): Observable<any> {
+    return this.http.post<any>(`${this.baseApiUrl}/roles/${roleUuid}/opciones`, { option_ids: optionUuids });
   }
 
   // ==========================================
@@ -72,16 +74,16 @@ export class RbacAdminService {
     return this.http.post<RbacOption>(`${this.baseApiUrl}/opciones`, data);
   }
 
-  updateOption(id: number, data: any): Observable<RbacOption> {
-    return this.http.put<RbacOption>(`${this.baseApiUrl}/opciones/${id}`, data);
+  updateOption(uuid: string, data: any): Observable<RbacOption> {
+    return this.http.put<RbacOption>(`${this.baseApiUrl}/opciones/${uuid}`, data);
   }
 
-  deleteOption(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseApiUrl}/opciones/${id}`);
+  deleteOption(uuid: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseApiUrl}/opciones/${uuid}`);
   }
 
-  syncOptionEndpoints(optionId: number, endpointIds: number[]): Observable<any> {
-    return this.http.post<any>(`${this.baseApiUrl}/opciones/${optionId}/endpoints`, { endpoint_ids: endpointIds });
+  syncOptionEndpoints(optionUuid: string, endpointUuids: string[]): Observable<any> {
+    return this.http.post<any>(`${this.baseApiUrl}/opciones/${optionUuid}/endpoints`, { endpoint_ids: endpointUuids });
   }
 
   // ==========================================
@@ -96,11 +98,11 @@ export class RbacAdminService {
     return this.http.post<RbacEndpoint>(`${this.baseApiUrl}/endpoints`, data);
   }
 
-  updateEndpoint(id: number, data: any): Observable<RbacEndpoint> {
-    return this.http.put<RbacEndpoint>(`${this.baseApiUrl}/endpoints/${id}`, data);
+  updateEndpoint(uuid: string, data: any): Observable<RbacEndpoint> {
+    return this.http.put<RbacEndpoint>(`${this.baseApiUrl}/endpoints/${uuid}`, data);
   }
 
-  deleteEndpoint(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseApiUrl}/endpoints/${id}`);
+  deleteEndpoint(uuid: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseApiUrl}/endpoints/${uuid}`);
   }
 }

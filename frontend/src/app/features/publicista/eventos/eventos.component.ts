@@ -59,8 +59,8 @@ export class EventosComponent implements OnInit {
     this.svc.createEvento(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
   }
 
-  confirmDelete(id: number) {
-    this.confirm.confirm({ message: '¿Eliminar este evento?', accept: () => this.svc.deleteEvento(id).subscribe(() => this.load()) });
+  confirmDelete(uuid: string) {
+    this.confirm.confirm({ message: '¿Eliminar este evento?', accept: () => this.svc.deleteEvento(uuid).subscribe(() => this.load()) });
   }
 }
 

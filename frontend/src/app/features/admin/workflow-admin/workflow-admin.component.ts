@@ -31,7 +31,7 @@ export class WorkflowAdminComponent implements OnInit {
 
   tipos = signal<SolicitudTipo[]>([]);
   roles = signal<Rol[]>([]);
-  selectedTipoId = signal<number | null>(null);
+  selectedTipoUuid = signal<string | null>(null);
   isLoading = signal(false);
   errorMessage = signal<string | undefined>(undefined);
 
@@ -61,7 +61,7 @@ export class WorkflowAdminComponent implements OnInit {
   addStep(step?: WorkflowStep) {
     const stepGroup = this.fb.group({
       orden: [step ? step.orden : this.stepsArray.length + 1, Validators.required],
-      rol_id: [step ? step.rol_id : null, Validators.required],
+      rol_id: [step ? (step.rol?.uuid || step.rol_id) : null, Validators.required],
       nombre_paso: [step ? step.nombre_paso : '']
     });
     this.stepsArray.push(stepGroup);
@@ -90,7 +90,7 @@ export class WorkflowAdminComponent implements OnInit {
   }
 
   onSelectTipo(tipo: SolicitudTipo) {
-    this.selectedTipoId.set(tipo.id_tipo);
+    this.selectedTipoUuid.set(tipo.uuid);
     this.errorMessage.set(undefined);
 
     // Patch basic info
@@ -110,7 +110,7 @@ export class WorkflowAdminComponent implements OnInit {
   }
 
   onNewTipo() {
-    this.selectedTipoId.set(null);
+    this.selectedTipoUuid.set(null);
     this.errorMessage.set(undefined);
     this.tipoForm.reset({
       name_tipo: '',
@@ -130,9 +130,9 @@ export class WorkflowAdminComponent implements OnInit {
 
     const formData = this.tipoForm.value;
 
-    if (this.selectedTipoId()) {
+    if (this.selectedTipoUuid()) {
       // Update existing
-      this.service.updateSolicitudTipo(this.selectedTipoId()!, formData).subscribe({
+      this.service.updateSolicitudTipo(this.selectedTipoUuid()!, formData).subscribe({
         next: () => {
           this.isLoading.set(false);
           this.loadTipos();

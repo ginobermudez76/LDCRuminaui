@@ -68,7 +68,7 @@
         >
           <ng-template pTemplate="header">
             <tr>
-              <th>ID</th>
+              <th>Código</th>
               <th>Fecha</th>
               <th>Tipo</th>
               <th>Descripción</th>
@@ -81,7 +81,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-solicitud>
             <tr>
-              <td>{{ solicitud.s_id }}</td>
+              <td>{{ solicitud.codigo }}</td>
               <td>{{ solicitud.s_fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
               <td>{{ solicitud.tipo_relation?.name_tipo || 'Desconocido' }}</td>
               <td class="text-truncate">{{ solicitud.descripcion || 'Sin descripción' }}</td>
@@ -118,7 +118,7 @@
 
     <!-- Request Details Modal -->
     <p-dialog 
-      header="Detalles de la Solicitud #{{ selectedSolicitud()?.s_id }}" 
+      header="Detalles de la Solicitud #{{ selectedSolicitud()?.codigo }}" 
       [(visible)]="displayDetails" 
       [modal]="true" 
       [style]="{width: '50vw'}" 
@@ -177,10 +177,10 @@
 
     <!-- Request History Modal -->
     <p-dialog 
-      header="Historial de Solicitud #{{ selectedSolicitud()?.s_id }}" 
+      header="Historial de Solicitud #{{ selectedSolicitud()?.codigo }}" 
       [(visible)]="displayHistory" 
       [modal]="true" 
-      [style]="{width: '500px'}" 
+      [style]="{width: '500px'}"  
       [draggable]="false" 
       [resizable]="false"
       class="rbac-dialog"

@@ -6,16 +6,19 @@ export interface WorkflowStep {
   id?: number;
   solicitud_tipo_id?: number;
   orden: number;
-  rol_id: number;
+  rol_id: string; // Change to string to hold UUID
   nombre_paso?: string;
   rol?: {
     id: number;
+    uuid: string;
     nombre_rol: string;
   };
 }
 
 export interface SolicitudTipo {
-  id_tipo: number;
+  id_tipo?: number;
+  uuid: string;
+  codigo: string;
   name_tipo: string;
   requiere_documento: boolean;
   requiere_valor: boolean;
@@ -25,7 +28,9 @@ export interface SolicitudTipo {
 }
 
 export interface Rol {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre_rol: string;
   descripcion?: string;
 }
@@ -43,20 +48,20 @@ export class SolicitudTipoService {
     return this.http.get<SolicitudTipo[]>(this.apiTipoUrl);
   }
 
-  getSolicitudTipoById(id: number): Observable<SolicitudTipo> {
-    return this.http.get<SolicitudTipo>(`${this.apiTipoUrl}/${id}`);
+  getSolicitudTipoByUuid(uuid: string): Observable<SolicitudTipo> {
+    return this.http.get<SolicitudTipo>(`${this.apiTipoUrl}/${uuid}`);
   }
 
   createSolicitudTipo(data: any): Observable<any> {
     return this.http.post(this.apiTipoUrl, data);
   }
 
-  updateSolicitudTipo(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiTipoUrl}/${id}`, data);
+  updateSolicitudTipo(uuid: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiTipoUrl}/${uuid}`, data);
   }
 
-  deleteSolicitudTipo(id: number): Observable<any> {
-    return this.http.delete(`${this.apiTipoUrl}/${id}`);
+  deleteSolicitudTipo(uuid: string): Observable<any> {
+    return this.http.delete(`${this.apiTipoUrl}/${uuid}`);
   }
 
   getRoles(all?: boolean): Observable<Rol[]> {

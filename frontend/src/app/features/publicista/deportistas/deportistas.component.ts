@@ -51,7 +51,7 @@ export class DeportistasComponent implements OnInit {
     this.svc.createDeportista(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
   }
 
-  confirmDelete(id: number) {
-    this.confirm.confirm({ message: '¿Eliminar este deportista?', accept: () => this.svc.deleteDeportista(id).subscribe(() => this.load()) });
+  confirmDelete(uuid: string) {
+    this.confirm.confirm({ message: '¿Eliminar este deportista?', accept: () => this.svc.deleteDeportista(uuid).subscribe(() => this.load()) });
   }
 }

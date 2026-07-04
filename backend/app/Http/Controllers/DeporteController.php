@@ -38,9 +38,9 @@ class DeporteController extends Controller
         return response()->json($deporte, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $deporte = Deporte::with(['deportistasDestacados', 'eventos', 'logros'])->find($id);
+        $deporte = Deporte::with(['deportistasDestacados', 'eventos', 'logros'])->where('uuid', $uuid)->first();
 
         if (!$deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);
@@ -49,9 +49,9 @@ class DeporteController extends Controller
         return response()->json($deporte);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $deporte = Deporte::find($id);
+        $deporte = Deporte::where('uuid', $uuid)->first();
 
         if (!$deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);
@@ -84,9 +84,9 @@ class DeporteController extends Controller
         return response()->json($deporte);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $deporte = Deporte::find($id);
+        $deporte = Deporte::where('uuid', $uuid)->first();
 
         if (!$deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);

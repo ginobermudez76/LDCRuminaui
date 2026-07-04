@@ -12,15 +12,15 @@
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr><th>ID</th><th>Imagen</th><th>Mensaje</th><th>Fecha de Baja</th><th>Acciones</th></tr>
+            <tr><th>Código</th><th>Imagen</th><th>Mensaje</th><th>Fecha de Baja</th><th>Acciones</th></tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr>
-              <td>{{ item.id }}</td>
+              <td>{{ item.codigo }}</td>
               <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" /></td>
               <td class="msg-cell">{{ item.mensaje }}</td>
               <td>{{ item.fecha_eliminar | date:'dd/MM/yyyy' }}</td>
-              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.id)"></button></td>
+              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.uuid)"></button></td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage"><tr><td colspan="5" class="empty-msg">No hay cartas registradas.</td></tr></ng-template>

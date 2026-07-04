@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeportistaDestacado;
+use App\Models\Deporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,7 @@ class DeportistaDestacadoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nombre_deportista' => 'required|string|max:200',
-            'deporte_id' => 'nullable|integer|exists:deportes,id',
+            'deporte_id' => 'nullable|string|exists:deportes,uuid',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -26,7 +27,14 @@ class DeportistaDestacadoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        if ($request->filled('deporte_id')) {
+            $deporte = Deporte::where('uuid', $request->deporte_id)->first();
+            if ($deporte) {
+                $data['deporte_id'] = $deporte->id;
+            }
+        }
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('deportistas', 'public');
@@ -38,9 +46,9 @@ class DeportistaDestacadoController extends Controller
         return response()->json($deportista, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $deportista = DeportistaDestacado::with('deporte')->find($id);
+        $deportista = DeportistaDestacado::with('deporte')->where('uuid', $uuid)->first();
 
         if (!$deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);
@@ -49,9 +57,9 @@ class DeportistaDestacadoController extends Controller
         return response()->json($deportista);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $deportista = DeportistaDestacado::find($id);
+        $deportista = DeportistaDestacado::where('uuid', $uuid)->first();
 
         if (!$deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);
@@ -59,7 +67,7 @@ class DeportistaDestacadoController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nombre_deportista' => 'sometimes|required|string|max:200',
-            'deporte_id' => 'nullable|integer|exists:deportes,id',
+            'deporte_id' => 'nullable|string|exists:deportes,uuid',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -67,7 +75,16 @@ class DeportistaDestacadoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        if ($request->has('deporte_id')) {
+            if ($request->filled('deporte_id')) {
+                $deporte = Deporte::where('uuid', $request->deporte_id)->first();
+                $data['deporte_id'] = $deporte ? $deporte->id : null;
+            } else {
+                $data['deporte_id'] = null;
+            }
+        }
 
         if ($request->hasFile('imagen')) {
             if ($deportista->imagen) {
@@ -83,9 +100,9 @@ class DeportistaDestacadoController extends Controller
         return response()->json($deportista);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $deportista = DeportistaDestacado::find($id);
+        $deportista = DeportistaDestacado::where('uuid', $uuid)->first();
 
         if (!$deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);

@@ -12,15 +12,15 @@
             </div>
           </ng-template>
           <ng-template pTemplate="header">
-            <tr><th>ID</th><th>Foto</th><th>Nombre</th><th>Deporte</th><th>Acciones</th></tr>
+            <tr><th>Código</th><th>Foto</th><th>Nombre</th><th>Deporte</th><th>Acciones</th></tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr>
-              <td>{{ item.id }}</td>
+              <td>{{ item.codigo }}</td>
               <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb round" /></td>
               <td><strong>{{ item.nombre_deportista }}</strong></td>
               <td>{{ item.deporte?.nombre }}</td>
-              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.id)"></button></td>
+              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.uuid)"></button></td>
             </tr>
           </ng-template>
           <ng-template pTemplate="emptymessage"><tr><td colspan="5" class="empty-msg">No hay deportistas registrados.</td></tr></ng-template>
@@ -30,7 +30,7 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
           <div class="field"><label>Nombre Completo *</label><input pInputText formControlName="nombre_deportista" /></div>
           <div class="field"><label>Deporte</label>
-            <p-select [options]="deportes()" optionLabel="nombre" optionValue="id" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
+            <p-select [options]="deportes()" optionLabel="nombre" optionValue="uuid" formControlName="deporte_id" [style]="{width:'100%'}"></p-select>
           </div>
           <div class="field"><label>Foto</label><input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" /></div>
           <div class="error-wrap" *ngIf="error()"><p-message severity="error" [text]="error()!"></p-message></div>

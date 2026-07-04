@@ -4,15 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\HasUuidAndCode;
+
 class WorkflowStep extends Model
 {
+    use HasUuidAndCode;
+
+    const CODE_PREFIX = 'STP';
+
     protected $table = 'workflow_steps';
 
     protected $fillable = [
+        'uuid',
+        'codigo',
         'solicitud_tipo_id',
         'orden',
         'rol_id',
         'nombre_paso',
+    ];
+
+    protected $hidden = [
+        'id',
     ];
 
     public function solicitudTipo()

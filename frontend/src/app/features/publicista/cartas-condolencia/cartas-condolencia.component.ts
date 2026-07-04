@@ -49,7 +49,7 @@ export class CartasCondolenciaComponent implements OnInit {
     this.svc.createCarta(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
   }
 
-  confirmDelete(id: number) {
-    this.confirm.confirm({ message: '¿Eliminar esta carta?', accept: () => this.svc.deleteCarta(id).subscribe(() => this.load()) });
+  confirmDelete(uuid: string) {
+    this.confirm.confirm({ message: '¿Eliminar esta carta?', accept: () => this.svc.deleteCarta(uuid).subscribe(() => this.load()) });
   }
 }

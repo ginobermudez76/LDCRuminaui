@@ -38,9 +38,9 @@ class DocumentoController extends Controller
         return response()->json($documento, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $documento = Documento::find($id);
+        $documento = Documento::where('uuid', $uuid)->first();
 
         if (!$documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
@@ -49,9 +49,9 @@ class DocumentoController extends Controller
         return response()->json($documento);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $documento = Documento::find($id);
+        $documento = Documento::where('uuid', $uuid)->first();
 
         if (!$documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
@@ -83,9 +83,9 @@ class DocumentoController extends Controller
         return response()->json($documento);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $documento = Documento::find($id);
+        $documento = Documento::where('uuid', $uuid)->first();
 
         if (!$documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);

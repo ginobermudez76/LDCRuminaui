@@ -20,6 +20,10 @@ class Rol extends Model
         'deleted_at',
     ];
 
+    protected $hidden = [
+        'id',
+    ];
+
     public function usuarios()
     {
         return $this->belongsToMany(Usuario::class, 'rol_usuario', 'id_rol', 'id_usuario');

@@ -52,8 +52,8 @@ export class SolicitudFormComponent implements OnInit {
     this.loadTipos();
     
     // Subscribe to type changes
-    this.solicitudForm.get('tipo')?.valueChanges.subscribe(tipoId => {
-      const selectedType = this.tipos().find(t => t.id_tipo === tipoId);
+    this.solicitudForm.get('tipo')?.valueChanges.subscribe(tipoUuid => {
+      const selectedType = this.tipos().find(t => t.uuid === tipoUuid);
       this.hasSelectedType.set(!!selectedType);
       this.updateValidators(selectedType);
     });

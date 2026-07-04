@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 
 export interface Usuario {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   primer_nombre: string;
   segundo_nombre?: string;
   primer_apellido: string;

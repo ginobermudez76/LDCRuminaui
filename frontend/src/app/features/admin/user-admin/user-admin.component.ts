@@ -42,7 +42,7 @@ export class UserAdminComponent implements OnInit {
   showDialog = false;
   isSaving = signal(false);
   errorMessage = signal<string | undefined>(undefined);
-  selectedUsuarioId = signal<number | null>(null);
+  selectedUsuarioUuid = signal<string | null>(null);
 
   // Invitation dialog state
   showInviteLinkDialog = signal(false);
@@ -64,7 +64,7 @@ export class UserAdminComponent implements OnInit {
 
     // Auto-generation logic based on form changes (only when creating)
     this.userForm.valueChanges.subscribe(val => {
-      if (this.selectedUsuarioId() === null) {
+      if (this.selectedUsuarioUuid() === null) {
         this.generateCredentials(val);
       }
     });
@@ -121,7 +121,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   openNewDialog() {
-    this.selectedUsuarioId.set(null);
+    this.selectedUsuarioUuid.set(null);
     this.selectedFile = null;
     this.userForm.reset();
     this.userForm.get('username')?.enable();
@@ -130,7 +130,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   openEditDialog(user: Usuario) {
-    this.selectedUsuarioId.set(user.id);
+    this.selectedUsuarioUuid.set(user.uuid);
     this.selectedFile = null;
     this.errorMessage.set(undefined);
     
@@ -144,7 +144,7 @@ export class UserAdminComponent implements OnInit {
       celular: user.celular || '',
       correo_electronico: user.correo_electronico || '',
       fecha_nac: user.fecha_nac ? user.fecha_nac.substring(0, 10) : '',
-      rol_id: user.rol || (user.roles && user.roles.length > 0 ? user.roles[0].id : null),
+      rol_id: user.rol || (user.roles && user.roles.length > 0 ? user.roles[0].uuid : null),
       username: user.nombre_usuario || ''
     });
 
@@ -172,15 +172,15 @@ export class UserAdminComponent implements OnInit {
   }
 
   toggleActive(user: Usuario) {
-    this.userService.toggleActive(user.id).subscribe({
+    this.userService.toggleActive(user.uuid).subscribe({
       next: () => this.loadUsers(),
       error: (err) => console.error('Error switching user status', err)
     });
   }
 
-  deleteUser(id: number) {
+  deleteUser(uuid: string) {
     if (confirm('¿Está seguro de eliminar este usuario?')) {
-      this.userService.deleteUsuario(id).subscribe({
+      this.userService.deleteUsuario(uuid).subscribe({
         next: () => this.loadUsers(),
         error: (err) => console.error('Error deleting user', err)
       });
@@ -188,7 +188,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   resetPassword(user: Usuario) {
-    this.userService.resetPassword(user.id).subscribe({
+    this.userService.resetPassword(user.uuid).subscribe({
       next: (res) => {
         this.generatedPassword.set(res.generated_password);
         this.showResetPasswordDialog.set(true);
@@ -198,7 +198,7 @@ export class UserAdminComponent implements OnInit {
   }
 
   resendInvitation(user: Usuario) {
-    this.userService.resendInvitation(user.id).subscribe({
+    this.userService.resendInvitation(user.uuid).subscribe({
       next: (res) => {
         this.generatedInviteLink.set(res.invitation_link);
         this.showInviteLinkDialog.set(true);
@@ -256,7 +256,7 @@ export class UserAdminComponent implements OnInit {
     items.push({
       label: 'Eliminar Usuario',
       icon: 'pi pi-trash',
-      command: () => this.deleteUser(user.id)
+      command: () => this.deleteUser(user.uuid)
     });
 
     this.menuItemsForSelectedUser = items;
@@ -281,12 +281,12 @@ export class UserAdminComponent implements OnInit {
       formData.append('foto_perfil', this.selectedFile);
     }
 
-    const id = this.selectedUsuarioId();
+    const uuid = this.selectedUsuarioUuid();
 
-    if (id !== null) {
+    if (uuid !== null) {
       formData.append('_method', 'PUT');
 
-      this.userService.updateUsuario(id, formData).subscribe({
+      this.userService.updateUsuario(uuid, formData).subscribe({
         next: () => {
           this.isSaving.set(false);
           this.showDialog = false;

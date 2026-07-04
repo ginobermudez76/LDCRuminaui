@@ -30,9 +30,9 @@ class NoticiaController extends Controller
         return response()->json($noticia, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $noticia = Noticia::find($id);
+        $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (!$noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);
@@ -41,9 +41,9 @@ class NoticiaController extends Controller
         return response()->json($noticia);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $noticia = Noticia::find($id);
+        $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (!$noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);
@@ -54,9 +54,9 @@ class NoticiaController extends Controller
         return response()->json($noticia);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $noticia = Noticia::find($id);
+        $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (!$noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);

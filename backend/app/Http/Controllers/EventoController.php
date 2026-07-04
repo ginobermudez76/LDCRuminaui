@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Deporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class EventoController extends Controller
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'nullable|string|max:300',
-            'deporte_id' => 'required|integer|exists:deportes,id',
+            'deporte_id' => 'required|string|exists:deportes,uuid',
             'inscripciones' => 'nullable|string|max:20',
         ]);
 
@@ -30,7 +31,10 @@ class EventoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        $deporte = Deporte::where('uuid', $request->deporte_id)->firstOrFail();
+        $data['deporte_id'] = $deporte->id;
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('eventos', 'public');
@@ -42,9 +46,9 @@ class EventoController extends Controller
         return response()->json($evento, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $evento = Evento::with(['deporte', 'inscripcionesEventos'])->find($id);
+        $evento = Evento::with(['deporte', 'inscripcionesEventos'])->where('uuid', $uuid)->first();
 
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
@@ -53,9 +57,9 @@ class EventoController extends Controller
         return response()->json($evento);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $evento = Evento::find($id);
+        $evento = Evento::where('uuid', $uuid)->first();
 
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);
@@ -67,7 +71,7 @@ class EventoController extends Controller
             'fecha_fin' => 'sometimes|required|date|after_or_equal:fecha_inicio',
             'imagen' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'descripcion' => 'nullable|string|max:300',
-            'deporte_id' => 'sometimes|required|integer|exists:deportes,id',
+            'deporte_id' => 'sometimes|required|string|exists:deportes,uuid',
             'inscripciones' => 'nullable|string|max:20',
         ]);
 
@@ -75,7 +79,12 @@ class EventoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $data = $request->except('imagen');
+        $data = $request->except(['imagen', 'deporte_id']);
+
+        if ($request->has('deporte_id')) {
+            $deporte = Deporte::where('uuid', $request->deporte_id)->firstOrFail();
+            $data['deporte_id'] = $deporte->id;
+        }
 
         if ($request->hasFile('imagen')) {
             if ($evento->imagen) {
@@ -91,9 +100,9 @@ class EventoController extends Controller
         return response()->json($evento);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $evento = Evento::find($id);
+        $evento = Evento::where('uuid', $uuid)->first();
 
         if (!$evento) {
             return response()->json(['message' => 'Evento no encontrado'], 404);

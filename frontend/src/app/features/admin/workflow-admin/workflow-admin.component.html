@@ -23,7 +23,7 @@
               <div 
                 *ngFor="let t of tipos()" 
                 class="tipo-item" 
-                [class.active]="selectedTipoId() === t.id_tipo"
+                [class.active]="selectedTipoUuid() === t.uuid"
                 (click)="onSelectTipo(t)"
               >
                 <div class="tipo-info">
@@ -55,7 +55,7 @@
 
         <!-- Formulario de Configuración (Derecha) -->
         <div class="panel-right">
-          <p-card [header]="selectedTipoId() ? 'Editar Tipo de Solicitud' : 'Nuevo Tipo de Solicitud'" styleClass="glass-card">
+          <p-card [header]="selectedTipoUuid() ? 'Editar Tipo de Solicitud' : 'Nuevo Tipo de Solicitud'" styleClass="glass-card">
             <form [formGroup]="tipoForm" (ngSubmit)="onSubmit()" class="workflow-form">
               
               <!-- Campos Básicos -->
@@ -90,7 +90,7 @@
                     <p-checkbox formControlName="requiere_descripcion" [binary]="true" inputId="req_desc"></p-checkbox>
                     <label for="req_desc">Requiere descripción o motivo</label>
                   </div>
-                  <div class="check-item" *ngIf="selectedTipoId()">
+                  <div class="check-item" *ngIf="selectedTipoUuid()">
                     <p-checkbox formControlName="activo" [binary]="true" inputId="is_active"></p-checkbox>
                     <label for="is_active">Activo</label>
                   </div>
@@ -139,7 +139,7 @@
                       <p-select 
                         [options]="roles()" 
                         optionLabel="nombre_rol"
-                        optionValue="id"
+                        optionValue="uuid"
                         formControlName="rol_id" 
                         placeholder="Rol Evaluador"
                         [style]="{width: '100%'}"
@@ -166,7 +166,7 @@
                 <button 
                   pButton 
                   type="submit" 
-                  [label]="selectedTipoId() ? 'Guardar Cambios' : 'Crear Tipo'" 
+                  [label]="selectedTipoUuid() ? 'Guardar Cambios' : 'Crear Tipo'" 
                   icon="pi pi-save" 
                   [loading]="isLoading()"
                   [disabled]="tipoForm.invalid"

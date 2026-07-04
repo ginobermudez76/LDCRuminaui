@@ -7,14 +7,19 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Traits\Auditable;
 
+use App\Traits\HasUuidAndCode;
+
 class Usuario extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Auditable;
+    use Notifiable, Auditable, HasUuidAndCode;
+
+    const CODE_PREFIX = 'USR';
 
     protected $table = 'usuario';
 
     protected $fillable = [
         'uuid',
+        'codigo',
         'nombre_usuario',
         'correo_electronico',
         'password_hash',
@@ -33,6 +38,7 @@ class Usuario extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
+        'id',
         'password_hash',
         'remember_token',
     ];
@@ -78,7 +84,7 @@ class Usuario extends Authenticatable implements JWTSubject
 
     public function getRolAttribute()
     {
-        return $this->roles->first()?->id;
+        return $this->roles->first()?->uuid;
     }
 
     public function getRolRelationAttribute()
@@ -88,7 +94,7 @@ class Usuario extends Authenticatable implements JWTSubject
             return null;
         }
         return [
-            'id_rol' => $firstRole->id,
+            'id_rol' => $firstRole->uuid,
             'rol_name' => $firstRole->nombre_rol
         ];
     }

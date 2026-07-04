@@ -47,9 +47,9 @@ class RbacAdminController extends Controller
         return response()->json($role, 201);
     }
 
-    public function updateRole(Request $request, $id)
+    public function updateRole(Request $request, $uuid)
     {
-        $role = Rol::findOrFail($id);
+        $role = Rol::where('uuid', $uuid)->firstOrFail();
 
         $validated = $request->validate([
             'codigo' => 'required|string|max:100|unique:rol,codigo,' . $role->id,
@@ -65,9 +65,9 @@ class RbacAdminController extends Controller
         return response()->json($role);
     }
 
-    public function destroyRole($id)
+    public function destroyRole($uuid)
     {
-        $role = Rol::findOrFail($id);
+        $role = Rol::where('uuid', $uuid)->firstOrFail();
 
         // System essential roles should not be deleted (roles 1-9)
         if ($role->id <= 9) {
@@ -81,10 +81,16 @@ class RbacAdminController extends Controller
         return response()->json(['message' => 'Rol eliminado con éxito.']);
     }
 
-    public function syncRoleOptions(Request $request, $id)
+    public function syncRoleOptions(Request $request, $uuid)
     {
-        $role = Rol::findOrFail($id);
-        $optionIds = $request->input('option_ids', []);
+        $role = Rol::where('uuid', $uuid)->firstOrFail();
+        $optionUuids = $request->input('option_ids', []);
+
+        // Resolve Option UUIDs to Option Integer IDs
+        $optionIntegerIds = Opcion::whereIn('uuid', $optionUuids)
+            ->where('deleted', false)
+            ->pluck('id')
+            ->toArray();
 
         try {
             DB::beginTransaction();
@@ -95,7 +101,7 @@ class RbacAdminController extends Controller
 
             $existingOptionIds = $existingPivots->pluck('id_opcion')->toArray();
 
-            foreach ($optionIds as $optId) {
+            foreach ($optionIntegerIds as $optId) {
                 if (in_array($optId, $existingOptionIds)) {
                     DB::table('rol_opcion')
                         ->where('id_rol', $role->id)
@@ -120,7 +126,7 @@ class RbacAdminController extends Controller
             // Soft-delete pivots not present in the new set
             DB::table('rol_opcion')
                 ->where('id_rol', $role->id)
-                ->whereNotIn('id_opcion', $optionIds)
+                ->whereNotIn('id_opcion', $optionIntegerIds)
                 ->update([
                     'deleted' => true,
                     'deleted_at' => now(),
@@ -169,9 +175,9 @@ class RbacAdminController extends Controller
         return response()->json($option, 201);
     }
 
-    public function updateOption(Request $request, $id)
+    public function updateOption(Request $request, $uuid)
     {
-        $option = Opcion::findOrFail($id);
+        $option = Opcion::where('uuid', $uuid)->firstOrFail();
 
         $validated = $request->validate([
             'nombre_opcion' => 'required|string|max:150|unique:opcion,nombre_opcion,' . $option->id,
@@ -185,9 +191,9 @@ class RbacAdminController extends Controller
         return response()->json($option);
     }
 
-    public function destroyOption($id)
+    public function destroyOption($uuid)
     {
-        $option = Opcion::findOrFail($id);
+        $option = Opcion::where('uuid', $uuid)->firstOrFail();
 
         // Do not delete basic system options
         $essentialOptions = ['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'];
@@ -202,10 +208,16 @@ class RbacAdminController extends Controller
         return response()->json(['message' => 'Opción de menú eliminada con éxito.']);
     }
 
-    public function syncOptionEndpoints(Request $request, $id)
+    public function syncOptionEndpoints(Request $request, $uuid)
     {
-        $option = Opcion::findOrFail($id);
-        $endpointIds = $request->input('endpoint_ids', []);
+        $option = Opcion::where('uuid', $uuid)->firstOrFail();
+        $endpointUuids = $request->input('endpoint_ids', []);
+
+        // Resolve Endpoint UUIDs to Endpoint Integer IDs
+        $endpointIntegerIds = Endpoint::whereIn('uuid', $endpointUuids)
+            ->where('deleted', false)
+            ->pluck('id')
+            ->toArray();
 
         try {
             DB::beginTransaction();
@@ -216,7 +228,7 @@ class RbacAdminController extends Controller
 
             $existingEndpointIds = $existingPivots->pluck('id_endpoint')->toArray();
 
-            foreach ($endpointIds as $endId) {
+            foreach ($endpointIntegerIds as $endId) {
                 if (in_array($endId, $existingEndpointIds)) {
                     DB::table('opcion_endpoint')
                         ->where('id_opcion', $option->id)
@@ -241,7 +253,7 @@ class RbacAdminController extends Controller
             // Soft-delete pivots not present in the new set
             DB::table('opcion_endpoint')
                 ->where('id_opcion', $option->id)
-                ->whereNotIn('id_endpoint', $endpointIds)
+                ->whereNotIn('id_endpoint', $endpointIntegerIds)
                 ->update([
                     'deleted' => true,
                     'deleted_at' => now(),
@@ -288,9 +300,9 @@ class RbacAdminController extends Controller
         return response()->json($endpoint, 201);
     }
 
-    public function updateEndpoint(Request $request, $id)
+    public function updateEndpoint(Request $request, $uuid)
     {
-        $endpoint = Endpoint::findOrFail($id);
+        $endpoint = Endpoint::where('uuid', $uuid)->firstOrFail();
 
         $validated = $request->validate([
             'nombre_endpoint' => 'required|string|max:150',
@@ -308,9 +320,9 @@ class RbacAdminController extends Controller
         return response()->json($endpoint);
     }
 
-    public function destroyEndpoint($id)
+    public function destroyEndpoint($uuid)
     {
-        $endpoint = Endpoint::findOrFail($id);
+        $endpoint = Endpoint::where('uuid', $uuid)->firstOrFail();
 
         // Do not delete RBAC configuration endpoints
         if (strpos($endpoint->url, 'api/rbac') !== false) {

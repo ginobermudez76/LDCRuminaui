@@ -38,9 +38,9 @@ class CartaCondolenciaController extends Controller
         return response()->json($carta, 201);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $carta = CartaCondolencia::find($id);
+        $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (!$carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);
@@ -49,9 +49,9 @@ class CartaCondolenciaController extends Controller
         return response()->json($carta);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $carta = CartaCondolencia::find($id);
+        $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (!$carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);
@@ -83,9 +83,9 @@ class CartaCondolenciaController extends Controller
         return response()->json($carta);
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $carta = CartaCondolencia::find($id);
+        $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (!$carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);

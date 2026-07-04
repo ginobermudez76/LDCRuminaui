@@ -6,14 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Traits\Auditable;
 
+use App\Traits\HasUuidAndCode;
+
 class Evento extends Model
 {
-    use Auditable;
+    use Auditable, HasUuidAndCode;
+
+    const CODE_PREFIX = 'EVE';
 
     protected $table = 'eventos';
     public $timestamps = false;
 
     protected $fillable = [
+        'uuid',
+        'codigo',
         'nombre',
         'fecha_inicio',
         'fecha_fin',
@@ -23,6 +29,10 @@ class Evento extends Model
         'deporte_id',
         'estado',
         'inscripciones',
+    ];
+
+    protected $hidden = [
+        'id',
     ];
 
     protected $casts = [

@@ -5,14 +5,18 @@ import { Observable } from 'rxjs';
 const API = 'http://localhost:8000/api';
 
 export interface Deporte {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre: string;
   descripcion?: string;
   imagen?: string;
 }
 
 export interface Evento {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre: string;
   fecha_inicio: string;
   fecha_fin: string;
@@ -25,7 +29,9 @@ export interface Evento {
 }
 
 export interface Logro {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   titulo: string;
   tipologro?: string;
   deporte_id?: number;
@@ -34,7 +40,9 @@ export interface Logro {
 }
 
 export interface Curso {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre: string;
   descripcion?: string;
   imagen?: string;
@@ -46,14 +54,18 @@ export interface Curso {
 }
 
 export interface Documento {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre: string;
   descripcion?: string;
   documento?: string;
 }
 
 export interface DeportistaDestacado {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   nombre_deportista: string;
   deporte_id?: number;
   imagen?: string;
@@ -61,7 +73,9 @@ export interface DeportistaDestacado {
 }
 
 export interface CartaCondolencia {
-  id: number;
+  id?: number;
+  uuid: string;
+  codigo: string;
   mensaje: string;
   imagen?: string;
   fecha_eliminar: string;
@@ -74,35 +88,35 @@ export class PublicistaService {
   // Deportes
   getDeportes(): Observable<Deporte[]> { return this.http.get<Deporte[]>(`${API}/deportes`); }
   createDeporte(fd: FormData): Observable<Deporte> { return this.http.post<Deporte>(`${API}/deportes`, fd); }
-  deleteDeporte(id: number): Observable<any> { return this.http.delete(`${API}/deportes/${id}`); }
+  deleteDeporte(uuid: string): Observable<any> { return this.http.delete(`${API}/deportes/${uuid}`); }
 
   // Eventos
   getEventos(): Observable<Evento[]> { return this.http.get<Evento[]>(`${API}/eventos`); }
   createEvento(fd: FormData): Observable<Evento> { return this.http.post<Evento>(`${API}/eventos`, fd); }
-  deleteEvento(id: number): Observable<any> { return this.http.delete(`${API}/eventos/${id}`); }
+  deleteEvento(uuid: string): Observable<any> { return this.http.delete(`${API}/eventos/${uuid}`); }
 
   // Logros
   getLogros(): Observable<Logro[]> { return this.http.get<Logro[]>(`${API}/logros`); }
   createLogro(fd: FormData): Observable<Logro> { return this.http.post<Logro>(`${API}/logros`, fd); }
-  deleteLogro(id: number): Observable<any> { return this.http.delete(`${API}/logros/${id}`); }
+  deleteLogro(uuid: string): Observable<any> { return this.http.delete(`${API}/logros/${uuid}`); }
 
   // Cursos
   getCursos(): Observable<Curso[]> { return this.http.get<Curso[]>(`${API}/cursos`); }
   createCurso(fd: FormData): Observable<Curso> { return this.http.post<Curso>(`${API}/cursos`, fd); }
-  deleteCurso(id: number): Observable<any> { return this.http.delete(`${API}/cursos/${id}`); }
+  deleteCurso(uuid: string): Observable<any> { return this.http.delete(`${API}/cursos/${uuid}`); }
 
   // Documentos
   getDocumentos(): Observable<Documento[]> { return this.http.get<Documento[]>(`${API}/documentos`); }
   createDocumento(fd: FormData): Observable<Documento> { return this.http.post<Documento>(`${API}/documentos`, fd); }
-  deleteDocumento(id: number): Observable<any> { return this.http.delete(`${API}/documentos/${id}`); }
+  deleteDocumento(uuid: string): Observable<any> { return this.http.delete(`${API}/documentos/${uuid}`); }
 
   // Deportistas Destacados
   getDeportistas(): Observable<DeportistaDestacado[]> { return this.http.get<DeportistaDestacado[]>(`${API}/deportistas`); }
   createDeportista(fd: FormData): Observable<DeportistaDestacado> { return this.http.post<DeportistaDestacado>(`${API}/deportistas`, fd); }
-  deleteDeportista(id: number): Observable<any> { return this.http.delete(`${API}/deportistas/${id}`); }
+  deleteDeportista(uuid: string): Observable<any> { return this.http.delete(`${API}/deportistas/${uuid}`); }
 
   // Cartas de Condolencia
   getCartas(): Observable<CartaCondolencia[]> { return this.http.get<CartaCondolencia[]>(`${API}/cartas`); }
   createCarta(fd: FormData): Observable<CartaCondolencia> { return this.http.post<CartaCondolencia>(`${API}/cartas`, fd); }
-  deleteCarta(id: number): Observable<any> { return this.http.delete(`${API}/cartas/${id}`); }
+  deleteCarta(uuid: string): Observable<any> { return this.http.delete(`${API}/cartas/${uuid}`); }
 }

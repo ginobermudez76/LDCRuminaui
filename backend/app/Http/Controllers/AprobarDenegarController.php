@@ -11,13 +11,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AprobarDenegarController extends Controller
 {
-    public function procesar(Request $request, $id)
+    public function procesar(Request $request, $uuid)
     {
         $request->validate([
             'accion' => 'required|in:Aprobar,Denegar',
         ]);
 
-        $solicitud = Solicitud::findOrFail($id);
+        $solicitud = Solicitud::where('uuid', $uuid)->firstOrFail();
         $usuario = JWTAuth::user();
         
         $rol = $usuario->roles->first();
@@ -46,7 +46,7 @@ class AprobarDenegarController extends Controller
                 $solicitud->save();
 
                 HistorialSolicitud::create([
-                    'solicitud_id' => $id,
+                    'solicitud_id' => $solicitud->s_id,
                     'estado' => $nuevo_estado,
                     'responsable' => $usuario->id,
                     'departamento' => $rolId,
@@ -74,7 +74,7 @@ class AprobarDenegarController extends Controller
                 $solicitud->save();
 
                 HistorialSolicitud::create([
-                    'solicitud_id' => $id,
+                    'solicitud_id' => $solicitud->s_id,
                     'estado' => 5,
                     'responsable' => $usuario->id,
                     'departamento' => $rolId,
@@ -141,7 +141,7 @@ class AprobarDenegarController extends Controller
 
             // Create history record
             HistorialSolicitud::create([
-                'solicitud_id' => $id,
+                'solicitud_id' => $solicitud->s_id,
                 'estado' => $nuevo_estado,
                 'responsable' => $usuario->id,
                 'departamento' => $rolId,

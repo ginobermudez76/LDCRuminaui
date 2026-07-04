@@ -62,19 +62,19 @@ export class RbacAdminComponent implements OnInit {
   optionForm!: FormGroup;
   endpointForm!: FormGroup;
 
-  // Selected item states for editing/syncing
-  selectedRoleId = signal<number | null>(null);
-  selectedOptionId = signal<number | null>(null);
-  selectedEndpointId = signal<number | null>(null);
+  // Selected item states for editing/syncing (UUID-based)
+  selectedRoleUuid = signal<string | null>(null);
+  selectedOptionUuid = signal<string | null>(null);
+  selectedEndpointUuid = signal<string | null>(null);
 
-  // Sync checkboxes state lists
-  roleOptionsSelection = signal<number[]>([]);
-  optionEndpointsSelection = signal<number[]>([]);
+  // Sync checkboxes state lists (UUID-based)
+  roleOptionsSelection = signal<string[]>([]);
+  optionEndpointsSelection = signal<string[]>([]);
 
   rbacMenuItems: MenuItem[] = [];
 
   toggleRoleMenu(event: Event, role: RbacRole, menu: any) {
-    this.selectedRoleId.set(role.id);
+    this.selectedRoleUuid.set(role.uuid);
     this.rbacMenuItems = [
       {
         label: 'Asociar Menús',
@@ -89,15 +89,15 @@ export class RbacAdminComponent implements OnInit {
       {
         label: 'Eliminar Rol',
         icon: 'pi pi-trash',
-        disabled: role.id <= 9,
-        command: () => this.deleteRole(role.id)
+        disabled: role.id !== undefined && role.id <= 9,
+        command: () => this.deleteRole(role.uuid)
       }
     ];
     menu.toggle(event);
   }
 
   toggleOptionMenu(event: Event, opt: RbacOption, menu: any) {
-    this.selectedOptionId.set(opt.id);
+    this.selectedOptionUuid.set(opt.uuid);
     const essential = ['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'];
     this.rbacMenuItems = [
       {
@@ -114,14 +114,14 @@ export class RbacAdminComponent implements OnInit {
         label: 'Eliminar Menú',
         icon: 'pi pi-trash',
         disabled: essential.includes(opt.nombre_opcion),
-        command: () => this.deleteOption(opt.id)
+        command: () => this.deleteOption(opt.uuid)
       }
     ];
     menu.toggle(event);
   }
 
   toggleEndpointMenu(event: Event, end: RbacEndpoint, menu: any) {
-    this.selectedEndpointId.set(end.id);
+    this.selectedEndpointUuid.set(end.uuid);
     this.rbacMenuItems = [
       {
         label: 'Editar Permiso',
@@ -132,7 +132,7 @@ export class RbacAdminComponent implements OnInit {
         label: 'Eliminar Permiso',
         icon: 'pi pi-trash',
         disabled: end.url.includes('api/rbac'),
-        command: () => this.deleteEndpoint(end.id)
+        command: () => this.deleteEndpoint(end.uuid)
       }
     ];
     menu.toggle(event);
@@ -220,13 +220,13 @@ export class RbacAdminComponent implements OnInit {
   // ==========================================
 
   openNewRole() {
-    this.selectedRoleId.set(null);
+    this.selectedRoleUuid.set(null);
     this.roleForm.reset({ codigo: '', nombre_rol: '', descripcion: '' });
     this.roleDialogVisible.set(true);
   }
 
   openEditRole(role: RbacRole) {
-    this.selectedRoleId.set(role.id);
+    this.selectedRoleUuid.set(role.uuid);
     this.roleForm.patchValue({
       codigo: role.codigo,
       nombre_rol: role.nombre_rol,
@@ -240,9 +240,9 @@ export class RbacAdminComponent implements OnInit {
 
     this.isLoading.set(true);
     const data = this.roleForm.value;
-    const roleId = this.selectedRoleId();
+    const roleUuid = this.selectedRoleUuid();
 
-    if (roleId === null) {
+    if (roleUuid === null) {
       this.rbacService.createRole(data).subscribe({
         next: () => {
           this.showSuccess('Rol creado con éxito.');
@@ -252,7 +252,7 @@ export class RbacAdminComponent implements OnInit {
         error: (err) => this.handleError(err.error?.error || 'Error al crear rol.')
       });
     } else {
-      this.rbacService.updateRole(roleId, data).subscribe({
+      this.rbacService.updateRole(roleUuid, data).subscribe({
         next: () => {
           this.showSuccess('Rol actualizado con éxito.');
           this.roleDialogVisible.set(false);
@@ -263,11 +263,11 @@ export class RbacAdminComponent implements OnInit {
     }
   }
 
-  deleteRole(id: number) {
+  deleteRole(uuid: string) {
     if (!confirm('¿Está seguro de eliminar este rol?')) return;
 
     this.isLoading.set(true);
-    this.rbacService.deleteRole(id).subscribe({
+    this.rbacService.deleteRole(uuid).subscribe({
       next: () => {
         this.showSuccess('Rol eliminado con éxito.');
         this.loadAllData();
@@ -277,18 +277,18 @@ export class RbacAdminComponent implements OnInit {
   }
 
   openSyncRoleOptions(role: RbacRole) {
-    this.selectedRoleId.set(role.id);
-    // Gather current option ids
-    const activeOptionIds = (role.opciones || []).map(o => o.id);
-    this.roleOptionsSelection.set(activeOptionIds);
+    this.selectedRoleUuid.set(role.uuid);
+    // Gather current option uuids
+    const activeOptionUuids = (role.opciones || []).map(o => o.uuid);
+    this.roleOptionsSelection.set(activeOptionUuids);
     this.syncOptionsDialogVisible.set(true);
   }
 
-  toggleRoleOption(optId: number) {
+  toggleRoleOption(optUuid: string) {
     const current = [...this.roleOptionsSelection()];
-    const idx = current.indexOf(optId);
+    const idx = current.indexOf(optUuid);
     if (idx === -1) {
-      current.push(optId);
+      current.push(optUuid);
     } else {
       current.splice(idx, 1);
     }
@@ -296,11 +296,11 @@ export class RbacAdminComponent implements OnInit {
   }
 
   saveRoleOptions() {
-    const roleId = this.selectedRoleId();
-    if (roleId === null) return;
+    const roleUuid = this.selectedRoleUuid();
+    if (roleUuid === null) return;
 
     this.isLoading.set(true);
-    this.rbacService.syncRoleOptions(roleId, this.roleOptionsSelection()).subscribe({
+    this.rbacService.syncRoleOptions(roleUuid, this.roleOptionsSelection()).subscribe({
       next: () => {
         this.showSuccess('Permisos de menú sincronizados con éxito.');
         this.syncOptionsDialogVisible.set(false);
@@ -315,13 +315,13 @@ export class RbacAdminComponent implements OnInit {
   // ==========================================
 
   openNewOption() {
-    this.selectedOptionId.set(null);
+    this.selectedOptionUuid.set(null);
     this.optionForm.reset({ nombre_opcion: '', descripcion: '' });
     this.optionDialogVisible.set(true);
   }
 
   openEditOption(opt: RbacOption) {
-    this.selectedOptionId.set(opt.id);
+    this.selectedOptionUuid.set(opt.uuid);
     this.optionForm.patchValue({
       nombre_opcion: opt.nombre_opcion,
       descripcion: opt.descripcion
@@ -334,9 +334,9 @@ export class RbacAdminComponent implements OnInit {
 
     this.isLoading.set(true);
     const data = this.optionForm.value;
-    const optId = this.selectedOptionId();
+    const optUuid = this.selectedOptionUuid();
 
-    if (optId === null) {
+    if (optUuid === null) {
       this.rbacService.createOption(data).subscribe({
         next: () => {
           this.showSuccess('Menú creado con éxito.');
@@ -346,7 +346,7 @@ export class RbacAdminComponent implements OnInit {
         error: (err) => this.handleError(err.error?.error || 'Error al crear opción.')
       });
     } else {
-      this.rbacService.updateOption(optId, data).subscribe({
+      this.rbacService.updateOption(optUuid, data).subscribe({
         next: () => {
           this.showSuccess('Menú actualizado con éxito.');
           this.optionDialogVisible.set(false);
@@ -357,11 +357,11 @@ export class RbacAdminComponent implements OnInit {
     }
   }
 
-  deleteOption(id: number) {
+  deleteOption(uuid: string) {
     if (!confirm('¿Está seguro de eliminar esta opción de menú?')) return;
 
     this.isLoading.set(true);
-    this.rbacService.deleteOption(id).subscribe({
+    this.rbacService.deleteOption(uuid).subscribe({
       next: () => {
         this.showSuccess('Menú eliminado con éxito.');
         this.loadAllData();
@@ -371,17 +371,17 @@ export class RbacAdminComponent implements OnInit {
   }
 
   openSyncOptionEndpoints(opt: RbacOption) {
-    this.selectedOptionId.set(opt.id);
-    const activeEndpointIds = (opt.endpoints || []).map(e => e.id);
-    this.optionEndpointsSelection.set(activeEndpointIds);
+    this.selectedOptionUuid.set(opt.uuid);
+    const activeEndpointUuids = (opt.endpoints || []).map(e => e.uuid);
+    this.optionEndpointsSelection.set(activeEndpointUuids);
     this.syncEndpointsDialogVisible.set(true);
   }
 
-  toggleOptionEndpoint(endId: number) {
+  toggleOptionEndpoint(endUuid: string) {
     const current = [...this.optionEndpointsSelection()];
-    const idx = current.indexOf(endId);
+    const idx = current.indexOf(endUuid);
     if (idx === -1) {
-      current.push(endId);
+      current.push(endUuid);
     } else {
       current.splice(idx, 1);
     }
@@ -389,11 +389,11 @@ export class RbacAdminComponent implements OnInit {
   }
 
   saveOptionEndpoints() {
-    const optId = this.selectedOptionId();
-    if (optId === null) return;
+    const optUuid = this.selectedOptionUuid();
+    if (optUuid === null) return;
 
     this.isLoading.set(true);
-    this.rbacService.syncOptionEndpoints(optId, this.optionEndpointsSelection()).subscribe({
+    this.rbacService.syncOptionEndpoints(optUuid, this.optionEndpointsSelection()).subscribe({
       next: () => {
         this.showSuccess('Permisos de endpoints sincronizados con éxito.');
         this.syncEndpointsDialogVisible.set(false);
@@ -408,13 +408,13 @@ export class RbacAdminComponent implements OnInit {
   // ==========================================
 
   openNewEndpoint() {
-    this.selectedEndpointId.set(null);
+    this.selectedEndpointUuid.set(null);
     this.endpointForm.reset({ nombre_endpoint: '', metodo: 'GET', url: '', rbac_enabled: true });
     this.endpointDialogVisible.set(true);
   }
 
   openEditEndpoint(end: RbacEndpoint) {
-    this.selectedEndpointId.set(end.id);
+    this.selectedEndpointUuid.set(end.uuid);
     this.endpointForm.patchValue({
       nombre_endpoint: end.nombre_endpoint,
       metodo: end.metodo,
@@ -429,9 +429,9 @@ export class RbacAdminComponent implements OnInit {
 
     this.isLoading.set(true);
     const data = this.endpointForm.value;
-    const endId = this.selectedEndpointId();
+    const endUuid = this.selectedEndpointUuid();
 
-    if (endId === null) {
+    if (endUuid === null) {
       this.rbacService.createEndpoint(data).subscribe({
         next: () => {
           this.showSuccess('Endpoint creado con éxito.');
@@ -441,7 +441,7 @@ export class RbacAdminComponent implements OnInit {
         error: (err) => this.handleError(err.error?.error || 'Error al crear endpoint.')
       });
     } else {
-      this.rbacService.updateEndpoint(endId, data).subscribe({
+      this.rbacService.updateEndpoint(endUuid, data).subscribe({
         next: () => {
           this.showSuccess('Endpoint actualizado con éxito.');
           this.endpointDialogVisible.set(false);
@@ -452,11 +452,11 @@ export class RbacAdminComponent implements OnInit {
     }
   }
 
-  deleteEndpoint(id: number) {
+  deleteEndpoint(uuid: string) {
     if (!confirm('¿Está seguro de eliminar este endpoint?')) return;
 
     this.isLoading.set(true);
-    this.rbacService.deleteEndpoint(id).subscribe({
+    this.rbacService.deleteEndpoint(uuid).subscribe({
       next: () => {
         this.showSuccess('Endpoint eliminado con éxito.');
         this.loadAllData();

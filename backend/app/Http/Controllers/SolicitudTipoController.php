@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SolicitudTipo;
 use App\Models\WorkflowStep;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class SolicitudTipoController extends Controller
             'requiere_valor' => 'required|boolean',
             'requiere_descripcion' => 'required|boolean',
             'steps' => 'nullable|array',
-            'steps.*.rol_id' => 'required|integer|exists:rol,id',
+            'steps.*.rol_id' => 'required|string|exists:rol,uuid',
             'steps.*.orden' => 'required|integer',
             'steps.*.nombre_paso' => 'nullable|string|max:100',
         ]);
@@ -45,10 +46,11 @@ class SolicitudTipoController extends Controller
 
             if ($request->has('steps') && is_array($request->steps)) {
                 foreach ($request->steps as $stepData) {
+                    $rol = Rol::where('uuid', $stepData['rol_id'])->firstOrFail();
                     WorkflowStep::create([
                         'solicitud_tipo_id' => $tipo->id_tipo,
                         'orden' => $stepData['orden'],
-                        'rol_id' => $stepData['rol_id'],
+                        'rol_id' => $rol->id,
                         'nombre_paso' => $stepData['nombre_paso'] ?? null,
                     ]);
                 }
@@ -63,9 +65,9 @@ class SolicitudTipoController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $tipo = SolicitudTipo::with('steps.rol')->find($id);
+        $tipo = SolicitudTipo::with('steps.rol')->where('uuid', $uuid)->first();
 
         if (!$tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
@@ -74,9 +76,9 @@ class SolicitudTipoController extends Controller
         return response()->json($tipo);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $tipo = SolicitudTipo::find($id);
+        $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
         if (!$tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
@@ -89,7 +91,7 @@ class SolicitudTipoController extends Controller
             'requiere_descripcion' => 'required|boolean',
             'activo' => 'required|boolean',
             'steps' => 'nullable|array',
-            'steps.*.rol_id' => 'required|integer|exists:rol,id',
+            'steps.*.rol_id' => 'required|string|exists:rol,uuid',
             'steps.*.orden' => 'required|integer',
             'steps.*.nombre_paso' => 'nullable|string|max:100',
         ]);
@@ -109,15 +111,16 @@ class SolicitudTipoController extends Controller
                 'activo' => $request->activo,
             ]);
 
-            // Sync steps: simple way is to delete existing and create new
+            // Sync steps
             WorkflowStep::where('solicitud_tipo_id', $tipo->id_tipo)->delete();
 
             if ($request->has('steps') && is_array($request->steps)) {
                 foreach ($request->steps as $stepData) {
+                    $rol = Rol::where('uuid', $stepData['rol_id'])->firstOrFail();
                     WorkflowStep::create([
                         'solicitud_tipo_id' => $tipo->id_tipo,
                         'orden' => $stepData['orden'],
-                        'rol_id' => $stepData['rol_id'],
+                        'rol_id' => $rol->id,
                         'nombre_paso' => $stepData['nombre_paso'] ?? null,
                     ]);
                 }
@@ -132,9 +135,9 @@ class SolicitudTipoController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $tipo = SolicitudTipo::find($id);
+        $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
         if (!$tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);

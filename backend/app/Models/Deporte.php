@@ -5,17 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
 
+use App\Traits\HasUuidAndCode;
+
 class Deporte extends Model
 {
-    use Auditable;
+    use Auditable, HasUuidAndCode;
+
+    const CODE_PREFIX = 'DEP';
 
     protected $table = 'deportes';
     public $timestamps = false;
 
     protected $fillable = [
+        'uuid',
+        'codigo',
         'nombre',
         'descripcion',
         'imagen',
+    ];
+
+    protected $hidden = [
+        'id',
     ];
 
     public function deportistasDestacados()
