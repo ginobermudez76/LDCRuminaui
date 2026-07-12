@@ -29,8 +29,10 @@ class AprobarDenegarController extends Controller
         $accion = $request->accion;
         $tipoId = $solicitud->tipo;
 
-        // Verify if user is current encargado OR if they are Admin (8)
-        if ($solicitud->encargado !== $usuario->id && $rolId !== 8) {
+        $isAdmin = $rol->codigo === 'ADMINISTRADOR';
+
+        // Verify if user is current encargado OR if they are Admin
+        if ($solicitud->encargado !== $usuario->id && !$isAdmin) {
             return response()->json(['error' => 'No está asignado como encargado de esta solicitud'], 403);
         }
 
@@ -63,8 +65,8 @@ class AprobarDenegarController extends Controller
 
         // If action is Approve:
         
-        // Admin (role 8) approves directly to state 5 (Fully Approved)
-        if ($rolId === 8) {
+        // Admin (role with code ADMINISTRADOR) approves directly to state 5 (Fully Approved) only if they are not the assigned encargado
+        if ($isAdmin && $solicitud->encargado !== $usuario->id) {
             DB::beginTransaction();
             try {
                 $solicitud->estado = 5; // Aprobada

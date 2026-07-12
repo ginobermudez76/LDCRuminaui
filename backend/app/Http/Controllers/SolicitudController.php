@@ -18,8 +18,8 @@ class SolicitudController extends Controller
     {
         $user = auth('api')->user();
 
-        // Admin (has REGISTRAR_USUARIOS option) or Presidente (rol 1) sees all
-        if ($user->rol == 1 || $user->hasOption('REGISTRAR_USUARIOS')) {
+        // Admin (has REGISTRAR_USUARIOS option) or Presidente (codigo 'PRESIDENTE') sees all
+        if ($user->roles->contains('codigo', 'PRESIDENTE') || $user->hasOption('REGISTRAR_USUARIOS')) {
             $solicitudes = Solicitud::with(['tipoRelation', 'solicitanteRelation', 'encargadoRelation', 'solicitantextRelation', 'estadoRelation', 'departamentoEncargadoRelation'])
                 ->orderBy('s_id', 'desc')
                 ->get();
