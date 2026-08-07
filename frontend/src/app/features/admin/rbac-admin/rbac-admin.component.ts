@@ -45,8 +45,8 @@ import {
   styleUrl: './rbac-admin.component.css',
 })
 export class RbacAdminComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private rbacService = inject(RbacAdminService);
+  private readonly fb = inject(FormBuilder);
+  private readonly rbacService = inject(RbacAdminService);
 
   // Active section state
   activeTab = signal<'roles' | 'opciones' | 'endpoints'>('roles');

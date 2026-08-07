@@ -57,9 +57,9 @@ export interface Solicitud {
   providedIn: 'root',
 })
 export class SolicitudService {
-  private apiUrl = 'http://localhost:8000/api/solicitudes';
+  private readonly apiUrl = 'http://localhost:8000/api/solicitudes';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getSolicitudes(): Observable<Solicitud[]> {
     return this.http.get<Solicitud[]>(this.apiUrl);

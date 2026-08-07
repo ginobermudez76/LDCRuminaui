@@ -32,9 +32,9 @@ export interface Usuario {
   providedIn: 'root',
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8000/api/usuarios';
+  private readonly apiUrl = 'http://localhost:8000/api/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl);

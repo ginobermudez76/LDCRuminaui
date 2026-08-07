@@ -14,7 +14,7 @@ const API = 'http://localhost:8000/api';
   styleUrl: './vacacionales.component.css',
 })
 export class VacacionalesComponent implements OnInit {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   items = signal<any[]>([]);
   ngOnInit() {
     this.http.get<any[]>(`${API}/cursos`).subscribe((d) => this.items.set(d));

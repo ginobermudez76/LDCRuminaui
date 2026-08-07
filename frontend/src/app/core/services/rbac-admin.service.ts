@@ -34,9 +34,9 @@ export interface RbacRole {
   providedIn: 'root',
 })
 export class RbacAdminService {
-  private baseApiUrl = 'http://localhost:8000/api/rbac';
+  private readonly baseApiUrl = 'http://localhost:8000/api/rbac';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   // ==========================================
   // ROLES MANAGEMENT

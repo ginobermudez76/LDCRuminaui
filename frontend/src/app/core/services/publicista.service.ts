@@ -83,7 +83,7 @@ export interface CartaCondolencia {
 
 @Injectable({ providedIn: 'root' })
 export class PublicistaService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   // Deportes
   getDeportes(): Observable<Deporte[]> {

@@ -17,16 +17,12 @@ trait HasUuidAndCode
             // Check if column exists in schema before setting
             $table = $model->getTable();
 
-            if (Schema::hasColumn($table, 'uuid')) {
-                if (empty($model->uuid)) {
-                    $model->uuid = (string) Str::uuid();
-                }
+            if (Schema::hasColumn($table, 'uuid') && empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid();
             }
 
-            if (Schema::hasColumn($table, 'codigo')) {
-                if (empty($model->codigo)) {
-                    $model->codigo = static::generateUniqueCode();
-                }
+            if (Schema::hasColumn($table, 'codigo') && empty($model->codigo)) {
+                $model->codigo = static::generateUniqueCode();
             }
         });
     }

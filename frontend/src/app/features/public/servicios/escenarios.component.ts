@@ -14,7 +14,7 @@ const API = 'http://localhost:8000/api';
   styleUrl: './escenarios.component.css',
 })
 export class EscenariosComponent implements OnInit {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   items = signal<any[]>([]);
   ngOnInit() {
     this.http.get<any[]>(`${API}/deportes`).subscribe((d) => this.items.set(d));

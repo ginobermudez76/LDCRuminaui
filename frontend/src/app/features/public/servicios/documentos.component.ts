@@ -14,7 +14,7 @@ const API = 'http://localhost:8000/api';
   styleUrl: './documentos.component.css',
 })
 export class DocumentosPublicosComponent implements OnInit {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   items = signal<any[]>([]);
   ngOnInit() {
     this.http.get<any[]>(`${API}/documentos`).subscribe((d) => this.items.set(d));

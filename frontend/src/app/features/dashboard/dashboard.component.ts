@@ -12,8 +12,8 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   user = computed(() => this.authService.currentUserSignal());
   roleName = computed(() => this.user()?.rol_relation?.rol_name || 'Usuario');

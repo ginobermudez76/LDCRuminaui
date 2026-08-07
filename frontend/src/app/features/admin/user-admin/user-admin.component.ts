@@ -32,9 +32,9 @@ import { SolicitudTipoService, Rol } from '../../../core/services/solicitud-tipo
   styleUrl: './user-admin.component.css',
 })
 export class UserAdminComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private userService = inject(UsuarioService);
-  private rolService = inject(SolicitudTipoService);
+  private readonly fb = inject(FormBuilder);
+  private readonly userService = inject(UsuarioService);
+  private readonly rolService = inject(SolicitudTipoService);
 
   usuarios = signal<Usuario[]>([]);
   roles = signal<Rol[]>([]);

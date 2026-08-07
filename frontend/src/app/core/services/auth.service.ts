@@ -35,13 +35,13 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api'; // Adjust port if running on a different port
+  private readonly apiUrl = 'http://localhost:8000/api'; // Adjust port if running on a different port
 
   // Angular Signals for state management
   currentUserSignal = signal<Usuario | null>(null);
   isAuthenticated = computed(() => this.currentUserSignal() !== null);
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.loadStoredUser();
   }
 

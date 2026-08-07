@@ -24,10 +24,10 @@ import { UsuarioService } from '../../../core/services/usuario.service';
   styleUrl: './accept-invitation.component.css',
 })
 export class AcceptInvitationComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private usuarioService = inject(UsuarioService);
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly usuarioService = inject(UsuarioService);
 
   form!: FormGroup;
   token = '';

@@ -31,8 +31,8 @@ import {
   styleUrl: './workflow-admin.component.css',
 })
 export class WorkflowAdminComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private service = inject(SolicitudTipoService);
+  private readonly fb = inject(FormBuilder);
+  private readonly service = inject(SolicitudTipoService);
 
   tipos = signal<SolicitudTipo[]>([]);
   roles = signal<Rol[]>([]);

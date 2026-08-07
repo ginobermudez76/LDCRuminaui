@@ -12,7 +12,7 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
   styleUrl: './nosotros.component.css',
 })
 export class NosotrosComponent implements OnInit {
-  private route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
   tipo = signal('');
   labels: Record<string, string> = {
     historia: 'Historia',

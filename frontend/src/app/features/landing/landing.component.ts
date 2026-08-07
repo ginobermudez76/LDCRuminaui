@@ -26,7 +26,7 @@ interface Noticia {
   styleUrl: './landing.component.css',
 })
 export class LandingComponent implements OnInit, OnDestroy {
-  private svc = inject(PublicistaService);
+  private readonly svc = inject(PublicistaService);
   logoUrl = signal('assets/images/logoX_LDCR.png');
 
   deportesGrupos = computed(() => {
@@ -182,15 +182,13 @@ export class LandingComponent implements OnInit, OnDestroy {
         this.isTransitioning.set(true);
         this.idxEscuela.set(allLen - 2);
       }, 50);
-    } else {
-      if (!this.isTransitioning()) {
-        this.isTransitioning.set(true);
-        setTimeout(() => {
-          this.idxEscuela.update((i) => i - 1);
-        }, 50);
-      } else {
+    } else if (!this.isTransitioning()) {
+      this.isTransitioning.set(true);
+      setTimeout(() => {
         this.idxEscuela.update((i) => i - 1);
-      }
+      }, 50);
+    } else {
+      this.idxEscuela.update((i) => i - 1);
     }
     this.startEscuelaAutoplay();
   }

@@ -147,7 +147,7 @@ class Usuario extends Authenticatable implements JWTSubject
 
     public function getContrasenaAttribute()
     {
-        return $this->password_hash;
+        return $this->getAuthPassword();
     }
 
     /**

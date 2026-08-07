@@ -16,7 +16,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'primer_nombre' => 'required|string|max:45',
             'segundo_nombre' => 'nullable|string|max:45',
             'primer_apellido' => 'required|string|max:45',
@@ -29,10 +29,6 @@ class AuthController extends Controller
             'rol' => 'nullable|integer',
             'fecha_nac' => 'nullable|date',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         // Map frontend inputs to new DB structure
         $nombres = trim(($request->primer_nombre ?? '').' '.($request->segundo_nombre ?? ''));
@@ -78,17 +74,12 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('nombre_usuario', 'contrasena');
-
-        $validator = Validator::make($credentials, [
+        $this->validateRequest($request, [
             'nombre_usuario' => 'required|string',
             'contrasena' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
+        $credentials = $request->only('nombre_usuario', 'contrasena');
         $authCredentials = [
             'nombre_usuario' => $credentials['nombre_usuario'],
             'password' => $credentials['contrasena'],
@@ -137,14 +128,10 @@ class AuthController extends Controller
      */
     public function acceptInvitation(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'token' => 'required|string',
             'contrasena' => 'required|string|min:6',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         $usuario = Usuario::where('invitation_token', $request->token)->first();
 
@@ -167,5 +154,14 @@ class AuthController extends Controller
         $usuario->save();
 
         return response()->json(['message' => 'Cuenta activada con éxito. Ya puede iniciar sesión.']);
+    }
+
+    private function validateRequest(Request $request, array $rules)
+    {
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            abort(response()->json($validator->errors(), 400));
+        }
     }
 }

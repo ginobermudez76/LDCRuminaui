@@ -39,10 +39,10 @@ export interface Rol {
   providedIn: 'root',
 })
 export class SolicitudTipoService {
-  private apiTipoUrl = 'http://localhost:8000/api/solicitud-tipos';
-  private apiRolesUrl = 'http://localhost:8000/api/roles';
+  private readonly apiTipoUrl = 'http://localhost:8000/api/solicitud-tipos';
+  private readonly apiRolesUrl = 'http://localhost:8000/api/roles';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getSolicitudTipos(): Observable<SolicitudTipo[]> {
     return this.http.get<SolicitudTipo[]>(this.apiTipoUrl);

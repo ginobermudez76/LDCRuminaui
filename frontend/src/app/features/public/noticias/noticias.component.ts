@@ -14,7 +14,7 @@ const API = 'http://localhost:8000/api';
   styleUrl: './noticias.component.css',
 })
 export class NoticiasComponent implements OnInit {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   items = signal<any[]>([]);
   ngOnInit() {
     // Intentar cargar desde API si existen, si no mostrar vacío
