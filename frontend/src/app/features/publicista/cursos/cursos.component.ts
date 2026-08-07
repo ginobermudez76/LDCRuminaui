@@ -74,8 +74,11 @@ export class CursosComponent implements OnInit {
     const fd = new FormData();
     Object.entries(this.form.value).forEach(([k, v]) => {
       if (v !== null && v !== undefined && v !== '') {
-        const val = typeof v === 'object' ? JSON.stringify(v) : String(v);
-        fd.append(k, val);
+        if (typeof v === 'string') {
+          fd.append(k, v);
+        } else if (typeof v === 'number' || typeof v === 'boolean') {
+          fd.append(k, v.toString());
+        }
       }
     });
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
