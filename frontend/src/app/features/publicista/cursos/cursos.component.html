@@ -40,7 +40,12 @@
         <tr>
           <td>{{ item.codigo }}</td>
           <td>
-            <img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" alt="Curso {{ item.nombre }}" />
+            <img
+              *ngIf="item.imagen"
+              [src]="'http://localhost:8000' + item.imagen"
+              class="thumb"
+              alt="Curso {{ item.nombre }}"
+            />
           </td>
           <td>
             <strong>{{ item.nombre }}</strong>
@@ -79,13 +84,16 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
       <div class="form-grid">
         <div class="field full">
-          <label for="nombre">Nombre *</label><input id="nombre" pInputText formControlName="nombre" />
+          <label for="nombre">Nombre *</label
+          ><input id="nombre" pInputText formControlName="nombre" />
         </div>
         <div class="field">
-          <label for="fecha_inicio">Fecha Inicio</label><input id="fecha_inicio" type="date" pInputText formControlName="fecha_inicio" />
+          <label for="fecha_inicio">Fecha Inicio</label
+          ><input id="fecha_inicio" type="date" pInputText formControlName="fecha_inicio" />
         </div>
         <div class="field">
-          <label for="fecha_fin">Fecha Fin</label><input id="fecha_fin" type="date" pInputText formControlName="fecha_fin" />
+          <label for="fecha_fin">Fecha Fin</label
+          ><input id="fecha_fin" type="date" pInputText formControlName="fecha_fin" />
         </div>
         <div class="field full">
           <label for="deporte_id">Deporte</label>
@@ -100,7 +108,8 @@
           ></p-select>
         </div>
         <div class="field full">
-          <label for="descripcion">Descripción</label><input id="descripcion" pInputText formControlName="descripcion" />
+          <label for="descripcion">Descripción</label
+          ><input id="descripcion" pInputText formControlName="descripcion" />
         </div>
         <div class="field">
           <label for="estado">Estado</label>
@@ -124,7 +133,13 @@
         </div>
         <div class="field full">
           <label for="imagen_file">Imagen</label
-          ><input id="imagen_file" type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
+          ><input
+            id="imagen_file"
+            type="file"
+            accept="image/*"
+            (change)="onFileChange($event)"
+            class="file-input"
+          />
         </div>
       </div>
       <div class="error-wrap" *ngIf="error()">

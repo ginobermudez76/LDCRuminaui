@@ -37,7 +37,12 @@
         <tr>
           <td>{{ item.codigo }}</td>
           <td>
-            <img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" alt="Deporte {{ item.nombre }}" />
+            <img
+              *ngIf="item.imagen"
+              [src]="'http://localhost:8000' + item.imagen"
+              class="thumb"
+              alt="Deporte {{ item.nombre }}"
+            />
           </td>
           <td>
             <strong>{{ item.nombre }}</strong>
@@ -67,14 +72,23 @@
     [style]="{ width: '480px' }"
   >
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-      <div class="field"><label for="nombre">Nombre *</label><input id="nombre" pInputText formControlName="nombre" /></div>
+      <div class="field">
+        <label for="nombre">Nombre *</label
+        ><input id="nombre" pInputText formControlName="nombre" />
+      </div>
       <div class="field">
         <label for="descripcion">Descripción</label
         ><textarea id="descripcion" pTextarea formControlName="descripcion" rows="3"></textarea>
       </div>
       <div class="field">
         <label for="imagen_file">Imagen</label
-        ><input id="imagen_file" type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
+        ><input
+          id="imagen_file"
+          type="file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          class="file-input"
+        />
       </div>
       <div class="error-wrap" *ngIf="error()">
         <p-message severity="error" [text]="error()!"></p-message>

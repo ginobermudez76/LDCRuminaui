@@ -74,7 +74,10 @@
     [style]="{ width: '480px' }"
   >
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-      <div class="field"><label for="nombre">Nombre *</label><input id="nombre" pInputText formControlName="nombre" /></div>
+      <div class="field">
+        <label for="nombre">Nombre *</label
+        ><input id="nombre" pInputText formControlName="nombre" />
+      </div>
       <div class="field">
         <label for="descripcion">Descripción</label
         ><textarea id="descripcion" pTextarea formControlName="descripcion" rows="3"></textarea>
