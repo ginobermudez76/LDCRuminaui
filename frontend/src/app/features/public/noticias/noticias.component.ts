@@ -11,7 +11,7 @@ const API = 'http://localhost:8000/api';
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './noticias.component.html',
-  styleUrl: './noticias.component.css'
+  styleUrl: './noticias.component.css',
 })
 export class NoticiasComponent implements OnInit {
   private http = inject(HttpClient);
@@ -19,7 +19,9 @@ export class NoticiasComponent implements OnInit {
   ngOnInit() {
     // Intentar cargar desde API si existen, si no mostrar vacío
     try {
-      this.http.get<any[]>(`${API}/noticias`).subscribe({ next: d => this.items.set(d), error: () => {} });
+      this.http
+        .get<any[]>(`${API}/noticias`)
+        .subscribe({ next: (d) => this.items.set(d), error: () => {} });
     } catch {}
   }
 }

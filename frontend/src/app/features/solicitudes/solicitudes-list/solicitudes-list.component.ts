@@ -24,10 +24,10 @@ import { AuthService } from '../../../core/services/auth.service';
     TagModule,
     SelectModule,
     InputTextModule,
-    MenuModule
+    MenuModule,
   ],
   templateUrl: './solicitudes-list.component.html',
-  styleUrl: './solicitudes-list.component.css'
+  styleUrl: './solicitudes-list.component.css',
 })
 export class SolicitudesListComponent implements OnInit {
   private solicitudService = inject(SolicitudService);
@@ -43,9 +43,9 @@ export class SolicitudesListComponent implements OnInit {
 
   currentUser = computed(() => this.authService.currentUserSignal());
 
-  pendingCount = computed(() => this.solicitudes().filter(s => s.estado === 1).length);
-  approvedCount = computed(() => this.solicitudes().filter(s => s.estado === 2).length);
-  deniedCount = computed(() => this.solicitudes().filter(s => s.estado === 3).length);
+  pendingCount = computed(() => this.solicitudes().filter((s) => s.estado === 1).length);
+  approvedCount = computed(() => this.solicitudes().filter((s) => s.estado === 2).length);
+  deniedCount = computed(() => this.solicitudes().filter((s) => s.estado === 3).length);
 
   filteredSolicitudes = computed(() => {
     // Already filtered by API request
@@ -64,7 +64,7 @@ export class SolicitudesListComponent implements OnInit {
           this.solicitudes.set(data);
           this.loading.set(false);
         },
-        error: () => this.loading.set(false)
+        error: () => this.loading.set(false),
       });
     } else {
       this.solicitudService.getAsignadas().subscribe({
@@ -72,7 +72,7 @@ export class SolicitudesListComponent implements OnInit {
           this.solicitudes.set(data);
           this.loading.set(false);
         },
-        error: () => this.loading.set(false)
+        error: () => this.loading.set(false),
       });
     }
   }
@@ -88,20 +88,29 @@ export class SolicitudesListComponent implements OnInit {
 
   canApproveDeny(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? solicitud.encargado_relation?.uuid === user.uuid && [1, 2, 3].includes(solicitud.estado) : false;
+    return user
+      ? solicitud.encargado_relation?.uuid === user.uuid && [1, 2, 3].includes(solicitud.estado)
+      : false;
   }
 
   canDelete(solicitud: Solicitud): boolean {
     const user = this.currentUser();
-    return user ? (solicitud.solicitante_relation?.uuid === user.uuid && solicitud.estado === 1) || this.authService.hasOption('REGISTRAR_USUARIOS') : false;
+    return user
+      ? (solicitud.solicitante_relation?.uuid === user.uuid && solicitud.estado === 1) ||
+          this.authService.hasOption('REGISTRAR_USUARIOS')
+      : false;
   }
 
-  getStatusSeverity(estado: number): "warn" | "success" | "danger" | "info" {
+  getStatusSeverity(estado: number): 'warn' | 'success' | 'danger' | 'info' {
     switch (estado) {
-      case 1: return 'warn';     // Pendiente
-      case 2: return 'success';  // Aprobada
-      case 3: return 'danger';   // Denegada
-      default: return 'info';
+      case 1:
+        return 'warn'; // Pendiente
+      case 2:
+        return 'success'; // Aprobada
+      case 3:
+        return 'danger'; // Denegada
+      default:
+        return 'info';
     }
   }
 
@@ -118,7 +127,7 @@ export class SolicitudesListComponent implements OnInit {
         this.loading.set(false);
         this.displayHistory.set(true);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -129,25 +138,25 @@ export class SolicitudesListComponent implements OnInit {
       {
         label: 'Ver detalles',
         icon: 'pi pi-eye',
-        command: () => this.showDetails(solicitud)
+        command: () => this.showDetails(solicitud),
       },
       {
         label: 'Ver Historial',
         icon: 'pi pi-history',
-        command: () => this.showHistory(solicitud)
-      }
+        command: () => this.showHistory(solicitud),
+      },
     ];
 
     if (this.canApproveDeny(solicitud)) {
       items.push({
         label: 'Aprobar',
         icon: 'pi pi-check',
-        command: () => this.updateStatus(solicitud, 2)
+        command: () => this.updateStatus(solicitud, 2),
       });
       items.push({
         label: 'Rechazar',
         icon: 'pi pi-times',
-        command: () => this.updateStatus(solicitud, 3)
+        command: () => this.updateStatus(solicitud, 3),
       });
     }
 
@@ -155,7 +164,7 @@ export class SolicitudesListComponent implements OnInit {
       items.push({
         label: 'Eliminar',
         icon: 'pi pi-trash',
-        command: () => this.deleteSolicitud(solicitud.uuid)
+        command: () => this.deleteSolicitud(solicitud.uuid),
       });
     }
 
@@ -165,12 +174,18 @@ export class SolicitudesListComponent implements OnInit {
 
   getStatusName(estado: number): string {
     switch (estado) {
-      case 1: return 'Pendiente / En Trámite';
-      case 2: return 'Aprobado Paso 1 / Segundo Paso';
-      case 3: return 'Aprobado Paso 2 / Tercer Paso';
-      case 4: return 'Rechazada';
-      case 5: return 'Aprobada Completa';
-      default: return 'Desconocido';
+      case 1:
+        return 'Pendiente / En Trámite';
+      case 2:
+        return 'Aprobado Paso 1 / Segundo Paso';
+      case 3:
+        return 'Aprobado Paso 2 / Tercer Paso';
+      case 4:
+        return 'Rechazada';
+      case 5:
+        return 'Aprobada Completa';
+      default:
+        return 'Desconocido';
     }
   }
 
@@ -181,7 +196,7 @@ export class SolicitudesListComponent implements OnInit {
       next: () => {
         this.fetchData();
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -192,7 +207,7 @@ export class SolicitudesListComponent implements OnInit {
         next: () => {
           this.fetchData();
         },
-        error: () => this.loading.set(false)
+        error: () => this.loading.set(false),
       });
     }
   }

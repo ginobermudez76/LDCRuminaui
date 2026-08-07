@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('solicitud_estado')) {
+        if (! Schema::hasTable('solicitud_estado')) {
             Schema::create('solicitud_estado', function (Blueprint $table) {
                 $table->integer('id_estado')->autoIncrement();
                 $table->string('estado_nombre', 45)->nullable();
@@ -19,7 +19,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('solicitud_tipo')) {
+        if (! Schema::hasTable('solicitud_tipo')) {
             Schema::create('solicitud_tipo', function (Blueprint $table) {
                 $table->integer('id_tipo')->autoIncrement();
                 $table->string('name_tipo', 45)->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('external')) {
+        if (! Schema::hasTable('external')) {
             Schema::create('external', function (Blueprint $table) {
                 $table->integer('id_ext')->autoIncrement();
                 $table->string('ext_nombre', 45)->nullable();
@@ -42,7 +42,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('solicitud')) {
+        if (! Schema::hasTable('solicitud')) {
             Schema::create('solicitud', function (Blueprint $table) {
                 $table->integer('s_id')->autoIncrement();
                 $table->dateTime('s_fecha')->nullable();

@@ -1,95 +1,112 @@
-    <div class="dashboard-wrapper">
-      <!-- Top Navbar -->
-      <header class="navbar">
-        <div class="brand">
-          <img *ngIf="!logoError()" src="/img/logoX_LDCR.png" alt="Logo LDCR" class="nav-logo" (error)="logoError.set(true)" />
-          <span class="brand-name">Liga Cantonal Rumiñahui</span>
-        </div>
-        <div class="user-info" *ngIf="user()">
-          <span class="user-name">Hola, {{ user()?.primer_nombre }}</span>
-          
-          <div class="user-profile-menu-container">
-            <!-- Avatar Button -->
-            <button class="avatar-btn" (click)="toggleProfileDropdown($event)">
-              <img *ngIf="user()?.foto_perfil; else initials" [src]="'http://localhost:8000' + user()?.foto_perfil" class="avatar-img" alt="Foto de perfil de {{ user()?.primer_nombre }}" />
-              <ng-template #initials>
-                <div class="avatar-initials">{{ getInitials() }}</div>
-              </ng-template>
-            </button>
+<div class="dashboard-wrapper">
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <img
+        *ngIf="!logoError()"
+        src="/img/logoX_LDCR.png"
+        alt="Logo LDCR"
+        class="nav-logo"
+        (error)="logoError.set(true)"
+      />
+      <span class="brand-name">Liga Cantonal Rumiñahui</span>
+    </div>
+    <div class="user-info" *ngIf="user()">
+      <span class="user-name">Hola, {{ user()?.primer_nombre }}</span>
 
-            <!-- Dropdown Card -->
-            <div class="profile-dropdown-card" *ngIf="showProfileDropdown()">
-              <div class="user-header">
-                <div class="avatar-large">
-                  <img *ngIf="user()?.foto_perfil; else largeInitials" [src]="'http://localhost:8000' + user()?.foto_perfil" class="avatar-img" alt="Foto de perfil de {{ user()?.primer_nombre }}" />
-                  <ng-template #largeInitials>
-                    <div class="avatar-initials-large">{{ getInitials() }}</div>
-                  </ng-template>
-                </div>
-                <div class="user-details">
-                  <div class="details-name">{{ user()?.primer_nombre }} {{ user()?.primer_apellido }}</div>
-                  <div class="details-email">{{ user()?.correo }}</div>
-                  <div class="details-role">{{ roleName() | uppercase }}</div>
-                </div>
+      <div class="user-profile-menu-container">
+        <!-- Avatar Button -->
+        <button class="avatar-btn" (click)="toggleProfileDropdown($event)">
+          <img
+            *ngIf="user()?.foto_perfil; else initials"
+            [src]="'http://localhost:8000' + user()?.foto_perfil"
+            class="avatar-img"
+            alt="Foto de perfil de {{ user()?.primer_nombre }}"
+          />
+          <ng-template #initials>
+            <div class="avatar-initials">{{ getInitials() }}</div>
+          </ng-template>
+        </button>
+
+        <!-- Dropdown Card -->
+        <div class="profile-dropdown-card" *ngIf="showProfileDropdown()">
+          <div class="user-header">
+            <div class="avatar-large">
+              <img
+                *ngIf="user()?.foto_perfil; else largeInitials"
+                [src]="'http://localhost:8000' + user()?.foto_perfil"
+                class="avatar-img"
+                alt="Foto de perfil de {{ user()?.primer_nombre }}"
+              />
+              <ng-template #largeInitials>
+                <div class="avatar-initials-large">{{ getInitials() }}</div>
+              </ng-template>
+            </div>
+            <div class="user-details">
+              <div class="details-name">
+                {{ user()?.primer_nombre }} {{ user()?.primer_apellido }}
               </div>
-              
-              <div class="dropdown-divider"></div>
-              
-              <ul class="dropdown-items">
-                <li>
-                  <a class="dropdown-item" (click)="goToSettings()">
-                    <i class="pi pi-cog"></i>
-                    <span>Configuración</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" (click)="goToDocs()">
-                    <i class="pi pi-file"></i>
-                    <span>Documentación</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" (click)="goToSupport()">
-                    <i class="pi pi-compass"></i>
-                    <span>Soporte</span>
-                  </a>
-                </li>
-              </ul>
-              
-              <div class="dropdown-divider"></div>
-              
-              <div class="dropdown-footer">
-                <a class="dropdown-item logout-item" (click)="logout()">
-                  <i class="pi pi-power-off"></i>
-                  <span>Cerrar Sesión</span>
-                </a>
-              </div>
+              <div class="details-email">{{ user()?.correo }}</div>
+              <div class="details-role">{{ roleName() | uppercase }}</div>
             </div>
           </div>
-        </div>
-      </header>
 
-      <!-- Main Layout -->
-      <div class="main-layout">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-          <nav class="nav-menu">
-            <a 
-              *ngFor="let item of menuItems()"
-              [routerLink]="item.link" 
-              routerLinkActive="active" 
-              class="nav-item"
-            >
-              <i [class]="item.icon + ' nav-icon'"></i>
-              <span>{{ item.label }}</span>
+          <div class="dropdown-divider"></div>
+
+          <ul class="dropdown-items">
+            <li>
+              <a class="dropdown-item" (click)="goToSettings()">
+                <i class="pi pi-cog"></i>
+                <span>Configuración</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="goToDocs()">
+                <i class="pi pi-file"></i>
+                <span>Documentación</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="goToSupport()">
+                <i class="pi pi-compass"></i>
+                <span>Soporte</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="dropdown-footer">
+            <a class="dropdown-item logout-item" (click)="logout()">
+              <i class="pi pi-power-off"></i>
+              <span>Cerrar Sesión</span>
             </a>
-          </nav>
-        </aside>
-
-        <!-- Page Content Area -->
-        <main class="content-area">
-          <router-outlet></router-outlet>
-        </main>
+          </div>
+        </div>
       </div>
     </div>
-  
+  </header>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <nav class="nav-menu">
+        <a
+          *ngFor="let item of menuItems()"
+          [routerLink]="item.link"
+          routerLinkActive="active"
+          class="nav-item"
+        >
+          <i [class]="item.icon + ' nav-icon'"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Page Content Area -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

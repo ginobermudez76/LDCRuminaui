@@ -10,7 +10,9 @@ class HistorialSolicitud extends Model
     use HasFactory;
 
     protected $table = 'historial_solicitud';
+
     protected $primaryKey = 'historial_id';
+
     public $timestamps = false;
 
     protected $fillable = [

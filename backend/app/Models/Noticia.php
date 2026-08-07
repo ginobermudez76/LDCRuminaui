@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class Noticia extends Model
 {
@@ -14,6 +13,7 @@ class Noticia extends Model
     const CODE_PREFIX = 'NOT';
 
     protected $table = 'noticias';
+
     public $timestamps = false;
 
     protected $fillable = [

@@ -14,10 +14,20 @@ import { PublicistaService, Logro, Deporte } from '../../../core/services/public
 @Component({
   selector: 'app-logros',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, SelectModule, MessageModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    SelectModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './logros.component.html',
-  styleUrl: './logros.component.css'
+  styleUrl: './logros.component.css',
 })
 export class LogrosComponent implements OnInit {
   private svc = inject(PublicistaService);
@@ -32,14 +42,27 @@ export class LogrosComponent implements OnInit {
   private selectedFile: File | null = null;
 
   ngOnInit() {
-    this.form = this.fb.group({ titulo: ['', Validators.required], tipologro: [null], deporte_id: [null] });
+    this.form = this.fb.group({
+      titulo: ['', Validators.required],
+      tipologro: [null],
+      deporte_id: [null],
+    });
     this.load();
-    this.svc.getDeportes().subscribe(d => this.deportes.set(d));
+    this.svc.getDeportes().subscribe((d) => this.deportes.set(d));
   }
 
-  load() { this.svc.getLogros().subscribe(d => this.items.set(d)); }
-  onFileChange(e: any) { this.selectedFile = e.target.files[0] || null; }
-  openDialog() { this.form.reset(); this.selectedFile = null; this.error.set(undefined); this.showDialog = true; }
+  load() {
+    this.svc.getLogros().subscribe((d) => this.items.set(d));
+  }
+  onFileChange(e: any) {
+    this.selectedFile = e.target.files[0] || null;
+  }
+  openDialog() {
+    this.form.reset();
+    this.selectedFile = null;
+    this.error.set(undefined);
+    this.showDialog = true;
+  }
 
   onSubmit() {
     if (this.form.invalid) return;
@@ -49,10 +72,23 @@ export class LogrosComponent implements OnInit {
     if (this.form.value.tipologro) fd.append('tipologro', this.form.value.tipologro);
     if (this.form.value.deporte_id) fd.append('deporte_id', String(this.form.value.deporte_id));
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
-    this.svc.createLogro(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
+    this.svc.createLogro(fd).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.showDialog = false;
+        this.load();
+      },
+      error: (e) => {
+        this.saving.set(false);
+        this.error.set(e.error?.error || 'Error al guardar');
+      },
+    });
   }
 
   confirmDelete(uuid: string) {
-    this.confirm.confirm({ message: '¿Eliminar este logro?', accept: () => this.svc.deleteLogro(uuid).subscribe(() => this.load()) });
+    this.confirm.confirm({
+      message: '¿Eliminar este logro?',
+      accept: () => this.svc.deleteLogro(uuid).subscribe(() => this.load()),
+    });
   }
 }

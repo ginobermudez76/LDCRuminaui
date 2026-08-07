@@ -17,7 +17,7 @@ trait Auditable
             $changed = $model->getChanges();
             // Map original values for changed keys
             $original = array_intersect_key($model->getOriginal(), $changed);
-            
+
             // If nothing actually changed, don't audit
             if (empty($changed)) {
                 return;

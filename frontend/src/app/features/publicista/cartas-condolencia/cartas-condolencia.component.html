@@ -1,58 +1,119 @@
-    <div class="pub-container">
-      <header class="page-header slate">
-        <h1>🕊️ Cartas de Condolencia</h1>
-        <p>Administra las cartas de condolencia publicadas por la institución.</p>
-      </header>
-      <div class="table-card">
-        <p-table [value]="items()" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-striped" responsiveLayout="scroll">
-          <ng-template pTemplate="caption">
-            <div class="table-caption">
-              <span class="table-title">Lista de Cartas</span>
-              <button pButton type="button" icon="pi pi-plus" label="Nueva Carta" class="p-button-sm" (click)="openDialog()"></button>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-              <th scope="col">Código</th>
-              <th scope="col">Imagen</th>
-              <th scope="col">Mensaje</th>
-              <th scope="col">Fecha de Baja</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-item>
-            <tr>
-              <td>{{ item.codigo }}</td>
-              <td><img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" alt="Imagen de condolencia {{ item.codigo }}" /></td>
-              <td class="msg-cell">{{ item.mensaje }}</td>
-              <td>{{ item.fecha_eliminar | date:'dd/MM/yyyy' }}</td>
-              <td><button pButton icon="pi pi-trash" class="p-button-danger p-button-sm p-button-text" (click)="confirmDelete(item.uuid)"></button></td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage"><tr><td colspan="5" class="empty-msg">No hay cartas registradas.</td></tr></ng-template>
-        </p-table>
+<div class="pub-container">
+  <header class="page-header slate">
+    <h1>🕊️ Cartas de Condolencia</h1>
+    <p>Administra las cartas de condolencia publicadas por la institución.</p>
+  </header>
+  <div class="table-card">
+    <p-table
+      [value]="items()"
+      [paginator]="true"
+      [rows]="10"
+      styleClass="p-datatable-sm p-datatable-striped"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="caption">
+        <div class="table-caption">
+          <span class="table-title">Lista de Cartas</span>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            label="Nueva Carta"
+            class="p-button-sm"
+            (click)="openDialog()"
+          ></button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col">Código</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Mensaje</th>
+          <th scope="col">Fecha de Baja</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.codigo }}</td>
+          <td>
+            <img
+              *ngIf="item.imagen"
+              [src]="'http://localhost:8000' + item.imagen"
+              class="thumb"
+              alt="Imagen de condolencia {{ item.codigo }}"
+            />
+          </td>
+          <td class="msg-cell">{{ item.mensaje }}</td>
+          <td>{{ item.fecha_eliminar | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-danger p-button-sm p-button-text"
+              (click)="confirmDelete(item.uuid)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage"
+        ><tr>
+          <td colspan="5" class="empty-msg">No hay cartas registradas.</td>
+        </tr></ng-template
+      >
+    </p-table>
+  </div>
+  <p-dialog
+    [(visible)]="showDialog"
+    header="Nueva Carta de Condolencia"
+    [modal]="true"
+    [style]="{ width: '500px' }"
+  >
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
+      <div class="field">
+        <label for="mensaje">Mensaje *</label>
+        <textarea id="mensaje" pTextarea formControlName="mensaje" rows="4"></textarea>
       </div>
-      <p-dialog [(visible)]="showDialog" header="Nueva Carta de Condolencia" [modal]="true" [style]="{width:'500px'}">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-          <div class="field">
-            <label for="mensaje">Mensaje *</label>
-            <textarea id="mensaje" pTextarea formControlName="mensaje" rows="4"></textarea>
-          </div>
-          <div class="field">
-            <label for="fecha_eliminar">Fecha de Baja (se eliminará automáticamente) *</label>
-            <input type="datetime-local" id="fecha_eliminar" pInputText formControlName="fecha_eliminar" />
-          </div>
-          <div class="field">
-            <label for="imagen_file">Imagen</label>
-            <input type="file" id="imagen_file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
-          </div>
-          <div class="error-wrap" *ngIf="error()"><p-message severity="error" [text]="error()!"></p-message></div>
-          <div class="modal-footer">
-            <button pButton type="button" label="Cancelar" class="p-button-text" (click)="showDialog=false"></button>
-            <button pButton type="submit" label="Publicar" icon="pi pi-check" [disabled]="form.invalid" [loading]="saving()"></button>
-          </div>
-        </form>
-      </p-dialog>
-      <p-confirmDialog></p-confirmDialog>
-    </div>
-  
+      <div class="field">
+        <label for="fecha_eliminar">Fecha de Baja (se eliminará automáticamente) *</label>
+        <input
+          type="datetime-local"
+          id="fecha_eliminar"
+          pInputText
+          formControlName="fecha_eliminar"
+        />
+      </div>
+      <div class="field">
+        <label for="imagen_file">Imagen</label>
+        <input
+          type="file"
+          id="imagen_file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          class="file-input"
+        />
+      </div>
+      <div class="error-wrap" *ngIf="error()">
+        <p-message severity="error" [text]="error()!"></p-message>
+      </div>
+      <div class="modal-footer">
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          class="p-button-text"
+          (click)="showDialog = false"
+        ></button>
+        <button
+          pButton
+          type="submit"
+          label="Publicar"
+          icon="pi pi-check"
+          [disabled]="form.invalid"
+          [loading]="saving()"
+        ></button>
+      </div>
+    </form>
+  </p-dialog>
+  <p-confirmDialog></p-confirmDialog>
+</div>

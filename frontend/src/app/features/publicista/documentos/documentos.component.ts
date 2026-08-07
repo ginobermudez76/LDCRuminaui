@@ -14,10 +14,20 @@ import { PublicistaService, Documento } from '../../../core/services/publicista.
 @Component({
   selector: 'app-documentos',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, TextareaModule, MessageModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './documentos.component.html',
-  styleUrl: './documentos.component.css'
+  styleUrl: './documentos.component.css',
 })
 export class DocumentosComponent implements OnInit {
   private svc = inject(PublicistaService);
@@ -35,9 +45,18 @@ export class DocumentosComponent implements OnInit {
     this.load();
   }
 
-  load() { this.svc.getDocumentos().subscribe(d => this.items.set(d)); }
-  onFileChange(e: any) { this.selectedFile = e.target.files[0] || null; }
-  openDialog() { this.form.reset(); this.selectedFile = null; this.error.set(undefined); this.showDialog = true; }
+  load() {
+    this.svc.getDocumentos().subscribe((d) => this.items.set(d));
+  }
+  onFileChange(e: any) {
+    this.selectedFile = e.target.files[0] || null;
+  }
+  openDialog() {
+    this.form.reset();
+    this.selectedFile = null;
+    this.error.set(undefined);
+    this.showDialog = true;
+  }
 
   onSubmit() {
     if (this.form.invalid) return;
@@ -46,10 +65,23 @@ export class DocumentosComponent implements OnInit {
     fd.append('nombre', this.form.value.nombre);
     if (this.form.value.descripcion) fd.append('descripcion', this.form.value.descripcion);
     if (this.selectedFile) fd.append('documento', this.selectedFile);
-    this.svc.createDocumento(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
+    this.svc.createDocumento(fd).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.showDialog = false;
+        this.load();
+      },
+      error: (e) => {
+        this.saving.set(false);
+        this.error.set(e.error?.error || 'Error al guardar');
+      },
+    });
   }
 
   confirmDelete(uuid: string) {
-    this.confirm.confirm({ message: '¿Eliminar este documento?', accept: () => this.svc.deleteDocumento(uuid).subscribe(() => this.load()) });
+    this.confirm.confirm({
+      message: '¿Eliminar este documento?',
+      accept: () => this.svc.deleteDocumento(uuid).subscribe(() => this.load()),
+    });
   }
 }

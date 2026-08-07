@@ -11,10 +11,12 @@ const API = 'http://localhost:8000/api';
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './escenarios.component.html',
-  styleUrl: './escenarios.component.css'
+  styleUrl: './escenarios.component.css',
 })
 export class EscenariosComponent implements OnInit {
   private http = inject(HttpClient);
   items = signal<any[]>([]);
-  ngOnInit() { this.http.get<any[]>(`${API}/deportes`).subscribe(d => this.items.set(d)); }
+  ngOnInit() {
+    this.http.get<any[]>(`${API}/deportes`).subscribe((d) => this.items.set(d));
+  }
 }

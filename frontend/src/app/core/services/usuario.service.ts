@@ -29,7 +29,7 @@ export interface Usuario {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
   private apiUrl = 'http://localhost:8000/api/usuarios';
@@ -66,6 +66,9 @@ export class UsuarioService {
   }
 
   acceptInvitation(token: string, contrasena: string): Observable<any> {
-    return this.http.post<any>(`http://localhost:8000/api/auth/accept-invitation`, { token, contrasena });
+    return this.http.post<any>(`http://localhost:8000/api/auth/accept-invitation`, {
+      token,
+      contrasena,
+    });
   }
 }

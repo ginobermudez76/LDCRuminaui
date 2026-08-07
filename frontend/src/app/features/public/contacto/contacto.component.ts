@@ -8,6 +8,6 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './contacto.component.html',
-  styleUrl: './contacto.component.css'
+  styleUrl: './contacto.component.css',
 })
 export class ContactoComponent {}

@@ -35,16 +35,16 @@ class AuthController extends Controller
         }
 
         // Map frontend inputs to new DB structure
-        $nombres = trim(($request->primer_nombre ?? '') . ' ' . ($request->segundo_nombre ?? ''));
-        $apellidos = trim(($request->primer_apellido ?? '') . ' ' . ($request->segundo_apellido ?? ''));
+        $nombres = trim(($request->primer_nombre ?? '').' '.($request->segundo_nombre ?? ''));
+        $apellidos = trim(($request->primer_apellido ?? '').' '.($request->segundo_apellido ?? ''));
 
         $nombreLimpio = strtolower(preg_replace('/[^a-zA-Z]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $request->primer_nombre)));
         $apellidoLimpio = strtolower(preg_replace('/[^a-zA-Z]/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $request->primer_apellido)));
         $cedulaSuffix = substr($request->cedula, -4);
         $year = $request->fecha_nac ? date('Y', strtotime($request->fecha_nac)) : date('Y');
 
-        $username = $request->nombre_usuario ?? ($nombreLimpio . "." . $apellidoLimpio . $cedulaSuffix . "@ldcruminahui.com");
-        $rawPassword = $request->contrasena ?? (ucfirst($apellidoLimpio) . $cedulaSuffix . "@" . $year);
+        $username = $request->nombre_usuario ?? ($nombreLimpio.'.'.$apellidoLimpio.$cedulaSuffix.'@ldcruminahui.com');
+        $rawPassword = $request->contrasena ?? (ucfirst($apellidoLimpio).$cedulaSuffix.'@'.$year);
 
         $usuario = Usuario::create([
             'uuid' => (string) Str::uuid(),
@@ -91,16 +91,17 @@ class AuthController extends Controller
 
         $authCredentials = [
             'nombre_usuario' => $credentials['nombre_usuario'],
-            'password' => $credentials['contrasena']
+            'password' => $credentials['contrasena'],
         ];
 
         try {
-            if (!$token = auth('api')->attempt($authCredentials)) {
+            if (! $token = auth('api')->attempt($authCredentials)) {
                 return response()->json(['error' => 'Credenciales inválidas'], 401);
             }
         } catch (\Exception $e) {
-            \Log::error('Error generating token: ' . $e->getMessage(), ['exception' => $e]);
-            return response()->json(['error' => 'No se pudo crear el token: ' . $e->getMessage()], 500);
+            \Log::error('Error generating token: '.$e->getMessage(), ['exception' => $e]);
+
+            return response()->json(['error' => 'No se pudo crear el token: '.$e->getMessage()], 500);
         }
 
         $user = auth('api')->user();
@@ -147,13 +148,14 @@ class AuthController extends Controller
 
         $usuario = Usuario::where('invitation_token', $request->token)->first();
 
-        if (!$usuario) {
+        if (! $usuario) {
             return response()->json(['error' => 'El token de invitación no es válido.'], 404);
         }
 
         if (now()->greaterThan($usuario->invitation_expires_at)) {
             $usuario->invitation_status = 'expirada';
             $usuario->save();
+
             return response()->json(['error' => 'La invitación ha expirado. Solicite una nueva al administrador.'], 400);
         }
 

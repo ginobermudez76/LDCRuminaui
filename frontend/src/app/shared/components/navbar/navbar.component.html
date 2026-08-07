@@ -1,98 +1,118 @@
-    <nav class="ldcr-navbar" [class.scrolled]="isScrolled()">
-      <div class="nav-inner">
+<nav class="ldcr-navbar" [class.scrolled]="isScrolled()">
+  <div class="nav-inner">
+    <!-- Brand -->
+    <a [routerLink]="['/']" class="nav-brand">
+      <img
+        src="/img/logoX_LDCR.png"
+        alt="Logo LDCR"
+        class="nav-logo"
+        onerror="this.style.display = 'none'"
+      />
+      <span class="brand-name">Liga Cantonal Rumiñahui</span>
+    </a>
 
-        <!-- Brand -->
-        <a [routerLink]="['/']" class="nav-brand">
-          <img src="/img/logoX_LDCR.png" alt="Logo LDCR"
-               class="nav-logo" onerror="this.style.display='none'" />
-          <span class="brand-name">Liga Cantonal Rumiñahui</span>
-        </a>
+    <!-- Hamburger (mobile) -->
+    <button class="nav-toggler" (click)="toggleMenu()">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
 
-        <!-- Hamburger (mobile) -->
-        <button class="nav-toggler" (click)="toggleMenu()">
-          <span class="material-symbols-outlined">menu</span>
+    <!-- Links -->
+    <div class="nav-links" [class.open]="menuOpen()">
+      <!-- Inicio -->
+      <a [routerLink]="['/']" class="nav-link" (click)="closeMenu()">
+        <span class="material-symbols-outlined nav-link-icon">home</span>
+        Inicio
+      </a>
+
+      <!-- Nosotros dropdown -->
+      <div class="nav-dropdown" (mouseenter)="openDd('nosotros')" (mouseleave)="closeDd()">
+        <button class="nav-link dropdown-trigger" [class.active]="activeDd() === 'nosotros'">
+          <span class="material-symbols-outlined nav-link-icon">info</span>
+          Nosotros
+          <span class="material-symbols-outlined chevron">expand_more</span>
         </button>
-
-        <!-- Links -->
-        <div class="nav-links" [class.open]="menuOpen()">
-
-          <!-- Inicio -->
-          <a [routerLink]="['/']" class="nav-link" (click)="closeMenu()">
-            <span class="material-symbols-outlined nav-link-icon">home</span>
-            Inicio
+        <div class="dropdown-menu" [class.visible]="activeDd() === 'nosotros'">
+          <a
+            [routerLink]="['/nosotros']"
+            [queryParams]="{ tipo: 'historia' }"
+            class="dd-item"
+            (click)="closeMenu()"
+          >
+            <span class="material-symbols-outlined">history_edu</span> Historia
           </a>
-
-          <!-- Nosotros dropdown -->
-          <div class="nav-dropdown" (mouseenter)="openDd('nosotros')" (mouseleave)="closeDd()">
-            <button class="nav-link dropdown-trigger" [class.active]="activeDd() === 'nosotros'">
-              <span class="material-symbols-outlined nav-link-icon">info</span>
-              Nosotros
-              <span class="material-symbols-outlined chevron">expand_more</span>
-            </button>
-            <div class="dropdown-menu" [class.visible]="activeDd() === 'nosotros'">
-              <a [routerLink]="['/nosotros']" [queryParams]="{tipo:'historia'}" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">history_edu</span> Historia
-              </a>
-              <a [routerLink]="['/nosotros']" [queryParams]="{tipo:'mision'}" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">flag</span> Misión
-              </a>
-              <a [routerLink]="['/nosotros']" [queryParams]="{tipo:'vision'}" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">visibility</span> Visión
-              </a>
-              <a [routerLink]="['/nosotros']" [queryParams]="{tipo:'directorio'}" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">groups</span> Directorio
-              </a>
-            </div>
-          </div>
-
-          <!-- Servicios dropdown -->
-          <div class="nav-dropdown" (mouseenter)="openDd('servicios')" (mouseleave)="closeDd()">
-            <button class="nav-link dropdown-trigger" [class.active]="activeDd() === 'servicios'">
-              <span class="material-symbols-outlined nav-link-icon">sports</span>
-              Servicios
-              <span class="material-symbols-outlined chevron">expand_more</span>
-            </button>
-            <div class="dropdown-menu" [class.visible]="activeDd() === 'servicios'">
-              <a [routerLink]="['/servicios/escuelas']" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">school</span> Escuelas permanentes
-              </a>
-              <a [routerLink]="['/servicios/escenarios']" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">stadium</span> Escenarios deportivos
-              </a>
-              <a [routerLink]="['/servicios/documentos']" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">folder_open</span> Descarga de documentos
-              </a>
-              <a [routerLink]="['/servicios/vacacionales']" class="dd-item" (click)="closeMenu()">
-                <span class="material-symbols-outlined">calendar_month</span> Cursos vacacionales
-              </a>
-            </div>
-          </div>
-
-          <!-- Noticias -->
-          <a [routerLink]="['/noticias']" class="nav-link" (click)="closeMenu()">
-            <span class="material-symbols-outlined nav-link-icon">newspaper</span>
-            Noticias
+          <a
+            [routerLink]="['/nosotros']"
+            [queryParams]="{ tipo: 'mision' }"
+            class="dd-item"
+            (click)="closeMenu()"
+          >
+            <span class="material-symbols-outlined">flag</span> Misión
           </a>
-
-          <!-- Contacto -->
-          <a [routerLink]="['/contacto']" class="nav-link" (click)="closeMenu()">
-            <span class="material-symbols-outlined nav-link-icon">mail</span>
-            Contacto
+          <a
+            [routerLink]="['/nosotros']"
+            [queryParams]="{ tipo: 'vision' }"
+            class="dd-item"
+            (click)="closeMenu()"
+          >
+            <span class="material-symbols-outlined">visibility</span> Visión
           </a>
-
-          <!-- Login button (mobile only, shown in menu) -->
-          <a [routerLink]="['/login']" class="nav-btn-login mobile-only" (click)="closeMenu()">
-            <span class="material-symbols-outlined">login</span>
-            Ingresar
+          <a
+            [routerLink]="['/nosotros']"
+            [queryParams]="{ tipo: 'directorio' }"
+            class="dd-item"
+            (click)="closeMenu()"
+          >
+            <span class="material-symbols-outlined">groups</span> Directorio
           </a>
         </div>
-
-        <!-- Login button (desktop) -->
-        <a [routerLink]="['/login']" class="nav-btn-login desktop-only">
-          <span class="material-symbols-outlined">account_circle</span>
-          Ingresar
-        </a>
-
       </div>
-    </nav>
-  
+
+      <!-- Servicios dropdown -->
+      <div class="nav-dropdown" (mouseenter)="openDd('servicios')" (mouseleave)="closeDd()">
+        <button class="nav-link dropdown-trigger" [class.active]="activeDd() === 'servicios'">
+          <span class="material-symbols-outlined nav-link-icon">sports</span>
+          Servicios
+          <span class="material-symbols-outlined chevron">expand_more</span>
+        </button>
+        <div class="dropdown-menu" [class.visible]="activeDd() === 'servicios'">
+          <a [routerLink]="['/servicios/escuelas']" class="dd-item" (click)="closeMenu()">
+            <span class="material-symbols-outlined">school</span> Escuelas permanentes
+          </a>
+          <a [routerLink]="['/servicios/escenarios']" class="dd-item" (click)="closeMenu()">
+            <span class="material-symbols-outlined">stadium</span> Escenarios deportivos
+          </a>
+          <a [routerLink]="['/servicios/documentos']" class="dd-item" (click)="closeMenu()">
+            <span class="material-symbols-outlined">folder_open</span> Descarga de documentos
+          </a>
+          <a [routerLink]="['/servicios/vacacionales']" class="dd-item" (click)="closeMenu()">
+            <span class="material-symbols-outlined">calendar_month</span> Cursos vacacionales
+          </a>
+        </div>
+      </div>
+
+      <!-- Noticias -->
+      <a [routerLink]="['/noticias']" class="nav-link" (click)="closeMenu()">
+        <span class="material-symbols-outlined nav-link-icon">newspaper</span>
+        Noticias
+      </a>
+
+      <!-- Contacto -->
+      <a [routerLink]="['/contacto']" class="nav-link" (click)="closeMenu()">
+        <span class="material-symbols-outlined nav-link-icon">mail</span>
+        Contacto
+      </a>
+
+      <!-- Login button (mobile only, shown in menu) -->
+      <a [routerLink]="['/login']" class="nav-btn-login mobile-only" (click)="closeMenu()">
+        <span class="material-symbols-outlined">login</span>
+        Ingresar
+      </a>
+    </div>
+
+    <!-- Login button (desktop) -->
+    <a [routerLink]="['/login']" class="nav-btn-login desktop-only">
+      <span class="material-symbols-outlined">account_circle</span>
+      Ingresar
+    </a>
+  </div>
+</nav>

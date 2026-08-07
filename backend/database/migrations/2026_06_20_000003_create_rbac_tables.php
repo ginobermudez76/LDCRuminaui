@@ -2,8 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 return new class extends Migration
@@ -154,7 +155,7 @@ return new class extends Migration
                 'uuid' => (string) Str::uuid(),
                 'codigo' => $rol['codigo'],
                 'nombre_rol' => $rol['nombre_rol'],
-                'descripcion' => 'Rol de ' . $rol['nombre_rol'],
+                'descripcion' => 'Rol de '.$rol['nombre_rol'],
                 'deleted' => false,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -169,7 +170,7 @@ return new class extends Migration
                 'uuid' => (string) Str::uuid(),
                 'nombre_usuario' => 'admin',
                 'correo_electronico' => 'admin@admin.com',
-                'password_hash' => \Illuminate\Support\Facades\Hash::make('admin123'),
+                'password_hash' => Hash::make('admin123'),
                 'nombres' => 'Administrador',
                 'activo' => true,
                 'deleted' => false,
@@ -187,14 +188,14 @@ return new class extends Migration
         } else {
             foreach ($users as $user) {
                 // Concatenate names/surnames
-                $nombres = trim(($user->primer_nombre ?? '') . ' ' . ($user->segundo_nombre ?? ''));
-                $apellidos = trim(($user->primer_apellido ?? '') . ' ' . ($user->segundo_apellido ?? ''));
+                $nombres = trim(($user->primer_nombre ?? '').' '.($user->segundo_nombre ?? ''));
+                $apellidos = trim(($user->primer_apellido ?? '').' '.($user->segundo_apellido ?? ''));
 
                 DB::table('usuario')->insert([
                     'id' => $user->id,
                     'uuid' => (string) Str::uuid(),
-                    'nombre_usuario' => $user->nombre_usuario ?? ('user_' . $user->id),
-                    'correo_electronico' => $user->correo ?? ('user_' . $user->id . '@example.com'),
+                    'nombre_usuario' => $user->nombre_usuario ?? ('user_'.$user->id),
+                    'correo_electronico' => $user->correo ?? ('user_'.$user->id.'@example.com'),
                     'password_hash' => $user->contrasena ?? '',
                     'nombres' => $nombres !== '' ? $nombres : null,
                     'apellidos' => $apellidos !== '' ? $apellidos : null,

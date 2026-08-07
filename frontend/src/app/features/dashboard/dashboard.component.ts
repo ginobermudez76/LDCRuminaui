@@ -7,15 +7,9 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    ButtonModule
-  ],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ButtonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
   private authService = inject(AuthService);
@@ -30,16 +24,28 @@ export class DashboardComponent {
   menuItems = computed(() => {
     const user = this.user();
     if (!user) return [];
-    
+
     const items = [];
     if (this.authService.hasOption('G_SOLICITUDES_PROPIAS')) {
-      items.push({ label: 'Mis Solicitudes', link: '/dashboard/solicitudes', icon: 'pi pi-file-edit' });
+      items.push({
+        label: 'Mis Solicitudes',
+        link: '/dashboard/solicitudes',
+        icon: 'pi pi-file-edit',
+      });
     }
     if (this.authService.hasOption('G_SOLICITUDES_ASIGNADAS')) {
-      items.push({ label: 'Solicitudes Asignadas', link: '/dashboard/asignadas', icon: 'pi pi-list' });
+      items.push({
+        label: 'Solicitudes Asignadas',
+        link: '/dashboard/asignadas',
+        icon: 'pi pi-list',
+      });
     }
     if (this.authService.hasOption('REGISTRAR_USUARIOS')) {
-      items.push({ label: 'Registrar Usuarios', link: '/dashboard/register', icon: 'pi pi-user-plus' });
+      items.push({
+        label: 'Registrar Usuarios',
+        link: '/dashboard/register',
+        icon: 'pi pi-user-plus',
+      });
       items.push({ label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' });
     }
     if (this.authService.hasOption('CONFIGURAR_RBAC')) {
@@ -59,13 +65,13 @@ export class DashboardComponent {
 
   toggleProfileDropdown(event: Event) {
     event.stopPropagation();
-    this.showProfileDropdown.update(val => !val);
+    this.showProfileDropdown.update((val) => !val);
   }
 
   getInitials(): string {
     const u = this.user();
     if (!u) return 'U';
-    
+
     const first = u.primer_nombre ? u.primer_nombre.trim().charAt(0) : '';
     const last = u.primer_apellido ? u.primer_apellido.trim().charAt(0) : '';
     const initials = (first + last).toUpperCase();
@@ -102,7 +108,7 @@ export class DashboardComponent {
       },
       error: () => {
         this.router.navigate(['/login']);
-      }
+      },
     });
   }
 }

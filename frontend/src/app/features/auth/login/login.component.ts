@@ -16,10 +16,10 @@ import { AuthService } from '../../../core/services/auth.service';
     ReactiveFormsModule,
     InputTextModule,
     ButtonModule,
-    MessageModule
+    MessageModule,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -30,11 +30,11 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.loginForm = this.fb.group({
       nombre_usuario: ['', Validators.required],
-      contrasena: ['', [Validators.required, Validators.minLength(6)]]
+      contrasena: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -51,7 +51,7 @@ export class LoginComponent {
       error: (err) => {
         this.isLoading.set(false);
         this.errorMessage.set(err.error?.error || 'Usuario o contraseña incorrectos.');
-      }
+      },
     });
   }
 }

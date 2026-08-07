@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\SolicitudTipo;
 use App\Models\WorkflowStep;
-use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -57,11 +57,13 @@ class SolicitudTipoController extends Controller
             }
 
             DB::commit();
+
             return response()->json($tipo->load('steps.rol'), 201);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error al guardar el tipo de solicitud: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error al guardar el tipo de solicitud: '.$e->getMessage()], 500);
         }
     }
 
@@ -69,7 +71,7 @@ class SolicitudTipoController extends Controller
     {
         $tipo = SolicitudTipo::with('steps.rol')->where('uuid', $uuid)->first();
 
-        if (!$tipo) {
+        if (! $tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
         }
 
@@ -80,7 +82,7 @@ class SolicitudTipoController extends Controller
     {
         $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
-        if (!$tipo) {
+        if (! $tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
         }
 
@@ -127,11 +129,13 @@ class SolicitudTipoController extends Controller
             }
 
             DB::commit();
+
             return response()->json($tipo->load('steps.rol'));
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error al actualizar el tipo de solicitud: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error al actualizar el tipo de solicitud: '.$e->getMessage()], 500);
         }
     }
 
@@ -139,7 +143,7 @@ class SolicitudTipoController extends Controller
     {
         $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
-        if (!$tipo) {
+        if (! $tipo) {
             return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
         }
 
@@ -150,11 +154,13 @@ class SolicitudTipoController extends Controller
             $tipo->update(['activo' => false]);
 
             DB::commit();
+
             return response()->json(['message' => 'Tipo de solicitud desactivado exitosamente']);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error al desactivar el tipo de solicitud: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error al desactivar el tipo de solicitud: '.$e->getMessage()], 500);
         }
     }
 }

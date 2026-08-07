@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Lara,
         options: {
-          darkModeSelector: false // disable automatic dark mode shifting
-        }
-      }
-    })
-  ]
+          darkModeSelector: false, // disable automatic dark mode shifting
+        },
+      },
+    }),
+  ],
 };

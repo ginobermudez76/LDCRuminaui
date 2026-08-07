@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Auditable;
+use App\Traits\HasUuidAndCode;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Traits\Auditable;
-
-use App\Traits\HasUuidAndCode;
 
 class Usuario extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Auditable, HasUuidAndCode;
+    use Auditable, HasUuidAndCode, Notifiable;
 
     const CODE_PREFIX = 'USR';
 
@@ -81,7 +80,6 @@ class Usuario extends Authenticatable implements JWTSubject
     /**
      * Virtual attributes to preserve legacy code compatibility.
      */
-
     public function getRolAttribute()
     {
         return $this->roles->first()?->uuid;
@@ -90,12 +88,13 @@ class Usuario extends Authenticatable implements JWTSubject
     public function getRolRelationAttribute()
     {
         $firstRole = $this->roles->first();
-        if (!$firstRole) {
+        if (! $firstRole) {
             return null;
         }
+
         return [
             'id_rol' => $firstRole->uuid,
-            'rol_name' => $firstRole->nombre_rol
+            'rol_name' => $firstRole->nombre_rol,
         ];
     }
 
@@ -105,6 +104,7 @@ class Usuario extends Authenticatable implements JWTSubject
             return '';
         }
         $parts = explode(' ', trim($this->nombres));
+
         return $parts[0] ?? '';
     }
 
@@ -115,6 +115,7 @@ class Usuario extends Authenticatable implements JWTSubject
         }
         $parts = explode(' ', trim($this->nombres));
         array_shift($parts); // Remove first name
+
         return implode(' ', $parts);
     }
 
@@ -124,6 +125,7 @@ class Usuario extends Authenticatable implements JWTSubject
             return '';
         }
         $parts = explode(' ', trim($this->apellidos));
+
         return $parts[0] ?? '';
     }
 
@@ -134,6 +136,7 @@ class Usuario extends Authenticatable implements JWTSubject
         }
         $parts = explode(' ', trim($this->apellidos));
         array_shift($parts); // Remove first surname
+
         return implode(' ', $parts);
     }
 
@@ -158,6 +161,7 @@ class Usuario extends Authenticatable implements JWTSubject
                 $opciones[] = $opcion->nombre_opcion;
             }
         }
+
         return array_values(array_unique($opciones));
     }
 
@@ -183,6 +187,7 @@ class Usuario extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         $firstRole = $this->roles->first();
+
         return [
             'username' => $this->nombre_usuario,
             'role' => $firstRole ? $firstRole->nombre_rol : null,

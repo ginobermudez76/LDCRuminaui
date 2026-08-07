@@ -1,43 +1,136 @@
-    .nosotros-page {
-      min-height: 100vh;
-      background: linear-gradient(to bottom, #030022, #11637c);
-      color: #fff;
-    }
-    .page-hero {
-      padding: 48px 60px 32px;
-      border-bottom: 2px solid rgba(15,195,198,0.3);
-    }
-    .hero-title-row { display: flex; align-items: center; gap: 16px; }
-    .hero-icon { font-size: 48px; color: #0fc3c6; }
-    h1 { font-family: 'Lobster', 'Pattaya', cursive; font-size: 48px; margin: 0; text-shadow: 2px 2px 6px rgba(0,0,0,0.4); }
-    .hero-line { width: 80px; height: 5px; background: #0fc3c6; margin-top: 12px; border-radius: 2px; }
-    .content-wrap { padding: 48px 60px; max-width: 900px; margin: 0 auto; }
-    .section-content { animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .text-card {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(15,195,198,0.2);
-      border-left: 4px solid #0fc3c6; border-radius: 12px; padding: 36px 40px;
-    }
-    .text-card h2 { font-family: 'Bebas Neue', cursive; font-size: 32px; color: #0fc3c6; margin: 0 0 20px; }
-    .text-card p { font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
-    .mission-vision { text-align: center; }
-    .big-icon { font-size: 72px; color: #0fc3c6; display: block; margin-bottom: 16px; }
-    .directivo-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
-    .directivo-card {
-      display: flex; align-items: center; gap: 12px;
-      background: rgba(15,195,198,0.1); border: 1px solid rgba(15,195,198,0.2);
-      border-radius: 8px; padding: 14px;
-    }
-    .directivo-card .material-symbols-outlined { font-size: 32px; color: #0fc3c6; flex-shrink: 0; }
-    .directivo-card strong { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #0fc3c6; display: block; }
-    .directivo-card p { font-size: 15px; margin: 4px 0 0; color: #fff; }
-    .tabs-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-    .tab-card {
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(15,195,198,0.3);
-      border-radius: 12px; padding: 32px 20px; text-decoration: none; color: #fff;
-      transition: all 0.2s;
-    }
-    .tab-card .material-symbols-outlined { font-size: 48px; color: #0fc3c6; }
-    .tab-card:hover { background: rgba(15,195,198,0.15); transform: translateY(-4px); }
-  
+.nosotros-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #030022, #11637c);
+  color: #fff;
+}
+.page-hero {
+  padding: 48px 60px 32px;
+  border-bottom: 2px solid rgba(15, 195, 198, 0.3);
+}
+.hero-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-icon {
+  font-size: 48px;
+  color: #0fc3c6;
+}
+h1 {
+  font-family: 'Lobster', 'Pattaya', cursive;
+  font-size: 48px;
+  margin: 0;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+.hero-line {
+  width: 80px;
+  height: 5px;
+  background: #0fc3c6;
+  margin-top: 12px;
+  border-radius: 2px;
+}
+.content-wrap {
+  padding: 48px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.section-content {
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.text-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(15, 195, 198, 0.2);
+  border-left: 4px solid #0fc3c6;
+  border-radius: 12px;
+  padding: 36px 40px;
+}
+.text-card h2 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 32px;
+  color: #0fc3c6;
+  margin: 0 0 20px;
+}
+.text-card p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 14px;
+}
+.mission-vision {
+  text-align: center;
+}
+.big-icon {
+  font-size: 72px;
+  color: #0fc3c6;
+  display: block;
+  margin-bottom: 16px;
+}
+.directivo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+.directivo-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 195, 198, 0.1);
+  border: 1px solid rgba(15, 195, 198, 0.2);
+  border-radius: 8px;
+  padding: 14px;
+}
+.directivo-card .material-symbols-outlined {
+  font-size: 32px;
+  color: #0fc3c6;
+  flex-shrink: 0;
+}
+.directivo-card strong {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #0fc3c6;
+  display: block;
+}
+.directivo-card p {
+  font-size: 15px;
+  margin: 4px 0 0;
+  color: #fff;
+}
+.tabs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+.tab-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(15, 195, 198, 0.3);
+  border-radius: 12px;
+  padding: 32px 20px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s;
+}
+.tab-card .material-symbols-outlined {
+  font-size: 48px;
+  color: #0fc3c6;
+}
+.tab-card:hover {
+  background: rgba(15, 195, 198, 0.15);
+  transform: translateY(-4px);
+}

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class Deporte extends Model
 {
@@ -14,6 +13,7 @@ class Deporte extends Model
     const CODE_PREFIX = 'DEP';
 
     protected $table = 'deportes';
+
     public $timestamps = false;
 
     protected $fillable = [

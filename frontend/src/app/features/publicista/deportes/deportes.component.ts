@@ -14,10 +14,20 @@ import { PublicistaService, Deporte } from '../../../core/services/publicista.se
 @Component({
   selector: 'app-deportes',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, TextareaModule, MessageModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './deportes.component.html',
-  styles: [pubStyles()]
+  styles: [pubStyles()],
 })
 export class DeportesComponent implements OnInit {
   private svc = inject(PublicistaService);
@@ -35,11 +45,20 @@ export class DeportesComponent implements OnInit {
     this.load();
   }
 
-  load() { this.svc.getDeportes().subscribe(d => this.items.set(d)); }
+  load() {
+    this.svc.getDeportes().subscribe((d) => this.items.set(d));
+  }
 
-  onFileChange(e: any) { this.selectedFile = e.target.files[0] || null; }
+  onFileChange(e: any) {
+    this.selectedFile = e.target.files[0] || null;
+  }
 
-  openDialog() { this.form.reset(); this.selectedFile = null; this.error.set(undefined); this.showDialog = true; }
+  openDialog() {
+    this.form.reset();
+    this.selectedFile = null;
+    this.error.set(undefined);
+    this.showDialog = true;
+  }
 
   onSubmit() {
     if (this.form.invalid) return;
@@ -48,11 +67,24 @@ export class DeportesComponent implements OnInit {
     fd.append('nombre', this.form.value.nombre);
     if (this.form.value.descripcion) fd.append('descripcion', this.form.value.descripcion);
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
-    this.svc.createDeporte(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
+    this.svc.createDeporte(fd).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.showDialog = false;
+        this.load();
+      },
+      error: (e) => {
+        this.saving.set(false);
+        this.error.set(e.error?.error || 'Error al guardar');
+      },
+    });
   }
 
   confirmDelete(uuid: string) {
-    this.confirm.confirm({ message: '¿Eliminar este registro?', accept: () => this.svc.deleteDeporte(uuid).subscribe(() => this.load()) });
+    this.confirm.confirm({
+      message: '¿Eliminar este registro?',
+      accept: () => this.svc.deleteDeporte(uuid).subscribe(() => this.load()),
+    });
   }
 }
 

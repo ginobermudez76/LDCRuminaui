@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
 use App\Models\Rol;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +25,7 @@ class UsuarioController extends Controller
 
         // Get all active users with their roles loaded
         $usuarios = Usuario::with('roles')->where('deleted', 0)->get();
+
         return response()->json($usuarios);
     }
 
@@ -51,15 +52,15 @@ class UsuarioController extends Controller
             DB::beginTransaction();
 
             // Construct names
-            $nombres = trim($validatedData['nombre'] . ' ' . ($validatedData['snombre'] ?? ''));
-            $apellidos = trim($validatedData['apellido'] . ' ' . ($validatedData['sapellido'] ?? ''));
+            $nombres = trim($validatedData['nombre'].' '.($validatedData['snombre'] ?? ''));
+            $apellidos = trim($validatedData['apellido'].' '.($validatedData['sapellido'] ?? ''));
 
             // Auto-generate invitation token
             $token = Str::random(40);
             $expiresAt = now()->addDays(7);
 
             // Create user (initially inactive)
-            $usuario = new Usuario();
+            $usuario = new Usuario;
             $usuario->uuid = (string) Str::uuid();
             $usuario->nombre_usuario = $validatedData['username'];
             $usuario->correo_electronico = $validatedData['correo_electronico'];
@@ -78,7 +79,7 @@ class UsuarioController extends Controller
 
             if ($request->hasFile('foto_perfil')) {
                 $path = $request->file('foto_perfil')->store('profiles', 'public');
-                $usuario->foto_perfil = '/storage/' . $path;
+                $usuario->foto_perfil = '/storage/'.$path;
             }
 
             $usuario->save();
@@ -93,24 +94,25 @@ class UsuarioController extends Controller
                 'id_usuario' => $usuario->id,
                 'deleted' => 0,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
             DB::commit();
 
             // Log invitation email sending
-            $invitationLink = "http://localhost:4200/accept-invitation?token=" . $token;
+            $invitationLink = 'http://localhost:4200/accept-invitation?token='.$token;
             Log::info("Invitación enviada a {$usuario->correo_electronico}. Link: {$invitationLink}");
 
             $usuario->load('roles');
 
             return response()->json([
                 'user' => $usuario,
-                'invitation_link' => $invitationLink
+                'invitation_link' => $invitationLink,
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'No se pudo crear el usuario: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'No se pudo crear el usuario: '.$e->getMessage()], 500);
         }
     }
 
@@ -128,7 +130,7 @@ class UsuarioController extends Controller
             'sapellido' => 'nullable|string|max:45',
             'cedula' => 'required|string|max:10',
             'celular' => 'nullable|string|max:10',
-            'correo_electronico' => 'required|email|max:100|unique:usuario,correo_electronico,' . $usuario->id,
+            'correo_electronico' => 'required|email|max:100|unique:usuario,correo_electronico,'.$usuario->id,
             'fecha_nac' => 'required|date',
             'rol_id' => 'required|string|exists:rol,uuid',
             'foto_perfil' => 'nullable|file|image|max:2048',
@@ -137,8 +139,8 @@ class UsuarioController extends Controller
         try {
             DB::beginTransaction();
 
-            $nombres = trim($validatedData['nombre'] . ' ' . ($validatedData['snombre'] ?? ''));
-            $apellidos = trim($validatedData['apellido'] . ' ' . ($validatedData['sapellido'] ?? ''));
+            $nombres = trim($validatedData['nombre'].' '.($validatedData['snombre'] ?? ''));
+            $apellidos = trim($validatedData['apellido'].' '.($validatedData['sapellido'] ?? ''));
 
             $usuario->correo_electronico = $validatedData['correo_electronico'];
             $usuario->nombres = $nombres;
@@ -153,7 +155,7 @@ class UsuarioController extends Controller
                     Storage::disk('public')->delete($oldPath);
                 }
                 $path = $request->file('foto_perfil')->store('profiles', 'public');
-                $usuario->foto_perfil = '/storage/' . $path;
+                $usuario->foto_perfil = '/storage/'.$path;
             }
 
             $usuario->save();
@@ -174,7 +176,7 @@ class UsuarioController extends Controller
                 'id_usuario' => $usuario->id,
                 'deleted' => 0,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
 
             DB::commit();
@@ -184,7 +186,8 @@ class UsuarioController extends Controller
             return response()->json($usuario);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'No se pudo actualizar el usuario: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'No se pudo actualizar el usuario: '.$e->getMessage()], 500);
         }
     }
 
@@ -194,10 +197,10 @@ class UsuarioController extends Controller
     public function destroy($uuid)
     {
         $usuario = Usuario::where('deleted', 0)->where('uuid', $uuid)->firstOrFail();
-        
+
         try {
             DB::beginTransaction();
-            
+
             $usuario->deleted = 1;
             $usuario->deleted_at = now();
             $usuario->activo = 0;
@@ -209,10 +212,12 @@ class UsuarioController extends Controller
                 ->update(['deleted' => 1, 'updated_at' => now()]);
 
             DB::commit();
+
             return response()->json(['message' => 'Usuario eliminado con éxito (soft delete)']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'No se pudo eliminar el usuario: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'No se pudo eliminar el usuario: '.$e->getMessage()], 500);
         }
     }
 
@@ -226,8 +231,8 @@ class UsuarioController extends Controller
         $usuario->save();
 
         return response()->json([
-            'message' => 'Estado de usuario modificado', 
-            'activo' => $usuario->activo
+            'message' => 'Estado de usuario modificado',
+            'activo' => $usuario->activo,
         ]);
     }
 
@@ -237,10 +242,10 @@ class UsuarioController extends Controller
     public function resetPassword($uuid)
     {
         $usuario = Usuario::where('deleted', 0)->where('uuid', $uuid)->firstOrFail();
-        
+
         // Generate a 12-character secure password
         $password = Str::random(12);
-        
+
         $usuario->password_hash = Hash::make($password);
         $usuario->save();
 
@@ -249,7 +254,7 @@ class UsuarioController extends Controller
 
         return response()->json([
             'message' => 'Contraseña reestablecida con éxito. La nueva contraseña ha sido enviada al correo.',
-            'generated_password' => $password
+            'generated_password' => $password,
         ]);
     }
 
@@ -259,7 +264,7 @@ class UsuarioController extends Controller
     public function resendInvitation($uuid)
     {
         $usuario = Usuario::where('deleted', 0)->where('uuid', $uuid)->firstOrFail();
-        
+
         if ($usuario->invitation_status === 'aceptada') {
             return response()->json(['error' => 'Este usuario ya ha aceptado su invitación'], 400);
         }
@@ -273,13 +278,12 @@ class UsuarioController extends Controller
         $usuario->activo = 0;
         $usuario->save();
 
-        $invitationLink = "http://localhost:4200/accept-invitation?token=" . $token;
+        $invitationLink = 'http://localhost:4200/accept-invitation?token='.$token;
         Log::info("Reenvío de invitación para {$usuario->correo_electronico}. Link: {$invitationLink}");
 
         return response()->json([
             'message' => 'Invitación reenviada con éxito.',
-            'invitation_link' => $invitationLink
+            'invitation_link' => $invitationLink,
         ]);
     }
 }
-

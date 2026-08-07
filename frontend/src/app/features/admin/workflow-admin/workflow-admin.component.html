@@ -1,188 +1,230 @@
-    <div class="workflow-container">
-      <header class="page-header">
-        <h1 class="title">Configuración de Trámites y Flujos</h1>
-        <p class="subtitle">Administra los tipos de solicitudes, requisitos de campos y el orden del flujo de aprobación de roles.</p>
-      </header>
+<div class="workflow-container">
+  <header class="page-header">
+    <h1 class="title">Configuración de Trámites y Flujos</h1>
+    <p class="subtitle">
+      Administra los tipos de solicitudes, requisitos de campos y el orden del flujo de aprobación
+      de roles.
+    </p>
+  </header>
 
-      <div class="content-grid">
-        <!-- Listado de tipos de solicitud (Izquierda) -->
-        <div class="panel-left">
-          <p-card header="Tipos de Solicitudes" styleClass="glass-card">
-            <div class="action-bar">
-              <button 
-                pButton 
-                type="button" 
-                label="Nuevo Tipo" 
-                icon="pi pi-plus" 
-                class="p-button-primary p-button-sm w-full"
-                (click)="onNewTipo()"
+  <div class="content-grid">
+    <!-- Listado de tipos de solicitud (Izquierda) -->
+    <div class="panel-left">
+      <p-card header="Tipos de Solicitudes" styleClass="glass-card">
+        <div class="action-bar">
+          <button
+            pButton
+            type="button"
+            label="Nuevo Tipo"
+            icon="pi pi-plus"
+            class="p-button-primary p-button-sm w-full"
+            (click)="onNewTipo()"
+          ></button>
+        </div>
+
+        <div class="tipo-list">
+          <div
+            *ngFor="let t of tipos()"
+            class="tipo-item"
+            [class.active]="selectedTipoUuid() === t.uuid"
+            tabindex="0"
+            role="button"
+            (click)="onSelectTipo(t)"
+            (keydown.enter)="onSelectTipo(t)"
+            (keydown.space)="onSelectTipo(t)"
+          >
+            <div class="tipo-info">
+              <span class="tipo-name">{{ t.name_tipo }}</span>
+              <span class="status-badge" [class.inactive]="!t.activo">
+                {{ t.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </div>
+            <div class="tipo-meta">
+              <span *ngIf="t.requiere_documento" class="meta-tag"
+                ><i class="pi pi-file"></i> Doc</span
+              >
+              <span *ngIf="t.requiere_valor" class="meta-tag"
+                ><i class="pi pi-dollar"></i> Valor</span
+              >
+              <span *ngIf="t.requiere_descripcion" class="meta-tag"
+                ><i class="pi pi-align-left"></i> Desc</span
+              >
+            </div>
+            <div class="steps-preview" *ngIf="t.steps && t.steps.length > 0">
+              <span class="preview-title">Flujo:</span>
+              <span class="preview-path">
+                <ng-container *ngFor="let s of t.steps; let last = last">
+                  {{ s.rol?.nombre_rol }}{{ !last ? ' ➔ ' : '' }}
+                </ng-container>
+              </span>
+            </div>
+            <div class="steps-preview no-steps" *ngIf="!t.steps || t.steps.length === 0">
+              <span class="preview-title">Sin flujo asignado (Aprobación directa)</span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Formulario de Configuración (Derecha) -->
+    <div class="panel-right">
+      <p-card
+        [header]="selectedTipoUuid() ? 'Editar Tipo de Solicitud' : 'Nuevo Tipo de Solicitud'"
+        styleClass="glass-card"
+      >
+        <form [formGroup]="tipoForm" (ngSubmit)="onSubmit()" class="workflow-form">
+          <!-- Campos Básicos -->
+          <div class="form-section">
+            <h3 class="section-title">Datos Básicos</h3>
+            <div class="form-field">
+              <label for="name_tipo">Nombre del Tipo de Solicitud *</label>
+              <input
+                id="name_tipo"
+                type="text"
+                pInputText
+                formControlName="name_tipo"
+                placeholder="Ej. Ayudantía Económica Especial"
+                class="w-full"
+              />
+              <small
+                class="error-text"
+                *ngIf="tipoForm.get('name_tipo')?.invalid && tipoForm.get('name_tipo')?.touched"
+              >
+                El nombre es requerido.
+              </small>
+            </div>
+
+            <!-- Flags de Requisitos -->
+            <div class="checkbox-group">
+              <div class="check-item">
+                <p-checkbox
+                  formControlName="requiere_documento"
+                  [binary]="true"
+                  inputId="req_doc"
+                ></p-checkbox>
+                <label for="req_doc">Requiere subir documento soporte</label>
+              </div>
+              <div class="check-item">
+                <p-checkbox
+                  formControlName="requiere_valor"
+                  [binary]="true"
+                  inputId="req_val"
+                ></p-checkbox>
+                <label for="req_val">Requiere especificar valor monetario</label>
+              </div>
+              <div class="check-item">
+                <p-checkbox
+                  formControlName="requiere_descripcion"
+                  [binary]="true"
+                  inputId="req_desc"
+                ></p-checkbox>
+                <label for="req_desc">Requiere descripción o motivo</label>
+              </div>
+              <div class="check-item" *ngIf="selectedTipoUuid()">
+                <p-checkbox
+                  formControlName="activo"
+                  [binary]="true"
+                  inputId="is_active"
+                ></p-checkbox>
+                <label for="is_active">Activo</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Configuración de Pasos de Flujo -->
+          <div class="form-section steps-section">
+            <div class="section-header">
+              <h3 class="section-title">Flujo de Aprobación</h3>
+              <button
+                pButton
+                type="button"
+                label="Agregar Paso"
+                icon="pi pi-plus"
+                class="p-button-outlined p-button-sm p-button-secondary"
+                (click)="addStep()"
               ></button>
             </div>
 
-            <div class="tipo-list">
-              <div 
-                *ngFor="let t of tipos()" 
-                class="tipo-item" 
-                [class.active]="selectedTipoUuid() === t.uuid"
-                tabindex="0"
-                role="button"
-                (click)="onSelectTipo(t)"
-                (keydown.enter)="onSelectTipo(t)"
-                (keydown.space)="onSelectTipo(t)"
+            <div formArrayName="steps" class="steps-list-builder">
+              <div *ngIf="stepsArray.length === 0" class="no-steps-placeholder">
+                <i class="pi pi-info-circle"></i> No hay pasos definidos. Esta solicitud se aprobará
+                automáticamente.
+              </div>
+
+              <div
+                *ngFor="let s of stepsArray.controls; let i = index"
+                [formGroupName]="i"
+                class="step-builder-item"
               >
-                <div class="tipo-info">
-                  <span class="tipo-name">{{ t.name_tipo }}</span>
-                  <span class="status-badge" [class.inactive]="!t.activo">
-                    {{ t.activo ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </div>
-                <div class="tipo-meta">
-                  <span *ngIf="t.requiere_documento" class="meta-tag"><i class="pi pi-file"></i> Doc</span>
-                  <span *ngIf="t.requiere_valor" class="meta-tag"><i class="pi pi-dollar"></i> Valor</span>
-                  <span *ngIf="t.requiere_descripcion" class="meta-tag"><i class="pi pi-align-left"></i> Desc</span>
-                </div>
-                <div class="steps-preview" *ngIf="t.steps && t.steps.length > 0">
-                  <span class="preview-title">Flujo:</span>
-                  <span class="preview-path">
-                    <ng-container *ngFor="let s of t.steps; let last = last">
-                      {{ s.rol?.nombre_rol }}{{ !last ? ' ➔ ' : '' }}
-                    </ng-container>
-                  </span>
-                </div>
-                <div class="steps-preview no-steps" *ngIf="!t.steps || t.steps.length === 0">
-                  <span class="preview-title">Sin flujo asignado (Aprobación directa)</span>
-                </div>
-              </div>
-            </div>
-          </p-card>
-        </div>
+                <span class="step-badge">{{ i + 1 }}</span>
 
-        <!-- Formulario de Configuración (Derecha) -->
-        <div class="panel-right">
-          <p-card [header]="selectedTipoUuid() ? 'Editar Tipo de Solicitud' : 'Nuevo Tipo de Solicitud'" styleClass="glass-card">
-            <form [formGroup]="tipoForm" (ngSubmit)="onSubmit()" class="workflow-form">
-              
-              <!-- Campos Básicos -->
-              <div class="form-section">
-                <h3 class="section-title">Datos Básicos</h3>
-                <div class="form-field">
-                  <label for="name_tipo">Nombre del Tipo de Solicitud *</label>
-                  <input 
-                    id="name_tipo" 
-                    type="text" 
-                    pInputText 
-                    formControlName="name_tipo" 
-                    placeholder="Ej. Ayudantía Económica Especial"
-                    class="w-full"
-                  />
-                  <small class="error-text" *ngIf="tipoForm.get('name_tipo')?.invalid && tipoForm.get('name_tipo')?.touched">
-                    El nombre es requerido.
-                  </small>
-                </div>
-
-                <!-- Flags de Requisitos -->
-                <div class="checkbox-group">
-                  <div class="check-item">
-                    <p-checkbox formControlName="requiere_documento" [binary]="true" inputId="req_doc"></p-checkbox>
-                    <label for="req_doc">Requiere subir documento soporte</label>
-                  </div>
-                  <div class="check-item">
-                    <p-checkbox formControlName="requiere_valor" [binary]="true" inputId="req_val"></p-checkbox>
-                    <label for="req_val">Requiere especificar valor monetario</label>
-                  </div>
-                  <div class="check-item">
-                    <p-checkbox formControlName="requiere_descripcion" [binary]="true" inputId="req_desc"></p-checkbox>
-                    <label for="req_desc">Requiere descripción o motivo</label>
-                  </div>
-                  <div class="check-item" *ngIf="selectedTipoUuid()">
-                    <p-checkbox formControlName="activo" [binary]="true" inputId="is_active"></p-checkbox>
-                    <label for="is_active">Activo</label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Configuración de Pasos de Flujo -->
-              <div class="form-section steps-section">
-                <div class="section-header">
-                  <h3 class="section-title">Flujo de Aprobación</h3>
-                  <button 
-                    pButton 
-                    type="button" 
-                    label="Agregar Paso" 
-                    icon="pi pi-plus" 
-                    class="p-button-outlined p-button-sm p-button-secondary"
-                    (click)="addStep()"
-                  ></button>
-                </div>
-
-                <div formArrayName="steps" class="steps-list-builder">
-                  <div *ngIf="stepsArray.length === 0" class="no-steps-placeholder">
-                    <i class="pi pi-info-circle"></i> No hay pasos definidos. Esta solicitud se aprobará automáticamente.
-                  </div>
-
-                  <div 
-                    *ngFor="let s of stepsArray.controls; let i = index" 
-                    [formGroupName]="i" 
-                    class="step-builder-item"
+                <!-- Nombre del Paso -->
+                <div class="step-field flex-grow">
+                  <label
+                    [for]="'nombre_paso_' + i"
+                    style="
+                      position: absolute;
+                      width: 1px;
+                      height: 1px;
+                      padding: 0;
+                      margin: -1px;
+                      overflow: hidden;
+                      clip: rect(0, 0, 0, 0);
+                      border: 0;
+                    "
+                    >Nombre del paso</label
                   >
-                    <span class="step-badge">{{ i + 1 }}</span>
-                    
-                    <!-- Nombre del Paso -->
-                    <div class="step-field flex-grow">
-                      <label [for]="'nombre_paso_' + i" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Nombre del paso</label>
-                      <input 
-                        [id]="'nombre_paso_' + i"
-                        type="text" 
-                        pInputText 
-                        formControlName="nombre_paso" 
-                        placeholder="Nombre del paso (opcional)" 
-                        class="w-full input-sm"
-                      />
-                    </div>
-
-                    <!-- Selección de Rol -->
-                    <div class="step-field">
-                      <p-select 
-                        [options]="roles()" 
-                        optionLabel="nombre_rol"
-                        optionValue="uuid"
-                        formControlName="rol_id" 
-                        placeholder="Rol Evaluador"
-                        [style]="{width: '100%'}"
-                      ></p-select>
-                    </div>
-
-                    <!-- Acciones -->
-                    <button 
-                      pButton 
-                      type="button" 
-                      icon="pi pi-trash" 
-                      class="p-button-text p-button-danger p-button-sm"
-                      (click)="removeStep(i)"
-                    ></button>
-                  </div>
+                  <input
+                    [id]="'nombre_paso_' + i"
+                    type="text"
+                    pInputText
+                    formControlName="nombre_paso"
+                    placeholder="Nombre del paso (opcional)"
+                    class="w-full input-sm"
+                  />
                 </div>
-              </div>
 
-              <div class="error-wrapper" *ngIf="errorMessage()">
-                <p-message severity="error" [text]="errorMessage() || ''"></p-message>
-              </div>
+                <!-- Selección de Rol -->
+                <div class="step-field">
+                  <p-select
+                    [options]="roles()"
+                    optionLabel="nombre_rol"
+                    optionValue="uuid"
+                    formControlName="rol_id"
+                    placeholder="Rol Evaluador"
+                    [style]="{ width: '100%' }"
+                  ></p-select>
+                </div>
 
-              <div class="form-actions">
-                <button 
-                  pButton 
-                  type="submit" 
-                  [label]="selectedTipoUuid() ? 'Guardar Cambios' : 'Crear Tipo'" 
-                  icon="pi pi-save" 
-                  [loading]="isLoading()"
-                  [disabled]="tipoForm.invalid"
-                  class="p-button-success"
+                <!-- Acciones -->
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-danger p-button-sm"
+                  (click)="removeStep(i)"
                 ></button>
               </div>
+            </div>
+          </div>
 
-            </form>
-          </p-card>
-        </div>
-      </div>
+          <div class="error-wrapper" *ngIf="errorMessage()">
+            <p-message severity="error" [text]="errorMessage() || ''"></p-message>
+          </div>
+
+          <div class="form-actions">
+            <button
+              pButton
+              type="submit"
+              [label]="selectedTipoUuid() ? 'Guardar Cambios' : 'Crear Tipo'"
+              icon="pi pi-save"
+              [loading]="isLoading()"
+              [disabled]="tipoForm.invalid"
+              class="p-button-success"
+            ></button>
+          </div>
+        </form>
+      </p-card>
     </div>
-  
+  </div>
+</div>

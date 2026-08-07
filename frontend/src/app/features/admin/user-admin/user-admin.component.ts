@@ -26,10 +26,10 @@ import { SolicitudTipoService, Rol } from '../../../core/services/solicitud-tipo
     SelectModule,
     MessageModule,
     TagModule,
-    MenuModule
+    MenuModule,
   ],
   templateUrl: './user-admin.component.html',
-  styleUrl: './user-admin.component.css'
+  styleUrl: './user-admin.component.css',
 })
 export class UserAdminComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -38,7 +38,7 @@ export class UserAdminComponent implements OnInit {
 
   usuarios = signal<Usuario[]>([]);
   roles = signal<Rol[]>([]);
-  
+
   showDialog = false;
   isSaving = signal(false);
   errorMessage = signal<string | undefined>(undefined);
@@ -63,7 +63,7 @@ export class UserAdminComponent implements OnInit {
     this.loadRoles();
 
     // Auto-generation logic based on form changes (only when creating)
-    this.userForm.valueChanges.subscribe(val => {
+    this.userForm.valueChanges.subscribe((val) => {
       if (this.selectedUsuarioUuid() === null) {
         this.generateCredentials(val);
       }
@@ -81,7 +81,7 @@ export class UserAdminComponent implements OnInit {
       correo_electronico: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
       fecha_nac: ['', Validators.required],
       rol_id: [null, Validators.required],
-      username: ['']
+      username: [''],
     });
   }
 
@@ -90,33 +90,46 @@ export class UserAdminComponent implements OnInit {
       return;
     }
 
-    const nombre = val.nombre.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
-    const apellido = val.apellido.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+    const nombre = val.nombre
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z]/g, '');
+    const apellido = val.apellido
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z]/g, '');
     const cedula = val.cedula.trim();
 
     if (nombre === '' || apellido === '') return;
 
     const last4Cedula = cedula.slice(-4);
-    const generatedUsername = nombre + "." + apellido + last4Cedula + "@ldcruminahui.com";
+    const generatedUsername = nombre + '.' + apellido + last4Cedula + '@ldcruminahui.com';
 
     if (this.userForm.get('username')?.value !== generatedUsername) {
-      this.userForm.patchValue({
-        username: generatedUsername
-      }, { emitEvent: false });
+      this.userForm.patchValue(
+        {
+          username: generatedUsername,
+        },
+        { emitEvent: false },
+      );
     }
   }
 
   loadUsers() {
     this.userService.getUsuarios().subscribe({
       next: (data) => this.usuarios.set(data),
-      error: () => console.error('Error loading users')
+      error: () => console.error('Error loading users'),
     });
   }
 
   loadRoles() {
     this.rolService.getRoles(true).subscribe({
       next: (data) => this.roles.set(data),
-      error: () => console.error('Error loading roles')
+      error: () => console.error('Error loading roles'),
     });
   }
 
@@ -133,7 +146,7 @@ export class UserAdminComponent implements OnInit {
     this.selectedUsuarioUuid.set(user.uuid);
     this.selectedFile = null;
     this.errorMessage.set(undefined);
-    
+
     // Autofill form using legacy model virtual attributes
     this.userForm.patchValue({
       nombre: (user as any).primer_nombre || '',
@@ -145,7 +158,7 @@ export class UserAdminComponent implements OnInit {
       correo_electronico: user.correo_electronico || '',
       fecha_nac: user.fecha_nac ? user.fecha_nac.substring(0, 10) : '',
       rol_id: user.rol || (user.roles && user.roles.length > 0 ? user.roles[0].uuid : null),
-      username: user.nombre_usuario || ''
+      username: user.nombre_usuario || '',
     });
 
     // Username should not be editable when updating
@@ -174,7 +187,7 @@ export class UserAdminComponent implements OnInit {
   toggleActive(user: Usuario) {
     this.userService.toggleActive(user.uuid).subscribe({
       next: () => this.loadUsers(),
-      error: (err) => console.error('Error switching user status', err)
+      error: (err) => console.error('Error switching user status', err),
     });
   }
 
@@ -182,7 +195,7 @@ export class UserAdminComponent implements OnInit {
     if (confirm('¿Está seguro de eliminar este usuario?')) {
       this.userService.deleteUsuario(uuid).subscribe({
         next: () => this.loadUsers(),
-        error: (err) => console.error('Error deleting user', err)
+        error: (err) => console.error('Error deleting user', err),
       });
     }
   }
@@ -193,7 +206,7 @@ export class UserAdminComponent implements OnInit {
         this.generatedPassword.set(res.generated_password);
         this.showResetPasswordDialog.set(true);
       },
-      error: (err) => console.error('Error resetting password', err)
+      error: (err) => console.error('Error resetting password', err),
     });
   }
 
@@ -204,25 +217,33 @@ export class UserAdminComponent implements OnInit {
         this.showInviteLinkDialog.set(true);
         this.loadUsers();
       },
-      error: (err) => console.error('Error resending invitation', err)
+      error: (err) => console.error('Error resending invitation', err),
     });
   }
 
   getInvitationSeverity(status?: string): 'warn' | 'success' | 'danger' | 'info' {
     switch (status) {
-      case 'pendiente': return 'warn';
-      case 'aceptada': return 'success';
-      case 'expirada': return 'danger';
-      default: return 'info';
+      case 'pendiente':
+        return 'warn';
+      case 'aceptada':
+        return 'success';
+      case 'expirada':
+        return 'danger';
+      default:
+        return 'info';
     }
   }
 
   getInvitationLabel(status?: string): string {
     switch (status) {
-      case 'pendiente': return 'Invitación Pendiente';
-      case 'aceptada': return 'Aceptada / Activo';
-      case 'expirada': return 'Invitación Expirada';
-      default: return 'Desconocido';
+      case 'pendiente':
+        return 'Invitación Pendiente';
+      case 'aceptada':
+        return 'Aceptada / Activo';
+      case 'expirada':
+        return 'Invitación Expirada';
+      default:
+        return 'Desconocido';
     }
   }
 
@@ -231,32 +252,32 @@ export class UserAdminComponent implements OnInit {
       {
         label: 'Editar Información',
         icon: 'pi pi-pencil',
-        command: () => this.openEditDialog(user)
+        command: () => this.openEditDialog(user),
       },
       {
         label: user.activo ? 'Desactivar Cuenta' : 'Activar Cuenta',
         icon: user.activo ? 'pi pi-user-minus' : 'pi pi-user-plus',
-        command: () => this.toggleActive(user)
+        command: () => this.toggleActive(user),
       },
       {
         label: 'Reestablecer Contraseña',
         icon: 'pi pi-refresh',
-        command: () => this.resetPassword(user)
-      }
+        command: () => this.resetPassword(user),
+      },
     ];
 
     if (user.invitation_status !== 'aceptada') {
       items.push({
         label: 'Reenviar Invitación',
         icon: 'pi pi-send',
-        command: () => this.resendInvitation(user)
+        command: () => this.resendInvitation(user),
       });
     }
 
     items.push({
       label: 'Eliminar Usuario',
       icon: 'pi pi-trash',
-      command: () => this.deleteUser(user.uuid)
+      command: () => this.deleteUser(user.uuid),
     });
 
     this.menuItemsForSelectedUser = items;
@@ -271,7 +292,7 @@ export class UserAdminComponent implements OnInit {
 
     const formData = new FormData();
     const rawValues = this.userForm.getRawValue();
-    Object.keys(rawValues).forEach(key => {
+    Object.keys(rawValues).forEach((key) => {
       if (rawValues[key] !== null && rawValues[key] !== undefined) {
         formData.append(key, rawValues[key]);
       }
@@ -296,7 +317,7 @@ export class UserAdminComponent implements OnInit {
         error: (err) => {
           this.isSaving.set(false);
           this.errorMessage.set(err.error?.error || 'Error al actualizar el usuario');
-        }
+        },
       });
     } else {
       this.userService.createUsuario(formData).subscribe({
@@ -313,9 +334,8 @@ export class UserAdminComponent implements OnInit {
         error: (err) => {
           this.isSaving.set(false);
           this.errorMessage.set(err.error?.error || 'Error al registrar el usuario');
-        }
+        },
       });
     }
   }
 }
-

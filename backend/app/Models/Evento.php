@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class Evento extends Model
 {
@@ -15,6 +14,7 @@ class Evento extends Model
     const CODE_PREFIX = 'EVE';
 
     protected $table = 'eventos';
+
     public $timestamps = false;
 
     protected $fillable = [

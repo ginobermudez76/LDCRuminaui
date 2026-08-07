@@ -14,10 +14,20 @@ import { PublicistaService, CartaCondolencia } from '../../../core/services/publ
 @Component({
   selector: 'app-cartas-condolencia',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, TextareaModule, MessageModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    TextareaModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './cartas-condolencia.component.html',
-  styleUrl: './cartas-condolencia.component.css'
+  styleUrl: './cartas-condolencia.component.css',
 })
 export class CartasCondolenciaComponent implements OnInit {
   private svc = inject(PublicistaService);
@@ -31,13 +41,25 @@ export class CartasCondolenciaComponent implements OnInit {
   private selectedFile: File | null = null;
 
   ngOnInit() {
-    this.form = this.fb.group({ mensaje: ['', Validators.required], fecha_eliminar: ['', Validators.required] });
+    this.form = this.fb.group({
+      mensaje: ['', Validators.required],
+      fecha_eliminar: ['', Validators.required],
+    });
     this.load();
   }
 
-  load() { this.svc.getCartas().subscribe(d => this.items.set(d)); }
-  onFileChange(e: any) { this.selectedFile = e.target.files[0] || null; }
-  openDialog() { this.form.reset(); this.selectedFile = null; this.error.set(undefined); this.showDialog = true; }
+  load() {
+    this.svc.getCartas().subscribe((d) => this.items.set(d));
+  }
+  onFileChange(e: any) {
+    this.selectedFile = e.target.files[0] || null;
+  }
+  openDialog() {
+    this.form.reset();
+    this.selectedFile = null;
+    this.error.set(undefined);
+    this.showDialog = true;
+  }
 
   onSubmit() {
     if (this.form.invalid) return;
@@ -46,10 +68,23 @@ export class CartasCondolenciaComponent implements OnInit {
     fd.append('mensaje', this.form.value.mensaje);
     fd.append('fecha_eliminar', this.form.value.fecha_eliminar);
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
-    this.svc.createCarta(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
+    this.svc.createCarta(fd).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.showDialog = false;
+        this.load();
+      },
+      error: (e) => {
+        this.saving.set(false);
+        this.error.set(e.error?.error || 'Error al guardar');
+      },
+    });
   }
 
   confirmDelete(uuid: string) {
-    this.confirm.confirm({ message: '¿Eliminar esta carta?', accept: () => this.svc.deleteCarta(uuid).subscribe(() => this.load()) });
+    this.confirm.confirm({
+      message: '¿Eliminar esta carta?',
+      accept: () => this.svc.deleteCarta(uuid).subscribe(() => this.load()),
+    });
   }
 }

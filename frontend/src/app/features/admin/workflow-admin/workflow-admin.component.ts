@@ -7,7 +7,12 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { MessageModule } from 'primeng/message';
 import { CheckboxModule } from 'primeng/checkbox';
-import { SolicitudTipoService, SolicitudTipo, Rol, WorkflowStep } from '../../../core/services/solicitud-tipo.service';
+import {
+  SolicitudTipoService,
+  SolicitudTipo,
+  Rol,
+  WorkflowStep,
+} from '../../../core/services/solicitud-tipo.service';
 
 @Component({
   selector: 'app-workflow-admin',
@@ -20,10 +25,10 @@ import { SolicitudTipoService, SolicitudTipo, Rol, WorkflowStep } from '../../..
     ButtonModule,
     SelectModule,
     MessageModule,
-    CheckboxModule
+    CheckboxModule,
   ],
   templateUrl: './workflow-admin.component.html',
-  styleUrl: './workflow-admin.component.css'
+  styleUrl: './workflow-admin.component.css',
 })
 export class WorkflowAdminComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -50,7 +55,7 @@ export class WorkflowAdminComponent implements OnInit {
       requiere_valor: [false],
       requiere_descripcion: [true],
       activo: [true],
-      steps: this.fb.array([])
+      steps: this.fb.array([]),
     });
   }
 
@@ -61,8 +66,8 @@ export class WorkflowAdminComponent implements OnInit {
   addStep(step?: WorkflowStep) {
     const stepGroup = this.fb.group({
       orden: [step ? step.orden : this.stepsArray.length + 1, Validators.required],
-      rol_id: [step ? (step.rol?.uuid || step.rol_id) : null, Validators.required],
-      nombre_paso: [step ? step.nombre_paso : '']
+      rol_id: [step ? step.rol?.uuid || step.rol_id : null, Validators.required],
+      nombre_paso: [step ? step.nombre_paso : ''],
     });
     this.stepsArray.push(stepGroup);
   }
@@ -78,14 +83,14 @@ export class WorkflowAdminComponent implements OnInit {
   loadTipos() {
     this.service.getSolicitudTipos().subscribe({
       next: (data) => this.tipos.set(data),
-      error: () => this.errorMessage.set('Error al cargar tipos de solicitud')
+      error: () => this.errorMessage.set('Error al cargar tipos de solicitud'),
     });
   }
 
   loadRoles() {
     this.service.getRoles().subscribe({
       next: (data) => this.roles.set(data),
-      error: () => this.errorMessage.set('Error al cargar roles')
+      error: () => this.errorMessage.set('Error al cargar roles'),
     });
   }
 
@@ -99,13 +104,13 @@ export class WorkflowAdminComponent implements OnInit {
       requiere_documento: tipo.requiere_documento,
       requiere_valor: tipo.requiere_valor,
       requiere_descripcion: tipo.requiere_descripcion,
-      activo: tipo.activo
+      activo: tipo.activo,
     });
 
     // Clear and reload steps array
     this.stepsArray.clear();
     if (tipo.steps && tipo.steps.length > 0) {
-      tipo.steps.forEach(step => this.addStep(step));
+      tipo.steps.forEach((step) => this.addStep(step));
     }
   }
 
@@ -117,7 +122,7 @@ export class WorkflowAdminComponent implements OnInit {
       requiere_documento: false,
       requiere_valor: false,
       requiere_descripcion: true,
-      activo: true
+      activo: true,
     });
     this.stepsArray.clear();
   }
@@ -141,7 +146,7 @@ export class WorkflowAdminComponent implements OnInit {
         error: (err: any) => {
           this.isLoading.set(false);
           this.errorMessage.set(err.error?.error || 'Error al actualizar');
-        }
+        },
       });
     } else {
       // Create new
@@ -154,7 +159,7 @@ export class WorkflowAdminComponent implements OnInit {
         error: (err: any) => {
           this.isLoading.set(false);
           this.errorMessage.set(err.error?.error || 'Error al crear');
-        }
+        },
       });
     }
   }

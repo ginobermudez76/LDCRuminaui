@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class Logro extends Model
 {
@@ -14,6 +13,7 @@ class Logro extends Model
     const CODE_PREFIX = 'LOG';
 
     protected $table = 'logros';
+
     public $timestamps = false;
 
     protected $fillable = [

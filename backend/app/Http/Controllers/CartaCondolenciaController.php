@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CartaCondolencia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CartaCondolenciaController extends Controller
 {
@@ -30,7 +30,7 @@ class CartaCondolenciaController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('cartas', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $carta = CartaCondolencia::create($data);
@@ -42,7 +42,7 @@ class CartaCondolenciaController extends Controller
     {
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
-        if (!$carta) {
+        if (! $carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);
         }
 
@@ -53,7 +53,7 @@ class CartaCondolenciaController extends Controller
     {
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
-        if (!$carta) {
+        if (! $carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);
         }
 
@@ -75,7 +75,7 @@ class CartaCondolenciaController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('cartas', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $carta->update($data);
@@ -87,7 +87,7 @@ class CartaCondolenciaController extends Controller
     {
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
-        if (!$carta) {
+        if (! $carta) {
             return response()->json(['message' => 'Carta no encontrada'], 404);
         }
 

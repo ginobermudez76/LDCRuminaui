@@ -2,8 +2,9 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 trait HasUuidAndCode
 {
@@ -15,14 +16,14 @@ trait HasUuidAndCode
         static::creating(function ($model) {
             // Check if column exists in schema before setting
             $table = $model->getTable();
-            
-            if (\Illuminate\Support\Facades\Schema::hasColumn($table, 'uuid')) {
+
+            if (Schema::hasColumn($table, 'uuid')) {
                 if (empty($model->uuid)) {
                     $model->uuid = (string) Str::uuid();
                 }
             }
 
-            if (\Illuminate\Support\Facades\Schema::hasColumn($table, 'codigo')) {
+            if (Schema::hasColumn($table, 'codigo')) {
                 if (empty($model->codigo)) {
                     $model->codigo = static::generateUniqueCode();
                 }
@@ -37,9 +38,9 @@ trait HasUuidAndCode
     {
         $prefix = defined('static::CODE_PREFIX') ? static::CODE_PREFIX : 'GEN';
         $table = (new static)->getTable();
-        
+
         do {
-            $code = $prefix . '-' . strtoupper(Str::random(6));
+            $code = $prefix.'-'.strtoupper(Str::random(6));
         } while (DB::table($table)->where('codigo', $code)->exists());
 
         return $code;

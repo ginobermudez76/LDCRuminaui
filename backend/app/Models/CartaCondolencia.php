@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class CartaCondolencia extends Model
 {
@@ -14,6 +13,7 @@ class CartaCondolencia extends Model
     const CODE_PREFIX = 'CAR';
 
     protected $table = 'carta_condolencias';
+
     public $timestamps = false;
 
     protected $fillable = [

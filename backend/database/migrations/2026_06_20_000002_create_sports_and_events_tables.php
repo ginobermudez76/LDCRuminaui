@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('deportes')) {
+        if (! Schema::hasTable('deportes')) {
             Schema::create('deportes', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('nombre', 100);
@@ -21,7 +21,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('deportistas_destacados')) {
+        if (! Schema::hasTable('deportistas_destacados')) {
             Schema::create('deportistas_destacados', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('nombre_deportista', 200);
@@ -33,7 +33,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('eventos')) {
+        if (! Schema::hasTable('eventos')) {
             Schema::create('eventos', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('nombre', 100)->nullable();
@@ -51,7 +51,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('inscripciones_eventos')) {
+        if (! Schema::hasTable('inscripciones_eventos')) {
             Schema::create('inscripciones_eventos', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->integer('evento_id')->nullable();
@@ -64,7 +64,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('logros')) {
+        if (! Schema::hasTable('logros')) {
             Schema::create('logros', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('titulo', 200);
@@ -76,7 +76,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('noticias')) {
+        if (! Schema::hasTable('noticias')) {
             Schema::create('noticias', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('titulo', 100)->nullable();
@@ -86,7 +86,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('galeria_imagenes')) {
+        if (! Schema::hasTable('galeria_imagenes')) {
             Schema::create('galeria_imagenes', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('tipo', 50);
@@ -98,7 +98,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('carta_condolencias')) {
+        if (! Schema::hasTable('carta_condolencias')) {
             Schema::create('carta_condolencias', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('mensaje', 700);

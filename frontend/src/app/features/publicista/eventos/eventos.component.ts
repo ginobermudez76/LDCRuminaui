@@ -14,10 +14,20 @@ import { PublicistaService, Evento, Deporte } from '../../../core/services/publi
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, DialogModule, ButtonModule, InputTextModule, SelectModule, MessageModule, ConfirmDialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    SelectModule,
+    MessageModule,
+    ConfirmDialogModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './eventos.component.html',
-  styles: [pubStyles()]
+  styles: [pubStyles()],
 })
 export class EventosComponent implements OnInit {
   private svc = inject(PublicistaService);
@@ -38,29 +48,53 @@ export class EventosComponent implements OnInit {
       fecha_fin: ['', Validators.required],
       deporte_id: [null, Validators.required],
       descripcion: [''],
-      inscripciones: ['Activo']
+      inscripciones: ['Activo'],
     });
     this.load();
-    this.svc.getDeportes().subscribe(d => this.deportes.set(d));
+    this.svc.getDeportes().subscribe((d) => this.deportes.set(d));
   }
 
-  load() { this.svc.getEventos().subscribe(d => this.items.set(d)); }
+  load() {
+    this.svc.getEventos().subscribe((d) => this.items.set(d));
+  }
 
-  onFileChange(e: any) { this.selectedFile = e.target.files[0] || null; }
+  onFileChange(e: any) {
+    this.selectedFile = e.target.files[0] || null;
+  }
 
-  openDialog() { this.form.reset({ inscripciones: 'Activo' }); this.selectedFile = null; this.error.set(undefined); this.showDialog = true; }
+  openDialog() {
+    this.form.reset({ inscripciones: 'Activo' });
+    this.selectedFile = null;
+    this.error.set(undefined);
+    this.showDialog = true;
+  }
 
   onSubmit() {
     if (this.form.invalid) return;
     this.saving.set(true);
     const fd = new FormData();
-    Object.entries(this.form.value).forEach(([k, v]) => { if (v !== null && v !== undefined && v !== '') fd.append(k, String(v)); });
+    Object.entries(this.form.value).forEach(([k, v]) => {
+      if (v !== null && v !== undefined && v !== '') fd.append(k, String(v));
+    });
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
-    this.svc.createEvento(fd).subscribe({ next: () => { this.saving.set(false); this.showDialog = false; this.load(); }, error: (e) => { this.saving.set(false); this.error.set(e.error?.error || 'Error al guardar'); }});
+    this.svc.createEvento(fd).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.showDialog = false;
+        this.load();
+      },
+      error: (e) => {
+        this.saving.set(false);
+        this.error.set(e.error?.error || 'Error al guardar');
+      },
+    });
   }
 
   confirmDelete(uuid: string) {
-    this.confirm.confirm({ message: '¿Eliminar este evento?', accept: () => this.svc.deleteEvento(uuid).subscribe(() => this.load()) });
+    this.confirm.confirm({
+      message: '¿Eliminar este evento?',
+      accept: () => this.svc.deleteEvento(uuid).subscribe(() => this.load()),
+    });
   }
 }
 

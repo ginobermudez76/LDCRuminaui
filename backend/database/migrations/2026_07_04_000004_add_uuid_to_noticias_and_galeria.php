@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 return new class extends Migration
@@ -17,10 +17,10 @@ return new class extends Migration
 
         foreach ($tables as $t) {
             Schema::table($t, function (Blueprint $table) use ($t) {
-                if (!Schema::hasColumn($t, 'uuid')) {
+                if (! Schema::hasColumn($t, 'uuid')) {
                     $table->uuid('uuid')->nullable();
                 }
-                if (!Schema::hasColumn($t, 'codigo')) {
+                if (! Schema::hasColumn($t, 'codigo')) {
                     $table->string('codigo', 100)->nullable();
                 }
             });
@@ -30,7 +30,7 @@ return new class extends Migration
         $prefixes = [
             'noticias' => 'NOT',
             'galeria_imagenes' => 'GAL',
-            'inscripciones_eventos' => 'INS'
+            'inscripciones_eventos' => 'INS',
         ];
 
         foreach ($prefixes as $table => $pref) {
@@ -39,9 +39,9 @@ return new class extends Migration
                 $updates = [];
                 $updates['uuid'] = (string) Str::uuid();
 
-                $codeVal = $pref . '-' . strtoupper(Str::random(6));
+                $codeVal = $pref.'-'.strtoupper(Str::random(6));
                 while (DB::table($table)->where('codigo', $codeVal)->exists()) {
-                    $codeVal = $pref . '-' . strtoupper(Str::random(6));
+                    $codeVal = $pref.'-'.strtoupper(Str::random(6));
                 }
                 $updates['codigo'] = $codeVal;
 
@@ -51,15 +51,17 @@ return new class extends Migration
 
         // Constraints
         foreach ($tables as $t) {
-            Schema::table($t, function (Blueprint $table) use ($t) {
+            Schema::table($t, function (Blueprint $table) {
                 $table->uuid('uuid')->nullable(false)->change();
                 $table->string('codigo', 100)->nullable(false)->change();
                 try {
                     $table->unique('uuid');
-                } catch (\Exception $e) {}
+                } catch (Exception $e) {
+                }
                 try {
                     $table->unique('codigo');
-                } catch (\Exception $e) {}
+                } catch (Exception $e) {
+                }
             });
         }
     }
@@ -71,7 +73,7 @@ return new class extends Migration
     {
         $tables = ['noticias', 'galeria_imagenes', 'inscripciones_eventos'];
         foreach ($tables as $t) {
-            Schema::table($t, function (Blueprint $table) use ($t) {
+            Schema::table($t, function (Blueprint $table) {
                 $table->dropColumn(['uuid', 'codigo']);
             });
         }

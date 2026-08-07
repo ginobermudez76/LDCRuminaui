@@ -1,35 +1,34 @@
-    <app-navbar></app-navbar>
-    <div class="noticias-page">
-      <div class="page-hero">
-        <div class="hero-title-row">
-          <span class="material-symbols-outlined hero-icon">newspaper</span>
-          <h1>Noticias</h1>
-        </div>
-        <div class="hero-line"></div>
-      </div>
-      <div class="content-wrap">
-        <div class="grid-noticias" *ngIf="items().length > 0; else empty">
-          <div class="noticia-card" *ngFor="let n of items()">
-            <div class="card-img-wrap">
-              <img *ngIf="n.imagen" [src]="'http://localhost:8000' + n.imagen" [alt]="n.titulo" />
-              <div *ngIf="!n.imagen" class="card-placeholder">
-                <span class="material-symbols-outlined">article</span>
-              </div>
-              <div class="card-overlay">
-                <p class="overlay-title">{{ n.titulo }}</p>
-                <a class="ver-mas-btn">
-                  <span class="material-symbols-outlined">open_in_new</span>
-                  Ver más
-                </a>
-              </div>
-            </div>
-            <div class="card-body">
-              <h3>{{ n.titulo }}</h3>
-            </div>
+<app-navbar></app-navbar>
+<div class="noticias-page">
+  <div class="page-hero">
+    <div class="hero-title-row">
+      <span class="material-symbols-outlined hero-icon">newspaper</span>
+      <h1>Noticias</h1>
+    </div>
+    <div class="hero-line"></div>
+  </div>
+  <div class="content-wrap">
+    <div class="grid-noticias" *ngIf="items().length > 0; else empty">
+      <div class="noticia-card" *ngFor="let n of items()">
+        <div class="card-img-wrap">
+          <img *ngIf="n.imagen" [src]="'http://localhost:8000' + n.imagen" [alt]="n.titulo" />
+          <div *ngIf="!n.imagen" class="card-placeholder">
+            <span class="material-symbols-outlined">article</span>
+          </div>
+          <div class="card-overlay">
+            <p class="overlay-title">{{ n.titulo }}</p>
+            <a class="ver-mas-btn">
+              <span class="material-symbols-outlined">open_in_new</span>
+              Ver más
+            </a>
           </div>
         </div>
-        <ng-template #empty><p class="empty-msg">No hay noticias para mostrar.</p></ng-template>
+        <div class="card-body">
+          <h3>{{ n.titulo }}</h3>
+        </div>
       </div>
     </div>
-    <app-footer></app-footer>
-  
+    <ng-template #empty><p class="empty-msg">No hay noticias para mostrar.</p></ng-template>
+  </div>
+</div>
+<app-footer></app-footer>

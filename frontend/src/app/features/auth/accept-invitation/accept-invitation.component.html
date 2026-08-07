@@ -2,10 +2,18 @@
   <div class="activation-container">
     <p-card styleClass="activation-card">
       <div class="header-section">
-        <img *ngIf="!logoError()" src="/img/logoX_LDCR.png" alt="Logo LDCR" class="brand-logo" (error)="logoError.set(true)" />
+        <img
+          *ngIf="!logoError()"
+          src="/img/logoX_LDCR.png"
+          alt="Logo LDCR"
+          class="brand-logo"
+          (error)="logoError.set(true)"
+        />
         <h2 class="brand-name">Liga Cantonal Rumiñahui</h2>
         <h3>Activación de Cuenta</h3>
-        <p class="subtitle" *ngIf="!success() && !error()">Define tu contraseña para activar tu acceso al sistema.</p>
+        <p class="subtitle" *ngIf="!success() && !error()">
+          Define tu contraseña para activar tu acceso al sistema.
+        </p>
       </div>
 
       <!-- Loading State -->
@@ -18,8 +26,17 @@
       <div class="success-state text-center p-4" *ngIf="success() && !loading()">
         <i class="pi pi-check-circle text-5xl text-success block mb-3"></i>
         <h4>¡Activación Exitosa!</h4>
-        <p>Tu cuenta ha sido activada correctamente. Ya puedes acceder al sistema con tu nombre de usuario y tu nueva contraseña.</p>
-        <button pButton label="Ir al Login" icon="pi pi-sign-in" routerLink="/login" class="mt-4 p-button-primary"></button>
+        <p>
+          Tu cuenta ha sido activada correctamente. Ya puedes acceder al sistema con tu nombre de
+          usuario y tu nueva contraseña.
+        </p>
+        <button
+          pButton
+          label="Ir al Login"
+          icon="pi pi-sign-in"
+          routerLink="/login"
+          class="mt-4 p-button-primary"
+        ></button>
       </div>
 
       <!-- Error State -->
@@ -27,29 +44,64 @@
         <i class="pi pi-exclamation-triangle text-5xl text-danger block mb-3"></i>
         <h4>Error de Activación</h4>
         <p class="text-danger">{{ error() }}</p>
-        <button pButton label="Volver a Inicio" icon="pi pi-home" routerLink="/" class="mt-4 p-button-secondary p-button-text"></button>
+        <button
+          pButton
+          label="Volver a Inicio"
+          icon="pi pi-home"
+          routerLink="/"
+          class="mt-4 p-button-secondary p-button-text"
+        ></button>
       </div>
 
       <!-- Form State -->
-      <form *ngIf="!success() && !error() && !loading()" [formGroup]="form" (ngSubmit)="onSubmit()" class="activation-form mt-4">
+      <form
+        *ngIf="!success() && !error() && !loading()"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="activation-form mt-4"
+      >
         <div class="field">
           <label for="contrasena">Nueva Contraseña</label>
-          <input pInputText type="password" id="contrasena" formControlName="contrasena" class="w-full" placeholder="Mínimo 6 caracteres" />
-          <div *ngIf="form.get('contrasena')?.touched && form.get('contrasena')?.errors?.['minlength']" class="error-msg">
+          <input
+            pInputText
+            type="password"
+            id="contrasena"
+            formControlName="contrasena"
+            class="w-full"
+            placeholder="Mínimo 6 caracteres"
+          />
+          <div
+            *ngIf="form.get('contrasena')?.touched && form.get('contrasena')?.errors?.['minlength']"
+            class="error-msg"
+          >
             La contraseña debe tener al menos 6 caracteres.
           </div>
         </div>
 
         <div class="field mt-3">
           <label for="confirmar_contrasena">Confirmar Contraseña</label>
-          <input pInputText type="password" id="confirmar_contrasena" formControlName="confirmar_contrasena" class="w-full" placeholder="Confirma tu contraseña" />
+          <input
+            pInputText
+            type="password"
+            id="confirmar_contrasena"
+            formControlName="confirmar_contrasena"
+            class="w-full"
+            placeholder="Confirma tu contraseña"
+          />
           <div *ngIf="form.touched && form.errors?.['mismatch']" class="error-msg">
             Las contraseñas no coinciden.
           </div>
         </div>
 
         <div class="actions-section mt-4">
-          <button pButton type="submit" label="Activar Cuenta" icon="pi pi-check" [disabled]="form.invalid" class="w-full"></button>
+          <button
+            pButton
+            type="submit"
+            label="Activar Cuenta"
+            icon="pi pi-check"
+            [disabled]="form.invalid"
+            class="w-full"
+          ></button>
         </div>
       </form>
     </p-card>

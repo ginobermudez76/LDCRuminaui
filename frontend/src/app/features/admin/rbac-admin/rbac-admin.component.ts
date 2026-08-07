@@ -1,6 +1,12 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -11,7 +17,12 @@ import { MessageModule } from 'primeng/message';
 import { SelectModule } from 'primeng/select';
 import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { RbacAdminService, RbacRole, RbacOption, RbacEndpoint } from '../../../core/services/rbac-admin.service';
+import {
+  RbacAdminService,
+  RbacRole,
+  RbacOption,
+  RbacEndpoint,
+} from '../../../core/services/rbac-admin.service';
 
 @Component({
   selector: 'app-rbac-admin',
@@ -28,10 +39,10 @@ import { RbacAdminService, RbacRole, RbacOption, RbacEndpoint } from '../../../c
     CheckboxModule,
     MessageModule,
     SelectModule,
-    MenuModule
+    MenuModule,
   ],
   templateUrl: './rbac-admin.component.html',
-  styleUrl: './rbac-admin.component.css'
+  styleUrl: './rbac-admin.component.css',
 })
 export class RbacAdminComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -79,43 +90,50 @@ export class RbacAdminComponent implements OnInit {
       {
         label: 'Asociar Menús',
         icon: 'pi pi-key',
-        command: () => this.openSyncRoleOptions(role)
+        command: () => this.openSyncRoleOptions(role),
       },
       {
         label: 'Editar Rol',
         icon: 'pi pi-pencil',
-        command: () => this.openEditRole(role)
+        command: () => this.openEditRole(role),
       },
       {
         label: 'Eliminar Rol',
         icon: 'pi pi-trash',
         disabled: role.id !== undefined && role.id <= 9,
-        command: () => this.deleteRole(role.uuid)
-      }
+        command: () => this.deleteRole(role.uuid),
+      },
     ];
     menu.toggle(event);
   }
 
   toggleOptionMenu(event: Event, opt: RbacOption, menu: any) {
     this.selectedOptionUuid.set(opt.uuid);
-    const essential = ['G_SOLICITUDES_PROPIAS', 'REGISTRAR_USUARIOS', 'G_SOLICITUDES_ASIGNADAS', 'APROBAR_SOLICITUDES', 'PUBLICAR_CONTENIDO', 'CONFIGURAR_RBAC'];
+    const essential = [
+      'G_SOLICITUDES_PROPIAS',
+      'REGISTRAR_USUARIOS',
+      'G_SOLICITUDES_ASIGNADAS',
+      'APROBAR_SOLICITUDES',
+      'PUBLICAR_CONTENIDO',
+      'CONFIGURAR_RBAC',
+    ];
     this.rbacMenuItems = [
       {
         label: 'Asociar Endpoints',
         icon: 'pi pi-cog',
-        command: () => this.openSyncOptionEndpoints(opt)
+        command: () => this.openSyncOptionEndpoints(opt),
       },
       {
         label: 'Editar Menú',
         icon: 'pi pi-pencil',
-        command: () => this.openEditOption(opt)
+        command: () => this.openEditOption(opt),
       },
       {
         label: 'Eliminar Menú',
         icon: 'pi pi-trash',
         disabled: essential.includes(opt.nombre_opcion),
-        command: () => this.deleteOption(opt.uuid)
-      }
+        command: () => this.deleteOption(opt.uuid),
+      },
     ];
     menu.toggle(event);
   }
@@ -126,14 +144,14 @@ export class RbacAdminComponent implements OnInit {
       {
         label: 'Editar Permiso',
         icon: 'pi pi-pencil',
-        command: () => this.openEditEndpoint(end)
+        command: () => this.openEditEndpoint(end),
       },
       {
         label: 'Eliminar Permiso',
         icon: 'pi pi-trash',
         disabled: end.url.includes('api/rbac'),
-        command: () => this.deleteEndpoint(end.uuid)
-      }
+        command: () => this.deleteEndpoint(end.uuid),
+      },
     ];
     menu.toggle(event);
   }
@@ -144,7 +162,7 @@ export class RbacAdminComponent implements OnInit {
     { label: 'POST', value: 'POST' },
     { label: 'PUT', value: 'PUT' },
     { label: 'DELETE', value: 'DELETE' },
-    { label: 'PATCH', value: 'PATCH' }
+    { label: 'PATCH', value: 'PATCH' },
   ];
 
   ngOnInit() {
@@ -156,19 +174,19 @@ export class RbacAdminComponent implements OnInit {
     this.roleForm = this.fb.group({
       codigo: ['', [Validators.required, Validators.maxLength(100)]],
       nombre_rol: ['', [Validators.required, Validators.maxLength(100)]],
-      descripcion: ['', [Validators.maxLength(255)]]
+      descripcion: ['', [Validators.maxLength(255)]],
     });
 
     this.optionForm = this.fb.group({
       nombre_opcion: ['', [Validators.required, Validators.maxLength(150)]],
-      descripcion: ['', [Validators.maxLength(255)]]
+      descripcion: ['', [Validators.maxLength(255)]],
     });
 
     this.endpointForm = this.fb.group({
       nombre_endpoint: ['', [Validators.required, Validators.maxLength(150)]],
       metodo: ['GET', [Validators.required]],
       url: ['', [Validators.required, Validators.maxLength(255)]],
-      rbac_enabled: [true, [Validators.required]]
+      rbac_enabled: [true, [Validators.required]],
     });
   }
 
@@ -188,13 +206,13 @@ export class RbacAdminComponent implements OnInit {
                 this.endpoints.set(ends);
                 this.isLoading.set(false);
               },
-              error: (err) => this.handleError('Error al cargar endpoints: ' + err.message)
+              error: (err) => this.handleError('Error al cargar endpoints: ' + err.message),
             });
           },
-          error: (err) => this.handleError('Error al cargar menús: ' + err.message)
+          error: (err) => this.handleError('Error al cargar menús: ' + err.message),
         });
       },
-      error: (err) => this.handleError('Error al cargar roles: ' + err.message)
+      error: (err) => this.handleError('Error al cargar roles: ' + err.message),
     });
   }
 
@@ -230,7 +248,7 @@ export class RbacAdminComponent implements OnInit {
     this.roleForm.patchValue({
       codigo: role.codigo,
       nombre_rol: role.nombre_rol,
-      descripcion: role.descripcion
+      descripcion: role.descripcion,
     });
     this.roleDialogVisible.set(true);
   }
@@ -249,7 +267,7 @@ export class RbacAdminComponent implements OnInit {
           this.roleDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al crear rol.')
+        error: (err) => this.handleError(err.error?.error || 'Error al crear rol.'),
       });
     } else {
       this.rbacService.updateRole(roleUuid, data).subscribe({
@@ -258,7 +276,7 @@ export class RbacAdminComponent implements OnInit {
           this.roleDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al actualizar rol.')
+        error: (err) => this.handleError(err.error?.error || 'Error al actualizar rol.'),
       });
     }
   }
@@ -272,14 +290,14 @@ export class RbacAdminComponent implements OnInit {
         this.showSuccess('Rol eliminado con éxito.');
         this.loadAllData();
       },
-      error: (err) => this.handleError(err.error?.error || 'Error al eliminar rol.')
+      error: (err) => this.handleError(err.error?.error || 'Error al eliminar rol.'),
     });
   }
 
   openSyncRoleOptions(role: RbacRole) {
     this.selectedRoleUuid.set(role.uuid);
     // Gather current option uuids
-    const activeOptionUuids = (role.opciones || []).map(o => o.uuid);
+    const activeOptionUuids = (role.opciones || []).map((o) => o.uuid);
     this.roleOptionsSelection.set(activeOptionUuids);
     this.syncOptionsDialogVisible.set(true);
   }
@@ -306,7 +324,7 @@ export class RbacAdminComponent implements OnInit {
         this.syncOptionsDialogVisible.set(false);
         this.loadAllData();
       },
-      error: (err) => this.handleError(err.error?.error || 'Error al sincronizar opciones.')
+      error: (err) => this.handleError(err.error?.error || 'Error al sincronizar opciones.'),
     });
   }
 
@@ -324,7 +342,7 @@ export class RbacAdminComponent implements OnInit {
     this.selectedOptionUuid.set(opt.uuid);
     this.optionForm.patchValue({
       nombre_opcion: opt.nombre_opcion,
-      descripcion: opt.descripcion
+      descripcion: opt.descripcion,
     });
     this.optionDialogVisible.set(true);
   }
@@ -343,7 +361,7 @@ export class RbacAdminComponent implements OnInit {
           this.optionDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al crear opción.')
+        error: (err) => this.handleError(err.error?.error || 'Error al crear opción.'),
       });
     } else {
       this.rbacService.updateOption(optUuid, data).subscribe({
@@ -352,7 +370,7 @@ export class RbacAdminComponent implements OnInit {
           this.optionDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al actualizar opción.')
+        error: (err) => this.handleError(err.error?.error || 'Error al actualizar opción.'),
       });
     }
   }
@@ -366,13 +384,13 @@ export class RbacAdminComponent implements OnInit {
         this.showSuccess('Menú eliminado con éxito.');
         this.loadAllData();
       },
-      error: (err) => this.handleError(err.error?.error || 'Error al eliminar opción.')
+      error: (err) => this.handleError(err.error?.error || 'Error al eliminar opción.'),
     });
   }
 
   openSyncOptionEndpoints(opt: RbacOption) {
     this.selectedOptionUuid.set(opt.uuid);
-    const activeEndpointUuids = (opt.endpoints || []).map(e => e.uuid);
+    const activeEndpointUuids = (opt.endpoints || []).map((e) => e.uuid);
     this.optionEndpointsSelection.set(activeEndpointUuids);
     this.syncEndpointsDialogVisible.set(true);
   }
@@ -399,7 +417,7 @@ export class RbacAdminComponent implements OnInit {
         this.syncEndpointsDialogVisible.set(false);
         this.loadAllData();
       },
-      error: (err) => this.handleError(err.error?.error || 'Error al sincronizar endpoints.')
+      error: (err) => this.handleError(err.error?.error || 'Error al sincronizar endpoints.'),
     });
   }
 
@@ -419,7 +437,7 @@ export class RbacAdminComponent implements OnInit {
       nombre_endpoint: end.nombre_endpoint,
       metodo: end.metodo,
       url: end.url,
-      rbac_enabled: end.rbac_enabled
+      rbac_enabled: end.rbac_enabled,
     });
     this.endpointDialogVisible.set(true);
   }
@@ -438,7 +456,7 @@ export class RbacAdminComponent implements OnInit {
           this.endpointDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al crear endpoint.')
+        error: (err) => this.handleError(err.error?.error || 'Error al crear endpoint.'),
       });
     } else {
       this.rbacService.updateEndpoint(endUuid, data).subscribe({
@@ -447,7 +465,7 @@ export class RbacAdminComponent implements OnInit {
           this.endpointDialogVisible.set(false);
           this.loadAllData();
         },
-        error: (err) => this.handleError(err.error?.error || 'Error al actualizar endpoint.')
+        error: (err) => this.handleError(err.error?.error || 'Error al actualizar endpoint.'),
       });
     }
   }
@@ -461,7 +479,7 @@ export class RbacAdminComponent implements OnInit {
         this.showSuccess('Endpoint eliminado con éxito.');
         this.loadAllData();
       },
-      error: (err) => this.handleError(err.error?.error || 'Error al eliminar endpoint.')
+      error: (err) => this.handleError(err.error?.error || 'Error al eliminar endpoint.'),
     });
   }
 }

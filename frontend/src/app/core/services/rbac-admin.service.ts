@@ -31,7 +31,7 @@ export interface RbacRole {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RbacAdminService {
   private baseApiUrl = 'http://localhost:8000/api/rbac';
@@ -59,7 +59,9 @@ export class RbacAdminService {
   }
 
   syncRoleOptions(roleUuid: string, optionUuids: string[]): Observable<any> {
-    return this.http.post<any>(`${this.baseApiUrl}/roles/${roleUuid}/opciones`, { option_ids: optionUuids });
+    return this.http.post<any>(`${this.baseApiUrl}/roles/${roleUuid}/opciones`, {
+      option_ids: optionUuids,
+    });
   }
 
   // ==========================================
@@ -83,7 +85,9 @@ export class RbacAdminService {
   }
 
   syncOptionEndpoints(optionUuid: string, endpointUuids: string[]): Observable<any> {
-    return this.http.post<any>(`${this.baseApiUrl}/opciones/${optionUuid}/endpoints`, { endpoint_ids: endpointUuids });
+    return this.http.post<any>(`${this.baseApiUrl}/opciones/${optionUuid}/endpoints`, {
+      endpoint_ids: endpointUuids,
+    });
   }
 
   // ==========================================

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Documento;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DocumentoController extends Controller
 {
@@ -16,7 +16,7 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 8388608) {
+        if ($request->header('Content-Length') && (int) $request->header('Content-Length') > 8388608) {
             return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
         }
 
@@ -34,7 +34,7 @@ class DocumentoController extends Controller
 
         if ($request->hasFile('documento')) {
             $path = $request->file('documento')->store('documentos', 'public');
-            $data['documento'] = '/storage/' . $path;
+            $data['documento'] = '/storage/'.$path;
         }
 
         $documento = Documento::create($data);
@@ -46,7 +46,7 @@ class DocumentoController extends Controller
     {
         $documento = Documento::where('uuid', $uuid)->first();
 
-        if (!$documento) {
+        if (! $documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
         }
 
@@ -57,11 +57,11 @@ class DocumentoController extends Controller
     {
         $documento = Documento::where('uuid', $uuid)->first();
 
-        if (!$documento) {
+        if (! $documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
         }
 
-        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 8388608) {
+        if ($request->header('Content-Length') && (int) $request->header('Content-Length') > 8388608) {
             return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
         }
 
@@ -83,7 +83,7 @@ class DocumentoController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('documento')->store('documentos', 'public');
-            $data['documento'] = '/storage/' . $path;
+            $data['documento'] = '/storage/'.$path;
         }
 
         $documento->update($data);
@@ -95,7 +95,7 @@ class DocumentoController extends Controller
     {
         $documento = Documento::where('uuid', $uuid)->first();
 
-        if (!$documento) {
+        if (! $documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
         }
 

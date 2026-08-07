@@ -54,7 +54,7 @@ export interface Solicitud {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SolicitudService {
   private apiUrl = 'http://localhost:8000/api/solicitudes';
@@ -85,7 +85,10 @@ export class SolicitudService {
     return this.http.delete(`${this.apiUrl}/${uuid}`);
   }
 
-  reassignSolicitud(uuid: string, data: { encargado?: string; departamento_encargado?: string; tipo?: string }): Observable<any> {
+  reassignSolicitud(
+    uuid: string,
+    data: { encargado?: string; departamento_encargado?: string; tipo?: string },
+  ): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${uuid}/reassign`, data);
   }
 

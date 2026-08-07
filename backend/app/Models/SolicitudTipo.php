@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class SolicitudTipo extends Model
 {
@@ -13,6 +12,7 @@ class SolicitudTipo extends Model
     const CODE_PREFIX = 'WFT';
 
     protected $table = 'solicitud_tipo';
+
     protected $primaryKey = 'id_tipo';
 
     protected $fillable = [

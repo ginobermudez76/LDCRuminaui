@@ -18,10 +18,10 @@ import { UsuarioService } from '../../../core/services/usuario.service';
     MessageModule,
     InputTextModule,
     ButtonModule,
-    CardModule
+    CardModule,
   ],
   templateUrl: './accept-invitation.component.html',
-  styleUrl: './accept-invitation.component.css'
+  styleUrl: './accept-invitation.component.css',
 })
 export class AcceptInvitationComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -42,15 +42,19 @@ export class AcceptInvitationComponent implements OnInit {
       this.error.set('Token de invitación inválido o no suministrado.');
     }
 
-    this.form = this.fb.group({
-      contrasena: ['', [Validators.required, Validators.minLength(6)]],
-      confirmar_contrasena: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+    this.form = this.fb.group(
+      {
+        contrasena: ['', [Validators.required, Validators.minLength(6)]],
+        confirmar_contrasena: ['', [Validators.required]],
+      },
+      { validators: this.passwordMatchValidator },
+    );
   }
 
   private passwordMatchValidator(g: FormGroup) {
     return g.get('contrasena')?.value === g.get('confirmar_contrasena')?.value
-      ? null : { mismatch: true };
+      ? null
+      : { mismatch: true };
   }
 
   onSubmit() {
@@ -68,9 +72,10 @@ export class AcceptInvitationComponent implements OnInit {
       },
       error: (err) => {
         this.loading.set(false);
-        const errMsg = err.error?.error || 'No se pudo procesar la invitación. El enlace puede haber expirado.';
+        const errMsg =
+          err.error?.error || 'No se pudo procesar la invitación. El enlace puede haber expirado.';
         this.error.set(errMsg);
-      }
+      },
     });
   }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Auditoria extends Model
 {
     protected $table = 'auditoria';
-    
+
     // Disable Laravel's automatic timestamp columns since bitacora uses custom date column "fecha"
     public $timestamps = false;
 

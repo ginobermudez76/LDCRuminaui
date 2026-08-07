@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuidAndCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use App\Traits\HasUuidAndCode;
 
 class Curso extends Model
 {

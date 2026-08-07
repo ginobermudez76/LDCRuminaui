@@ -1,6 +1,13 @@
 import { Component, OnInit, signal, inject, OnDestroy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PublicistaService, Logro, DeportistaDestacado, Deporte, Evento, CartaCondolencia } from '../../core/services/publicista.service';
+import {
+  PublicistaService,
+  Logro,
+  DeportistaDestacado,
+  Deporte,
+  Evento,
+  CartaCondolencia,
+} from '../../core/services/publicista.service';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 
@@ -16,7 +23,7 @@ interface Noticia {
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrl: './landing.component.css',
 })
 export class LandingComponent implements OnInit, OnDestroy {
   private svc = inject(PublicistaService);
@@ -58,16 +65,16 @@ export class LandingComponent implements OnInit, OnDestroy {
   private cartaInterval: any;
 
   ngOnInit() {
-    this.svc.getLogros().subscribe(d => this.logros.set(d));
-    this.svc.getDeportistas().subscribe(d => {
+    this.svc.getLogros().subscribe((d) => this.logros.set(d));
+    this.svc.getDeportistas().subscribe((d) => {
       this.deportistas.set(d);
       // Split items alternating (odds and evens)
       this.deportistasIzq.set(d.filter((_, i) => i % 2 !== 0));
       this.deportistasDer.set(d.filter((_, i) => i % 2 === 0));
     });
-    this.svc.getDeportes().subscribe(d => this.deportes.set(d));
-    this.svc.getEventos().subscribe(d => this.eventos.set(d.slice(0, 6)));
-    this.svc.getCartas().subscribe(d => {
+    this.svc.getDeportes().subscribe((d) => this.deportes.set(d));
+    this.svc.getEventos().subscribe((d) => this.eventos.set(d.slice(0, 6)));
+    this.svc.getCartas().subscribe((d) => {
       this.cartas.set(d);
       if (d.length > 0) this.showCondolencias.set(true);
     });
@@ -115,19 +122,21 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.cartaInterval = setInterval(() => this.nextCarta(), 6000);
   }
 
-  closeCondolencias() { this.showCondolencias.set(false); }
+  closeCondolencias() {
+    this.showCondolencias.set(false);
+  }
 
   prevCarta() {
     const len = this.cartas().length;
     if (len > 0) {
-      this.cartaIdx.update(i => (i - 1 + len) % len);
+      this.cartaIdx.update((i) => (i - 1 + len) % len);
       this.startCartaAutoplay();
     }
   }
   nextCarta() {
     const len = this.cartas().length;
     if (len > 0) {
-      this.cartaIdx.update(i => (i + 1) % len);
+      this.cartaIdx.update((i) => (i + 1) % len);
       this.startCartaAutoplay();
     }
   }
@@ -135,14 +144,14 @@ export class LandingComponent implements OnInit, OnDestroy {
   prevIzq() {
     const len = this.deportistasIzq().length;
     if (len > 0) {
-      this.idxIzq.update(i => (i - 1 + len) % len);
+      this.idxIzq.update((i) => (i - 1 + len) % len);
       this.startIzqAutoplay();
     }
   }
   nextIzq() {
     const len = this.deportistasIzq().length;
     if (len > 0) {
-      this.idxIzq.update(i => (i + 1) % len);
+      this.idxIzq.update((i) => (i + 1) % len);
       this.startIzqAutoplay();
     }
   }
@@ -150,14 +159,14 @@ export class LandingComponent implements OnInit, OnDestroy {
   prevDer() {
     const len = this.deportistasDer().length;
     if (len > 0) {
-      this.idxDer.update(i => (i - 1 + len) % len);
+      this.idxDer.update((i) => (i - 1 + len) % len);
       this.startDerAutoplay();
     }
   }
   nextDer() {
     const len = this.deportistasDer().length;
     if (len > 0) {
-      this.idxDer.update(i => (i + 1) % len);
+      this.idxDer.update((i) => (i + 1) % len);
       this.startDerAutoplay();
     }
   }
@@ -177,10 +186,10 @@ export class LandingComponent implements OnInit, OnDestroy {
       if (!this.isTransitioning()) {
         this.isTransitioning.set(true);
         setTimeout(() => {
-          this.idxEscuela.update(i => i - 1);
+          this.idxEscuela.update((i) => i - 1);
         }, 50);
       } else {
-        this.idxEscuela.update(i => i - 1);
+        this.idxEscuela.update((i) => i - 1);
       }
     }
     this.startEscuelaAutoplay();
@@ -193,10 +202,10 @@ export class LandingComponent implements OnInit, OnDestroy {
     if (!this.isTransitioning()) {
       this.isTransitioning.set(true);
       setTimeout(() => {
-        this.idxEscuela.update(i => i + 1);
+        this.idxEscuela.update((i) => i + 1);
       }, 50);
     } else {
-      this.idxEscuela.update(i => i + 1);
+      this.idxEscuela.update((i) => i + 1);
     }
     this.startEscuelaAutoplay();
   }

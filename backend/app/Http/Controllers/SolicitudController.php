@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rol;
 use App\Models\Solicitud;
+use App\Models\SolicitudTipo;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,9 +56,9 @@ class SolicitudController extends Controller
     public function store(Request $request)
     {
         $tipoUuid = $request->tipo;
-        $solicitudTipo = \App\Models\SolicitudTipo::with('steps')->where('uuid', $tipoUuid)->first();
+        $solicitudTipo = SolicitudTipo::with('steps')->where('uuid', $tipoUuid)->first();
 
-        if (!$solicitudTipo) {
+        if (! $solicitudTipo) {
             return response()->json(['tipo' => ['El tipo de solicitud especificado no existe o no está configurado.']], 400);
         }
 
@@ -103,11 +105,11 @@ class SolicitudController extends Controller
 
             // Find the agent with the specified role having the lowest amount of active requests (estado in [1, 2, 3])
             $encargado = Usuario::whereHas('roles', function ($query) use ($departamentoId) {
-                    $query->where('rol.id', $departamentoId);
-                })
+                $query->where('rol.id', $departamentoId);
+            })
                 ->leftJoin('solicitud', function ($join) {
                     $join->on('usuario.id', '=', 'solicitud.encargado')
-                         ->whereIn('solicitud.estado', [1, 2, 3]);
+                        ->whereIn('solicitud.estado', [1, 2, 3]);
                 })
                 ->select('usuario.id', DB::raw('count(solicitud.s_id) as active_count'))
                 ->groupBy('usuario.id')
@@ -136,7 +138,7 @@ class SolicitudController extends Controller
 
         return response()->json([
             'message' => 'Solicitud creada y asignada exitosamente',
-            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation'])
+            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation']),
         ], 201);
     }
 
@@ -146,18 +148,18 @@ class SolicitudController extends Controller
     public function show($uuid)
     {
         $solicitud = Solicitud::with([
-            'tipoRelation', 
-            'solicitanteRelation', 
-            'encargadoRelation', 
-            'solicitantextRelation', 
-            'estadoRelation', 
+            'tipoRelation',
+            'solicitanteRelation',
+            'encargadoRelation',
+            'solicitantextRelation',
+            'estadoRelation',
             'departamentoEncargadoRelation',
             'historiales.responsableUsuario',
             'historiales.departamentoRol',
-            'historiales.estadoRelation'
+            'historiales.estadoRelation',
         ])->where('uuid', $uuid)->first();
 
-        if (!$solicitud) {
+        if (! $solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
         }
 
@@ -171,7 +173,7 @@ class SolicitudController extends Controller
     {
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
-        if (!$solicitud) {
+        if (! $solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
         }
 
@@ -179,7 +181,7 @@ class SolicitudController extends Controller
             's_doc' => 'nullable|string|max:255',
             's_valor' => 'nullable|numeric',
             'descripcion' => 'nullable|string|max:255',
-            'estado' => 'nullable|integer', 
+            'estado' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -190,7 +192,7 @@ class SolicitudController extends Controller
 
         return response()->json([
             'message' => 'Solicitud actualizada exitosamente',
-            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation'])
+            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation']),
         ]);
     }
 
@@ -201,7 +203,7 @@ class SolicitudController extends Controller
     {
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
-        if (!$solicitud) {
+        if (! $solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
         }
 
@@ -217,7 +219,7 @@ class SolicitudController extends Controller
     {
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
-        if (!$solicitud) {
+        if (! $solicitud) {
             return response()->json(['message' => 'Solicitud no encontrada'], 404);
         }
 
@@ -231,22 +233,22 @@ class SolicitudController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        if ($request->has('encargado') && !empty($request->encargado)) {
+        if ($request->has('encargado') && ! empty($request->encargado)) {
             $encUser = Usuario::where('uuid', $request->encargado)->first();
             if ($encUser) {
                 $solicitud->encargado = $encUser->id;
             }
         }
 
-        if ($request->has('departamento_encargado') && !empty($request->departamento_encargado)) {
-            $encDept = \App\Models\Rol::where('uuid', $request->departamento_encargado)->first();
+        if ($request->has('departamento_encargado') && ! empty($request->departamento_encargado)) {
+            $encDept = Rol::where('uuid', $request->departamento_encargado)->first();
             if ($encDept) {
                 $solicitud->departamento_encargado = $encDept->id;
             }
         }
 
-        if ($request->has('tipo') && !empty($request->tipo)) {
-            $solType = \App\Models\SolicitudTipo::where('uuid', $request->tipo)->first();
+        if ($request->has('tipo') && ! empty($request->tipo)) {
+            $solType = SolicitudTipo::where('uuid', $request->tipo)->first();
             if ($solType) {
                 $solicitud->tipo = $solType->id_tipo;
             }
@@ -256,7 +258,7 @@ class SolicitudController extends Controller
 
         return response()->json([
             'message' => 'Solicitud reasignada exitosamente',
-            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation', 'departamentoEncargadoRelation'])
+            'solicitud' => $solicitud->load(['tipoRelation', 'encargadoRelation', 'estadoRelation', 'departamentoEncargadoRelation']),
         ]);
     }
 }

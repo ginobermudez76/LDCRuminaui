@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Deporte;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CursoController extends Controller
 {
@@ -43,7 +43,7 @@ class CursoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('cursos', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $curso = Curso::create($data);
@@ -55,7 +55,7 @@ class CursoController extends Controller
     {
         $curso = Curso::with('deporte')->where('uuid', $uuid)->first();
 
-        if (!$curso) {
+        if (! $curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
         }
 
@@ -66,7 +66,7 @@ class CursoController extends Controller
     {
         $curso = Curso::where('uuid', $uuid)->first();
 
-        if (!$curso) {
+        if (! $curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
         }
 
@@ -102,7 +102,7 @@ class CursoController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('cursos', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $curso->update($data);
@@ -114,7 +114,7 @@ class CursoController extends Controller
     {
         $curso = Curso::where('uuid', $uuid)->first();
 
-        if (!$curso) {
+        if (! $curso) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
         }
 

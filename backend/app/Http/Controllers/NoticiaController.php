@@ -34,7 +34,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::where('uuid', $uuid)->first();
 
-        if (!$noticia) {
+        if (! $noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);
         }
 
@@ -45,7 +45,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::where('uuid', $uuid)->first();
 
-        if (!$noticia) {
+        if (! $noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);
         }
 
@@ -58,7 +58,7 @@ class NoticiaController extends Controller
     {
         $noticia = Noticia::where('uuid', $uuid)->first();
 
-        if (!$noticia) {
+        if (! $noticia) {
             return response()->json(['message' => 'Noticia no encontrada'], 404);
         }
 

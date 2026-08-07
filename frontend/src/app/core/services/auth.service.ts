@@ -32,7 +32,7 @@ interface LoginResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api'; // Adjust port if running on a different port
@@ -53,7 +53,7 @@ export class AuthService {
   private loadStoredUser() {
     const storedUser = localStorage.getItem('auth_user');
     const token = localStorage.getItem('auth_token');
-    
+
     if (storedUser && token) {
       try {
         this.currentUserSignal.set(JSON.parse(storedUser));
@@ -64,23 +64,25 @@ export class AuthService {
   }
 
   login(nombre_usuario: string, contrasena: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, {
-      nombre_usuario,
-      contrasena
-    }).pipe(
-      tap(response => {
-        this.setAuth(response.token, response.user);
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/auth/login`, {
+        nombre_usuario,
+        contrasena,
       })
-    );
+      .pipe(
+        tap((response) => {
+          this.setAuth(response.token, response.user);
+        }),
+      );
   }
 
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, userData).pipe(
-      tap(response => {
+      tap((response) => {
         if (response.token && response.user) {
           this.setAuth(response.token, response.user);
         }
-      })
+      }),
     );
   }
 
@@ -89,17 +91,17 @@ export class AuthService {
       tap({
         finalize: () => {
           this.clearAuth();
-        }
-      })
+        },
+      }),
     );
   }
 
   getProfile(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/auth/profile`).pipe(
-      tap(user => {
+      tap((user) => {
         this.currentUserSignal.set(user);
         localStorage.setItem('auth_user', JSON.stringify(user));
-      })
+      }),
     );
   }
 

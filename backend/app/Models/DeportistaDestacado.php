@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class DeportistaDestacado extends Model
 {
@@ -14,6 +13,7 @@ class DeportistaDestacado extends Model
     const CODE_PREFIX = 'DST';
 
     protected $table = 'deportistas_destacados';
+
     public $timestamps = false;
 
     protected $fillable = [

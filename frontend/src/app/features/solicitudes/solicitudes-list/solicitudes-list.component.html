@@ -1,215 +1,255 @@
-    <div class="solicitudes-container">
-      <div class="header-section">
-        <h1 class="page-title">Listado de Solicitudes</h1>
-        <button 
-          pButton 
-          icon="pi pi-plus" 
-          label="Nueva Solicitud" 
-          routerLink="/dashboard/solicitudes/nueva" 
-          class="p-button-success"
-        ></button>
-      </div>
+<div class="solicitudes-container">
+  <div class="header-section">
+    <h1 class="page-title">Listado de Solicitudes</h1>
+    <button
+      pButton
+      icon="pi pi-plus"
+      label="Nueva Solicitud"
+      routerLink="/dashboard/solicitudes/nueva"
+      class="p-button-success"
+    ></button>
+  </div>
 
-      <!-- Quick Summary Cards -->
-      <div class="stats-grid">
-        <div class="stat-card pending">
-          <div class="stat-icon"><i class="pi pi-clock"></i></div>
-          <div class="stat-info">
-            <span class="stat-value">{{ pendingCount() }}</span>
-            <span class="stat-label">Pendientes</span>
-          </div>
-        </div>
-        <div class="stat-card approved">
-          <div class="stat-icon"><i class="pi pi-check-circle"></i></div>
-          <div class="stat-info">
-            <span class="stat-value">{{ approvedCount() }}</span>
-            <span class="stat-label">Aprobadas</span>
-          </div>
-        </div>
-        <div class="stat-card denied">
-          <div class="stat-icon"><i class="pi pi-times-circle"></i></div>
-          <div class="stat-info">
-            <span class="stat-value">{{ deniedCount() }}</span>
-            <span class="stat-label">Denegadas</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filter Buttons for Agents/Admins -->
-      <div class="filter-bar" *ngIf="canViewAssigned()">
-        <span class="p-buttonset">
-          <button 
-            pButton 
-            label="Creadas por mí" 
-            icon="pi pi-user" 
-            [class.p-button-outlined]="activeTab() !== 'created'"
-            (click)="switchTab('created')"
-          ></button>
-          <button 
-            pButton 
-            label="Asignadas a mí" 
-            icon="pi pi-users" 
-            [class.p-button-outlined]="activeTab() !== 'assigned'"
-            (click)="switchTab('assigned')"
-          ></button>
-        </span>
-      </div>
-
-      <!-- Data Table -->
-      <div class="card table-card">
-        <p-table 
-          [value]="filteredSolicitudes()" 
-          [paginator]="true" 
-          [rows]="10" 
-          [loading]="loading()"
-          [rowsPerPageOptions]="[5, 10, 20]"
-          responsiveLayout="stack"
-          styleClass="p-datatable-striped p-datatable-gridlines"
-        >
-          <ng-template pTemplate="header">
-            <tr>
-              <th>Código</th>
-              <th>Fecha</th>
-              <th>Tipo</th>
-              <th>Descripción</th>
-              <th>Solicitante</th>
-              <th>Encargado</th>
-              <th>Valor</th>
-              <th>Estado</th>
-              <th style="width: 150px">Acciones</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-solicitud>
-            <tr>
-              <td>{{ solicitud.codigo }}</td>
-              <td>{{ solicitud.s_fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ solicitud.tipo_relation?.name_tipo || 'Desconocido' }}</td>
-              <td class="text-truncate">{{ solicitud.descripcion || 'Sin descripción' }}</td>
-              <td>{{ solicitud.solicitante_relation?.nombre_usuario || 'N/A' }}</td>
-              <td>{{ solicitud.encargado_relation?.nombre_usuario || 'Sin asignar' }}</td>
-              <td>\${{ solicitud.s_valor | number: '1.2-2' }}</td>
-              <td>
-                <p-tag 
-                  [value]="solicitud.estado_relation?.estado_nombre || 'Pendiente'" 
-                  [severity]="getStatusSeverity(solicitud.estado)"
-                ></p-tag>
-              </td>
-              <td>
-                <div class="actions-wrapper">
-                  <button 
-                    pButton 
-                    icon="pi pi-ellipsis-v" 
-                    class="p-button-rounded p-button-secondary p-button-text" 
-                    title="Acciones"
-                    (click)="toggleMenu($event, solicitud, rowMenu)"
-                  ></button>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="9" class="text-center p-4">No se encontraron solicitudes.</td>
-            </tr>
-          </ng-template>
-        </p-table>
+  <!-- Quick Summary Cards -->
+  <div class="stats-grid">
+    <div class="stat-card pending">
+      <div class="stat-icon"><i class="pi pi-clock"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ pendingCount() }}</span>
+        <span class="stat-label">Pendientes</span>
       </div>
     </div>
-
-    <!-- Request Details Modal -->
-    <p-dialog 
-      header="Detalles de la Solicitud #{{ selectedSolicitud()?.codigo }}" 
-      [(visible)]="displayDetails" 
-      [modal]="true" 
-      [style]="{width: '50vw'}" 
-      [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
-      [draggable]="false" 
-      [resizable]="false"
-    >
-      <div class="details-grid" *ngIf="selectedSolicitud()">
-        <div class="detail-row">
-          <strong>Fecha de Registro:</strong>
-          <span>{{ selectedSolicitud()?.s_fecha | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
-        </div>
-        <div class="detail-row">
-          <strong>Tipo de Solicitud:</strong>
-          <span>{{ selectedSolicitud()?.tipo_relation?.name_tipo }}</span>
-        </div>
-        <div class="detail-row">
-          <strong>Valor:</strong>
-          <span>\${{ selectedSolicitud()?.s_valor | number: '1.2-2' }}</span>
-        </div>
-        <div class="detail-row">
-          <strong>Estado Actual:</strong>
-          <p-tag 
-            [value]="selectedSolicitud()?.estado_relation?.estado_nombre || 'Pendiente'" 
-            [severity]="getStatusSeverity(selectedSolicitud()?.estado || 1)"
-          ></p-tag>
-        </div>
-        <div class="detail-row">
-          <strong>Solicitante:</strong>
-          <span>{{ selectedSolicitud()?.solicitante_relation?.primer_nombre }} {{ selectedSolicitud()?.solicitante_relation?.primer_apellido }} (&#64;{{ selectedSolicitud()?.solicitante_relation?.nombre_usuario }})</span>
-        </div>
-        <div class="detail-row">
-          <strong>Encargado Asignado:</strong>
-          <span>{{ selectedSolicitud()?.encargado_relation?.primer_nombre || 'No asignado' }} {{ selectedSolicitud()?.encargado_relation?.primer_apellido || '' }}</span>
-        </div>
-        <div class="detail-row">
-          <strong>Departamento Encargado:</strong>
-          <span>{{ selectedSolicitud()?.departamento_encargado_relation?.rol_name || 'Sin asignar' }}</span>
-        </div>
-        <div class="detail-row full-width">
-          <strong>Descripción:</strong>
-          <p class="description-text">{{ selectedSolicitud()?.descripcion || 'Sin descripción' }}</p>
-        </div>
-         <div class="detail-row full-width" *ngIf="selectedSolicitud()?.s_doc">
-          <strong>Documento Adjunto:</strong>
-          <span><a [href]="selectedSolicitud()?.s_doc" target="_blank" class="doc-link"><i class="pi pi-file"></i> Ver Documentación</a></span>
-        </div>
+    <div class="stat-card approved">
+      <div class="stat-icon"><i class="pi pi-check-circle"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ approvedCount() }}</span>
+        <span class="stat-label">Aprobadas</span>
       </div>
-      <ng-template pTemplate="footer">
-        <button pButton icon="pi pi-times" label="Cerrar" class="p-button-text" (click)="displayDetails = false"></button>
-      </ng-template>
-    </p-dialog>
+    </div>
+    <div class="stat-card denied">
+      <div class="stat-icon"><i class="pi pi-times-circle"></i></div>
+      <div class="stat-info">
+        <span class="stat-value">{{ deniedCount() }}</span>
+        <span class="stat-label">Denegadas</span>
+      </div>
+    </div>
+  </div>
 
-    <!-- Actions Popup Menu -->
-    <p-menu #rowMenu [popup]="true" [model]="menuItemsForSelectedRow"></p-menu>
+  <!-- Filter Buttons for Agents/Admins -->
+  <div class="filter-bar" *ngIf="canViewAssigned()">
+    <span class="p-buttonset">
+      <button
+        pButton
+        label="Creadas por mí"
+        icon="pi pi-user"
+        [class.p-button-outlined]="activeTab() !== 'created'"
+        (click)="switchTab('created')"
+      ></button>
+      <button
+        pButton
+        label="Asignadas a mí"
+        icon="pi pi-users"
+        [class.p-button-outlined]="activeTab() !== 'assigned'"
+        (click)="switchTab('assigned')"
+      ></button>
+    </span>
+  </div>
 
-    <!-- Request History Modal -->
-    <p-dialog 
-      header="Historial de Solicitud #{{ selectedSolicitud()?.codigo }}" 
-      [(visible)]="displayHistory" 
-      [modal]="true" 
-      [style]="{width: '500px'}"  
-      [draggable]="false" 
-      [resizable]="false"
-      class="rbac-dialog"
+  <!-- Data Table -->
+  <div class="card table-card">
+    <p-table
+      [value]="filteredSolicitudes()"
+      [paginator]="true"
+      [rows]="10"
+      [loading]="loading()"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      responsiveLayout="stack"
+      styleClass="p-datatable-striped p-datatable-gridlines"
     >
-      <div class="history-timeline" *ngIf="selectedSolicitud()?.historiales">
-        <div class="timeline-list">
-          <div *ngFor="let item of selectedSolicitud()?.historiales" class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-body">
-              <div class="timeline-meta">
-                <span class="timeline-date">{{ item.fecha_asignacion | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
-                <p-tag 
-                  [value]="item.estado_relation?.estado_nombre || getStatusName(item.estado)" 
-                  [severity]="getStatusSeverity(item.estado)"
-                ></p-tag>
-              </div>
-              <div class="timeline-details">
-                <p><strong>Responsable:</strong> {{ item.responsable_usuario?.nombres || item.responsable_usuario?.nombre_usuario || 'Desconocido' }}</p>
-                <p><strong>Departamento:</strong> {{ item.departamento_rol?.nombre_rol || 'Desconocido' }}</p>
-              </div>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Código</th>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Descripción</th>
+          <th>Solicitante</th>
+          <th>Encargado</th>
+          <th>Valor</th>
+          <th>Estado</th>
+          <th style="width: 150px">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-solicitud>
+        <tr>
+          <td>{{ solicitud.codigo }}</td>
+          <td>{{ solicitud.s_fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ solicitud.tipo_relation?.name_tipo || 'Desconocido' }}</td>
+          <td class="text-truncate">{{ solicitud.descripcion || 'Sin descripción' }}</td>
+          <td>{{ solicitud.solicitante_relation?.nombre_usuario || 'N/A' }}</td>
+          <td>{{ solicitud.encargado_relation?.nombre_usuario || 'Sin asignar' }}</td>
+          <td>\${{ solicitud.s_valor | number: '1.2-2' }}</td>
+          <td>
+            <p-tag
+              [value]="solicitud.estado_relation?.estado_nombre || 'Pendiente'"
+              [severity]="getStatusSeverity(solicitud.estado)"
+            ></p-tag>
+          </td>
+          <td>
+            <div class="actions-wrapper">
+              <button
+                pButton
+                icon="pi pi-ellipsis-v"
+                class="p-button-rounded p-button-secondary p-button-text"
+                title="Acciones"
+                (click)="toggleMenu($event, solicitud, rowMenu)"
+              ></button>
             </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="text-center p-4">No se encontraron solicitudes.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Request Details Modal -->
+<p-dialog
+  header="Detalles de la Solicitud #{{ selectedSolicitud()?.codigo }}"
+  [(visible)]="displayDetails"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '100vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="details-grid" *ngIf="selectedSolicitud()">
+    <div class="detail-row">
+      <strong>Fecha de Registro:</strong>
+      <span>{{ selectedSolicitud()?.s_fecha | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+    </div>
+    <div class="detail-row">
+      <strong>Tipo de Solicitud:</strong>
+      <span>{{ selectedSolicitud()?.tipo_relation?.name_tipo }}</span>
+    </div>
+    <div class="detail-row">
+      <strong>Valor:</strong>
+      <span>\${{ selectedSolicitud()?.s_valor | number: '1.2-2' }}</span>
+    </div>
+    <div class="detail-row">
+      <strong>Estado Actual:</strong>
+      <p-tag
+        [value]="selectedSolicitud()?.estado_relation?.estado_nombre || 'Pendiente'"
+        [severity]="getStatusSeverity(selectedSolicitud()?.estado || 1)"
+      ></p-tag>
+    </div>
+    <div class="detail-row">
+      <strong>Solicitante:</strong>
+      <span
+        >{{ selectedSolicitud()?.solicitante_relation?.primer_nombre }}
+        {{ selectedSolicitud()?.solicitante_relation?.primer_apellido }} (&#64;{{
+          selectedSolicitud()?.solicitante_relation?.nombre_usuario
+        }})</span
+      >
+    </div>
+    <div class="detail-row">
+      <strong>Encargado Asignado:</strong>
+      <span
+        >{{ selectedSolicitud()?.encargado_relation?.primer_nombre || 'No asignado' }}
+        {{ selectedSolicitud()?.encargado_relation?.primer_apellido || '' }}</span
+      >
+    </div>
+    <div class="detail-row">
+      <strong>Departamento Encargado:</strong>
+      <span>{{
+        selectedSolicitud()?.departamento_encargado_relation?.rol_name || 'Sin asignar'
+      }}</span>
+    </div>
+    <div class="detail-row full-width">
+      <strong>Descripción:</strong>
+      <p class="description-text">{{ selectedSolicitud()?.descripcion || 'Sin descripción' }}</p>
+    </div>
+    <div class="detail-row full-width" *ngIf="selectedSolicitud()?.s_doc">
+      <strong>Documento Adjunto:</strong>
+      <span
+        ><a [href]="selectedSolicitud()?.s_doc" target="_blank" class="doc-link"
+          ><i class="pi pi-file"></i> Ver Documentación</a
+        ></span
+      >
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      icon="pi pi-times"
+      label="Cerrar"
+      class="p-button-text"
+      (click)="displayDetails = false"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<!-- Actions Popup Menu -->
+<p-menu #rowMenu [popup]="true" [model]="menuItemsForSelectedRow"></p-menu>
+
+<!-- Request History Modal -->
+<p-dialog
+  header="Historial de Solicitud #{{ selectedSolicitud()?.codigo }}"
+  [(visible)]="displayHistory"
+  [modal]="true"
+  [style]="{ width: '500px' }"
+  [draggable]="false"
+  [resizable]="false"
+  class="rbac-dialog"
+>
+  <div class="history-timeline" *ngIf="selectedSolicitud()?.historiales">
+    <div class="timeline-list">
+      <div *ngFor="let item of selectedSolicitud()?.historiales" class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-body">
+          <div class="timeline-meta">
+            <span class="timeline-date">{{
+              item.fecha_asignacion | date: 'dd/MM/yyyy HH:mm:ss'
+            }}</span>
+            <p-tag
+              [value]="item.estado_relation?.estado_nombre || getStatusName(item.estado)"
+              [severity]="getStatusSeverity(item.estado)"
+            ></p-tag>
+          </div>
+          <div class="timeline-details">
+            <p>
+              <strong>Responsable:</strong>
+              {{
+                item.responsable_usuario?.nombres ||
+                  item.responsable_usuario?.nombre_usuario ||
+                  'Desconocido'
+              }}
+            </p>
+            <p>
+              <strong>Departamento:</strong>
+              {{ item.departamento_rol?.nombre_rol || 'Desconocido' }}
+            </p>
           </div>
         </div>
-        <div *ngIf="!selectedSolicitud()?.historiales || selectedSolicitud()?.historiales?.length === 0" class="no-history">
-          No hay registros de historial de flujo para esta solicitud.
-        </div>
       </div>
-      <ng-template pTemplate="footer">
-        <button pButton icon="pi pi-times" label="Cerrar" class="p-button-text" (click)="displayHistory.set(false)"></button>
-      </ng-template>
-    </p-dialog>
-  
+    </div>
+    <div
+      *ngIf="!selectedSolicitud()?.historiales || selectedSolicitud()?.historiales?.length === 0"
+      class="no-history"
+    >
+      No hay registros de historial de flujo para esta solicitud.
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      icon="pi pi-times"
+      label="Cerrar"
+      class="p-button-text"
+      (click)="displayHistory.set(false)"
+    ></button>
+  </ng-template>
+</p-dialog>

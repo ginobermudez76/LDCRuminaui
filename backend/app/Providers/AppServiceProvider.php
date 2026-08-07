@@ -22,8 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Hash::extend('sha256', function () {
-            return new Sha256Hasher();
+            return new Sha256Hasher;
         });
     }
 }
-

@@ -36,7 +36,7 @@ export interface Rol {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SolicitudTipoService {
   private apiTipoUrl = 'http://localhost:8000/api/solicitud-tipos';

@@ -9,7 +9,11 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { SolicitudService } from '../../../core/services/solicitud.service';
-import { SolicitudTipoService, SolicitudTipo, WorkflowStep } from '../../../core/services/solicitud-tipo.service';
+import {
+  SolicitudTipoService,
+  SolicitudTipo,
+  WorkflowStep,
+} from '../../../core/services/solicitud-tipo.service';
 
 @Component({
   selector: 'app-solicitud-form',
@@ -23,10 +27,10 @@ import { SolicitudTipoService, SolicitudTipo, WorkflowStep } from '../../../core
     InputNumberModule,
     SelectModule,
     ButtonModule,
-    MessageModule
+    MessageModule,
   ],
   templateUrl: './solicitud-form.component.html',
-  styleUrl: './solicitud-form.component.css'
+  styleUrl: './solicitud-form.component.css',
 })
 export class SolicitudFormComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -50,10 +54,10 @@ export class SolicitudFormComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.loadTipos();
-    
+
     // Subscribe to type changes
-    this.solicitudForm.get('tipo')?.valueChanges.subscribe(tipoUuid => {
-      const selectedType = this.tipos().find(t => t.uuid === tipoUuid);
+    this.solicitudForm.get('tipo')?.valueChanges.subscribe((tipoUuid) => {
+      const selectedType = this.tipos().find((t) => t.uuid === tipoUuid);
       this.hasSelectedType.set(!!selectedType);
       this.updateValidators(selectedType);
     });
@@ -64,7 +68,7 @@ export class SolicitudFormComponent implements OnInit {
       tipo: [null, Validators.required],
       s_valor: [0],
       s_doc: [''],
-      descripcion: ['']
+      descripcion: [''],
     });
   }
 
@@ -72,9 +76,9 @@ export class SolicitudFormComponent implements OnInit {
     this.tipoService.getSolicitudTipos().subscribe({
       next: (data) => {
         // Only show active types to the users creating requests
-        this.tipos.set(data.filter(t => t.activo));
+        this.tipos.set(data.filter((t) => t.activo));
       },
-      error: () => this.errorMessage.set('Error al cargar los tipos de solicitudes.')
+      error: () => this.errorMessage.set('Error al cargar los tipos de solicitudes.'),
     });
   }
 
@@ -134,7 +138,7 @@ export class SolicitudFormComponent implements OnInit {
     this.errorMessage.set(undefined);
 
     const payload = { ...this.solicitudForm.value };
-    
+
     // Clean up payloads fields if they are not required
     if (!this.requiereValor()) delete payload.s_valor;
     if (!this.requiereDocumento()) delete payload.s_doc;
@@ -148,9 +152,9 @@ export class SolicitudFormComponent implements OnInit {
       error: (err) => {
         this.isLoading.set(false);
         this.errorMessage.set(
-          err.error?.message || 'Error al procesar y auto-asignar la solicitud.'
+          err.error?.message || 'Error al procesar y auto-asignar la solicitud.',
         );
-      }
+      },
     });
   }
 }

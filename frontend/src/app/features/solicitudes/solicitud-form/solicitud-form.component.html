@@ -1,118 +1,144 @@
-    <div class="form-container">
-      <div class="back-link">
-        <a routerLink="/dashboard/solicitudes" class="back-btn"><i class="pi pi-arrow-left"></i> Volver al listado</a>
+<div class="form-container">
+  <div class="back-link">
+    <a routerLink="/dashboard/solicitudes" class="back-btn"
+      ><i class="pi pi-arrow-left"></i> Volver al listado</a
+    >
+  </div>
+
+  <p-card header="Crear Nueva Solicitud" styleClass="p-card-shadow">
+    <form [formGroup]="solicitudForm" (ngSubmit)="onSubmit()" class="solicitud-form">
+      <div class="form-grid">
+        <!-- Tipo de Solicitud -->
+        <div class="form-field full-width">
+          <label for="tipo">Tipo de Solicitud *</label>
+          <p-select
+            id="tipo"
+            [options]="tipos()"
+            optionLabel="name_tipo"
+            optionValue="uuid"
+            formControlName="tipo"
+            placeholder="Seleccione el tipo"
+            [style]="{ width: '100%' }"
+          ></p-select>
+          <small
+            class="error-text"
+            *ngIf="solicitudForm.get('tipo')?.invalid && solicitudForm.get('tipo')?.touched"
+          >
+            El tipo de solicitud es requerido.
+          </small>
+        </div>
+
+        <!-- Vista previa del flujo -->
+        <div
+          class="form-field full-width workflow-preview-card"
+          *ngIf="selectedWorkflowSteps().length > 0"
+        >
+          <span class="preview-title"
+            ><i class="pi pi-directions"></i> Ruta de evaluación obligatoria:</span
+          >
+          <div class="steps-flow">
+            <div *ngFor="let s of selectedWorkflowSteps(); let last = last" class="flow-step">
+              <span class="step-lbl">{{ s.rol?.nombre_rol }}</span>
+              <i class="pi pi-chevron-right step-arrow" *ngIf="!last"></i>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="form-field full-width workflow-preview-card no-steps"
+          *ngIf="hasSelectedType() && selectedWorkflowSteps().length === 0"
+        >
+          <span class="preview-title"><i class="pi pi-check-circle"></i> Aprobación Directa:</span>
+          <p class="preview-desc">
+            Esta solicitud no requiere pasos intermedios y se enviará directamente para aprobación
+            final.
+          </p>
+        </div>
+
+        <!-- Valor / Costo (Condicional) -->
+        <div class="form-field" *ngIf="requiereValor()">
+          <label for="valor">Valor Solicitado ($) *</label>
+          <p-inputNumber
+            id="valor"
+            formControlName="s_valor"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            [style]="{ width: '100%' }"
+            [min]="0"
+          ></p-inputNumber>
+          <small
+            class="error-text"
+            *ngIf="solicitudForm.get('s_valor')?.invalid && solicitudForm.get('s_valor')?.touched"
+          >
+            El valor es requerido y debe ser mayor o igual a 0.
+          </small>
+        </div>
+
+        <!-- Documento Adjunto (Ruta o Nombre) (Condicional) -->
+        <div class="form-field full-width" *ngIf="requiereDocumento()">
+          <label for="doc">Ruta/Enlace del Documento Soporte *</label>
+          <input
+            id="doc"
+            type="text"
+            pInputText
+            formControlName="s_doc"
+            placeholder="Ej. https://drive.google.com/..."
+            class="w-full"
+          />
+          <small
+            class="error-text"
+            *ngIf="solicitudForm.get('s_doc')?.invalid && solicitudForm.get('s_doc')?.touched"
+          >
+            El documento soporte es requerido.
+          </small>
+        </div>
+
+        <!-- Descripción (Condicional) -->
+        <div class="form-field full-width" *ngIf="requiereDescripcion()">
+          <label for="descripcion">Detalle de la Solicitud *</label>
+          <textarea
+            id="descripcion"
+            rows="4"
+            pInputText
+            formControlName="descripcion"
+            placeholder="Describa el motivo de su solicitud..."
+            class="w-full text-area"
+          ></textarea>
+          <small
+            class="error-text"
+            *ngIf="
+              solicitudForm.get('descripcion')?.invalid && solicitudForm.get('descripcion')?.touched
+            "
+          >
+            La descripción es requerida (máximo 255 caracteres).
+          </small>
+        </div>
       </div>
-      
-      <p-card header="Crear Nueva Solicitud" styleClass="p-card-shadow">
-        <form [formGroup]="solicitudForm" (ngSubmit)="onSubmit()" class="solicitud-form">
-          <div class="form-grid">
-            <!-- Tipo de Solicitud -->
-            <div class="form-field full-width">
-              <label for="tipo">Tipo de Solicitud *</label>
-              <p-select 
-                id="tipo" 
-                [options]="tipos()" 
-                optionLabel="name_tipo"
-                optionValue="uuid"
-                formControlName="tipo" 
-                placeholder="Seleccione el tipo"
-                [style]="{width: '100%'}"
-              ></p-select>
-              <small class="error-text" *ngIf="solicitudForm.get('tipo')?.invalid && solicitudForm.get('tipo')?.touched">
-                El tipo de solicitud es requerido.
-              </small>
-            </div>
 
-            <!-- Vista previa del flujo -->
-            <div class="form-field full-width workflow-preview-card" *ngIf="selectedWorkflowSteps().length > 0">
-              <span class="preview-title"><i class="pi pi-directions"></i> Ruta de evaluación obligatoria:</span>
-              <div class="steps-flow">
-                <div *ngFor="let s of selectedWorkflowSteps(); let last = last" class="flow-step">
-                  <span class="step-lbl">{{ s.rol?.nombre_rol }}</span>
-                  <i class="pi pi-chevron-right step-arrow" *ngIf="!last"></i>
-                </div>
-              </div>
-            </div>
+      <div class="error-wrapper" *ngIf="errorMessage()">
+        <p-message severity="error" [text]="errorMessage()"></p-message>
+      </div>
 
-            <div class="form-field full-width workflow-preview-card no-steps" *ngIf="hasSelectedType() && selectedWorkflowSteps().length === 0">
-              <span class="preview-title"><i class="pi pi-check-circle"></i> Aprobación Directa:</span>
-              <p class="preview-desc">Esta solicitud no requiere pasos intermedios y se enviará directamente para aprobación final.</p>
-            </div>
-
-            <!-- Valor / Costo (Condicional) -->
-            <div class="form-field" *ngIf="requiereValor()">
-              <label for="valor">Valor Solicitado ($) *</label>
-              <p-inputNumber 
-                id="valor" 
-                formControlName="s_valor" 
-                mode="currency" 
-                currency="USD" 
-                locale="en-US"
-                [style]="{width: '100%'}"
-                [min]="0"
-              ></p-inputNumber>
-              <small class="error-text" *ngIf="solicitudForm.get('s_valor')?.invalid && solicitudForm.get('s_valor')?.touched">
-                El valor es requerido y debe ser mayor o igual a 0.
-              </small>
-            </div>
-
-            <!-- Documento Adjunto (Ruta o Nombre) (Condicional) -->
-            <div class="form-field full-width" *ngIf="requiereDocumento()">
-              <label for="doc">Ruta/Enlace del Documento Soporte *</label>
-              <input 
-                id="doc" 
-                type="text" 
-                pInputText 
-                formControlName="s_doc" 
-                placeholder="Ej. https://drive.google.com/..."
-                class="w-full"
-              />
-              <small class="error-text" *ngIf="solicitudForm.get('s_doc')?.invalid && solicitudForm.get('s_doc')?.touched">
-                El documento soporte es requerido.
-              </small>
-            </div>
-
-            <!-- Descripción (Condicional) -->
-            <div class="form-field full-width" *ngIf="requiereDescripcion()">
-              <label for="descripcion">Detalle de la Solicitud *</label>
-              <textarea 
-                id="descripcion" 
-                rows="4" 
-                pInputText 
-                formControlName="descripcion" 
-                placeholder="Describa el motivo de su solicitud..."
-                class="w-full text-area"
-              ></textarea>
-              <small class="error-text" *ngIf="solicitudForm.get('descripcion')?.invalid && solicitudForm.get('descripcion')?.touched">
-                La descripción es requerida (máximo 255 caracteres).
-              </small>
-            </div>
-          </div>
-
-          <div class="error-wrapper" *ngIf="errorMessage()">
-            <p-message severity="error" [text]="errorMessage()"></p-message>
-          </div>
-
-          <div class="form-actions">
-            <button 
-              pButton 
-              type="button" 
-              label="Cancelar" 
-              icon="pi pi-times" 
-              class="p-button-outlined p-button-secondary"
-              routerLink="/dashboard/solicitudes"
-            ></button>
-            <button 
-              pButton 
-              type="submit" 
-              label="Enviar Solicitud" 
-              icon="pi pi-send" 
-              [loading]="isLoading()"
-              [disabled]="solicitudForm.invalid"
-              class="p-button-success"
-            ></button>
-          </div>
-        </form>
-      </p-card>
-    </div>
-  
+      <div class="form-actions">
+        <button
+          pButton
+          type="button"
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-outlined p-button-secondary"
+          routerLink="/dashboard/solicitudes"
+        ></button>
+        <button
+          pButton
+          type="submit"
+          label="Enviar Solicitud"
+          icon="pi pi-send"
+          [loading]="isLoading()"
+          [disabled]="solicitudForm.invalid"
+          class="p-button-success"
+        ></button>
+      </div>
+    </form>
+  </p-card>
+</div>

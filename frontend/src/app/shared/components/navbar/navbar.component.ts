@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   isScrolled = signal(false);
@@ -19,8 +19,17 @@ export class NavbarComponent {
     this.isScrolled.set(window.scrollY > 20);
   }
 
-  toggleMenu() { this.menuOpen.update(v => !v); }
-  closeMenu() { this.menuOpen.set(false); this.activeDd.set(null); }
-  openDd(name: string) { this.activeDd.set(name); }
-  closeDd() { this.activeDd.set(null); }
+  toggleMenu() {
+    this.menuOpen.update((v) => !v);
+  }
+  closeMenu() {
+    this.menuOpen.set(false);
+    this.activeDd.set(null);
+  }
+  openDd(name: string) {
+    this.activeDd.set(name);
+  }
+  closeDd() {
+    this.activeDd.set(null);
+  }
 }

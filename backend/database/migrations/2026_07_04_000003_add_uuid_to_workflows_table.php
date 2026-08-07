@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 return new class extends Migration
@@ -27,7 +27,7 @@ return new class extends Migration
         // 2. Populate values
         $prefixes = [
             'solicitud_tipo' => 'WFT',
-            'workflow_steps' => 'STP'
+            'workflow_steps' => 'STP',
         ];
 
         foreach ($prefixes as $table => $pref) {
@@ -36,9 +36,9 @@ return new class extends Migration
                 $updates = [];
                 $updates['uuid'] = (string) Str::uuid();
 
-                $codeVal = $pref . '-' . strtoupper(Str::random(6));
+                $codeVal = $pref.'-'.strtoupper(Str::random(6));
                 while (DB::table($table)->where('codigo', $codeVal)->exists()) {
-                    $codeVal = $pref . '-' . strtoupper(Str::random(6));
+                    $codeVal = $pref.'-'.strtoupper(Str::random(6));
                 }
                 $updates['codigo'] = $codeVal;
 

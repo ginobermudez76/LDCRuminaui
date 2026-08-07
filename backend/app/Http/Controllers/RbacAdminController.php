@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rol;
-use App\Models\Opcion;
 use App\Models\Endpoint;
+use App\Models\Opcion;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -21,7 +21,7 @@ class RbacAdminController extends Controller
         $roles = Rol::where('deleted', false)
             ->with(['opciones' => function ($query) {
                 $query->where('opcion.deleted', false)
-                      ->where('rol_opcion.deleted', false);
+                    ->where('rol_opcion.deleted', false);
             }])
             ->get();
 
@@ -36,7 +36,7 @@ class RbacAdminController extends Controller
             'descripcion' => 'nullable|string|max:255',
         ]);
 
-        $role = new Rol();
+        $role = new Rol;
         $role->uuid = (string) Str::uuid();
         $role->codigo = strtoupper(trim($validated['codigo']));
         $role->nombre_rol = trim($validated['nombre_rol']);
@@ -52,7 +52,7 @@ class RbacAdminController extends Controller
         $role = Rol::where('uuid', $uuid)->firstOrFail();
 
         $validated = $request->validate([
-            'codigo' => 'required|string|max:100|unique:rol,codigo,' . $role->id,
+            'codigo' => 'required|string|max:100|unique:rol,codigo,'.$role->id,
             'nombre_rol' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
         ]);
@@ -138,7 +138,8 @@ class RbacAdminController extends Controller
             return response()->json(['message' => 'Menús asociados actualizados correctamente.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error al sincronizar opciones: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error al sincronizar opciones: '.$e->getMessage()], 500);
         }
     }
 
@@ -151,7 +152,7 @@ class RbacAdminController extends Controller
         $options = Opcion::where('deleted', false)
             ->with(['endpoints' => function ($query) {
                 $query->where('endpoint.deleted', false)
-                      ->where('opcion_endpoint.deleted', false);
+                    ->where('opcion_endpoint.deleted', false);
             }])
             ->get();
 
@@ -165,7 +166,7 @@ class RbacAdminController extends Controller
             'descripcion' => 'nullable|string|max:255',
         ]);
 
-        $option = new Opcion();
+        $option = new Opcion;
         $option->uuid = (string) Str::uuid();
         $option->nombre_opcion = strtoupper(trim($validated['nombre_opcion']));
         $option->descripcion = isset($validated['descripcion']) ? trim($validated['descripcion']) : null;
@@ -180,7 +181,7 @@ class RbacAdminController extends Controller
         $option = Opcion::where('uuid', $uuid)->firstOrFail();
 
         $validated = $request->validate([
-            'nombre_opcion' => 'required|string|max:150|unique:opcion,nombre_opcion,' . $option->id,
+            'nombre_opcion' => 'required|string|max:150|unique:opcion,nombre_opcion,'.$option->id,
             'descripcion' => 'nullable|string|max:255',
         ]);
 
@@ -265,7 +266,8 @@ class RbacAdminController extends Controller
             return response()->json(['message' => 'Endpoints y permisos asociados actualizados.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Error al asociar permisos: ' . $e->getMessage()], 500);
+
+            return response()->json(['error' => 'Error al asociar permisos: '.$e->getMessage()], 500);
         }
     }
 
@@ -276,6 +278,7 @@ class RbacAdminController extends Controller
     public function listEndpoints()
     {
         $endpoints = Endpoint::where('deleted', false)->get();
+
         return response()->json($endpoints);
     }
 
@@ -288,7 +291,7 @@ class RbacAdminController extends Controller
             'rbac_enabled' => 'required|boolean',
         ]);
 
-        $endpoint = new Endpoint();
+        $endpoint = new Endpoint;
         $endpoint->uuid = (string) Str::uuid();
         $endpoint->nombre_endpoint = trim($validated['nombre_endpoint']);
         $endpoint->metodo = strtoupper(trim($validated['metodo']));

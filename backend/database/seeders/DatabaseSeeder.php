@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'requiere_valor' => false,
             'requiere_descripcion' => true,
         ]);
-        
+
         DB::table('solicitud_tipo')->where('id_tipo', 2)->update([
             'requiere_documento' => false,
             'requiere_valor' => false,
@@ -53,7 +52,7 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // 3. Seed default steps
-        
+
         // Deportiva (id 1): Metodólogo (rol 2) -> Tesorería (rol 3)
         DB::table('workflow_steps')->insert([
             [

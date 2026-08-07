@@ -1,30 +1,34 @@
-    <app-navbar></app-navbar>
-    <div class="servicios-page">
-      <div class="page-hero">
-        <div class="hero-title-row">
-          <span class="material-symbols-outlined hero-icon">folder_open</span>
-          <h1>Descarga de Documentos</h1>
+<app-navbar></app-navbar>
+<div class="servicios-page">
+  <div class="page-hero">
+    <div class="hero-title-row">
+      <span class="material-symbols-outlined hero-icon">folder_open</span>
+      <h1>Descarga de Documentos</h1>
+    </div>
+    <div class="hero-line"></div>
+  </div>
+  <div class="content-wrap">
+    <div class="grid-docs" *ngIf="items().length > 0; else empty">
+      <div class="doc-card" *ngFor="let d of items()">
+        <div class="doc-icon-wrap">
+          <span class="material-symbols-outlined">description</span>
         </div>
-        <div class="hero-line"></div>
-      </div>
-      <div class="content-wrap">
-        <div class="grid-docs" *ngIf="items().length > 0; else empty">
-          <div class="doc-card" *ngFor="let d of items()">
-            <div class="doc-icon-wrap">
-              <span class="material-symbols-outlined">description</span>
-            </div>
-            <div class="doc-info">
-              <h3>{{ d.nombre }}</h3>
-              <p *ngIf="d.descripcion">{{ d.descripcion }}</p>
-              <a *ngIf="d.documento" [href]="'http://localhost:8000' + d.documento" target="_blank" class="download-btn">
-                <span class="material-symbols-outlined">download</span>
-                Descargar
-              </a>
-            </div>
-          </div>
+        <div class="doc-info">
+          <h3>{{ d.nombre }}</h3>
+          <p *ngIf="d.descripcion">{{ d.descripcion }}</p>
+          <a
+            *ngIf="d.documento"
+            [href]="'http://localhost:8000' + d.documento"
+            target="_blank"
+            class="download-btn"
+          >
+            <span class="material-symbols-outlined">download</span>
+            Descargar
+          </a>
         </div>
-        <ng-template #empty><p class="empty-msg">No hay documentos disponibles.</p></ng-template>
       </div>
     </div>
-    <app-footer></app-footer>
-  
+    <ng-template #empty><p class="empty-msg">No hay documentos disponibles.</p></ng-template>
+  </div>
+</div>
+<app-footer></app-footer>

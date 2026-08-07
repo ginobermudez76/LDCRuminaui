@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Auditable;
-
 use App\Traits\HasUuidAndCode;
+use Illuminate\Database\Eloquent\Model;
 
 class Solicitud extends Model
 {
@@ -14,7 +13,9 @@ class Solicitud extends Model
     const CODE_PREFIX = 'SOL';
 
     protected $table = 'solicitud';
+
     protected $primaryKey = 's_id';
+
     public $timestamps = false;
 
     protected $fillable = [

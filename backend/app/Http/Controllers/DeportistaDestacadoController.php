@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DeportistaDestacado;
 use App\Models\Deporte;
+use App\Models\DeportistaDestacado;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DeportistaDestacadoController extends Controller
 {
@@ -38,7 +38,7 @@ class DeportistaDestacadoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('deportistas', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $deportista = DeportistaDestacado::create($data);
@@ -50,7 +50,7 @@ class DeportistaDestacadoController extends Controller
     {
         $deportista = DeportistaDestacado::with('deporte')->where('uuid', $uuid)->first();
 
-        if (!$deportista) {
+        if (! $deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);
         }
 
@@ -61,7 +61,7 @@ class DeportistaDestacadoController extends Controller
     {
         $deportista = DeportistaDestacado::where('uuid', $uuid)->first();
 
-        if (!$deportista) {
+        if (! $deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);
         }
 
@@ -92,7 +92,7 @@ class DeportistaDestacadoController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('deportistas', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $deportista->update($data);
@@ -104,7 +104,7 @@ class DeportistaDestacadoController extends Controller
     {
         $deportista = DeportistaDestacado::where('uuid', $uuid)->first();
 
-        if (!$deportista) {
+        if (! $deportista) {
             return response()->json(['message' => 'Deportista no encontrado'], 404);
         }
 

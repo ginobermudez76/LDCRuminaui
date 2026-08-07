@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Deporte;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class DeporteController extends Controller
 {
@@ -30,7 +30,7 @@ class DeporteController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('deportes', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $deporte = Deporte::create($data);
@@ -42,7 +42,7 @@ class DeporteController extends Controller
     {
         $deporte = Deporte::with(['deportistasDestacados', 'eventos', 'logros'])->where('uuid', $uuid)->first();
 
-        if (!$deporte) {
+        if (! $deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);
         }
 
@@ -53,7 +53,7 @@ class DeporteController extends Controller
     {
         $deporte = Deporte::where('uuid', $uuid)->first();
 
-        if (!$deporte) {
+        if (! $deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);
         }
 
@@ -76,7 +76,7 @@ class DeporteController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('deportes', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $deporte->update($data);
@@ -88,7 +88,7 @@ class DeporteController extends Controller
     {
         $deporte = Deporte::where('uuid', $uuid)->first();
 
-        if (!$deporte) {
+        if (! $deporte) {
             return response()->json(['message' => 'Deporte no encontrado'], 404);
         }
 

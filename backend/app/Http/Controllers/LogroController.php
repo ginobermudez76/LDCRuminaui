@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Logro;
 use App\Models\Deporte;
+use App\Models\Logro;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class LogroController extends Controller
 {
@@ -39,7 +39,7 @@ class LogroController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('logros', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $logro = Logro::create($data);
@@ -51,7 +51,7 @@ class LogroController extends Controller
     {
         $logro = Logro::with('deporte')->where('uuid', $uuid)->first();
 
-        if (!$logro) {
+        if (! $logro) {
             return response()->json(['message' => 'Logro no encontrado'], 404);
         }
 
@@ -62,7 +62,7 @@ class LogroController extends Controller
     {
         $logro = Logro::where('uuid', $uuid)->first();
 
-        if (!$logro) {
+        if (! $logro) {
             return response()->json(['message' => 'Logro no encontrado'], 404);
         }
 
@@ -94,7 +94,7 @@ class LogroController extends Controller
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('logros', 'public');
-            $data['imagen'] = '/storage/' . $path;
+            $data['imagen'] = '/storage/'.$path;
         }
 
         $logro->update($data);
@@ -106,7 +106,7 @@ class LogroController extends Controller
     {
         $logro = Logro::where('uuid', $uuid)->first();
 
-        if (!$logro) {
+        if (! $logro) {
             return response()->json(['message' => 'Logro no encontrado'], 404);
         }
 

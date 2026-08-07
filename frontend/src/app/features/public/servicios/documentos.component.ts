@@ -11,10 +11,12 @@ const API = 'http://localhost:8000/api';
   standalone: true,
   imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './documentos.component.html',
-  styleUrl: './documentos.component.css'
+  styleUrl: './documentos.component.css',
 })
 export class DocumentosPublicosComponent implements OnInit {
   private http = inject(HttpClient);
   items = signal<any[]>([]);
-  ngOnInit() { this.http.get<any[]>(`${API}/documentos`).subscribe(d => this.items.set(d)); }
+  ngOnInit() {
+    this.http.get<any[]>(`${API}/documentos`).subscribe((d) => this.items.set(d));
+  }
 }

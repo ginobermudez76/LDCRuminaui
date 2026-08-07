@@ -60,8 +60,7 @@ export const routes: Routes = [
       { path: 'documentos', component: DocumentosComponent },
       { path: 'deportistas', component: DeportistasComponent },
       { path: 'cartas', component: CartasCondolenciaComponent },
-    ]
+    ],
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
-

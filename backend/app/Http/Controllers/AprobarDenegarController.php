@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Solicitud;
 use App\Models\HistorialSolicitud;
-use App\Models\SolicitudTipo;
+use App\Models\Solicitud;
+use App\Models\Usuario;
+use App\Models\WorkflowStep;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -19,9 +20,9 @@ class AprobarDenegarController extends Controller
 
         $solicitud = Solicitud::where('uuid', $uuid)->firstOrFail();
         $usuario = JWTAuth::user();
-        
+
         $rol = $usuario->roles->first();
-        if (!$rol) {
+        if (! $rol) {
             return response()->json(['error' => 'Usuario no tiene rol asignado'], 403);
         }
 
@@ -32,13 +33,13 @@ class AprobarDenegarController extends Controller
         $isAdmin = $rol->codigo === 'ADMINISTRADOR';
 
         // Verify if user is current encargado OR if they are Admin
-        if ($solicitud->encargado !== $usuario->id && !$isAdmin) {
+        if ($solicitud->encargado !== $usuario->id && ! $isAdmin) {
             return response()->json(['error' => 'No está asignado como encargado de esta solicitud'], 403);
         }
 
         if ($accion === 'Denegar') {
             $nuevo_estado = 4; // State 4 = Rechazada
-            
+
             DB::beginTransaction();
             try {
                 $solicitud->estado = $nuevo_estado;
@@ -56,15 +57,17 @@ class AprobarDenegarController extends Controller
                 ]);
 
                 DB::commit();
+
                 return response()->json(['message' => 'Solicitud denegada', 'estado' => $nuevo_estado]);
             } catch (\Exception $e) {
                 DB::rollBack();
+
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         }
 
         // If action is Approve:
-        
+
         // Admin (role with code ADMINISTRADOR) approves directly to state 5 (Fully Approved) only if they are not the assigned encargado
         if ($isAdmin && $solicitud->encargado !== $usuario->id) {
             DB::beginTransaction();
@@ -84,17 +87,19 @@ class AprobarDenegarController extends Controller
                 ]);
 
                 DB::commit();
+
                 return response()->json(['message' => 'Solicitud aprobada por Administrador', 'estado' => 5]);
             } catch (\Exception $e) {
                 DB::rollBack();
+
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         }
 
-        $currentStep = \App\Models\WorkflowStep::find($solicitud->current_step_id);
-        
+        $currentStep = WorkflowStep::find($solicitud->current_step_id);
+
         // Find the next step in order
-        $nextStep = \App\Models\WorkflowStep::where('solicitud_tipo_id', $tipoId)
+        $nextStep = WorkflowStep::where('solicitud_tipo_id', $tipoId)
             ->where('orden', '>', $currentStep ? $currentStep->orden : 0)
             ->orderBy('orden', 'asc')
             ->first();
@@ -108,12 +113,12 @@ class AprobarDenegarController extends Controller
                 $nextEncargadoId = null;
 
                 // Find user with lowest workload for the next role
-                $encargado = \App\Models\Usuario::whereHas('roles', function ($query) use ($nextDepartamentoId) {
-                        $query->where('rol.id', $nextDepartamentoId);
-                    })
+                $encargado = Usuario::whereHas('roles', function ($query) use ($nextDepartamentoId) {
+                    $query->where('rol.id', $nextDepartamentoId);
+                })
                     ->leftJoin('solicitud', function ($join) {
                         $join->on('usuario.id', '=', 'solicitud.encargado')
-                             ->whereIn('solicitud.estado', [1, 2, 3]);
+                            ->whereIn('solicitud.estado', [1, 2, 3]);
                     })
                     ->select('usuario.id', DB::raw('count(solicitud.s_id) as active_count'))
                     ->groupBy('usuario.id')
@@ -151,10 +156,12 @@ class AprobarDenegarController extends Controller
             ]);
 
             DB::commit();
+
             return response()->json(['message' => 'Solicitud procesada con éxito', 'estado' => $nuevo_estado]);
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

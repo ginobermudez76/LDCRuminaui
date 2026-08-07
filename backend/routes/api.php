@@ -1,20 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SolicitudController;
-use App\Http\Controllers\DeporteController;
-use App\Http\Controllers\EventoController;
-use App\Http\Controllers\NoticiaController;
-use App\Http\Controllers\LogroController;
-use App\Http\Controllers\SolicitudTipoController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AprobarDenegarController;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\DocumentoController;
-use App\Http\Controllers\DeportistaDestacadoController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartaCondolenciaController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\DeporteController;
+use App\Http\Controllers\DeportistaDestacadoController;
+use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\LogroController;
+use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\RbacAdminController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\SolicitudTipoController;
+use App\Http\Controllers\UsuarioController;
+use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
@@ -54,13 +55,13 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     Route::post('solicitudes/{id}/procesar', [AprobarDenegarController::class, 'procesar']);
 
     // Rutas de Usuarios
-    Route::get('/usuarios', [App\Http\Controllers\UsuarioController::class, 'index']);
-    Route::post('/usuarios', [App\Http\Controllers\UsuarioController::class, 'store']);
-    Route::put('/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'update']);
-    Route::delete('/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'destroy']);
-    Route::patch('/usuarios/{id}/toggle-active', [App\Http\Controllers\UsuarioController::class, 'toggleActive']);
-    Route::post('/usuarios/{id}/reset-password', [App\Http\Controllers\UsuarioController::class, 'resetPassword']);
-    Route::post('/usuarios/{id}/resend-invitation', [App\Http\Controllers\UsuarioController::class, 'resendInvitation']);
+    Route::get('/usuarios', [UsuarioController::class, 'index']);
+    Route::post('/usuarios', [UsuarioController::class, 'store']);
+    Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
+    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
+    Route::patch('/usuarios/{id}/toggle-active', [UsuarioController::class, 'toggleActive']);
+    Route::post('/usuarios/{id}/reset-password', [UsuarioController::class, 'resetPassword']);
+    Route::post('/usuarios/{id}/resend-invitation', [UsuarioController::class, 'resendInvitation']);
 
     // Solicitud Tipos CRUD (Dynamic Workflows)
     Route::apiResource('solicitud-tipos', SolicitudTipoController::class);

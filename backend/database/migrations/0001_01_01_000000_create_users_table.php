@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('roles')) {
+        if (! Schema::hasTable('roles')) {
             Schema::create('roles', function (Blueprint $table) {
                 $table->integer('id_rol')->autoIncrement();
                 $table->string('rol_name', 45)->nullable();
@@ -19,7 +19,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('usuarios')) {
+        if (! Schema::hasTable('usuarios')) {
             Schema::create('usuarios', function (Blueprint $table) {
                 $table->integer('id')->autoIncrement();
                 $table->string('primer_nombre', 45)->nullable();
@@ -40,7 +40,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('password_reset_tokens')) {
+        if (! Schema::hasTable('password_reset_tokens')) {
             Schema::create('password_reset_tokens', function (Blueprint $table) {
                 $table->string('email')->primary();
                 $table->string('token');
@@ -48,7 +48,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('sessions')) {
+        if (! Schema::hasTable('sessions')) {
             Schema::create('sessions', function (Blueprint $table) {
                 $table->string('id')->primary();
                 $table->integer('user_id')->nullable()->index();

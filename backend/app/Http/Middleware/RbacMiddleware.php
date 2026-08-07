@@ -18,7 +18,7 @@ class RbacMiddleware
         // Route URI template (e.g. "api/solicitudes/{id}")
         $uri = $request->route() ? $request->route()->uri() : null;
 
-        if (!$uri) {
+        if (! $uri) {
             return $next($request);
         }
 
@@ -30,13 +30,13 @@ class RbacMiddleware
             ->first();
 
         // If the endpoint is not registered or has rbac_enabled set to false, allow access
-        if (!$endpoint || !$endpoint->rbac_enabled) {
+        if (! $endpoint || ! $endpoint->rbac_enabled) {
             return $next($request);
         }
 
         // 2. Check if the user is authenticated via JWT guard
         $user = auth('api')->user();
-        if (!$user) {
+        if (! $user) {
             return response()->json(['error' => 'No autorizado. Debe iniciar sesión.'], 401);
         }
 
@@ -57,7 +57,7 @@ class RbacMiddleware
 
         return response()->json([
             'error' => 'Acceso denegado. No tiene permisos para realizar esta acción.',
-            'required_endpoint' => "{$method} {$uri}"
+            'required_endpoint' => "{$method} {$uri}",
         ], 403);
     }
 }
