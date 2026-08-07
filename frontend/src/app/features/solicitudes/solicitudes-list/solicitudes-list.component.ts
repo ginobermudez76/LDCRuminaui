@@ -145,30 +145,30 @@ export class SolicitudesListComponent implements OnInit {
         icon: 'pi pi-history',
         command: () => this.showHistory(solicitud),
       },
+      ...(this.canApproveDeny(solicitud)
+        ? [
+            {
+              label: 'Aprobar',
+              icon: 'pi pi-check',
+              command: () => this.updateStatus(solicitud, 2),
+            },
+            {
+              label: 'Rechazar',
+              icon: 'pi pi-times',
+              command: () => this.updateStatus(solicitud, 3),
+            },
+          ]
+        : []),
+      ...(this.canDelete(solicitud)
+        ? [
+            {
+              label: 'Eliminar',
+              icon: 'pi pi-trash',
+              command: () => this.deleteSolicitud(solicitud.uuid),
+            },
+          ]
+        : []),
     ];
-
-    if (this.canApproveDeny(solicitud)) {
-      items.push(
-        {
-          label: 'Aprobar',
-          icon: 'pi pi-check',
-          command: () => this.updateStatus(solicitud, 2),
-        },
-        {
-          label: 'Rechazar',
-          icon: 'pi pi-times',
-          command: () => this.updateStatus(solicitud, 3),
-        },
-      );
-    }
-
-    if (this.canDelete(solicitud)) {
-      items.push({
-        label: 'Eliminar',
-        icon: 'pi pi-trash',
-        command: () => this.deleteSolicitud(solicitud.uuid),
-      });
-    }
 
     this.menuItemsForSelectedRow = items;
     menu.toggle(event);

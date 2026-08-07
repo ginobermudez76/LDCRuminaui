@@ -25,46 +25,50 @@ export class DashboardComponent {
     const user = this.user();
     if (!user) return [];
 
-    const items = [];
-    if (this.authService.hasOption('G_SOLICITUDES_PROPIAS')) {
-      items.push({
-        label: 'Mis Solicitudes',
-        link: '/dashboard/solicitudes',
-        icon: 'pi pi-file-edit',
-      });
-    }
-    if (this.authService.hasOption('G_SOLICITUDES_ASIGNADAS')) {
-      items.push({
-        label: 'Solicitudes Asignadas',
-        link: '/dashboard/asignadas',
-        icon: 'pi pi-list',
-      });
-    }
-    if (this.authService.hasOption('REGISTRAR_USUARIOS')) {
-      items.push(
-        {
-          label: 'Registrar Usuarios',
-          link: '/dashboard/register',
-          icon: 'pi pi-user-plus',
-        },
-        { label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' },
-      );
-    }
-    if (this.authService.hasOption('CONFIGURAR_RBAC')) {
-      items.push({ label: 'Roles y Permisos', link: '/dashboard/rbac', icon: 'pi pi-shield' });
-    }
-    if (this.authService.hasOption('PUBLICAR_CONTENIDO')) {
-      items.push(
-        { label: 'Deportes', link: '/dashboard/deportes', icon: 'pi pi-star' },
-        { label: 'Eventos', link: '/dashboard/eventos', icon: 'pi pi-calendar' },
-        { label: 'Logros', link: '/dashboard/logros', icon: 'pi pi-trophy' },
-        { label: 'Cursos', link: '/dashboard/cursos', icon: 'pi pi-book' },
-        { label: 'Documentos', link: '/dashboard/documentos', icon: 'pi pi-file' },
-        { label: 'Deportistas', link: '/dashboard/deportistas', icon: 'pi pi-users' },
-        { label: 'Cartas Condolencia', link: '/dashboard/cartas', icon: 'pi pi-heart' },
-      );
-    }
-    return items;
+    return [
+      ...(this.authService.hasOption('G_SOLICITUDES_PROPIAS')
+        ? [
+            {
+              label: 'Mis Solicitudes',
+              link: '/dashboard/solicitudes',
+              icon: 'pi pi-file-edit',
+            },
+          ]
+        : []),
+      ...(this.authService.hasOption('G_SOLICITUDES_ASIGNADAS')
+        ? [
+            {
+              label: 'Solicitudes Asignadas',
+              link: '/dashboard/asignadas',
+              icon: 'pi pi-list',
+            },
+          ]
+        : []),
+      ...(this.authService.hasOption('REGISTRAR_USUARIOS')
+        ? [
+            {
+              label: 'Registrar Usuarios',
+              link: '/dashboard/register',
+              icon: 'pi pi-user-plus',
+            },
+            { label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' },
+          ]
+        : []),
+      ...(this.authService.hasOption('CONFIGURAR_RBAC')
+        ? [{ label: 'Roles y Permisos', link: '/dashboard/rbac', icon: 'pi pi-shield' }]
+        : []),
+      ...(this.authService.hasOption('PUBLICAR_CONTENIDO')
+        ? [
+            { label: 'Deportes', link: '/dashboard/deportes', icon: 'pi pi-star' },
+            { label: 'Eventos', link: '/dashboard/eventos', icon: 'pi pi-calendar' },
+            { label: 'Logros', link: '/dashboard/logros', icon: 'pi pi-trophy' },
+            { label: 'Cursos', link: '/dashboard/cursos', icon: 'pi pi-book' },
+            { label: 'Documentos', link: '/dashboard/documentos', icon: 'pi pi-file' },
+            { label: 'Deportistas', link: '/dashboard/deportistas', icon: 'pi pi-users' },
+            { label: 'Cartas Condolencia', link: '/dashboard/cartas', icon: 'pi pi-heart' },
+          ]
+        : []),
+    ];
   });
 
   toggleProfileDropdown(event: Event) {
