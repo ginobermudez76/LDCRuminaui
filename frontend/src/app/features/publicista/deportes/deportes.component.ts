@@ -30,9 +30,9 @@ import { PublicistaService, Deporte } from '../../../core/services/publicista.se
   styles: [pubStyles()],
 })
 export class DeportesComponent implements OnInit {
-  private svc = inject(PublicistaService);
-  private fb = inject(FormBuilder);
-  private confirm = inject(ConfirmationService);
+  private readonly svc = inject(PublicistaService);
+  private readonly fb = inject(FormBuilder);
+  private readonly confirm = inject(ConfirmationService);
   items = signal<Deporte[]>([]);
   showDialog = false;
   saving = signal(false);

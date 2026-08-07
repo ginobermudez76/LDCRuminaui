@@ -30,9 +30,9 @@ import { PublicistaService, Documento } from '../../../core/services/publicista.
   styleUrl: './documentos.component.css',
 })
 export class DocumentosComponent implements OnInit {
-  private svc = inject(PublicistaService);
-  private fb = inject(FormBuilder);
-  private confirm = inject(ConfirmationService);
+  private readonly svc = inject(PublicistaService);
+  private readonly fb = inject(FormBuilder);
+  private readonly confirm = inject(ConfirmationService);
   items = signal<Documento[]>([]);
   showDialog = false;
   saving = signal(false);

@@ -50,6 +50,9 @@
   padding: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
 }
 .tipo-item:hover {
   border-color: #1e3c72;

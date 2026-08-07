@@ -14,14 +14,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #0fc3c6;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   padding: 8px 16px;
   border-radius: 8px;
-  border: 1px solid rgba(15, 195, 198, 0.3);
-  background: rgba(15, 195, 198, 0.08);
+  border: 1px solid #0fc3c6;
+  background-color: #030022;
   transition: all 0.2s;
   z-index: 10;
 }
@@ -30,9 +30,9 @@
   color: #0fc3c6;
 }
 .back-btn:hover {
-  background: rgba(15, 195, 198, 0.18);
+  background-color: #0fc3c6;
   border-color: #0fc3c6;
-  color: #fff;
+  color: #030022;
 }
 .login-container {
   width: 100%;
@@ -112,7 +112,7 @@
   width: 100%;
   height: 46px;
   padding: 0 14px;
-  background: rgba(255, 255, 255, 0.07);
+  background-color: #030022;
   border: 1px solid rgba(15, 195, 198, 0.3);
   border-radius: 8px;
   color: #fff;

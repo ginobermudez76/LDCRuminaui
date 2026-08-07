@@ -30,9 +30,9 @@ import { PublicistaService, Logro, Deporte } from '../../../core/services/public
   styleUrl: './logros.component.css',
 })
 export class LogrosComponent implements OnInit {
-  private svc = inject(PublicistaService);
-  private fb = inject(FormBuilder);
-  private confirm = inject(ConfirmationService);
+  private readonly svc = inject(PublicistaService);
+  private readonly fb = inject(FormBuilder);
+  private readonly confirm = inject(ConfirmationService);
   items = signal<Logro[]>([]);
   deportes = signal<Deporte[]>([]);
   showDialog = false;

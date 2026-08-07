@@ -30,9 +30,9 @@ import { PublicistaService, Curso, Deporte } from '../../../core/services/public
   styleUrl: './cursos.component.css',
 })
 export class CursosComponent implements OnInit {
-  private svc = inject(PublicistaService);
-  private fb = inject(FormBuilder);
-  private confirm = inject(ConfirmationService);
+  private readonly svc = inject(PublicistaService);
+  private readonly fb = inject(FormBuilder);
+  private readonly confirm = inject(ConfirmationService);
   items = signal<Curso[]>([]);
   deportes = signal<Deporte[]>([]);
   showDialog = false;

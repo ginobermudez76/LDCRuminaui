@@ -33,10 +33,10 @@ import {
   styleUrl: './solicitud-form.component.css',
 })
 export class SolicitudFormComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private solicitudService = inject(SolicitudService);
-  private tipoService = inject(SolicitudTipoService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly solicitudService = inject(SolicitudService);
+  private readonly tipoService = inject(SolicitudTipoService);
+  private readonly router = inject(Router);
 
   solicitudForm!: FormGroup;
   isLoading = signal(false);

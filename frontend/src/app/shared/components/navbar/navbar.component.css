@@ -97,7 +97,7 @@
 .nav-link:hover,
 .nav-link.active {
   color: #abb51a;
-  background: rgba(255, 255, 255, 0.08);
+  background-color: #030022;
 }
 .nav-link-icon {
   font-size: 18px;
@@ -106,8 +106,6 @@
 /* Dropdown */
 .nav-dropdown {
   position: relative;
-}
-.dropdown-trigger {
 }
 .chevron {
   font-size: 18px;
@@ -156,7 +154,7 @@
 }
 .dd-item:hover {
   color: #0fc3c6;
-  background: rgba(15, 195, 198, 0.1);
+  background-color: #030022;
   border-left-color: #0fc3c6;
 }
 
@@ -166,7 +164,7 @@
   align-items: center;
   gap: 6px;
   background: #4bbbec;
-  color: #fff;
+  color: #030022;
   font-size: 13px;
   font-weight: 700;
   padding: 8px 18px;

@@ -449,11 +449,10 @@
     </p>
 
     <div class="sync-list">
-      <div
+      <button
         *ngFor="let opt of options()"
         class="sync-item"
-        tabindex="0"
-        role="button"
+        type="button"
         (click)="toggleRoleOption(opt.uuid)"
         (keydown.enter)="toggleRoleOption(opt.uuid)"
         (keydown.space)="toggleRoleOption(opt.uuid)"
@@ -468,7 +467,7 @@
           <span class="sync-item-title">{{ opt.nombre_opcion }}</span>
           <span class="sync-item-desc">{{ opt.descripcion || 'Sin descripción' }}</span>
         </div>
-      </div>
+      </button>
     </div>
 
     <div class="dialog-actions mt-4">
@@ -504,11 +503,10 @@
     </p>
 
     <div class="sync-list scrollable">
-      <div
+      <button
         *ngFor="let end of endpoints()"
         class="sync-item"
-        tabindex="0"
-        role="button"
+        type="button"
         (click)="toggleOptionEndpoint(end.uuid)"
         (keydown.enter)="toggleOptionEndpoint(end.uuid)"
         (keydown.space)="toggleOptionEndpoint(end.uuid)"
@@ -526,7 +524,7 @@
           </div>
           <span class="sync-item-desc">{{ end.nombre_endpoint }}</span>
         </div>
-      </div>
+      </button>
     </div>
 
     <div class="dialog-actions mt-4">

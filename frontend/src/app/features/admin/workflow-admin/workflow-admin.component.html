@@ -23,12 +23,11 @@
         </div>
 
         <div class="tipo-list">
-          <div
+          <button
             *ngFor="let t of tipos()"
             class="tipo-item"
             [class.active]="selectedTipoUuid() === t.uuid"
-            tabindex="0"
-            role="button"
+            type="button"
             (click)="onSelectTipo(t)"
             (keydown.enter)="onSelectTipo(t)"
             (keydown.space)="onSelectTipo(t)"
@@ -61,7 +60,7 @@
             <div class="steps-preview no-steps" *ngIf="!t.steps || t.steps.length === 0">
               <span class="preview-title">Sin flujo asignado (Aprobación directa)</span>
             </div>
-          </div>
+          </button>
         </div>
       </p-card>
     </div>

@@ -30,8 +30,8 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './solicitudes-list.component.css',
 })
 export class SolicitudesListComponent implements OnInit {
-  private solicitudService = inject(SolicitudService);
-  private authService = inject(AuthService);
+  private readonly solicitudService = inject(SolicitudService);
+  private readonly authService = inject(AuthService);
 
   solicitudes = signal<Solicitud[]>([]);
   loading = signal(false);

@@ -23,7 +23,7 @@ class AprobarDenegarController extends Controller
 
         $rol = $usuario->roles->first();
         if (! $rol) {
-            return response()->json(['error' => 'Usuario no tiene rol asignado'], 403);
+            abort(response()->json(['error' => 'Usuario no tiene rol asignado'], 403));
         }
 
         $rolId = $rol->id;
@@ -34,7 +34,7 @@ class AprobarDenegarController extends Controller
 
         // Verify if user is current encargado OR if they are Admin
         if ($solicitud->encargado !== $usuario->id && ! $isAdmin) {
-            return response()->json(['error' => 'No está asignado como encargado de esta solicitud'], 403);
+            abort(response()->json(['error' => 'No está asignado como encargado de esta solicitud'], 403));
         }
 
         if ($accion === 'Denegar') {

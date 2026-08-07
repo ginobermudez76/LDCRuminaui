@@ -30,9 +30,9 @@ import { PublicistaService, Evento, Deporte } from '../../../core/services/publi
   styles: [pubStyles()],
 })
 export class EventosComponent implements OnInit {
-  private svc = inject(PublicistaService);
-  private fb = inject(FormBuilder);
-  private confirm = inject(ConfirmationService);
+  private readonly svc = inject(PublicistaService);
+  private readonly fb = inject(FormBuilder);
+  private readonly confirm = inject(ConfirmationService);
   items = signal<Evento[]>([]);
   deportes = signal<Deporte[]>([]);
   showDialog = false;

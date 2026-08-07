@@ -52,11 +52,8 @@ class RbacMiddleware
         }
 
         $user = auth('api')->user();
-        if (! $user) {
-            return false;
-        }
 
-        return DB::table('rol_usuario')
+        return $user && DB::table('rol_usuario')
             ->join('rol_opcion', 'rol_usuario.id_rol', '=', 'rol_opcion.id_rol')
             ->join('opcion_endpoint', 'rol_opcion.id_opcion', '=', 'opcion_endpoint.id_opcion')
             ->where('rol_usuario.id_usuario', $user->id)
