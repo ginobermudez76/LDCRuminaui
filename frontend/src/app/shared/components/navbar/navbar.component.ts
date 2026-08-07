@@ -13,6 +13,7 @@ export class NavbarComponent {
   isScrolled = signal(false);
   menuOpen = signal(false);
   activeDd = signal<string | null>(null);
+  logoError = signal(false);
 
   @HostListener('window:scroll')
   onScroll() {

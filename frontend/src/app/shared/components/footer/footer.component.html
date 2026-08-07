@@ -5,10 +5,11 @@
       <!-- Logo + info -->
       <div class="footer-brand">
         <img
+          *ngIf="!logoError()"
           src="/img/logoX_LDCR.png"
           alt="Logo LDCR"
           class="footer-logo"
-          onerror="this.style.display = 'none'"
+          (error)="logoError.set(true)"
         />
         <h3 class="footer-name">Liga Cantonal Rumiñahui</h3>
         <p class="footer-slogan">
@@ -72,6 +73,7 @@
         </h4>
         <div class="footer-map">
           <iframe
+            title="Mapa de ubicación de la Liga Cantonal Rumiñahui"
             src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3989.7525841707093!2d-78.44837492503538!3d-0.3288999996678666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMMKwMTknNDQuMCJTIDc4wrAyNic0NC45Ilc!5e0!3m2!1ses-419!2sec!4v1712551709959!5m2!1ses-419!2sec"
             allowfullscreen
             loading="lazy"
@@ -152,10 +154,9 @@
       </div>
     </div>
 
-    <!-- Institución -->
     <div class="instituto-row">
       <a href="https://ister.edu.ec/" target="_blank" class="instituto-link" title="ISTER">
-        <img src="/img/RU.webp" alt="ISTER" onerror="this.style.display = 'none'" />
+        <img *ngIf="!ruError()" src="/img/RU.webp" alt="ISTER" (error)="ruError.set(true)" />
       </a>
       <a
         href="https://ister.edu.ec/desarrollo-de-software/"
@@ -163,7 +164,7 @@
         class="instituto-link"
         title="Desarrollo de Software"
       >
-        <img src="/img/s.webp" onerror="this.src = '/img/s.png'" alt="Desarrollo de software" />
+        <img [src]="sLogoUrl()" (error)="sLogoUrl.set('/img/s.png')" alt="Desarrollo de software" />
       </a>
     </div>
   </div>

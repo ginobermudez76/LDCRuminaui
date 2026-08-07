@@ -3,10 +3,11 @@
     <!-- Brand -->
     <a [routerLink]="['/']" class="nav-brand">
       <img
+        *ngIf="!logoError()"
         src="/img/logoX_LDCR.png"
         alt="Logo LDCR"
         class="nav-logo"
-        onerror="this.style.display = 'none'"
+        (error)="logoError.set(true)"
       />
       <span class="brand-name">Liga Cantonal Rumiñahui</span>
     </a>

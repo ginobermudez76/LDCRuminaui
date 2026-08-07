@@ -26,19 +26,24 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th>Código</th>
-          <th>Imagen</th>
-          <th>Título</th>
-          <th>Tipo</th>
-          <th>Deporte</th>
-          <th>Acciones</th>
+          <th scope="col">Código</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Título</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Deporte</th>
+          <th scope="col">Acciones</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr>
           <td>{{ item.codigo }}</td>
           <td>
-            <img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" />
+            <img
+              *ngIf="item.imagen"
+              [src]="'http://localhost:8000' + item.imagen"
+              class="thumb"
+              alt="Logro {{ item.titulo }}"
+            />
           </td>
           <td>
             <strong>{{ item.titulo }}</strong>
@@ -57,7 +62,7 @@
       </ng-template>
       <ng-template pTemplate="emptymessage"
         ><tr>
-          <td colspan="5" class="empty-msg">No hay logros registrados.</td>
+          <td colspan="6" class="empty-msg">No hay logros registrados.</td>
         </tr></ng-template
       >
     </p-table>
@@ -69,10 +74,15 @@
     [style]="{ width: '480px' }"
   >
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-      <div class="field"><label>Título *</label><input pInputText formControlName="titulo" /></div>
       <div class="field">
-        <label>Tipo de Logro</label>
+        <label for="titulo">Título *</label
+        ><input id="titulo" pInputText formControlName="titulo" />
+      </div>
+      <div class="field">
+        <label for="tipologro">Tipo de Logro</label>
         <p-select
+          id="tipologro"
+          inputId="tipologro"
           [options]="['Medalla', 'Copa', 'Reconocimiento']"
           formControlName="tipologro"
           placeholder="Seleccione un tipo"
@@ -80,8 +90,10 @@
         ></p-select>
       </div>
       <div class="field">
-        <label>Deporte</label>
+        <label for="deporte_id">Deporte</label>
         <p-select
+          id="deporte_id"
+          inputId="deporte_id"
           [options]="deportes()"
           optionLabel="nombre"
           optionValue="uuid"
@@ -91,8 +103,14 @@
         ></p-select>
       </div>
       <div class="field">
-        <label>Imagen</label
-        ><input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
+        <label for="imagen_file">Imagen</label
+        ><input
+          id="imagen_file"
+          type="file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          class="file-input"
+        />
       </div>
       <div class="error-wrap" *ngIf="error()">
         <p-message severity="error" [text]="error()!"></p-message>
