@@ -16,6 +16,10 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 10485760) {
+            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 10MB'], 413);
+        }
+
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:200',
             'descripcion' => 'nullable|string|max:2000',
@@ -55,6 +59,10 @@ class DocumentoController extends Controller
 
         if (!$documento) {
             return response()->json(['message' => 'Documento no encontrado'], 404);
+        }
+
+        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 10485760) {
+            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 10MB'], 413);
         }
 
         $validator = Validator::make($request->all(), [
