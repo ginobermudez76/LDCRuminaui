@@ -41,24 +41,28 @@ export class DashboardComponent {
       });
     }
     if (this.authService.hasOption('REGISTRAR_USUARIOS')) {
-      items.push({
-        label: 'Registrar Usuarios',
-        link: '/dashboard/register',
-        icon: 'pi pi-user-plus',
-      });
-      items.push({ label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' });
+      items.push(
+        {
+          label: 'Registrar Usuarios',
+          link: '/dashboard/register',
+          icon: 'pi pi-user-plus',
+        },
+        { label: 'Configurar Flujos', link: '/dashboard/workflow', icon: 'pi pi-cog' },
+      );
     }
     if (this.authService.hasOption('CONFIGURAR_RBAC')) {
       items.push({ label: 'Roles y Permisos', link: '/dashboard/rbac', icon: 'pi pi-shield' });
     }
     if (this.authService.hasOption('PUBLICAR_CONTENIDO')) {
-      items.push({ label: 'Deportes', link: '/dashboard/deportes', icon: 'pi pi-star' });
-      items.push({ label: 'Eventos', link: '/dashboard/eventos', icon: 'pi pi-calendar' });
-      items.push({ label: 'Logros', link: '/dashboard/logros', icon: 'pi pi-trophy' });
-      items.push({ label: 'Cursos', link: '/dashboard/cursos', icon: 'pi pi-book' });
-      items.push({ label: 'Documentos', link: '/dashboard/documentos', icon: 'pi pi-file' });
-      items.push({ label: 'Deportistas', link: '/dashboard/deportistas', icon: 'pi pi-users' });
-      items.push({ label: 'Cartas Condolencia', link: '/dashboard/cartas', icon: 'pi pi-heart' });
+      items.push(
+        { label: 'Deportes', link: '/dashboard/deportes', icon: 'pi pi-star' },
+        { label: 'Eventos', link: '/dashboard/eventos', icon: 'pi pi-calendar' },
+        { label: 'Logros', link: '/dashboard/logros', icon: 'pi pi-trophy' },
+        { label: 'Cursos', link: '/dashboard/cursos', icon: 'pi pi-book' },
+        { label: 'Documentos', link: '/dashboard/documentos', icon: 'pi pi-file' },
+        { label: 'Deportistas', link: '/dashboard/deportistas', icon: 'pi pi-users' },
+        { label: 'Cartas Condolencia', link: '/dashboard/cartas', icon: 'pi pi-heart' },
+      );
     }
     return items;
   });

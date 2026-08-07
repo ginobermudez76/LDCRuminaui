@@ -148,16 +148,18 @@ export class SolicitudesListComponent implements OnInit {
     ];
 
     if (this.canApproveDeny(solicitud)) {
-      items.push({
-        label: 'Aprobar',
-        icon: 'pi pi-check',
-        command: () => this.updateStatus(solicitud, 2),
-      });
-      items.push({
-        label: 'Rechazar',
-        icon: 'pi pi-times',
-        command: () => this.updateStatus(solicitud, 3),
-      });
+      items.push(
+        {
+          label: 'Aprobar',
+          icon: 'pi pi-check',
+          command: () => this.updateStatus(solicitud, 2),
+        },
+        {
+          label: 'Rechazar',
+          icon: 'pi pi-times',
+          command: () => this.updateStatus(solicitud, 3),
+        },
+      );
     }
 
     if (this.canDelete(solicitud)) {

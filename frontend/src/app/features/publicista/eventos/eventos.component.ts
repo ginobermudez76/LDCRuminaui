@@ -74,7 +74,10 @@ export class EventosComponent implements OnInit {
     this.saving.set(true);
     const fd = new FormData();
     Object.entries(this.form.value).forEach(([k, v]) => {
-      if (v !== null && v !== undefined && v !== '') fd.append(k, String(v));
+      if (v !== null && v !== undefined && v !== '') {
+        const val = typeof v === 'object' ? JSON.stringify(v) : String(v);
+        fd.append(k, val);
+      }
     });
     if (this.selectedFile) fd.append('imagen', this.selectedFile);
     this.svc.createEvento(fd).subscribe({
