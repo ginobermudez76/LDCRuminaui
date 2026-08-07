@@ -26,21 +26,21 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th>Código</th>
-          <th>Imagen</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Fecha Inicio</th>
-          <th>Fecha Fin</th>
-          <th>Estado</th>
-          <th>Acciones</th>
+          <th scope="col">Código</th>
+          <th scope="col">Imagen</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Fecha Inicio</th>
+          <th scope="col">Fecha Fin</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Acciones</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr>
           <td>{{ item.codigo }}</td>
           <td>
-            <img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" />
+            <img *ngIf="item.imagen" [src]="'http://localhost:8000' + item.imagen" class="thumb" alt="Curso {{ item.nombre }}" />
           </td>
           <td>
             <strong>{{ item.nombre }}</strong>
@@ -79,17 +79,19 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
       <div class="form-grid">
         <div class="field full">
-          <label>Nombre *</label><input pInputText formControlName="nombre" />
+          <label for="nombre">Nombre *</label><input id="nombre" pInputText formControlName="nombre" />
         </div>
         <div class="field">
-          <label>Fecha Inicio</label><input type="date" pInputText formControlName="fecha_inicio" />
+          <label for="fecha_inicio">Fecha Inicio</label><input id="fecha_inicio" type="date" pInputText formControlName="fecha_inicio" />
         </div>
         <div class="field">
-          <label>Fecha Fin</label><input type="date" pInputText formControlName="fecha_fin" />
+          <label for="fecha_fin">Fecha Fin</label><input id="fecha_fin" type="date" pInputText formControlName="fecha_fin" />
         </div>
         <div class="field full">
-          <label>Deporte</label>
+          <label for="deporte_id">Deporte</label>
           <p-select
+            id="deporte_id"
+            inputId="deporte_id"
             [options]="deportes()"
             optionLabel="nombre"
             optionValue="uuid"
@@ -98,27 +100,31 @@
           ></p-select>
         </div>
         <div class="field full">
-          <label>Descripción</label><input pInputText formControlName="descripcion" />
+          <label for="descripcion">Descripción</label><input id="descripcion" pInputText formControlName="descripcion" />
         </div>
         <div class="field">
-          <label>Estado</label>
+          <label for="estado">Estado</label>
           <p-select
+            id="estado"
+            inputId="estado"
             [options]="['Activo', 'Inactivo']"
             formControlName="estado"
             [style]="{ width: '100%' }"
           ></p-select>
         </div>
         <div class="field">
-          <label>Inscripciones</label>
+          <label for="inscripciones">Inscripciones</label>
           <p-select
+            id="inscripciones"
+            inputId="inscripciones"
             [options]="['Activo', 'Inactivo']"
             formControlName="inscripciones"
             [style]="{ width: '100%' }"
           ></p-select>
         </div>
         <div class="field full">
-          <label>Imagen</label
-          ><input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
+          <label for="imagen_file">Imagen</label
+          ><input id="imagen_file" type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
         </div>
       </div>
       <div class="error-wrap" *ngIf="error()">

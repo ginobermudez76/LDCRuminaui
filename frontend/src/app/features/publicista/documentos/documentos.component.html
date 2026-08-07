@@ -26,11 +26,11 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th>Código</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Documento</th>
-          <th>Acciones</th>
+          <th scope="col">Código</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Documento</th>
+          <th scope="col">Acciones</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
@@ -74,14 +74,15 @@
     [style]="{ width: '480px' }"
   >
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-form">
-      <div class="field"><label>Nombre *</label><input pInputText formControlName="nombre" /></div>
+      <div class="field"><label for="nombre">Nombre *</label><input id="nombre" pInputText formControlName="nombre" /></div>
       <div class="field">
-        <label>Descripción</label
-        ><textarea pTextarea formControlName="descripcion" rows="3"></textarea>
+        <label for="descripcion">Descripción</label
+        ><textarea id="descripcion" pTextarea formControlName="descripcion" rows="3"></textarea>
       </div>
       <div class="field">
-        <label>Archivo (PDF, DOC, XLS)</label
+        <label for="documento_file">Archivo (PDF, DOC, XLS)</label
         ><input
+          id="documento_file"
           type="file"
           accept=".pdf,.doc,.docx,.xls,.xlsx"
           (change)="onFileChange($event)"
