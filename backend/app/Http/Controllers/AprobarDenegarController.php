@@ -169,6 +169,7 @@ class AprobarDenegarController extends Controller
         if ($orden === 2) {
             return 2;
         }
+
         return 3;
     }
 
