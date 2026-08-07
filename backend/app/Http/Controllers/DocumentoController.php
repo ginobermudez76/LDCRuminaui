@@ -16,14 +16,14 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 10485760) {
-            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 10MB'], 413);
+        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 8388608) {
+            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
         }
 
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:200',
             'descripcion' => 'nullable|string|max:2000',
-            'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240', // 10MB max
+            'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:8192', // 8MB max
         ]);
 
         if ($validator->fails()) {
@@ -61,14 +61,14 @@ class DocumentoController extends Controller
             return response()->json(['message' => 'Documento no encontrado'], 404);
         }
 
-        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 10485760) {
-            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 10MB'], 413);
+        if ($request->header('Content-Length') && (int)$request->header('Content-Length') > 8388608) {
+            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
         }
 
         $validator = Validator::make($request->all(), [
             'nombre' => 'sometimes|required|string|max:200',
             'descripcion' => 'nullable|string|max:2000',
-            'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
+            'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:8192',
         ]);
 
         if ($validator->fails()) {
