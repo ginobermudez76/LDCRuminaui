@@ -15,6 +15,11 @@ module.exports = defineConfig([
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-function": "warn",
+      "no-empty": "warn",
+      "@angular-eslint/prefer-inject": "warn",
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -39,6 +44,13 @@ module.exports = defineConfig([
       angular.configs.templateRecommended,
       angular.configs.templateAccessibility,
     ],
-    rules: {},
+    rules: {
+      "@angular-eslint/template/prefer-control-flow": "warn",
+      "@angular-eslint/template/elements-content": "warn",
+      "@angular-eslint/template/click-events-have-key-events": "off",
+      "@angular-eslint/template/interactive-supports-focus": "off",
+      "@angular-eslint/template/label-has-associated-control": "warn",
+      "@angular-eslint/template/alt-text": "warn"
+    },
   }
 ]);
