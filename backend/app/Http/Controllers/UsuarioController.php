@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
     /**
      * Display a listing of the resource.
      */
@@ -79,7 +81,7 @@ class UsuarioController extends Controller
 
             if ($request->hasFile('foto_perfil')) {
                 $path = $request->file('foto_perfil')->store('profiles', 'public');
-                $usuario->foto_perfil = '/storage/'.$path;
+                $usuario->foto_perfil = self::STORAGE_PREFIX.$path;
             }
 
             $usuario->save();
@@ -151,11 +153,11 @@ class UsuarioController extends Controller
 
             if ($request->hasFile('foto_perfil')) {
                 if ($usuario->foto_perfil) {
-                    $oldPath = str_replace('/storage/', '', $usuario->foto_perfil);
+                    $oldPath = str_replace(self::STORAGE_PREFIX, '', $usuario->foto_perfil);
                     Storage::disk('public')->delete($oldPath);
                 }
                 $path = $request->file('foto_perfil')->store('profiles', 'public');
-                $usuario->foto_perfil = '/storage/'.$path;
+                $usuario->foto_perfil = self::STORAGE_PREFIX.$path;
             }
 
             $usuario->save();

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CursoController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Curso no encontrado';
+
     public function index()
     {
         return response()->json(Curso::with('deporte')->get());
@@ -43,7 +47,7 @@ class CursoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('cursos', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $curso = Curso::create($data);
@@ -56,7 +60,7 @@ class CursoController extends Controller
         $curso = Curso::with('deporte')->where('uuid', $uuid)->first();
 
         if (! $curso) {
-            return response()->json(['message' => 'Curso no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($curso);
@@ -67,7 +71,7 @@ class CursoController extends Controller
         $curso = Curso::where('uuid', $uuid)->first();
 
         if (! $curso) {
-            return response()->json(['message' => 'Curso no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -98,11 +102,11 @@ class CursoController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($curso->imagen) {
-                $oldPath = str_replace('/storage/', '', $curso->imagen);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $curso->imagen);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('cursos', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $curso->update($data);
@@ -115,11 +119,11 @@ class CursoController extends Controller
         $curso = Curso::where('uuid', $uuid)->first();
 
         if (! $curso) {
-            return response()->json(['message' => 'Curso no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($curso->imagen) {
-            $oldPath = str_replace('/storage/', '', $curso->imagen);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $curso->imagen);
             Storage::disk('public')->delete($oldPath);
         }
 

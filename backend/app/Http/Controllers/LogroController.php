@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class LogroController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Logro no encontrado';
+
     public function index()
     {
         return response()->json(Logro::with('deporte')->get());
@@ -39,7 +43,7 @@ class LogroController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('logros', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $logro = Logro::create($data);
@@ -52,7 +56,7 @@ class LogroController extends Controller
         $logro = Logro::with('deporte')->where('uuid', $uuid)->first();
 
         if (! $logro) {
-            return response()->json(['message' => 'Logro no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($logro);
@@ -63,7 +67,7 @@ class LogroController extends Controller
         $logro = Logro::where('uuid', $uuid)->first();
 
         if (! $logro) {
-            return response()->json(['message' => 'Logro no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -90,11 +94,11 @@ class LogroController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($logro->imagen) {
-                $oldPath = str_replace('/storage/', '', $logro->imagen);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $logro->imagen);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('logros', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $logro->update($data);
@@ -107,11 +111,11 @@ class LogroController extends Controller
         $logro = Logro::where('uuid', $uuid)->first();
 
         if (! $logro) {
-            return response()->json(['message' => 'Logro no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($logro->imagen) {
-            $oldPath = str_replace('/storage/', '', $logro->imagen);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $logro->imagen);
             Storage::disk('public')->delete($oldPath);
         }
 

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Validator;
 
 class SolicitudController extends Controller
 {
+    private const NOT_FOUND_MSG = 'Solicitud no encontrada';
+
     /**
      * Display a listing of requests created by the authenticated user.
      * If the user is an admin or president, list all requests.
@@ -160,7 +162,7 @@ class SolicitudController extends Controller
         ])->where('uuid', $uuid)->first();
 
         if (! $solicitud) {
-            return response()->json(['message' => 'Solicitud no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($solicitud);
@@ -174,7 +176,7 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (! $solicitud) {
-            return response()->json(['message' => 'Solicitud no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -204,7 +206,7 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (! $solicitud) {
-            return response()->json(['message' => 'Solicitud no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $solicitud->delete();
@@ -220,7 +222,7 @@ class SolicitudController extends Controller
         $solicitud = Solicitud::where('uuid', $uuid)->first();
 
         if (! $solicitud) {
-            return response()->json(['message' => 'Solicitud no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [

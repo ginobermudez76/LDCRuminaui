@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class DeporteController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Deporte no encontrado';
+
     public function index()
     {
         return response()->json(Deporte::with('deportistasDestacados')->get());
@@ -30,7 +34,7 @@ class DeporteController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('deportes', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $deporte = Deporte::create($data);
@@ -43,7 +47,7 @@ class DeporteController extends Controller
         $deporte = Deporte::with(['deportistasDestacados', 'eventos', 'logros'])->where('uuid', $uuid)->first();
 
         if (! $deporte) {
-            return response()->json(['message' => 'Deporte no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($deporte);
@@ -54,7 +58,7 @@ class DeporteController extends Controller
         $deporte = Deporte::where('uuid', $uuid)->first();
 
         if (! $deporte) {
-            return response()->json(['message' => 'Deporte no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -72,11 +76,11 @@ class DeporteController extends Controller
         if ($request->hasFile('imagen')) {
             // Delete old image if exists
             if ($deporte->imagen) {
-                $oldPath = str_replace('/storage/', '', $deporte->imagen);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $deporte->imagen);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('deportes', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $deporte->update($data);
@@ -89,11 +93,11 @@ class DeporteController extends Controller
         $deporte = Deporte::where('uuid', $uuid)->first();
 
         if (! $deporte) {
-            return response()->json(['message' => 'Deporte no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($deporte->imagen) {
-            $oldPath = str_replace('/storage/', '', $deporte->imagen);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $deporte->imagen);
             Storage::disk('public')->delete($oldPath);
         }
 

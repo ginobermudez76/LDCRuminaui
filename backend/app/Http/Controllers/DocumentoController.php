@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class DocumentoController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Documento no encontrado';
+
     public function index()
     {
         return response()->json(Documento::all());
@@ -16,25 +20,17 @@ class DocumentoController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->header('Content-Length') && (int) $request->header('Content-Length') > 8388608) {
-            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
-        }
-
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'nombre' => 'required|string|max:200',
             'descripcion' => 'nullable|string|max:2000',
             'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:8192', // 8MB max
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $data = $request->except('documento');
 
         if ($request->hasFile('documento')) {
             $path = $request->file('documento')->store('documentos', 'public');
-            $data['documento'] = '/storage/'.$path;
+            $data['documento'] = self::STORAGE_PREFIX.$path;
         }
 
         $documento = Documento::create($data);
@@ -47,7 +43,7 @@ class DocumentoController extends Controller
         $documento = Documento::where('uuid', $uuid)->first();
 
         if (! $documento) {
-            return response()->json(['message' => 'Documento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($documento);
@@ -58,32 +54,24 @@ class DocumentoController extends Controller
         $documento = Documento::where('uuid', $uuid)->first();
 
         if (! $documento) {
-            return response()->json(['message' => 'Documento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
-        if ($request->header('Content-Length') && (int) $request->header('Content-Length') > 8388608) {
-            return response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413);
-        }
-
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'nombre' => 'sometimes|required|string|max:200',
             'descripcion' => 'nullable|string|max:2000',
             'documento' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:8192',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $data = $request->except('documento');
 
         if ($request->hasFile('documento')) {
             if ($documento->documento) {
-                $oldPath = str_replace('/storage/', '', $documento->documento);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $documento->documento);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('documento')->store('documentos', 'public');
-            $data['documento'] = '/storage/'.$path;
+            $data['documento'] = self::STORAGE_PREFIX.$path;
         }
 
         $documento->update($data);
@@ -96,16 +84,29 @@ class DocumentoController extends Controller
         $documento = Documento::where('uuid', $uuid)->first();
 
         if (! $documento) {
-            return response()->json(['message' => 'Documento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($documento->documento) {
-            $oldPath = str_replace('/storage/', '', $documento->documento);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $documento->documento);
             Storage::disk('public')->delete($oldPath);
         }
 
         $documento->delete();
 
         return response()->json(['message' => 'Documento eliminado']);
+    }
+
+    private function validateRequest(Request $request, array $rules)
+    {
+        if ($request->header('Content-Length') && (int) $request->header('Content-Length') > 8388608) {
+            abort(response()->json(['message' => 'El tamaño del contenido excede el límite permitido de 8MB'], 413));
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            abort(response()->json($validator->errors(), 400));
+        }
     }
 }

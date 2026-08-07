@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class SolicitudTipoController extends Controller
 {
+    private const NOT_FOUND_MSG = 'Tipo de solicitud no encontrado';
+
     public function index()
     {
         return response()->json(SolicitudTipo::with('steps.rol')->get());
@@ -18,7 +20,7 @@ class SolicitudTipoController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'name_tipo' => 'required|string|max:45',
             'requiere_documento' => 'required|boolean',
             'requiere_valor' => 'required|boolean',
@@ -28,10 +30,6 @@ class SolicitudTipoController extends Controller
             'steps.*.orden' => 'required|integer',
             'steps.*.nombre_paso' => 'nullable|string|max:100',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         try {
             DB::beginTransaction();
@@ -72,7 +70,7 @@ class SolicitudTipoController extends Controller
         $tipo = SolicitudTipo::with('steps.rol')->where('uuid', $uuid)->first();
 
         if (! $tipo) {
-            return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($tipo);
@@ -83,10 +81,10 @@ class SolicitudTipoController extends Controller
         $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
         if (! $tipo) {
-            return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
-        $validator = Validator::make($request->all(), [
+        $this->validateRequest($request, [
             'name_tipo' => 'required|string|max:45',
             'requiere_documento' => 'required|boolean',
             'requiere_valor' => 'required|boolean',
@@ -97,10 +95,6 @@ class SolicitudTipoController extends Controller
             'steps.*.orden' => 'required|integer',
             'steps.*.nombre_paso' => 'nullable|string|max:100',
         ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
 
         try {
             DB::beginTransaction();
@@ -144,7 +138,7 @@ class SolicitudTipoController extends Controller
         $tipo = SolicitudTipo::where('uuid', $uuid)->first();
 
         if (! $tipo) {
-            return response()->json(['message' => 'Tipo de solicitud no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         try {
@@ -161,6 +155,15 @@ class SolicitudTipoController extends Controller
             DB::rollBack();
 
             return response()->json(['error' => 'Error al desactivar el tipo de solicitud: '.$e->getMessage()], 500);
+        }
+    }
+
+    private function validateRequest(Request $request, array $rules)
+    {
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            abort(response()->json($validator->errors(), 400));
         }
     }
 }

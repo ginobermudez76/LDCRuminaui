@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CartaCondolenciaController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Carta no encontrada';
+
     public function index()
     {
         return response()->json(CartaCondolencia::all());
@@ -30,7 +34,7 @@ class CartaCondolenciaController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('cartas', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $carta = CartaCondolencia::create($data);
@@ -43,7 +47,7 @@ class CartaCondolenciaController extends Controller
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (! $carta) {
-            return response()->json(['message' => 'Carta no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($carta);
@@ -54,7 +58,7 @@ class CartaCondolenciaController extends Controller
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (! $carta) {
-            return response()->json(['message' => 'Carta no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -71,11 +75,11 @@ class CartaCondolenciaController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($carta->imagen) {
-                $oldPath = str_replace('/storage/', '', $carta->imagen);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $carta->imagen);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('cartas', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $carta->update($data);
@@ -88,11 +92,11 @@ class CartaCondolenciaController extends Controller
         $carta = CartaCondolencia::where('uuid', $uuid)->first();
 
         if (! $carta) {
-            return response()->json(['message' => 'Carta no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($carta->imagen) {
-            $oldPath = str_replace('/storage/', '', $carta->imagen);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $carta->imagen);
             Storage::disk('public')->delete($oldPath);
         }
 

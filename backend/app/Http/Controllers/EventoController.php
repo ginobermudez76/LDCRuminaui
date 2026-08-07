@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class EventoController extends Controller
 {
+    private const STORAGE_PREFIX = '/storage/';
+
+    private const NOT_FOUND_MSG = 'Evento no encontrado';
+
     public function index()
     {
         return response()->json(Evento::with('deporte')->orderBy('fecha_inicio', 'desc')->get());
@@ -38,7 +42,7 @@ class EventoController extends Controller
 
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('eventos', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $evento = Evento::create($data);
@@ -51,7 +55,7 @@ class EventoController extends Controller
         $evento = Evento::with(['deporte', 'inscripcionesEventos'])->where('uuid', $uuid)->first();
 
         if (! $evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($evento);
@@ -62,7 +66,7 @@ class EventoController extends Controller
         $evento = Evento::where('uuid', $uuid)->first();
 
         if (! $evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -88,11 +92,11 @@ class EventoController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($evento->imagen) {
-                $oldPath = str_replace('/storage/', '', $evento->imagen);
+                $oldPath = str_replace(self::STORAGE_PREFIX, '', $evento->imagen);
                 Storage::disk('public')->delete($oldPath);
             }
             $path = $request->file('imagen')->store('eventos', 'public');
-            $data['imagen'] = '/storage/'.$path;
+            $data['imagen'] = self::STORAGE_PREFIX.$path;
         }
 
         $evento->update($data);
@@ -105,11 +109,11 @@ class EventoController extends Controller
         $evento = Evento::where('uuid', $uuid)->first();
 
         if (! $evento) {
-            return response()->json(['message' => 'Evento no encontrado'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         if ($evento->imagen) {
-            $oldPath = str_replace('/storage/', '', $evento->imagen);
+            $oldPath = str_replace(self::STORAGE_PREFIX, '', $evento->imagen);
             Storage::disk('public')->delete($oldPath);
         }
 

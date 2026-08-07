@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 
 class NoticiaController extends Controller
 {
+    private const NOT_FOUND_MSG = 'Noticia no encontrada';
+
     public function index()
     {
         return response()->json(Noticia::orderBy('id', 'desc')->get());
@@ -35,7 +37,7 @@ class NoticiaController extends Controller
         $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (! $noticia) {
-            return response()->json(['message' => 'Noticia no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         return response()->json($noticia);
@@ -46,7 +48,7 @@ class NoticiaController extends Controller
         $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (! $noticia) {
-            return response()->json(['message' => 'Noticia no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $noticia->update($request->all());
@@ -59,7 +61,7 @@ class NoticiaController extends Controller
         $noticia = Noticia::where('uuid', $uuid)->first();
 
         if (! $noticia) {
-            return response()->json(['message' => 'Noticia no encontrada'], 404);
+            return response()->json(['message' => self::NOT_FOUND_MSG], 404);
         }
 
         $noticia->delete();

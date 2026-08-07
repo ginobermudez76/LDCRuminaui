@@ -17,13 +17,16 @@ use App\Http\Controllers\SolicitudTipoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
+const ROUTE_DEPORTES_ID = 'deportes/{id}';
+const ROUTE_SOLICITUDES_ID = 'solicitudes/{id}';
+
 // Public routes
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::post('auth/accept-invitation', [AuthController::class, 'acceptInvitation']);
 
 // Public read routes
 Route::get('deportes', [DeporteController::class, 'index']);
-Route::get('deportes/{id}', [DeporteController::class, 'show']);
+Route::get(ROUTE_DEPORTES_ID, [DeporteController::class, 'show']);
 Route::get('eventos', [EventoController::class, 'index']);
 Route::get('noticias', [NoticiaController::class, 'index']);
 Route::get('logros', [LogroController::class, 'index']);
@@ -48,11 +51,11 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
     Route::get('solicitudes', [SolicitudController::class, 'index']);
     Route::get('solicitudes/asignadas', [SolicitudController::class, 'asignadas']);
     Route::post('solicitudes', [SolicitudController::class, 'store']);
-    Route::get('solicitudes/{id}', [SolicitudController::class, 'show']);
-    Route::put('solicitudes/{id}', [SolicitudController::class, 'update']);
-    Route::delete('solicitudes/{id}', [SolicitudController::class, 'destroy']);
-    Route::patch('solicitudes/{id}/reassign', [SolicitudController::class, 'reassign']);
-    Route::post('solicitudes/{id}/procesar', [AprobarDenegarController::class, 'procesar']);
+    Route::get(ROUTE_SOLICITUDES_ID, [SolicitudController::class, 'show']);
+    Route::put(ROUTE_SOLICITUDES_ID, [SolicitudController::class, 'update']);
+    Route::delete(ROUTE_SOLICITUDES_ID, [SolicitudController::class, 'destroy']);
+    Route::patch(ROUTE_SOLICITUDES_ID.'/reassign', [SolicitudController::class, 'reassign']);
+    Route::post(ROUTE_SOLICITUDES_ID.'/procesar', [AprobarDenegarController::class, 'procesar']);
 
     // Rutas de Usuarios
     Route::get('/usuarios', [UsuarioController::class, 'index']);
@@ -68,8 +71,8 @@ Route::group(['middleware' => ['auth:api', 'rbac']], function () {
 
     // Publicista - Deportes
     Route::post('deportes', [DeporteController::class, 'store']);
-    Route::put('deportes/{id}', [DeporteController::class, 'update']);
-    Route::delete('deportes/{id}', [DeporteController::class, 'destroy']);
+    Route::put(ROUTE_DEPORTES_ID, [DeporteController::class, 'update']);
+    Route::delete(ROUTE_DEPORTES_ID, [DeporteController::class, 'destroy']);
 
     // Publicista - Eventos
     Route::post('eventos', [EventoController::class, 'store']);
