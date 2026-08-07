@@ -2,7 +2,7 @@
   <div class="activation-container">
     <p-card styleClass="activation-card">
       <div class="header-section">
-        <img src="/img/logoX_LDCR.png" alt="Logo LDCR" class="brand-logo" onerror="this.style.display='none'" />
+        <img *ngIf="!logoError()" src="/img/logoX_LDCR.png" alt="Logo LDCR" class="brand-logo" (error)="logoError.set(true)" />
         <h2 class="brand-name">Liga Cantonal Rumiñahui</h2>
         <h3>Activación de Cuenta</h3>
         <p class="subtitle" *ngIf="!success() && !error()">Define tu contraseña para activar tu acceso al sistema.</p>

@@ -14,16 +14,16 @@
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th>Código</th>
-              <th>Foto</th>
-              <th>Nombres Completos</th>
-              <th>Usuario</th>
-              <th>Correo</th>
-              <th>Cédula</th>
-              <th>Rol Principal</th>
-              <th>Acceso</th>
-              <th>Invitación</th>
-              <th style="width: 80px;">Acciones</th>
+              <th scope="col">Código</th>
+              <th scope="col">Foto</th>
+              <th scope="col">Nombres Completos</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Cédula</th>
+              <th scope="col">Rol Principal</th>
+              <th scope="col">Acceso</th>
+              <th scope="col">Invitación</th>
+              <th scope="col" style="width: 80px;">Acciones</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-user>
@@ -31,7 +31,7 @@
               <td>{{ user.codigo }}</td>
               <td>
                 <div class="avatar-cell">
-                  <img *ngIf="user.foto_perfil; else listInitials" [src]="'http://localhost:8000' + user.foto_perfil" class="list-avatar-img" />
+                  <img *ngIf="user.foto_perfil; else listInitials" [src]="'http://localhost:8000' + user.foto_perfil" class="list-avatar-img" alt="Foto de perfil de {{ user.nombres }} {{ user.apellidos }}" />
                   <ng-template #listInitials>
                     <div class="list-avatar-initials">{{ getInitialsForUser(user) }}</div>
                   </ng-template>
@@ -115,8 +115,8 @@
             </div>
 
             <div class="form-field full-width">
-              <label>Foto de Perfil</label>
-              <input type="file" accept="image/*" (change)="onFileChange($event)" class="file-input" />
+              <label for="foto_perfil">Foto de Perfil</label>
+              <input type="file" id="foto_perfil" accept="image/*" (change)="onFileChange($event)" class="file-input" />
             </div>
           </div>
 

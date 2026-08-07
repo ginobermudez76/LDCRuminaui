@@ -12,7 +12,7 @@
   max-width: 480px;
 }
 
-::ngInject ::v-deep .activation-card {
+::ng-deep .activation-card {
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   background-color: #ffffff;

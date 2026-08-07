@@ -1,6 +1,6 @@
     <!-- CONDOLENCIAS MODAL -->
-    <div class="modal-overlay" *ngIf="showCondolencias()" (click)="closeCondolencias()">
-      <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-overlay" *ngIf="showCondolencias()" tabindex="0" role="dialog" aria-modal="true" (click)="closeCondolencias()" (keydown.escape)="closeCondolencias()" (keydown.enter)="closeCondolencias()">
+      <div class="modal-box" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <button class="modal-close" (click)="closeCondolencias()">
           <span class="material-symbols-outlined">close</span>
         </button>
@@ -141,7 +141,7 @@
 
         <!-- Center Logo -->
         <div class="dep-logo">
-          <img src="assets/images/logoX_LDCR.png" alt="LDCR Logo" onerror="this.src='http://localhost:8080/img/logoX_LDCR.png'" />
+          <img [src]="logoUrl()" alt="LDCR Logo" (error)="logoUrl.set('http://localhost:8080/img/logoX_LDCR.png')" />
         </div>
 
         <!-- Right Carousel (Evens) -->

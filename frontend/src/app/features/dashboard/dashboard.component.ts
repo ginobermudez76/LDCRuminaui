@@ -25,6 +25,7 @@ export class DashboardComponent {
   roleName = computed(() => this.user()?.rol_relation?.rol_name || 'Usuario');
 
   showProfileDropdown = signal(false);
+  logoError = signal(false);
 
   menuItems = computed(() => {
     const user = this.user();

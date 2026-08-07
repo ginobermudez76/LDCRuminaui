@@ -34,6 +34,7 @@ export class AcceptInvitationComponent implements OnInit {
   loading = signal(false);
   success = signal(false);
   error = signal<string | null>(null);
+  logoError = signal(false);
 
   ngOnInit() {
     this.token = this.route.snapshot.queryParams['token'] || '';

@@ -25,6 +25,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   isLoading = signal(false);
   errorMessage = signal<string | undefined>(undefined);
+  logoError = signal(false);
 
   constructor(
     private fb: FormBuilder,

@@ -24,7 +24,11 @@
                 *ngFor="let t of tipos()" 
                 class="tipo-item" 
                 [class.active]="selectedTipoUuid() === t.uuid"
+                tabindex="0"
+                role="button"
                 (click)="onSelectTipo(t)"
+                (keydown.enter)="onSelectTipo(t)"
+                (keydown.space)="onSelectTipo(t)"
               >
                 <div class="tipo-info">
                   <span class="tipo-name">{{ t.name_tipo }}</span>
@@ -125,7 +129,9 @@
                     
                     <!-- Nombre del Paso -->
                     <div class="step-field flex-grow">
+                      <label [for]="'nombre_paso_' + i" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Nombre del paso</label>
                       <input 
+                        [id]="'nombre_paso_' + i"
                         type="text" 
                         pInputText 
                         formControlName="nombre_paso" 

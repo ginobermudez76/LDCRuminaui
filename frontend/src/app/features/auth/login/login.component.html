@@ -6,8 +6,8 @@
 
       <div class="login-container">
         <div class="login-logo-wrap">
-          <img src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR"
-               class="login-logo" onerror="this.style.display='none'" />
+          <img *ngIf="!logoError()" src="http://localhost:8080/img/logoX_LDCR.png" alt="Logo LDCR"
+               class="login-logo" (error)="logoError.set(true)" />
           <h2 class="login-brand">Liga Cantonal Rumiñahui</h2>
           <p class="login-sub">Panel de Gestión Deportiva</p>
         </div>

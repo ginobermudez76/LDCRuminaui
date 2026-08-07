@@ -20,6 +20,7 @@ interface Noticia {
 })
 export class LandingComponent implements OnInit, OnDestroy {
   private svc = inject(PublicistaService);
+  logoUrl = signal('assets/images/logoX_LDCR.png');
 
   deportesGrupos = computed(() => {
     const arr = this.deportes();

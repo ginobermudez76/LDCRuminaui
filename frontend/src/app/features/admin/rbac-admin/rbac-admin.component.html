@@ -49,11 +49,11 @@
       <p-table [value]="roles()" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="rbac-table">
         <ng-template pTemplate="header">
           <tr>
-            <th>Código</th>
-            <th>Nombre del Rol</th>
-            <th>Descripción</th>
-            <th>Menús Asignados</th>
-            <th style="width: 180px;">Acciones</th>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre del Rol</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Menús Asignados</th>
+            <th scope="col" style="width: 180px;">Acciones</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-role>
@@ -94,10 +94,10 @@
       <p-table [value]="options()" [paginator]="true" [rows]="10" responsiveLayout="scroll" class="rbac-table">
         <ng-template pTemplate="header">
           <tr>
-            <th>Código de Menú</th>
-            <th>Descripción</th>
-            <th>Rutas de API Vinculadas</th>
-            <th style="width: 180px;">Acciones</th>
+            <th scope="col">Código de Menú</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Rutas de API Vinculadas</th>
+            <th scope="col" style="width: 180px;">Acciones</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-opt>
@@ -135,11 +135,11 @@
       <p-table [value]="endpoints()" [paginator]="true" [rows]="15" responsiveLayout="scroll" class="rbac-table">
         <ng-template pTemplate="header">
           <tr>
-            <th>Nombre del Permiso</th>
-            <th>Método HTTP</th>
-            <th>Ruta de API (URL)</th>
-            <th>Protección RBAC</th>
-            <th style="width: 120px;">Acciones</th>
+            <th scope="col">Nombre del Permiso</th>
+            <th scope="col">Método HTTP</th>
+            <th scope="col">Ruta de API (URL)</th>
+            <th scope="col">Protección RBAC</th>
+            <th scope="col" style="width: 120px;">Acciones</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-end>
@@ -271,8 +271,8 @@
     <p class="text-secondary mb-4">Selecciona las opciones de menú a las que tendrá acceso este rol:</p>
     
     <div class="sync-list">
-      <div *ngFor="let opt of options()" class="sync-item" (click)="toggleRoleOption(opt.uuid)">
-        <p-checkbox [binary]="true" [ngModel]="roleOptionsSelection().includes(opt.uuid)" (click)="$event.stopPropagation()"></p-checkbox>
+      <div *ngFor="let opt of options()" class="sync-item" tabindex="0" role="button" (click)="toggleRoleOption(opt.uuid)" (keydown.enter)="toggleRoleOption(opt.uuid)" (keydown.space)="toggleRoleOption(opt.uuid)">
+        <p-checkbox [binary]="true" [ngModel]="roleOptionsSelection().includes(opt.uuid)" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"></p-checkbox>
         <div class="sync-item-info">
           <span class="sync-item-title">{{ opt.nombre_opcion }}</span>
           <span class="sync-item-desc">{{ opt.descripcion || 'Sin descripción' }}</span>
@@ -294,8 +294,8 @@
     <p class="text-secondary mb-4">Selecciona los endpoints de API vinculados a este menú de acceso:</p>
     
     <div class="sync-list scrollable">
-      <div *ngFor="let end of endpoints()" class="sync-item" (click)="toggleOptionEndpoint(end.uuid)">
-        <p-checkbox [binary]="true" [ngModel]="optionEndpointsSelection().includes(end.uuid)" (click)="$event.stopPropagation()"></p-checkbox>
+      <div *ngFor="let end of endpoints()" class="sync-item" tabindex="0" role="button" (click)="toggleOptionEndpoint(end.uuid)" (keydown.enter)="toggleOptionEndpoint(end.uuid)" (keydown.space)="toggleOptionEndpoint(end.uuid)">
+        <p-checkbox [binary]="true" [ngModel]="optionEndpointsSelection().includes(end.uuid)" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"></p-checkbox>
         <div class="sync-item-info">
           <div class="sync-item-header">
             <span class="method-tag sm" [class]="end.metodo.toLowerCase()">{{ end.metodo }}</span>
